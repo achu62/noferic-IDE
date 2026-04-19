@@ -1,0 +1,27 @@
+├─ @lydell/node-pty-linux-x64@1.2.0-beta.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lydell/node-pty
+│  ├─ path: /home/charan/noferic/src/node_modules/@lydell/node-pty-linux-x64
+│  └─ licenseFile: /home/charan/noferic/src/node_modules/@lydell/node-pty-linux-x64/LICENSE
+├─ @lydell/node-pty@1.2.0-beta.3
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lydell/node-pty
+│  ├─ publisher: Simon Lydell
+│  ├─ path: /home/charan/noferic/src/node_modules/@lydell/node-pty
+│  └─ licenseFile: /home/charan/noferic/src/node_modules/@lydell/node-pty/LICENSE
+├─ src@1.0.0
+│  ├─ licenses: ISC
+│  └─ path: /home/charan/noferic/src
+├─ xterm-addon-fit@0.8.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/xtermjs/xterm.js
+│  ├─ publisher: The xterm.js authors
+│  ├─ url: https://xtermjs.org/
+│  ├─ path: /home/charan/noferic/src/node_modules/xterm-addon-fit
+│  └─ licenseFile: /home/charan/noferic/src/node_modules/xterm-addon-fit/LICENSE
+|─ xterm@5.3.0
+| ├─ licenses: MIT
+|   ├─ repository: https://github.com/xtermjs/xterm.js
+|   ├─ path: /home/charan/noferic/src/node_modules/xterm
+|  └─ licenseFile: /home/charan/noferic/src/node_modules/xterm/LICENSE
+|-

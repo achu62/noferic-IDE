@@ -1,0 +1,103 @@
+<!---jai sri ram-->
+<!DOCTYPE html>
+<html class="dark">
+
+<head>
+  <title>NOFERIC WEB - YOUR WEB IDE</title>
+  <link rel="stylesheet" href="style2.css" />
+  <link rel="stylesheet" href="node_modules/xterm/css/xterm.css">
+
+  <style>
+    @font-face {
+      font-family: "JetBrains Mono";
+      src: url("monacohtml/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: "JetBrains Mono";
+      src: url("monacohtml/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Italic.woff2") format("woff2");
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    @font-face {
+      font-family: "JetBrains Mono";
+      src: url("monacohtml/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Bold.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: "JetBrains Mono";
+      src: url("monacohtml/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-BoldItalic.woff2") format("woff2");
+      font-weight: 700;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <div class="common bgcolor1e1e1e" id="top-menu">
+    <div id="logo"></div>
+    <button class="common bgcolor1e1e1e" id="file">File</button>
+    <button popovertarget="viewon" class="common bgcolor1e1e1e" id="view">View</button>
+  </div>
+  <div id="file_on" class="common">
+    <button id="new_file" class="common">New file</button>
+    <button id="new_folder" class="common">New Folder</button>
+    <button id="open_file" class="common">Open file</button>
+    <button id="open_folder" class="common">Open Folder</button>
+    <button id="save" class="common">Save</button>
+    <button id="save_as" class="common">Save As</button>
+    <button id="save_all" class="common">Save All</button>
+    <button id="exit" class="common">Exit</button>
+  </div>
+  <div class="common bgcolor1e1e1e" id="btmenu"></div>
+  <div class="common bgcolor1e1e1e" id="ltmenu">
+    <button class="common" id="expl"></button>
+    <button class="common" id="term"></button>
+  </div>
+  <div id="workspace">
+    <div id="middleeditor">
+      <div id="topbarforeditor"></div>
+      <iframe src="monacohtml/index.html" id="editor" class="bgcolor1e1e1e"></iframe>
+      <div id="terminalelement">
+        <div id="terminaltopbar" class="common bgcolor1e1e1e">Terminal</div>
+        <div id="terminal" class="common bgcolor1e1e1e"></div>
+      </div>
+    </div>
+    <div id="preview">
+      <div id="prevtop" class="common bgcolor1e1e1e">YOUR AI AGENT</div>
+    </div>
+    <div id="explorer">
+      <div id="explotop" class="common bgcolor1e1e1e">Explorer</div>
+      <div id="explorerelement">
+      </div>
+
+    </div>
+  </div>
+  <div id="viewon">
+
+    <div id="terminaltick">
+      <label>
+        <input type="checkbox" checked="true" id="terminalcheck">
+        Terminal Visibility
+      </label>
+    </div>
+    <div id="explorertick">
+      <label>
+        <input type="checkbox" checked="true" id="explorercheck">
+        Explorer Visibility
+      </label>
+    </div>
+  </div>
+</body>
+<!---dont remove this-->
+<script src="./renderer.js" type="module"></script>
+<script src="node_modules/xterm/lib/xterm.js"></script>
+<!---dont remove this-->
+
+</html>
