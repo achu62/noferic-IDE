@@ -2,7 +2,7 @@
 a IDE based on web technology<br>
 # Download<br>
 ## availible for linux<br>
-[Appimagedownload]() for Linux<br>
+[Appimagedownload](https://github.com/achu62/noferic-IDE/releases/download/beta/noferic-IDE.AppImage) for Linux<br>
 # BUILD  FROM SOURCE<br>
 ## Dependencies<br>
 Node(LTS recommended)<br>
