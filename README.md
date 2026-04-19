@@ -15,7 +15,7 @@ gh repo clone achu62/noferic-IDE
 ```
 (you can also download the .zip)
 ```bash
-npm install<br>
+npm install
 
 ```
 
