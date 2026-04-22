@@ -7,6 +7,7 @@ a IDE based on web technology<br>
 ## Dependencies<br>
 Node(LTS recommended)<br>
 npm(comes with node)<br>
+git(optional,if the zip is downloaded)<br>
 ### run commands<br>
 ```bash
 mkdir noferic-ide
