@@ -1,5 +1,6 @@
 # Noferic-IDE<br>
 a IDE based on web technology<br>
+v 1.1
 # Download<br>
 ## availible for linux<br>
 [Appimagedownload](https://github.com/achu62/noferic-IDE/releases/download/beta/noferic-IDE.AppImage) for Linux<br>
