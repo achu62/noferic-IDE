@@ -62,13 +62,6 @@ body {
   border-bottom:0.5px solid var(--afaeaec9);
 }
 
-#logo {
-  height: 30px;
-  width: 100px;
-  left: 0;
-  top: 0;
-  z-index: 3;
-}
 
 #file {
   all:unset;
@@ -78,7 +71,7 @@ body {
   height:30px;
   line-height:30px;
   top:0;
-  left:100px;
+  left:0px;
   z-index:4;
   cursor:pointer;
   border:none;
@@ -101,7 +94,7 @@ body {
   height:30px;
   line-height:30px;
   top:0;
-  left:100px;
+  left:0px;
   z-index:4;
   cursor:pointer;
   border:none;
@@ -116,7 +109,7 @@ body {
   line-height:30px;
   position:fixed;
   top:0;
-  left:141px;
+  left:41px;
   z-index:4;
   cursor:pointer;
   border:none;
@@ -134,7 +127,7 @@ body {
   line-height:30px;
   position:fixed;
   top:0;
-  left:141px;
+  left:41px;
   z-index:4;
   cursor:pointer;
   border:none;
@@ -421,7 +414,7 @@ border-bottom-right-radius: 0.5px;
   z-index:10;
   position:fixed;
   top:29px;
-  left:102px;
+  left:2px;
   width:fit-content;
   height:fit-content;
   background-color:var(--ffffff);
@@ -649,8 +642,7 @@ border-bottom-right-radius: 0.5px;
   font-size: 14px;
   padding-left: 7px;
 }
-
-#save_all {
+#format{
   all: unset;
   z-index: 11;
   position: absolute;
@@ -670,7 +662,7 @@ border-bottom-right-radius: 0.5px;
   padding-left: 7px;
 }
 
-#save_all:hover {
+#format:hover {
   all: unset;
   z-index: 11;
   position: absolute;
@@ -888,7 +880,7 @@ box-sizing: border-box;}
   z-index: 11;
   position:fixed;
   top:24px;
-  left:142px;
+  left:42px;
   width:fit-content;
   height:fit-content;
   background-color:var(--ffffff);

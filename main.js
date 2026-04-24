@@ -4,7 +4,9 @@ const path = require('path');
 const fs = require('fs');
 const { Worker } = require('worker_threads');
 const pty = require('@lydell/node-pty');
-const { spawn } = require('child_process')
+const { spawn } = require('child_process');
+const os = require("os")
+
 
 let win;
 function createWindow() {
@@ -17,7 +19,7 @@ function createWindow() {
       contextIsolation: true,
       sandbox: true,
       allowRunningInsecureContent: false,
-      webSecurity:true,
+      webSecurity: true,
       devTools: true
     }
   });
@@ -28,16 +30,14 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
   let shell = null;
-  if(process.platform==='win32')
-  {
-    shell = process.env.COMSPEC ||  "cmd.exe"
+  if (process.platform === 'win32') {
+    shell = process.env.COMSPEC || "cmd.exe"
   }
-  else
-  {
+  else {
     shell = process.env.SHELL || "bash"
   }
   const ptyProcess = pty.spawn(shell, [], {
-    cwd: "/home/charan/noferic/src",
+    cwd: `${os.homedir()}`,
     env: process.env
   });
   ptyProcess.onData((data) => {
@@ -87,6 +87,41 @@ ipcMain.handle('saveas', async (e) => {
   });
   return result.filePath;
 });
+//ipcMain.handle('format', async (code) => {
+//const biomeworker = new Worker("./biomeworker.js")
+//biomeworker.postMessage(code)
+//})
+//const biomeworker = new Worker("./biomeworker.js")
+//biomeworker.postMessage(`function app(){return 0}`)
+ipcMain.handle('format', async (event  , object) => {
+  console.log(object.code)
+  const code = object.code;
+  let extension = object.extension;
+  console.log(extension)
+  const biomeprocess = spawn('./node_modules/@biomejs/biome/bin/biome',
+    ['format', `--stdin-file-path=file.${extension}` , `--config-path` , __dirname], 
+    /*{
+      //jai sri ram
+      cwd:__dirname
+    }
+*/
+  )
+  biomeprocess.stdin.write(code);
+  biomeprocess.stdin.end();
+  let biomeresult = "";
+  biomeprocess.stderr.on("data", (chunk) => {
+    console.log(chunk.toString())
+     biomeresult = code;
+
+  })
+  biomeprocess.stdout.on("data", (chunk) => {
+    biomeresult += chunk.toString();
+  })
+    await new Promise(r => {biomeprocess.on("close" , r) }
+  )
+  return biomeresult;
+
+})
 ipcMain.handle('openfolder', async (e) => {
   const result = await dialog.showOpenDialog({ properties: ['openDirectory'] });
   if (result.canceled || !result.filePaths || result.filePaths.length === 0) return null;
@@ -115,7 +150,6 @@ ipcMain.handle('openfolder', async (e) => {
         });
       }
     }
-    console.log(json.path)
     return json; // FIX: was missing — scanafolder never returned anything, so folderjson was always undefined
   }
 

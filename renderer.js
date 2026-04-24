@@ -46,6 +46,9 @@ window.onload = function () {
       document.getElementById('topbarforeditor').replaceChildren()
 
       path = await window.ipc.invoke('openfile')
+      const lang = path.split(`/`).pop().split(`.`).pop();
+      if(!path){return}
+      else{
       const filecontent = await window.ipc.invoke('read', path);
       //iframe.contentWindow.postMessage(["set", filecontent, false, path], '*');
       iframe.contentWindow.postMessage(
@@ -54,11 +57,14 @@ window.onload = function () {
           content: filecontent,
           isdir: false,
           path: path,
+          language:lang
         }, '*'
       )
-      document.getElementById('file_on').style.display = 'none'
+      document.getElementById('file_on').style.display = 'none'}
     }, { once: true });
-    save.addEventListener('click', async () => {
+   
+  };
+   save.addEventListener('click', async () => {
 
       iframe.contentWindow.postMessage({
         action: "get"
@@ -89,7 +95,6 @@ window.onload = function () {
         document.getElementById('file_on').style.display = 'none'
       }, { once: true })
     })
-  };
   saveas.addEventListener('click', async () => {
     iframe.contentWindow.postMessage({
       action: "get"
@@ -382,6 +387,35 @@ window.onload = function () {
       document.getElementById('explorer').style.display = "block";
       isexploreropen = true;
       checkboxforexplorer.checked = true;
+    }
+  })
+  this.document.getElementById('format').addEventListener('click' , async() => {
+       iframe.contentWindow.postMessage({
+        action:'formatget'
+    } , '*')
+    window.addEventListener("message" , async (e)=>{
+        let object = e.data;
+        console.log(object.code , object)
+
+        const formattedcode = await
+        window.ipc.invoke("format" ,(object))
+        console.log(formattedcode)
+        iframe.contentWindow.postMessage(
+          {
+            action:"formatset",
+            formattedcode:formattedcode,
+          } , '*'
+        )
+        
+    })
+
+  })
+  document.addEventListener("keypress" , (e)=>
+  {
+    if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="f"){
+      e.preventDefault();
+      alert('shotcutactivated')
+      document.getElementById('format').click();
     }
   })
 }
