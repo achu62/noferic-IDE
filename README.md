@@ -1,9 +1,5 @@
 # Noferic-IDE<br>
 a IDE based on web technology<br>
-## whats new in v1.1
-### Biome code formatting(crtl + shift + F or format button)
-### the UI glitch fixes
-### 
 # Download<br>
 ## availible for linux<br>
 [Appimagedownload](https://github.com/achu62/noferic-IDE/releases/download/beta/noferic-IDE.AppImage) for Linux<br>
