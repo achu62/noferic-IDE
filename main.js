@@ -3,7 +3,7 @@ const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { Worker } = require('worker_threads');
-const pty = require('@lydell/node-pty');
+const pty = require('node-pty');
 const { spawn } = require('child_process');
 const os = require("os")
 
@@ -24,7 +24,7 @@ function createWindow() {
     }
   });
   win.loadFile('index.html');
-  win.removeMenu();
+  //win.removeMenu();
 }
 
 app.whenReady().then(() => {
