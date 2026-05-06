@@ -26,5 +26,13 @@
 		"formatter": {
 			"quoteStyle": "double"
 		}
-	}
+	},
+	
+  "html": {
+    "formatter": {
+      "enabled": true
+    }
+  }
+
+
 }

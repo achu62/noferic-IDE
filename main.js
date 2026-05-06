@@ -1,11 +1,17 @@
 //jai sri ram
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+//import 'vscode'
 const path = require('path');
 const fs = require('fs');
 const { Worker } = require('worker_threads');
 const pty = require('node-pty');
 const { spawn } = require('child_process');
-const os = require("os")
+const os = require("os");
+const { buffer, json } = require('stream/consumers');
+  const rpc = require(`vscode-jsonrpc`)
+  const {InitializeRequest} = require("vscode-languageserver-protocol");
+  console.log("ok")
+
 
 
 let win;
@@ -87,41 +93,75 @@ ipcMain.handle('saveas', async (e) => {
   });
   return result.filePath;
 });
-//ipcMain.handle('format', async (code) => {
-//const biomeworker = new Worker("./biomeworker.js")
-//biomeworker.postMessage(code)
-//})
-//const biomeworker = new Worker("./biomeworker.js")
-//biomeworker.postMessage(`function app(){return 0}`)
-ipcMain.handle('format', async (event  , object) => {
-  console.log(object.code)
-  const code = object.code;
-  let extension = object.extension;
-  console.log(extension)
-  const biomeprocess = spawn('./node_modules/@biomejs/biome/bin/biome',
-    ['format', `--stdin-file-path=file.${extension}` , `--config-path` , __dirname], 
-    /*{
-      //jai sri ram
-      cwd:__dirname
-    }
-*/
-  )
-  biomeprocess.stdin.write(code);
-  biomeprocess.stdin.end();
-  let biomeresult = "";
-  biomeprocess.stderr.on("data", (chunk) => {
-    console.log(chunk.toString())
-     biomeresult = code;
+ const absolutepath = path.resolve(`./`)
 
-  })
-  biomeprocess.stdout.on("data", (chunk) => {
-    biomeresult += chunk.toString();
-  })
-    await new Promise(r => {biomeprocess.on("close" , r) }
+ const biomeprocess = spawn(
+  './node_modules/@biomejs/biome/bin/biome',
+    [`lsp-proxy`]
   )
-  return biomeresult;
+ const connection = rpc.createMessageConnection(
+  new
+  rpc.StreamMessageReader(biomeprocess.stdout),
+  new
+  rpc.StreamMessageWriter(biomeprocess.stdin)
+ )
+ connection.listen()
+ async function start(){
+  try{
+ const result = await
+ connection.sendRequest(
+  "initialize",
+  {
+    processId:process.pid,
+    rootUri:null,
+    capabilities:{}
+  }
+ )
+ console.log(`result:\n\n${JSON.stringify(result)}`)
+connection.sendNotification("initialized", {});
+}
+ 
+ catch(e)
+ {
+  console.log(`error:\n\n\n\n${e}`)
+ }
+ }
+start()
+
+ipcMain.handle('format', async (event  , object) => {
+  const extension = object.extension;
+  const language = object.language;
+  const myCode = object.code;
+
+  try{
+    const myUri = `file:///test.${extension}`;
+
+await connection.sendNotification("textDocument/didOpen", {
+    textDocument: {
+        uri: myUri,
+        languageId: language,
+        version: 1,
+        text: myCode
+    }
+})
+const edits = await connection.sendRequest("textDocument/formatting", {
+            textDocument: { uri:myUri },
+            options: { 
+                tabSize: 2, 
+                insertSpaces: true 
+            }});
+            const formattedcode = edits[0].newText;
+
+            return formattedcode;            
+  }
+
+  catch(e)
+  {
+    console.log(e)
+  }
 
 })
+
 ipcMain.handle('openfolder', async (e) => {
   const result = await dialog.showOpenDialog({ properties: ['openDirectory'] });
   if (result.canceled || !result.filePaths || result.filePaths.length === 0) return null;

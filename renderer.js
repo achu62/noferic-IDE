@@ -414,7 +414,6 @@ window.onload = function () {
   {
     if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="f"){
       e.preventDefault();
-      alert('shotcutactivated')
       document.getElementById('format').click();
     }
   })

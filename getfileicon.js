@@ -2,11 +2,10 @@
 export const getfileiconbytype =
 {
 
-    // WEB / JS / FRAMEWORKS
     html: "images/code.svg",
     htm: "images/code.svg",
     css: "images/code.svg",
-    'js': "images/code.svg",
+    js: "images/code.svg",
     jsx: "images/code.svg",
     ts: "images/code.svg",
     tsx: "images/code.svg",

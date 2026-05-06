@@ -25,8 +25,19 @@ window.onload = () => {
 		let URI = null;
 		let ismodel = false;
 		let language = null;
-					
+		let cursorposition;
+		async function track(editor) {
+			setInterval(() => {
+				if (!editor) return;
+				editor.onDidChangeCursorPosition((e) => {
+					window.parent.document.getElementById('lineandcolumn').innerText = `LN:${e.position.lineNumber}  COL:${e.position.column}`
 
+				})
+			},
+				5000
+			)
+		}
+		track(editor)
 		window.addEventListener("message", (e) => {
 			const message = e.data;
 			const action = message.action;
@@ -36,6 +47,7 @@ window.onload = () => {
 				ismodel = message.isdir;
 				URI = message.path;
 				language = message.language;
+				window.parent.document.getElementById('language').innerText = `.${message.language}`
 				const isexisting = monaco.editor.getModel(
 					monaco.Uri.parse(`id://${URI}`),
 				);
@@ -96,34 +108,35 @@ window.onload = () => {
 			} else if (action === "layout") {
 				editor.layout(); // forces Monaco to recalculate and render immediately
 			} else if (action === "formatget") {
-								let extension = language;
-
+				let extension = language;
+				cursorposition = editor.getPosition();
 				console.log(language)
-				if(extension==="javascript")
-				{
-					extension= "js"
+				if (extension === "javascript") {
+					extension = "js"
 				}
-				else if(extension==="typescript")
-				{
-					extension= "ts"
+				else if (extension === "typescript") {
+					extension = "ts"
 				}
 				window.parent.postMessage({
 					code: editor.getValue(),
 					extension: extension,
+					language: language
 				});
 				console.log(extension)
 			} else if (action === "formatset") {
 				const formattedcode = message.formattedcode;
 				editor.setValue(formattedcode);
+				editor.setPosition(cursorposition)
 			}
 		});
 	});
-	 document.addEventListener("keypress" , (e)=>
-  {
-    if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="f"){
-      e.preventDefault();
-	  window.parent.document.getElementById('format').click();
-    }
-  })
+	document.addEventListener("keypress", (e) => {
+		if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
+			e.preventDefault();
+			window.parent.document.getElementById('format').click();
+		}
+	})
 
-};
+
+
+}
