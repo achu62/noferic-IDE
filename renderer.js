@@ -407,7 +407,7 @@ window.onload = function () {
           } , '*'
         )
         
-    })
+    }, { once: true })
 
   })
   document.addEventListener("keypress" , (e)=>
@@ -415,6 +415,13 @@ window.onload = function () {
     if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="f"){
       e.preventDefault();
       document.getElementById('format').click();
+    }
+  })
+  window.addEventListener("message" ,async (e)=>{
+    const message = e.data;
+    if(message.action === "autosave")
+    {
+      await window.ipc.invoke("autosave" , message.code , message.path)
     }
   })
 }

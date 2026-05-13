@@ -26,18 +26,17 @@ window.onload = () => {
 		let ismodel = false;
 		let language = null;
 		let cursorposition;
+
 		async function track(editor) {
 			setInterval(() => {
 				if (!editor) return;
 				editor.onDidChangeCursorPosition((e) => {
-					window.parent.document.getElementById('lineandcolumn').innerText = `LN:${e.position.lineNumber}  COL:${e.position.column}`
-
-				})
-			},
-				5000
-			)
+					window.parent.document.getElementById("lineandcolumn").innerText =
+						`LN:${e.position.lineNumber}  COL:${e.position.column}`;
+				});
+			}, 5000);
 		}
-		track(editor)
+		track(editor);
 		window.addEventListener("message", (e) => {
 			const message = e.data;
 			const action = message.action;
@@ -47,7 +46,8 @@ window.onload = () => {
 				ismodel = message.isdir;
 				URI = message.path;
 				language = message.language;
-				window.parent.document.getElementById('language').innerText = `.${message.language}`
+				window.parent.document.getElementById("language").innerText =
+					`.${message.language}`;
 				const isexisting = monaco.editor.getModel(
 					monaco.Uri.parse(`id://${URI}`),
 				);
@@ -68,7 +68,6 @@ window.onload = () => {
 							monaco.Uri.parse(`id://${URI}`),
 						);
 						editor.setModel(model);
-						URI = null;
 						ismodel = false;
 					} else {
 						const model = monaco.editor.createModel(
@@ -76,7 +75,7 @@ window.onload = () => {
 							language,
 							monaco.Uri.parse(`id://${URI}`),
 						);
-						console.log(language)
+						console.log(language);
 						editor.setModel(model);
 					}
 				} else {
@@ -110,33 +109,62 @@ window.onload = () => {
 			} else if (action === "formatget") {
 				let extension = language;
 				cursorposition = editor.getPosition();
-				console.log(language)
+				console.log(language);
 				if (extension === "javascript") {
-					extension = "js"
-				}
-				else if (extension === "typescript") {
-					extension = "ts"
+					extension = "js";
+				} else if (extension === "typescript") {
+					extension = "ts";
 				}
 				window.parent.postMessage({
 					code: editor.getValue(),
 					extension: extension,
-					language: language
+					language: language,
 				});
-				console.log(extension)
+				console.log(extension);
 			} else if (action === "formatset") {
 				const formattedcode = message.formattedcode;
 				editor.setValue(formattedcode);
-				editor.setPosition(cursorposition)
+				editor.setPosition(cursorposition);
 			}
 		});
+
+		async function autosave(editor) {
+			setInterval(() => {
+				const model = editor.getModel()
+				if (!editor) {
+					console.log("no");
+					return
+				}
+				if (!model) return;
+
+				const currentPath = model.uri.toString().replace("id:", "");
+				if(currentPath.includes(`inmemory://`)){return}
+				
+				console.log(`before:${model.uri.toString()}\nafter:${currentPath}`)
+
+				editor.onDidChangeModelContent(async () => {
+					if (!URI) { return }
+					const content = editor.getValue();
+					window.parent.postMessage(
+						{
+							action: "autosave",
+							code: content,
+							path: currentPath
+						},
+						"*",
+					);
+				}, { once: true });
+
+			}, 1000);
+
+		}
+		autosave(editor)
 	});
 	document.addEventListener("keypress", (e) => {
 		if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
 			e.preventDefault();
-			window.parent.document.getElementById('format').click();
+			window.parent.document.getElementById("format").click();
 		}
-	})
+	});
 
-
-
-}
+};

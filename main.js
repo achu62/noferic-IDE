@@ -1,17 +1,52 @@
 //jai sri ram
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
-//import 'vscode'
+let pathreal = null;
+//jai sri ram
 const path = require('path');
 const fs = require('fs');
 const { Worker } = require('worker_threads');
 const pty = require('node-pty');
-const { spawn } = require('child_process');
+const { spawn, execFile } = require('child_process');
 const os = require("os");
 const { buffer, json } = require('stream/consumers');
   const rpc = require(`vscode-jsonrpc`)
-  const {InitializeRequest} = require("vscode-languageserver-protocol");
-  console.log("ok")
+  const {InitializeRequest} = require("vscode-languageserver-protocol");  
+const chokidar = require('chokidar');
 
+let watcher = null;
+
+function track(pathreal) {
+  
+  if (!pathreal) return;
+  if (watcher) {
+    watcher.close();
+    watcher = null;
+  }
+
+ try{
+  // stop previous watcher if exists
+  if (watcher) watcher.close();
+
+  watcher = chokidar.watch(pathreal, {
+    ignoreInitial: true,
+  });
+
+  watcher.on('add', (filePath) => {
+    console.log(`File added: ${filePath}`);
+  });
+
+  watcher.on('change', (filePath) => {
+    console.log(`File changed: ${filePath}`);
+  });
+
+  watcher.on('unlink', (filePath) => {
+    console.log(`File removed: ${filePath}`);
+  });}
+  catch(e)
+  {
+    console.log(e)
+  }
+}
 
 
 let win;
@@ -26,15 +61,15 @@ function createWindow() {
       sandbox: true,
       allowRunningInsecureContent: false,
       webSecurity: true,
-      devTools: true
     }
   });
   win.loadFile('index.html');
-  //win.removeMenu();
+  win.removeMenu();
 }
 
 app.whenReady().then(() => {
   createWindow();
+  spawn('./binarypreinstall/dist/preinstall/preinstall')
   let shell = null;
   if (process.platform === 'win32') {
     shell = process.env.COMSPEC || "cmd.exe"
@@ -58,6 +93,8 @@ app.whenReady().then(() => {
 ipcMain.handle('openfile', async () => {
   const result = await dialog.showOpenDialog({ properties: ['openFile'] });
   if (result.canceled || !result.filePaths || result.filePaths.length === 0) return null;
+  pathreal = result.filePaths[0];
+  track(pathreal)
   return result.filePaths[0];
 });
 
@@ -167,6 +204,8 @@ ipcMain.handle('openfolder', async (e) => {
   if (result.canceled || !result.filePaths || result.filePaths.length === 0) return null;
 
   const folderpath = result.filePaths[0];
+    pathreal = folderpath;
+     track(folderpath)
 
   function scanafolder(folderpath) {
     let json = [];
@@ -195,5 +234,9 @@ ipcMain.handle('openfolder', async (e) => {
 
   const folderjson = scanafolder(folderpath);
   return folderjson;
-
 });
+
+ipcMain.handle("autosave" , async(e , code , path)=>
+{
+  fs.writeFileSync(path , code , 'utf-8')
+})

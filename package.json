@@ -8,7 +8,7 @@
     "build": "electron-builder",
     "rebuild": "electron-rebuild -f -w node-pty"
   },
-  "author": "charan",
+  "author": "charan<b.c.s.udaar@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@types/vscode": "^1.118.0",
+    "chokidar": "^5.0.0",
     "node-pty": "^1.1.0",
     "vscode": "npm:@codingame/monaco-vscode-api@latest",
     "vscode-jsonrpc": "^8.2.1",
@@ -36,7 +37,7 @@
     ],
     "linux": {
       "target": [
-        "AppImage"
+        "deb"
       ]
     },
     "win": {
