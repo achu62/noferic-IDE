@@ -1,9 +1,13 @@
 //jai sri ram
+//jai sri ram
+//jai sri ram
+//jai sri ram///
+
 window.onload = () => {
 	require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
-
+	///
 	let editor = null;
-	require(["vs/editor/editor.main"], function () {
+	require(["vs/editor/editor.main"], () => {
 		editor = monaco.editor.create(document.getElementById("editor"), {
 			value: "//open folder \n \n or //open file or\n \n //write code mow ",
 			language: "javascript",
@@ -28,13 +32,41 @@ window.onload = () => {
 		let cursorposition;
 
 		async function track(editor) {
-			setInterval(() => {
-				if (!editor) return;
-				editor.onDidChangeCursorPosition((e) => {
-					window.parent.document.getElementById("lineandcolumn").innerText =
-						`LN:${e.position.lineNumber}  COL:${e.position.column}`;
-				});
-			}, 5000);
+			if (!editor) return;
+			editor.onDidChangeCursorPosition((e) => {
+				window.parent.document.getElementById("lineandcolumn").innerText =
+					`LN:${e.position.lineNumber}  COL:${e.position.column}`;
+			});
+		}
+		async function autosave(editor) {
+
+			const model = editor.getModel()
+			if (!editor) {
+				console.log("no editor");
+				return
+			}
+			if (!model) { console.log("nomodel"); return; }
+			console.log(model.uri.toString())
+			const currentPath = model.uri.toString().replace("id:", "");
+			console.log("currentpath" + currentPath)
+			if (currentPath.includes(`inmemory://`)) { return }
+
+			console.log(`before:${model.uri.toString()}\nafter:${currentPath}`)
+
+			editor.onDidChangeModelContent(async () => {
+				console.log("model conternt changed ")
+				if (!URI) { return }
+				const content = editor.getValue();
+				window.parent.postMessage(
+					{
+						action: "autosave",
+						code: content,
+						path: currentPath
+					},
+					"*",
+				);
+			});
+
 		}
 		track(editor);
 		window.addEventListener("message", (e) => {
@@ -45,6 +77,7 @@ window.onload = () => {
 				const content = message.content;
 				ismodel = message.isdir;
 				URI = message.path;
+				console.log(URI)
 				language = message.language;
 				window.parent.document.getElementById("language").innerText =
 					`.${message.language}`;
@@ -81,6 +114,8 @@ window.onload = () => {
 				} else {
 					editor.setModel(isexisting);
 				}
+			
+				autosave(editor)
 			} else if (action === "get") {
 				if (!ismodel) {
 					window.parent.postMessage(
@@ -128,37 +163,7 @@ window.onload = () => {
 			}
 		});
 
-		async function autosave(editor) {
-			setInterval(() => {
-				const model = editor.getModel()
-				if (!editor) {
-					console.log("no");
-					return
-				}
-				if (!model) return;
-
-				const currentPath = model.uri.toString().replace("id:", "");
-				if(currentPath.includes(`inmemory://`)){return}
-				
-				console.log(`before:${model.uri.toString()}\nafter:${currentPath}`)
-
-				editor.onDidChangeModelContent(async () => {
-					if (!URI) { return }
-					const content = editor.getValue();
-					window.parent.postMessage(
-						{
-							action: "autosave",
-							code: content,
-							path: currentPath
-						},
-						"*",
-					);
-				}, { once: true });
-
-			}, 1000);
-
-		}
-		autosave(editor)
+		
 	});
 	document.addEventListener("keypress", (e) => {
 		if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
@@ -168,3 +173,4 @@ window.onload = () => {
 	});
 
 };
+//jai sri ram

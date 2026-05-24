@@ -754,7 +754,7 @@ border-bottom-right-radius: 0.5px;
   align-items: vertical;
   background-color: var(--ieieie);
   overflow-y: auto;
-  flex-wrap: wrap;
+  /*flex-wrap: wrap;*/
 }
 .files
 {
@@ -790,7 +790,7 @@ border-bottom-right-radius: 0.5px;
   display:flex;
   flex-direction: column;
   gap:0px;
-  flex-wrap: wrap;
+  /*flex-wrap: wrap;*/
   flex:0 0 auto;
    -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;

@@ -16,23 +16,30 @@
 	"organizeImports": {
 		"enabled": true
 	},
+
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"complexity": {
+				"noExcessiveCognitiveComplexity": "error",
+				"noForEach": "warn",
+				"useFlatMap": "warn"
+			},
+			"suspicious": {
+				"noDoubleEquals": "error",
+				"noAssignInExpressions": "error"
+			},
+			"style": {
+				"noArguments": "error",
+				"noParameterAssign": "error"
+			}
 		}
 	},
+
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
 		}
-	},
-	
-  "html": {
-    "formatter": {
-      "enabled": true
-    }
-  }
-
-
+	}
 }

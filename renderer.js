@@ -1,10 +1,11 @@
 //jai sri ram
-import { getfileiconbytype } from "./getfileicon.js"
+///////////
+//jai sri ram
 import { initiateterminal } from './initialiseterminal.js'
 import { resizeexplorer } from "./resizeexplorer.js"
 import { syncEditorBottom } from "./syncEditorbottom.js"
-import { recursiveid } from "./idcounter.js"
 import { resizeterminal } from "./resizeterminal.js"
+import { isValidJSON, getfileiconbytype} from './utils.js'
 //
 const save = document.getElementById('save')
 const openfile = document.getElementById("open_file")
@@ -15,8 +16,30 @@ const saveas = document.getElementById('save_as');
 ////////////////////////
 let isopen = false;
 let path;
-////////////////////////
+async function openfileoncilick(path) {
+  const lang = path.split(`/`).pop().split(`.`).pop();
+  if (!path) { return }
+  else {
+    const filecontent = await window.ipc.invoke('read', path);
+    iframe.contentWindow.postMessage(
+      {
+        action: "set",
+        content: filecontent,
+        isdir: false,
+        path: path,
+        language: lang
+      }, '*'
+    )
+    document.getElementById('file_on').style.display = 'none'
+  }
+
+}
+//
+
 window.onload = function () {
+  let workspacepath = null;
+
+ //////////////////////
   // dialogclicker(this.document.getElementById("settingsdialog"), document.getElementById("settings"))
   document.getElementById('file_on').style.display = 'none'
   document.getElementById('viewon').style.display = 'none';
@@ -46,55 +69,42 @@ window.onload = function () {
       document.getElementById('topbarforeditor').replaceChildren()
 
       path = await window.ipc.invoke('openfile')
-      const lang = path.split(`/`).pop().split(`.`).pop();
-      if(!path){return}
-      else{
-      const filecontent = await window.ipc.invoke('read', path);
-      //iframe.contentWindow.postMessage(["set", filecontent, false, path], '*');
-      iframe.contentWindow.postMessage(
-        {
-          action: "set",
-          content: filecontent,
-          isdir: false,
-          path: path,
-          language:lang
-        }, '*'
-      )
-      document.getElementById('file_on').style.display = 'none'}
-    }, { once: true });
-   
-  };
-   save.addEventListener('click', async () => {
+      openfileoncilick(path)
 
-      iframe.contentWindow.postMessage({
-        action: "get"
-      }, '*');
-      window.addEventListener('message', (e) => {
-        const message = e.data;
-        const isgettingfolderfile = message.isfolder;
-        if (!isgettingfolderfile) {
-          if (!path) {
-            (async () => {
-              path = await
-                window.ipc.invoke('save')
-              await window.ipc.invoke('append', path);
-              await window.ipc.invoke('write', path, message.content);
-            })();
-          }
-          else {
-            (async () => {
-              await window.ipc.invoke('write', path, message.content);
-            })();
-          }
+    }, { once: true });
+
+  };
+  save.addEventListener('click', async () => {
+
+    iframe.contentWindow.postMessage({
+      action: "get"
+    }, '*');
+    window.addEventListener('message', (e) => {
+      const message = e.data;
+      const isgettingfolderfile = message.isfolder;
+      if (!isgettingfolderfile) {
+        if (!path) {
+          (async () => {
+            path = await
+              window.ipc.invoke('save')
+            await window.ipc.invoke('append', path);
+            await window.ipc.invoke('write', path, message.content);
+          })();
         }
         else {
           (async () => {
-            await window.ipc.invoke('write', message.path, message.content)
+            await window.ipc.invoke('write', path, message.content);
           })();
         }
-        document.getElementById('file_on').style.display = 'none'
-      }, { once: true })
-    })
+      }
+      else {
+        (async () => {
+          await window.ipc.invoke('write', message.path, message.content)
+        })();
+      }
+      document.getElementById('file_on').style.display = 'none'
+    }, { once: true })
+  })
   saveas.addEventListener('click', async () => {
     iframe.contentWindow.postMessage({
       action: "get"
@@ -143,7 +153,7 @@ window.onload = function () {
 
 
   const fileexplorerarea = document.getElementById("explorerelement");
-  function recursiveloop(filearray, space) {
+  async function recursiveloop(filearray, space) {
     let depth = 17;
 
     depth = depth + 5;
@@ -236,7 +246,7 @@ window.onload = function () {
         filebutton.addEventListener('click', async (e) => {
           e.stopPropagation();
           e.stopImmediatePropagation();
-          const filepathonclick = file.path;
+          const filepathonclick = file.id;
           const content = await
             window.ipc.invoke('read', (filepathonclick));
 
@@ -290,16 +300,17 @@ window.onload = function () {
       }
     }
   }
+  async function openfolderfunction(folderjsoninput) {
+    recursiveloop(folderjsoninput, fileexplorerarea)
+  }
   this.document.getElementById('open_folder').addEventListener('click', async () => {
-    document.getElementById('file_on').style.display = 'none'
-    const folderjson = await
-      window.ipc.invoke('openfolder');
-    let counter = 1;
-    fileexplorerarea.replaceChildren();
-    this.document.getElementById('topbarforeditor').replaceChildren();
+  
+      document.getElementById('file_on').style.display = 'none'
+      const folderjson = await
+        window.ipc.invoke('openfolder');
+      openfolderfunction(JSON.parse(JSON.stringify(folderjson)))
+     
 
-    recursiveid(counter, folderjson)
-    recursiveloop(folderjson, fileexplorerarea)
   })
   let isviewopen = false;
   this.document.getElementById('view').addEventListener('click', (e) => {
@@ -389,39 +400,50 @@ window.onload = function () {
       checkboxforexplorer.checked = true;
     }
   })
-  this.document.getElementById('format').addEventListener('click' , async() => {
-       iframe.contentWindow.postMessage({
-        action:'formatget'
-    } , '*')
-    window.addEventListener("message" , async (e)=>{
-        let object = e.data;
-        console.log(object.code , object)
+  this.document.getElementById('format').addEventListener('click', async () => {
+    iframe.contentWindow.postMessage({
+      action: 'formatget'
+    }, '*')
+    window.addEventListener("message", async (e) => {
+      let object = e.data;
+      console.log(object.code, object)
 
-        const formattedcode = await
-        window.ipc.invoke("format" ,(object))
-        console.log(formattedcode)
-        iframe.contentWindow.postMessage(
-          {
-            action:"formatset",
-            formattedcode:formattedcode,
-          } , '*'
-        )
-        
+      const formattedcode = await
+        window.ipc.invoke("format", (object))
+      console.log(formattedcode)
+      iframe.contentWindow.postMessage(
+        {
+          action: "formatset",
+          formattedcode: formattedcode,
+        }, '*'
+      )
+
     }, { once: true })
 
   })
-  document.addEventListener("keypress" , (e)=>
-  {
-    if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="f"){
+  document.addEventListener("keypress", (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
       e.preventDefault();
       document.getElementById('format').click();
     }
   })
-  window.addEventListener("message" ,async (e)=>{
+  window.addEventListener("message", async (e) => {
     const message = e.data;
-    if(message.action === "autosave")
-    {
-      await window.ipc.invoke("autosave" , message.code , message.path)
+    if (message.action === "autosave") {
+      await window.ipc.invoke("autosave", message.code, message.path)
     }
   })
+  window.ipc.onDataframeIPC((data) => {
+
+    if ( JSON.parse(data).action !=="handlingargsopenfolder")
+      {return}
+    const message = JSON.parse(data)
+
+    console.log(message)
+    console.log(message.action)
+    console.log(message.fjson)
+    openfolderfunction(message.fjson)
+
+  })
+ 
 }

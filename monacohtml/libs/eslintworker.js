@@ -28,4 +28,5 @@ self.onmessage = (message) => {
         console.log('Worker error:', error.message);
         postMessage({ error: error.message });
     }
-};
+};//jai sri ram
+//////////////

@@ -1,3 +1,5 @@
+import { isValidJSON } from "./utils.js";
+
 //jai sri ram
 export function initiateterminal(element) {
 
@@ -12,7 +14,12 @@ export function initiateterminal(element) {
     );
     terminal.open(element);
     terminal.onData((data) => window.ipc.send("data", data.toString()));
-    window.ipc.onDataframeIPC((data) => {
-        terminal.write(data)
+    window.ipc.onDataframeIPC((dataraw) => {
+        const data = JSON.parse(dataraw)
+        if (data.action == "handlingargsopenfolder") {
+             console.log(data.action);
+              return 
+            }
+        terminal.write(data.data)
     })
 }
