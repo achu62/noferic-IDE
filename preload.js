@@ -10,7 +10,9 @@ contextBridge.exposeInMainWorld("ipc",
         },
         onDataframeIPC: function (callback) {
             ipcRenderer.on("data", (event, data) => {
+                console.log(data)
                 callback(data);
+
             });
         },
         send:

@@ -826,7 +826,7 @@ border-bottom-right-radius: 0.5px;
 }
 ::-webkit-scrollbar
 {
-  width:12px;
+   width:auto;
    direction: rtl;
 }
 ::-webkit-scrollbar-track

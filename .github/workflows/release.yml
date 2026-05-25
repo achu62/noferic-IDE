@@ -1,0 +1,12 @@
+name: Test Build
+on:
+    push:
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@4
+
+            - name: print hello
+              run: echo "jai sri ram"

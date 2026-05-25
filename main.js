@@ -2,6 +2,7 @@
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 let pathreal = null;
 //jai sri ram
+//jai sri ram
 const path = require("path");
 const fs = require("fs");
 const { Worker } = require("worker_threads");
@@ -15,8 +16,8 @@ const chokidar = require("chokidar");
 
 let watcher = null;
 let changedpathsbyide = [];
-const apppath = process.execPath
-
+const apppath = process.execPath;
+console.log("apppath" + apppath);
 
 function track(pathreal) {
 	if (!pathreal) return;
@@ -41,9 +42,8 @@ function track(pathreal) {
 		watcher.on("change", (filePath) => {
 			console.log(`File changed: ${filePath}`);
 			console.log(`changedpathsbyide:${changedpathsbyide}`);
-			if(!changedpathsbyide.includes(filePath))
-			{
-				console.log('fileaddedexternal'+filePath)
+			if (!changedpathsbyide.includes(filePath)) {
+				console.log("fileaddedexternal" + filePath);
 			}
 		});
 
@@ -75,7 +75,7 @@ function createWindow() {
 }
 async function scanafolder(folderpath) {
 	let json = [];
-	const files = fs.readdirSync(folderpath , {withFileTypes:true});
+	const files = fs.readdirSync(folderpath, { withFileTypes: true });
 	for (const file of files) {
 		const fullpath = `${folderpath}/${file.name}`;
 		if (file.isDirectory()) {
@@ -97,11 +97,11 @@ async function scanafolder(folderpath) {
 	}
 	return json; // FIX: was missing — scanafolder never returned anything, so folderjson was always undefined
 }
-	let ptyProcess;
-	let shell = null;
-async function handleappargs(args
+let ptyProcess;
+let shell = null;
+let pathforterminal;
 
-) {
+async function handleappargs(args) {
 	console.log(`args tarted func  ${args} `);
 	if (!args) {
 		console.log("no args");
@@ -111,22 +111,34 @@ async function handleappargs(args
 		console.log("file doesent exist");
 		return;
 	} else {
-
 		if (fs.statSync(path.resolve(args)).isDirectory()) {
 			track(path.resolve(args));
+			pathforterminal = path.resolve(args);
 			const json = await scanafolder(path.resolve(args));
 			win.webContents.send(
 				"data",
 				JSON.stringify({ action: "handlingargsopenfolder", fjson: json }),
 			);
 		}
+		else{
+			track(path.resolve(args))
+			win.webContents.send("data",
+				
+					JSON.stringify(
+						{
+							action:"handlefileargs",
+							path:path.resolve(args)
+						}
+					)
+
+				
+			)
+		}
 	}
 }
 app.whenReady().then(() => {
 	createWindow();
-	console.log(process.argv[2]);
 	const args = process.argv[2];
-	
 	win.webContents.once("did-finish-load", () => {
 		handleappargs(args);
 	});
@@ -137,8 +149,9 @@ app.whenReady().then(() => {
 	} else {
 		shell = process.env.SHELL || "bash";
 	}
-	 ptyProcess = pty.spawn(shell, [], {
-		cwd: `${os.homedir()}`,
+	//alert(pathforterminal)
+	ptyProcess = pty.spawn(shell, [], {
+		cwd: pathforterminal || os.homedir(),
 		env: process.env,
 	});
 	ptyProcess.onData((data) => {
@@ -227,7 +240,9 @@ try {
 		uri: "file:///example.js",
 		languageId: "javascript",
 		version: 1,
-		text: `var a = "ok" console.log(a) if(a===ok){return} if(a==ok){return}`,
+		text: `if (working === false) {
+   fix();
+}`,
 	};
 	connection.sendNotification("textDocument/didOpen", {
 		textDocument: fileToLint,
@@ -236,6 +251,7 @@ try {
 	console.log(error);
 }
 connection.onNotification("textDocument/publishDiagnostics", (params) => {
+	console.log(params);
 	params.diagnostics.forEach((d) => {
 		console.log(
 			`[${d.severity}] ${d.message} at line ${d.range.start.line + 1}`,
@@ -282,10 +298,16 @@ ipcMain.handle("openfolder", async (e) => {
 		return null;
 
 	const folderpath = result.filePaths[0];
-	spawn(apppath , [null , folderpath] , {
-		detached:true,
-		stdio:'ignore'
-	}).unref()
+	try {
+		spawn(process.execPath, [app.getAppPath(), folderpath], {
+			detached: true,
+			stdio: "ignore",
+		}).unref();
+		win.close();
+		biomeprocess.kill();
+	} catch (e) {
+		console.log(e);
+	}
 	//pathreal = folderpath;
 	//track(folderpath);
 	//const folderjson = await scanafolder(folderpath);
