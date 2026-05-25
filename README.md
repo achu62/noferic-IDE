@@ -41,4 +41,3 @@ license:[MIT](./monacohtml/monaco-editor/package/LICENSE)
 #### Jet Brains Mono<br>
 license:[OFL](./monacohtml/fonts/JetBrainsMono/OFL.txt)
 ### Other third party notices [here](./THIRD_PARTY_LICENSES.txt)
-
