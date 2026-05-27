@@ -16,25 +16,7 @@ const saveas = document.getElementById("save_as");
 ////////////////////////
 let isopen = false;
 let path;
-async function openfileoncilick(path) {
-	const lang = path.split(`/`).pop().split(`.`).pop();
-	if (!path) {
-		return;
-	} else {
-		const filecontent = await window.ipc.invoke("read", path);
-		iframe.contentWindow.postMessage(
-			{
-				action: "set",
-				content: filecontent,
-				isdir: false,
-				path: path,
-				language: lang,
-			},
-			"*",
-		);
-		document.getElementById("file_on").style.display = "none";
-	}
-}
+
 //
 
 window.onload = function () {
@@ -51,7 +33,25 @@ window.onload = function () {
 	const editorEl = this.document.getElementById("editor");
 	const terminalEl = this.document.getElementById("terminalelement");
 	//////////////////
-
+	async function openfileoncilick(path , iframe) {
+		const lang = path.split(`/`).pop().split(`.`).pop();
+		if (!path) {
+			return;
+		} else {
+			const filecontent = await window.ipc.invoke("read", path);
+			iframe.contentWindow.postMessage(
+				{
+					action: "set",
+					content: filecontent,
+					isdir: false,
+					path: path,
+					language: lang,
+				},
+				"*",
+			);
+			document.getElementById("file_on").style.display = "none";
+		}
+	}
 	// initial sync (onload only)
 	syncEditorBottom(editorEl, terminalEl);
 	file.onclick = function () {
@@ -67,11 +67,9 @@ window.onload = function () {
 	openfile.addEventListener(
 		"click",
 		async () => {
-			document.getElementById("file_on").style.display = "none";
-			document.getElementById("topbarforeditor").replaceChildren();
-
+			
 			path = await window.ipc.invoke("openfile");
-			openfileoncilick(path);
+			openfileoncilick(path , iframe);
 		},
 		{ once: true },
 	);
@@ -281,6 +279,21 @@ window.onload = function () {
 						document
 							.getElementById("topbarforeditor")
 							.appendChild(topbarelement);
+						const topbarclosebtn = document.createElement('button');
+						topbarclosebtn.classList.add('topbarclose_class')
+						topbarclosebtn.id = `topbarelementclosefor${file.id}`;
+						topbarclosebtn.addEventListener('click' , (e)=>
+						{
+							e.stopPropagation();
+							topbarelement?.remove()
+							iframe.contentWindow.postMessage(
+								{
+									action:'deletemodelonclose',
+									path:file.id
+								}
+							);
+						})
+						topbarelement.appendChild(topbarclosebtn)
 						topbarelement.click();
 					} else {
 						isexisting.click();
@@ -434,7 +447,7 @@ window.onload = function () {
 			await window.ipc.invoke("autosave", message.code, message.path);
 		}
 	});
-	window.ipc.onDataframeIPC((data) => {
+	window.ipc.onDataframeIPC(async (data) => {
 		const message = JSON.parse(data);
 
 		if (JSON.parse(data).action == "handlingargsopenfolder") {
@@ -446,7 +459,17 @@ window.onload = function () {
 		}
 		else if (JSON.parse(data).action == "handlefileargs") {
 			console.log(data)
-			openfileoncilick(message.path)
+			console.log(message.path)
+			
+				
+				
+
+			setTimeout(()=>{
+				openfileoncilick(message.path, iframe)
+				console.log("sending")
+
+			} , 2000)
+			
 		}
 	});
 };

@@ -9,7 +9,7 @@ window.onload = () => {
 	let editor = null;
 	require(["vs/editor/editor.main"], () => {
 		editor = monaco.editor.create(document.getElementById("editor"), {
-			value: "//open folder \n \n or //open file or\n \n //write code mow ",
+			value: "//open folder or\n \n  //open file or\n \n //write code now ",
 			language: "javascript",
 			theme: "vs-dark",
 			automaticLayout: true,
@@ -30,6 +30,7 @@ window.onload = () => {
 		let ismodel = false;
 		let language = null;
 		let cursorposition;
+		let recentmodeluri;
 
 		async function track(editor) {
 			if (!editor) return;
@@ -72,8 +73,10 @@ window.onload = () => {
 		window.addEventListener("message", (e) => {
 			const message = e.data;
 			const action = message.action;
+			console.log(message)
 
 			if (action === "set") {
+				console.log('file is ' )
 				const content = message.content;
 				ismodel = message.isdir;
 				URI = message.path;
@@ -84,6 +87,7 @@ window.onload = () => {
 				const isexisting = monaco.editor.getModel(
 					monaco.Uri.parse(`id://${URI}`),
 				);
+				recentmodeluri = `id://${URI}`;
 				if (!isexisting) {
 					if (language === "js") {
 						language = "javascript";
@@ -95,6 +99,7 @@ window.onload = () => {
 					if (ismodel == false) {
 						// editor.setValue("");
 						//editor.setValue(content);
+						console.log("content:"+content)
 						const model = monaco.editor.createModel(
 							content,
 							language,
@@ -116,6 +121,19 @@ window.onload = () => {
 				}
 			
 				autosave(editor)
+				const topbarfor = window.parent.document.getElementById(`topbarelementfor${URI}`)
+				if(!topbarfor)
+				{
+					return;
+				}
+				else
+				{
+					const parent = window.parent.document.getElementById('topbarforeditor')
+					parent.querySelectorAll("*").forEach(el=>{el.style.backgroundColor = '#1e1e1e'})
+					topbarfor.style.backgroundColor = '#404040'
+
+				}
+
 			} else if (action === "get") {
 				if (!ismodel) {
 					window.parent.postMessage(
@@ -160,6 +178,45 @@ window.onload = () => {
 				const formattedcode = message.formattedcode;
 				editor.setValue(formattedcode);
 				editor.setPosition(cursorposition);
+			}
+			else if (action === "deletemodelonclose")
+			{
+				const pathofmodel = `id://${message.path}`;
+				const modeltodelete = monaco.editor.getModel(
+					monaco.Uri.parse(pathofmodel),
+				);
+				modeltodelete.dispose();
+				console.log(monaco.editor.getModels())
+				console.log("is deleteed" + monaco.editor.getModel(
+					monaco.Uri.parse(pathofmodel),
+				))
+				let newmodel = monaco.editor.getModel(
+					monaco.Uri.parse(recentmodeluri)
+				)
+				if(!newmodel){
+					 newmodel = monaco.editor.getModels()[0];
+					const topbarfor = window.parent.document.getElementById(`topbarelementfor${newmodel.uri.toString().replace('id://', '')}`);
+
+					const parent = window.parent.document.getElementById('topbarforeditor')
+					parent.querySelectorAll("*").forEach(el => { el.style.backgroundColor = '#1e1e1e' })
+					topbarfor.style.backgroundColor = '#404040'
+					editor.setModel(newmodel);
+
+				}
+				else
+				{
+					const topbarfor = window.parent.document.getElementById(`topbarelementfor${recentmodeluri.replace("id://" , '')}`)
+
+					const parent = window.parent.document.getElementById('topbarforeditor')
+					parent.querySelectorAll("*").forEach(el => { el.style.backgroundColor = '#1e1e1e' })
+					topbarfor.style.backgroundColor = '#404040'
+
+
+					editor.setModel(newmodel);
+
+				}
+
+
 			}
 		});
 

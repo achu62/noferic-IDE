@@ -867,7 +867,7 @@ box-sizing: border-box;}
   width: fit-content;
   font-size: 12px;
   padding-left: 10px;
-  padding-right: 5px;
+  padding-right: 30px; /* reserve space for the close button */
   line-height: 29px;      
   cursor: pointer;       
   box-sizing: border-box;
@@ -989,4 +989,33 @@ box-sizing: border-box;}
   width:fit-content;
   border-right-color: #ffffff;
   border-right-width: 0.5px;
+}
+.topbarclose_class
+{
+  all:unset;
+  position:absolute;
+  right:3px;
+  top:50%;
+  transform: translateY(-50%);
+  background-image: url('./images/close_small_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg');
+  width:24px;
+  height:24px;
+  display:block;
+  cursor:pointer;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+
+}
+
+.topbarclose_class:hover {
+  filter: brightness(1.15);
+}
+
+.topbarclose_class:focus-visible {
+  outline: 2px solid var(--afaeaec9);
+  outline-offset: 2px;
 }
