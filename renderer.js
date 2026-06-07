@@ -5,25 +5,57 @@ import { initiateterminal } from "./initialiseterminal.js";
 import { resizeexplorer } from "./resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resizeterminal.js";
-import { isValidJSON, getfileiconbytype } from "./utils.js";
-//////
+import { isValidJSON, getfileiconbytype, DeleteOldWorkspace, findFolderById } from "./utils.js";
+import { createfolderdialogbox } from './filedialogbox.js'
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
 const file = document.getElementById(`file`);
 const exit = document.getElementById("exit");
 const iframe = document.querySelector("iframe#editor");
 const saveas = document.getElementById("save_as");
-////////////////////////
+
+
 let isopen = false;
 let path;
+let globalfolderjson;
+let globalfileexplorerstatejson = {};
 
-//
+export function showdialog(path) {
+	if (document.readyState == "complete") {
+		document.getElementById('createnewfiledialog').showModal()
+		console.log(path)
+	}
+	document.getElementById('createfileindialoog').addEventListener('click', () => {
+
+
+		const filejoin = document.getElementById("inputforopenfile").value.replace('\n', "")
+		console.log(`firing creeation eve ${path}/${filejoin} `)
+
+		if (!filejoin) {
+			alert("filenames cannot be empty");
+			return;
+		}
+
+		console.log(`${path}/${filejoin}`)
+
+
+		window.ipc.invoke("append", `${path}/${filejoin}`)
+		if (globalfileexplorerstatejson[`${path}` === false]) {
+			document.getElementById(path).click()
+
+		}
+
+	})
+
+
+}
 
 window.onload = function () {
-	let workspacepath = null;
 
-	//////////////////////
-	// dialogclicker(this.document.getElementById("settingsdialog"), document.getElementById("settings"))
+
+	let workspacepath = null;
+	const dialogforcreatefile = this.document.getElementById('createnewfiledialog')
+
 	document.getElementById("file_on").style.display = "none";
 	document.getElementById("viewon").style.display = "none";
 	////////////////
@@ -32,9 +64,8 @@ window.onload = function () {
 	};
 	const editorEl = this.document.getElementById("editor");
 	const terminalEl = this.document.getElementById("terminalelement");
-	//////////////////
-	async function openfileoncilick(path , iframe) {
-		const lang = path.split(`/`).pop().split(`.`).pop();
+	async function openfileoncilick(path, iframe) {
+		const extension = path.split(`/`).pop().split(`.`).pop();
 		if (!path) {
 			return;
 		} else {
@@ -45,16 +76,15 @@ window.onload = function () {
 					content: filecontent,
 					isdir: false,
 					path: path,
-					language: lang,
+					extension: extension,
 				},
 				"*",
 			);
 			document.getElementById("file_on").style.display = "none";
 		}
 	}
-	// initial sync (onload only)
 	syncEditorBottom(editorEl, terminalEl);
-	file.onclick = function () {
+	file.addEventListener('click', () => {
 		if (isopen === false) {
 			document.getElementById("file_on").style.display = "block";
 			isopen = true;
@@ -62,14 +92,16 @@ window.onload = function () {
 			document.getElementById("file_on").style.display = "none";
 			isopen = false;
 		}
-		
-	};
+	})
+
+
 	openfile.addEventListener(
 		"click",
 		async () => {
-			
 			path = await window.ipc.invoke("openfile");
-			openfileoncilick(path , iframe);
+			if (!path) { return; }
+			DeleteOldWorkspace(this.document.getElementById('explorerelement'), this.document.getElementById('topbarforeditor'), iframe)
+			openfileoncilick(path, iframe);
 		},
 		{ once: true },
 	);
@@ -133,10 +165,8 @@ window.onload = function () {
 		document.getElementById("editor"),
 	);
 	resizeexplorer(this.document.getElementById("explorer"));
-	// resizepreview(this.document.getElementById('preview'))
 	const observerforterminal = new ResizeObserver(() => {
 		syncEditorBottom(editorEl, terminalEl);
-		//fitaddon.fit();
 	});
 	observerforterminal.observe(terminalEl);
 	const observerforpreview = new ResizeObserver(() => {
@@ -165,13 +195,15 @@ window.onload = function () {
 
 		depth = depth + 5;
 		for (const file of filearray) {
-			if (file.isdirectory && file.haschildren) {
+			if (file.isdirectory //&& file.haschildren
+				) {
 				const filebutton = document.createElement("button");
 				filebutton.id = `${file.id}`;
 				filebutton.textContent = `${file.name}`;
 				filebutton.classList.add("files");
 				filebutton.classList.add("folder");
 				filebutton.style.paddingLeft = depth + "px";
+				filebutton.title = `${file.id}`
 				const statebtn = document.createElement("div");
 				statebtn.id = `statebuttonfor${file.id}`;
 				statebtn.style.position = "absolute";
@@ -195,37 +227,48 @@ window.onload = function () {
 				icon.style.width = `16px`;
 				icon.style.left = `${depth - 19}px`;
 				filebutton.appendChild(icon);
-
+				globalfileexplorerstatejson[`${file.id}`] = false;
 				filebutton.appendChild(statebtn);
 				let isopen = false;
 				filebutton.addEventListener("click", (e) => {
 					if (!isopen) {
 						if (filebutton.classList.contains("folder")) {
+							console.log(findFolderById(globalfolderjson, file.id).children,
+)
 							recursiveloop(
-								file.children,
+								findFolderById(globalfolderjson, file.id).children,
+
 								document.getElementById(`${file.id}`),
 							);
 							e.stopPropagation();
 							e.stopImmediatePropagation();
 							isopen = true;
+							globalfileexplorerstatejson[`${file.id}`] = true;
+
+
 						} else {
 							return;
 						}
 					} else {
 						filebutton.replaceChildren(file.name, statebtn, icon);
 						isopen = false;
+						globalfileexplorerstatejson[`${file.id}`] = false;
+
 
 						e.stopPropagation();
 					}
+					console.log(globalfileexplorerstatejson)
 				});
 				space.appendChild(filebutton);
-			} else if (!file.haschildren && file.isdirectory) {
+				createfolderdialogbox(document.body, file.id, filebutton, dialogforcreatefile)
+			} /*else if (!file.haschildren && file.isdirectory) {
 				const filebutton = document.createElement("button");
 
 				filebutton.id = `${file.id}`;
 				filebutton.textContent = `${file.name}`;
 				filebutton.classList.add("files");
 				filebutton.style.paddingLeft = depth + "px";
+				filebutton.title = `${file.id}`
 				const icon = document.createElement("div");
 				icon.id = `iconfor${file.id}`;
 				icon.style.position = "absolute";
@@ -237,14 +280,21 @@ window.onload = function () {
 				icon.style.height = "16px";
 				icon.style.width = `16px`;
 				icon.style.left = `${depth - 19}px`;
+				filebutton.addEventListener('click' , (e)=>{
+					e.preventDefault()
+				})
+				createfolderdialogbox(document.body, file.id, filebutton, dialogforcreatefile)
+
 				space.appendChild(filebutton);
 				filebutton.appendChild(icon);
-			} else {
+				
+			}*/ else {
 				const filebutton = document.createElement("button");
 				filebutton.id = `${file.id}`;
 				filebutton.textContent = `${file.name}`;
 				filebutton.classList.add("files");
 				filebutton.style.paddingLeft = depth + "px";
+				filebutton.title = `${file.id}`
 				space.appendChild(filebutton);
 				filebutton.addEventListener("click", async (e) => {
 					e.stopPropagation();
@@ -261,7 +311,8 @@ window.onload = function () {
 						topbarelement.classList.add("class__topelements");
 						topbarelement.id = `topbarelementfor${file.id}`;
 						topbarelement.textContent = `${file.name}`;
-						const lang = filepathonclick.split("/").pop().split(".").pop();
+						topbarelement.title = `${file.id}`
+						const extension = filepathonclick.split("/").pop().split(".").pop();
 						topbarelement.addEventListener("click", (e) => {
 							e.stopPropagation();
 							iframe.contentWindow.postMessage(
@@ -269,31 +320,30 @@ window.onload = function () {
 									action: "set",
 									content: content,
 									isdir: true,
-									language: lang,
+									extension: extension,
 									path: filepathonclick,
 								},
 								"*",
 							);
 							iframe.contentWindow.postMessage(["layout"], "*");
+
 						});
 						document
 							.getElementById("topbarforeditor")
 							.appendChild(topbarelement);
-						const topbarclosebtn = document.createElement('button');
-						topbarclosebtn.classList.add('topbarclose_class')
+						const topbarclosebtn = document.createElement("button");
+						topbarclosebtn.classList.add("topbarclose_class");
 						topbarclosebtn.id = `topbarelementclosefor${file.id}`;
-						topbarclosebtn.addEventListener('click' , (e)=>
-						{
+						topbarclosebtn.addEventListener("click", (e) => {
 							e.stopPropagation();
-							topbarelement?.remove()
-							iframe.contentWindow.postMessage(
-								{
-									action:'deletemodelonclose',
-									path:file.id
-								}
-							);
-						})
-						topbarelement.appendChild(topbarclosebtn)
+							topbarelement?.remove();
+							iframe.contentWindow.postMessage({
+								action: "deletemodelonclose",
+								path: file.id,
+							});
+						});
+
+						topbarelement.appendChild(topbarclosebtn);
 						topbarelement.click();
 					} else {
 						isexisting.click();
@@ -319,6 +369,7 @@ window.onload = function () {
 				filebutton.appendChild(icon);
 			}
 		}
+
 	}
 	async function openfolderfunction(folderjsoninput) {
 		recursiveloop(folderjsoninput, fileexplorerarea);
@@ -343,22 +394,26 @@ window.onload = function () {
 		}
 	});
 
-	document.body.addEventListener("click", (e) => {
-		if (
-			!document.getElementById("viewon").contains(e.target) &&
-			e.target !== document.getElementById("view")
-		) {
-			document.getElementById("viewon").style.display = "none";
-			isviewopen = false;
-		}
-		if (
-			!document.getElementById("file_on").contains(e.target) &&
-			e.target !== document.getElementById("file")
-		) {
-			document.getElementById("file_on").style.display = "none";
-			isopen = false;
-		}
-	});
+	this.document.getElementById('viewon').addEventListener("blur", (e) => {
+		e.stopPropagation()
+		e.preventDefault()
+
+		this.document.getElementById("viewon").style.display = "none";
+		isviewopen = false;
+		this.alert(blur)
+
+
+	})
+	document.getElementById("file_on").addEventListener("blur", (e) => {
+		e.stopPropagation()
+		e.preventDefault()
+		alert("blur")
+		document.getElementById("file_on").style.display = "none";
+		isopen = false;
+	}
+	)
+
+
 	let isterminalopen = true;
 	let isexploreropen = true;
 	const checkboxforterminal = document.getElementById("terminalcheck");
@@ -451,25 +506,54 @@ window.onload = function () {
 		const message = JSON.parse(data);
 
 		if (JSON.parse(data).action == "handlingargsopenfolder") {
-
 			console.log(message);
 			console.log(message.action);
 			console.log(message.fjson);
-			openfolderfunction(message.fjson);
-		}
-		else if (JSON.parse(data).action == "handlefileargs") {
-			console.log(data)
-			console.log(message.path)
-			
-				
-				
+			globalfolderjson = message.fjson;
+			openfolderfunction(globalfolderjson);
+		} else if (JSON.parse(data).action == "handlefileargs") {
+			console.log(data);
+			console.log(message.path);
 
-			setTimeout(()=>{
-				openfileoncilick(message.path, iframe)
-				console.log("sending")
+			setTimeout(() => {
+				openfileoncilick(message.path, iframe);
+				console.log("sending");
+			}, 2000);
+		}
+		else if (JSON.parse(data).action == "errorhandle") {
+			alert(`an error occured while ${message.errorlocation} \n\n error message:${message.errormessage}`)
+		}
+		else if (message.action === "addelements") {
+			globalfolderjson = message.newjson;
+			if (!message.add) { console.log('no adds') }
+			console.log(!globalfileexplorerstatejson[message.add.parentid])
+			if (!globalfileexplorerstatejson[message.add.parentid]) {
+				return;
+			}
+			if (!document.getElementById(message.add.parentid))
+			{
+				this.alert("foldernotfound")
+			}
+			
+			recursiveloop(message.add.actualjson, this.document.getElementById(message.add.parentid))
 
-			} , 2000)
+
+		}
+		else if (message.action == "removeelements") {
+			globalfolderjson = message.newjson;
+			this.document.getElementById(message.remove)?.remove();
+			
 			
 		}
+
 	});
+
+
+	this.document.getElementById('cancelcreatefiledialog').addEventListener('click', () => {
+		dialogforcreatefile.close();
+		console.log(document.getElementById("inputforopenfile").value)
+
+
+	})
+
 };

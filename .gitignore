@@ -1,3 +1,11 @@
-node_modules/
-appoutput/
-configurationbiome/
+/node_modules/
+/appoutput/
+/configurationbiome/
+/ram
+/sri
+/binarypreinstall/
+/index.cpp
+/monacohtml/jaisriram.txt
+/me.txt
+/me.json
+

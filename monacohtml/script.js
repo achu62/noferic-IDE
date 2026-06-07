@@ -2,7 +2,7 @@
 //jai sri ram
 //jai sri ram
 //jai sri ram///
-
+import {getLanguagebyExtension} from './utils.js'
 window.onload = () => {
 	require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
 	///
@@ -28,10 +28,10 @@ window.onload = () => {
 
 		let URI = null;
 		let ismodel = false;
-		let language = null;
+		let extension = null;
 		let cursorposition;
 		let recentmodeluri;
-
+		let autosavelistener;
 		async function track(editor) {
 			if (!editor) return;
 			editor.onDidChangeCursorPosition((e) => {
@@ -40,7 +40,10 @@ window.onload = () => {
 			});
 		}
 		async function autosave(editor) {
-
+			if(autosavelistener)
+			{
+				autosavelistener.dispose();
+			}
 			const model = editor.getModel()
 			if (!editor) {
 				console.log("no editor");
@@ -54,7 +57,7 @@ window.onload = () => {
 
 			console.log(`before:${model.uri.toString()}\nafter:${currentPath}`)
 
-			editor.onDidChangeModelContent(async () => {
+			autosavelistener=editor.onDidChangeModelContent(async () => {
 				console.log("model conternt changed ")
 				if (!URI) { return }
 				const content = editor.getValue();
@@ -81,28 +84,21 @@ window.onload = () => {
 				ismodel = message.isdir;
 				URI = message.path;
 				console.log(URI)
-				language = message.language;
+				extension = message.extension;
 				window.parent.document.getElementById("language").innerText =
-					`.${message.language}`;
+					`.${message.extension}`;
 				const isexisting = monaco.editor.getModel(
 					monaco.Uri.parse(`id://${URI}`),
 				);
 				recentmodeluri = `id://${URI}`;
 				if (!isexisting) {
-					if (language === "js") {
-						language = "javascript";
-					} else if (language === "ts") {
-						language = "typescript";
-					} else {
-						language = language;
-					}
+					
 					if (ismodel == false) {
-						// editor.setValue("");
-						//editor.setValue(content);
+						
 						console.log("content:"+content)
 						const model = monaco.editor.createModel(
 							content,
-							language,
+							getLanguagebyExtension(extension),
 							monaco.Uri.parse(`id://${URI}`),
 						);
 						editor.setModel(model);
@@ -110,10 +106,10 @@ window.onload = () => {
 					} else {
 						const model = monaco.editor.createModel(
 							content,
-							language,
+							getLanguagebyExtension(extension),
 							monaco.Uri.parse(`id://${URI}`),
 						);
-						console.log(language);
+						console.log(extension);
 						editor.setModel(model);
 					}
 				} else {
@@ -158,20 +154,16 @@ window.onload = () => {
 					);
 				}
 			} else if (action === "layout") {
-				editor.layout(); // forces Monaco to recalculate and render immediately
-			} else if (action === "formatget") {
-				let extension = language;
+				editor.layout(); 
+						} 
+				else if (action === "formatget") {
 				cursorposition = editor.getPosition();
-				console.log(language);
-				if (extension === "javascript") {
-					extension = "js";
-				} else if (extension === "typescript") {
-					extension = "ts";
-				}
+				console.log(extension);
+				
 				window.parent.postMessage({
 					code: editor.getValue(),
 					extension: extension,
-					language: language,
+					language: getLanguagebyExtension(extension),
 				});
 				console.log(extension);
 			} else if (action === "formatset") {
@@ -217,6 +209,16 @@ window.onload = () => {
 				}
 
 
+			}
+			else if(action ==  "deleteallmodels")
+			{
+				monaco.editor.getModels().forEach(model =>
+				{
+					model.dispose();
+					console.log("model"+monaco.editor.getModels())
+
+				}
+				)
 			}
 		});
 

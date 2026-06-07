@@ -1,6 +1,10 @@
 //jai sri ram
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 let pathreal = null;
+const isproduction = app.isPackaged;
+let addedpathbyide;
+let globalfolderjson;
+
 //jai sri ram
 //jai sri ram
 const path = require("path");
@@ -9,17 +13,59 @@ const { Worker } = require("worker_threads");
 const pty = require("node-pty");
 const { spawn, execFile } = require("child_process");
 const os = require("os");
-const { buffer, json } = require("stream/consumers");
+const { buffer } = require("stream/consumers");
 const rpc = require(`vscode-jsonrpc`);
 const { InitializeRequest } = require("vscode-languageserver-protocol");
 const chokidar = require("chokidar");
+const { watchFile } = require("node:original-fs");
+function injectChildrenByPath(treeLayers, targetId, newChildren) {
+	for (const node of treeLayers) {
+		if (node.id === targetId) {
+			node.children ??= [];
 
+			node.children.push(...newChildren);
+
+			node.haschildren = node.children.length > 0;
+
+			return true;
+		}
+
+		if (node.isdirectory && node.children) {
+			if (injectChildrenByPath(node.children, targetId, newChildren)) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+function deleteNodeById(treeLayers, targetId) {
+	for (let i = 0; i < treeLayers.length; i++) {
+		const node = treeLayers[i];
+
+		// Found it?
+		if (node.id === targetId) {
+			treeLayers.splice(i, 1);
+			return true;
+		}
+
+		// Search children
+		if (node.isdirectory && node.children) {
+			if (deleteNodeById(node.children, targetId)) {
+				node.haschildren = node.children.length > 0;
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
 let watcher = null;
 let changedpathsbyide = [];
 const apppath = process.execPath;
 console.log("apppath" + apppath);
 
-function track(pathreal) {
+async function track(pathreal) {
 	if (!pathreal) return;
 	if (watcher) {
 		watcher.close();
@@ -27,7 +73,6 @@ function track(pathreal) {
 	}
 
 	try {
-		// stop previous watcher if exists
 		if (watcher) watcher.close();
 
 		watcher = chokidar.watch(pathreal, {
@@ -36,20 +81,73 @@ function track(pathreal) {
 
 		watcher.on("add", (filePath) => {
 			console.log(`File added: ${filePath}`);
-			console.log(`changedpathsbyide:${changedpathsbyide}`);
+			if (addedpathbyide) {
+				addedpathbyide = addedpathbyide.filter((item) => item !== filePath);
+			}
+			if (!addedpathbyide?.includes(filePath)) {
+				console.log("filechangedexternal:" + filePath);
+				const filepathonly = filePath.split("/").pop();
+				const foldepath = filePath.split("/").slice(0, -1).join("/") || "/";
+				injectChildrenByPath(globalfolderjson, foldepath, [
+					{
+						id: filePath,
+						name: filepathonly,
+						isdirectory: false,
+					},
+				]);
+				fs.writeFileSync(
+					"/home/charan/noferic-IDE/me.json",
+					JSON.stringify(globalfolderjson),
+				);
+				console.log(foldepath, filepathonly);
+				win.webContents.send(
+					"data",
+					JSON.stringify({
+						action: "addelements",
+						newjson: globalfolderjson,
+						add: {
+							parentid: foldepath,
+							actualjson: [
+								{
+									id: filePath,
+									name: filepathonly,
+									isdirectory: false,
+								},
+							],
+						},
+					}),
+				);
+			}
 		});
 
 		watcher.on("change", (filePath) => {
 			console.log(`File changed: ${filePath}`);
 			console.log(`changedpathsbyide:${changedpathsbyide}`);
+			changedpathsbyide = changedpathsbyide.filter((item) => item !== filePath);
+
 			if (!changedpathsbyide.includes(filePath)) {
-				console.log("fileaddedexternal" + filePath);
+				console.log("filechangedexternal:" + filePath);
 			}
 		});
 
 		watcher.on("unlink", (filePath) => {
 			console.log(`File removed: ${filePath}`);
-			console.log(`changedpathsbyide:${changedpathsbyide}`);
+			const filepathonly = filePath.split("/").pop();
+			const foldepath = filePath.split("/").slice(0, -1).join("/") || "/";
+			deleteNodeById(globalfolderjson, filePath);
+			console.log(filepathonly);
+			console.log(JSON.stringify(globalfolderjson));
+			win.webContents.send(
+				"data",
+				JSON.stringify({
+					action: "removeelements",
+					newjson: globalfolderjson,
+					remove: filePath,
+				}),
+			);
+		});
+		watcher.on("addDir", (filePath) => {
+			console.log(`addeddir;${filePath}`);
 		});
 	} catch (e) {
 		console.log(e);
@@ -68,10 +166,14 @@ function createWindow() {
 			sandbox: true,
 			allowRunningInsecureContent: false,
 			webSecurity: true,
+			spellcheck: false,
 		},
 	});
 	win.loadFile("index.html");
-	win.removeMenu();
+	if (isproduction) {
+		console.log("");
+		win.removeMenu();
+	}
 }
 async function scanafolder(folderpath) {
 	let json = [];
@@ -84,7 +186,7 @@ async function scanafolder(folderpath) {
 				id: fullpath,
 				name: file.name,
 				isdirectory: true,
-				haschildren: children.length > 0, // FIX: file.children doesn't exist — use children.length
+				haschildren: children.length > 0,
 				children: children,
 			});
 		} else {
@@ -95,61 +197,20 @@ async function scanafolder(folderpath) {
 			});
 		}
 	}
-	return json; // FIX: was missing — scanafolder never returned anything, so folderjson was always undefined
+	return json;
 }
 let ptyProcess;
 let shell = null;
 let pathforterminal;
-
-async function handleappargs(args) {
-	console.log(`args tarted func  ${args} `);
-	if (!args) {
-		console.log("no args");
-		return;
-	}
-	if (!fs.existsSync(args)) {
-		console.log("file doesent exist");
-		return;
-	} else {
-		if (fs.statSync(path.resolve(args)).isDirectory()) {
-			track(path.resolve(args));
-			pathforterminal = path.resolve(args);
-			const json = await scanafolder(path.resolve(args));
-			win.webContents.send(
-				"data",
-				JSON.stringify({ action: "handlingargsopenfolder", fjson: json }),
-			);
-		}
-		else{
-			track(path.resolve(args))
-			win.webContents.send("data",
-				
-					JSON.stringify(
-						{
-							action:"handlefileargs",
-							path:path.resolve(args)
-						}
-					)
-
-				
-			)
-		}
-	}
-}
-app.whenReady().then(() => {
-	createWindow();
-	const args = process.argv[2];
-	win.webContents.once("did-finish-load", () => {
-		handleappargs(args);
-	});
-	spawn("binarypreinstall/dist/preinstall/preinstall");
-
+async function initialiseterminalmain(pathforterminal) {
 	if (process.platform === "win32") {
 		shell = process.env.COMSPEC || "cmd.exe";
 	} else {
 		shell = process.env.SHELL || "bash";
 	}
-	//alert(pathforterminal)
+	if (ptyProcess) {
+		ptyProcess.kill();
+	}
 	ptyProcess = pty.spawn(shell, [], {
 		cwd: pathforterminal || os.homedir(),
 		env: process.env,
@@ -163,6 +224,71 @@ app.whenReady().then(() => {
 	ipcMain.on("data", (event, data) => {
 		ptyProcess.write(data);
 	});
+}
+async function handleappargs(args) {
+	console.log(`args tarted func  ${args} `);
+
+	if (!args) {
+		console.log("no args");
+		return;
+	}
+	if (!fs.existsSync(args)) {
+		console.log("file doesent exist");
+		return;
+	} else {
+		if (fs.statSync(path.resolve(args)).isDirectory()) {
+			track(path.resolve(args));
+			const json = await scanafolder(path.resolve(args));
+			globalfolderjson = [
+				{
+					id: path.resolve(args),
+					name: path.resolve(args).split("/").pop(),
+					isdirectory: true,
+					haschildren: fs.readdirSync(path.resolve(args)).length > 0,
+					children: json,
+				},
+			];
+			win.webContents.send(
+				"data",
+				JSON.stringify({
+					action: "handlingargsopenfolder",
+					fjson: [
+						{
+							id: path.resolve(args),
+							name: path.resolve(args).split("/").pop(),
+							isdirectory: true,
+							haschildren: fs.readdirSync(path.resolve(args)).length > 0,
+							children: json,
+						},
+					],
+				}),
+			);
+			initialiseterminalmain(path.resolve(args));
+		} else {
+			track(path.resolve(args));
+			win.webContents.send(
+				"data",
+
+				JSON.stringify({
+					action: "handlefileargs",
+					path: path.resolve(args),
+				}),
+			);
+		}
+	}
+}
+let args;
+app.whenReady().then(() => {
+	createWindow();
+	if (isproduction) {
+		args = process.argv[1];
+	} else {
+		args = process.argv[2];
+	}
+	win.webContents.once("did-finish-load", () => {
+		handleappargs(args);
+	});
+	spawn(path.join(__dirname, "binarypreinstall/dist/preinstall/preinstall"));
 });
 
 ipcMain.handle("openfile", async () => {
@@ -196,8 +322,17 @@ ipcMain.handle("save", async (e) => {
 	return result.filePath;
 });
 ipcMain.handle("append", async (e, path) => {
+	if (fs.existsSync(path)) {
+		win.webContents.send(
+			"data",
+			JSON.stringify({
+				action: "errorhandle",
+				errorlocation: "creating file",
+				errormessage: "fileexists",
+			}),
+		);
+	}
 	await fs.promises.appendFile(path, "");
-	changedpathsbyide.push(path);
 });
 ipcMain.handle("saveas", async (e) => {
 	const result = await dialog.showSaveDialog({
@@ -216,7 +351,7 @@ const connection = rpc.createMessageConnection(
 	new rpc.StreamMessageWriter(biomeprocess.stdin),
 );
 connection.listen();
-const root = "file:///home/charan/noferic-IDE";
+const root = `file://${path.join(__dirname, ".")}`;
 async function start() {
 	try {
 		const result = await connection.sendRequest("initialize", {
@@ -224,7 +359,7 @@ async function start() {
 			rootUri: root,
 			capabilities: {
 				textDocument: {
-					publishDiagnostics: {}, // This is the "On" switch for linting
+					publishDiagnostics: {},
 				},
 			},
 		});
@@ -286,36 +421,45 @@ ipcMain.handle("format", async (event, object) => {
 
 		return formattedcode;
 	} catch (e) {
-		console.log(e);
+		win.webContents.send(
+			"data",
+			JSON.stringify({
+				action: "errorhandle",
+				errorlocation: "formatting",
+				errormessage: JSON.stringify(e),
+			}),
+		);
 	}
 });
 
 ipcMain.handle("openfolder", async (e) => {
-	//if(win){win.close()}
-	//createWindow()
 	const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
 	if (result.canceled || !result.filePaths || result.filePaths.length === 0)
 		return null;
 
 	const folderpath = result.filePaths[0];
 	try {
-		spawn(process.execPath, [app.getAppPath(), folderpath], {
-			detached: true,
-			stdio: "ignore",
-		}).unref();
+		if (isproduction) {
+			spawn(process.execPath, [folderpath], {
+				detached: true,
+				stdio: "ignore",
+			}).unref();
+		} else {
+			spawn(process.execPath, [app.getAppPath(), folderpath], {
+				detached: true,
+				stdio: "ignore",
+			}).unref();
+		}
+
 		win.close();
 		biomeprocess.kill();
 	} catch (e) {
 		console.log(e);
 	}
-	//pathreal = folderpath;
-	//track(folderpath);
-	//const folderjson = await scanafolder(folderpath);
-	//handleappargs(folderpath)
-	//return folderjson;
 });
 
 ipcMain.handle("autosave", async (e, code, path) => {
 	fs.writeFileSync(path, code, "utf-8");
 	changedpathsbyide.push(path);
 });
+console.log(globalfolderjson);

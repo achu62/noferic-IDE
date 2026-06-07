@@ -11,14 +11,12 @@
   "author": "charan<b.c.s.udaar@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "^2.4.16",
     "@electron/rebuild": "^3.6.2",
     "electron": "^39.2.7",
     "electron-builder": "^24.13.3"
   },
-  
   "dependencies": {
-    "@types/vscode": "^1.118.0",
     "chokidar": "^5.0.0",
     "language-map": "^1.5.0",
     "node-pty": "^1.1.0",
@@ -29,12 +27,14 @@
   },
   "build": {
     "appId": "noferic web",
+    "asar": false,
     "files": [
       "**/*"
     ],
     "linux": {
       "target": [
-        "deb"
+        "deb",
+        "AppImage"
       ]
     },
     "win": {

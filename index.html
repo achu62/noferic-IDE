@@ -2,11 +2,12 @@
 <!DOCTYPE html>
 <html class="dark">
 
-<head>
+				<head>
 	<title>NOFERIC IDE</title>
+	<link rel="stylesheet" href="./icons.css">
 	<link rel="stylesheet" href="style2.css" />
-	<link rel="stylesheet" href="node_modules/xterm/css/xterm.css">
-
+	<link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+	]
 	<style>
 		@font-face {
 			font-family: "JetBrains Mono";
@@ -39,15 +40,19 @@
 </head>
 
 <body>
+	<div id="ok"></div>
 	<canvas id="canvas"></canvas>
+	<dialog id="createnewfiledialog">
+		<button id="createfileindialoog">create file</button>
+		<button id="cancelcreatefiledialog">Cancel</button>
+		<input id="inputforopenfile" type="text" placeholder="file  name..." spellcheck="false"></textarea>
+	</dialog>
 	<div class="common bgcolor1e1e1e" id="top-menu">
 		<div id="logo"></div>
 		<button class="common bgcolor1e1e1e" id="file">File</button>
 		<button popovertarget="viewon" class="common bgcolor1e1e1e" id="view">View</button>
 	</div>
-	<div id="file_on" class="common">
-		<button id="new_file" class="common">New file</button>
-		<button id="new_folder" class="common">New Folder</button>
+	<div id="file_on" tabindex=0 class="common">
 		<button id="open_file" class="common">Open file</button>
 		<button id="open_folder" class="common">Open Folder</button>
 		<button id="save" class="common">Save</button>
@@ -77,7 +82,7 @@
 			<div id="prevtop" class="common bgcolor1e1e1e">YOUR AI AGENT</div>
 		</div>
 		<div id="explorer">
-			<div id="explotop" class="common bgcolor1e1e1e">Explorer</div>
+			<div id="explotop" class="common bgcolor1e1e1e">explorer</div>
 			<div id="explorerelement">
 			</div>
 
@@ -100,8 +105,8 @@
 	</div>
 </body>
 <!---dont remove this-->
-<script src="./formatter.js"></script>
 <script src="./renderer.js" type="module"></script>
+
 <script src="node_modules/xterm/lib/xterm.js"></script>
 <!---dont remove this-->
 

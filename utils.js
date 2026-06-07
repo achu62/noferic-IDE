@@ -1,4 +1,5 @@
-//jai sri ram
+//jai sri ram.
+
 export function isValidJSON(json) {
 	try {
 		JSON.parse(json);
@@ -8,18 +9,19 @@ export function isValidJSON(json) {
 		return false;
 	}
 }
+
 export const getfileiconbytype = {
-	html: "images/code.svg",
+	html: "images/html.png",
 	htm: "images/code.svg",
-	css: "images/code.svg",
-	js: "images/code.svg",
-	jsx: "images/code.svg",
-	ts: "images/code.svg",
-	tsx: "images/code.svg",
+	css: "images/css.svg",
+	js: "images/js.svg",
+	jsx: "images/atom.svg",
+	ts: "images/tss.svg",
+	tsx: "images/jsxrelated.svg",
 	mjs: "images/code.svg",
 	cjs: "images/code.svg",
-	vue: "images/code.svg",
-	svelte: "images/code.svg",
+	vue: "images/vue.svg",
+	svelte: "images/svelte.svg",
 	astro: "images/code.svg",
 	php: "images/code.svg",
 	phtml: "images/code.svg",
@@ -67,7 +69,7 @@ export const getfileiconbytype = {
 	gql: "images/code.svg",
 
 	// CONFIG
-	json: "images/config.svg",
+	json: "images/json.svg",
 	yaml: "images/config.svg",
 	yml: "images/config.svg",
 	toml: "images/config.svg",
@@ -76,18 +78,18 @@ export const getfileiconbytype = {
 	conf: "images/config.svg",
 	config: "images/config.svg",
 	properties: "images/config.svg",
-	xml: "images/config.svg",
+	xml: "images/xml.svg",
 	gradle: "images/config.svg",
 	npmrc: "images/config.svg",
 	editorconfig: "images/config.svg",
-	gitignore: "images/config.svg",
-	gitattributes: "images/config.svg",
+	gitignore: "images/commit.svg",
+	gitattributes: "images/commit.svg",
 	dockerfile: "images/config.svg",
 
 	// TEXT
 	txt: "images/text.svg",
-	md: "images/text.svg",
-	markdown: "images/text.svg",
+	md: "images/md.svg",
+	markdown: "images/md.svg",
 	log: "images/text.svg",
 	csv: "images/text.svg",
 	tsv: "images/text.svg",
@@ -205,5 +207,21 @@ export function recursiveid(count, item) {
 export function DeleteOldWorkspace(fileexplorer, opentabs, iframe) {
 	fileexplorer.replaceChildren("");
 	opentabs.replaceChildren("");
+	iframe.contentWindow.postMessage({
+		action:"deleteallmodels"
+	})
 }
+export function findFolderById(rootArray, targetId) {
+	for (const item of rootArray) {
+		if (item.id === targetId) {
+			return item;
+		}
+		if (item.isdirectory && item.children) {
+			const found = findFolderById(item.children, targetId);
+			if (found) return found;
+		}
+	}
+	return null;
+}
+
 //

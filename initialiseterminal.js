@@ -1,8 +1,6 @@
-import { isValidJSON } from "./utils.js";
 
 //jai sri ram
 //
-
 export function initiateterminal(element) {
 	const terminal = new Terminal({
 		convertEol: true,
