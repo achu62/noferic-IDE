@@ -9,9 +9,9 @@
 
 You can download the AppImage for Linux here:
 
-[noferic-IDE.AppImage](https://github.com/achu62/noferic-IDE/releases/download/beta/noferic-IDE.AppImage)
+[noferic-IDE.AppImage](https://github.com/achu62/noferic-IDE/releases/download/v1.5.5/noferic-ide-1.0.0.AppImage)
 
-[noferic-IDE.deb]()
+[noferic-IDE.deb](https://github.com/achu62/noferic-IDE/releases/download/v1.5.5/noferic-ide_1.0.0_amd64.deb)
 ## Build from source
 
 ### Dependencies
