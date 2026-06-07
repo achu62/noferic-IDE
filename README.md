@@ -20,7 +20,7 @@ You can download the AppImage for Linux here:
 - npm (included with Node.js)
 - git (optional, if you prefer to clone the repository)
 - node-pty and its native dependencies
-- Python 3.10+ and PyInstaller (for packaging)
+
 
 ### Clone and install
 
