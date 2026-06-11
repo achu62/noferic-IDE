@@ -17,11 +17,10 @@ const rpc = require(`vscode-jsonrpc`);
 const { InitializeRequest } = require("vscode-languageserver-protocol");
 const chokidar = require("chokidar");
 const { watchFile } = require("node:original-fs");
-const isWindows = process.platform === "win32"
+const isWindows = process.platform === "win32";
 
-console.log(isWindows)
+console.log(isWindows);
 async function scanafolder(folderpath) {
-
 	let json = [];
 	const files = fs.readdirSync(folderpath, { withFileTypes: true });
 	for (const file of files) {
@@ -39,7 +38,7 @@ async function scanafolder(folderpath) {
 			json.push({
 				id: fullpath,
 				name: file.name,
-				isdirectory: false
+				isdirectory: false,
 			});
 		}
 	}
@@ -174,21 +173,19 @@ async function track(pathreal) {
 			);
 		});
 		watcher.on("addDir", async (DirPath) => {
-
 			const Dirnameonly = path.basename(DirPath);
 
 			const foldepath = path.dirname(DirPath);
 
-			const children = await scanafolder(DirPath)
+			const children = await scanafolder(DirPath);
 			injectChildrenByPath(globalfolderjson, foldepath, [
 				{
 					id: DirPath,
 					name: Dirnameonly,
 					isdirectory: true,
 					haschildren: children.length > 0,
-					children: []
-
-				}
+					children: [],
+				},
 			]);
 
 			win.webContents.send(
@@ -198,20 +195,20 @@ async function track(pathreal) {
 					newjson: globalfolderjson,
 					add: {
 						parentid: foldepath,
-						actualjson: [{
-							id: DirPath,
-							name: Dirnameonly,
-							isdirectory: true,
-							haschildren: children.length > 0,
-							children: children
-
-						}]
-
-					}
+						actualjson: [
+							{
+								id: DirPath,
+								name: Dirnameonly,
+								isdirectory: true,
+								haschildren: children.length > 0,
+								children: children,
+							},
+						],
+					},
 				}),
 			);
 		});
-		watcher.on('unlinkDir', (DirPath) => {
+		watcher.on("unlinkDir", (DirPath) => {
 			const Dirnameonly = path.basename(DirPath);
 
 			const foldepath = path.dirname(DirPath);
@@ -224,8 +221,7 @@ async function track(pathreal) {
 					remove: DirPath,
 				}),
 			);
-
-		})
+		});
 	} catch (e) {
 		console.log(e);
 	}
@@ -394,9 +390,22 @@ ipcMain.handle("saveas", async (e) => {
 	return result.filePath;
 });
 
-const biomeprocess = spawn(isWindows ? isproduction ? path.join(process.resourcesPath, '/node_modules/@biomejs/cli-win-x64/biome.exe') : './node_modules/@biomejs/cli-win-x64/biome.exe' : isproduction ? path.join(process.resourcesPath, './node_modules/@biomejs/biome/bin/biome') : './node_modules/@biomejs/biome/bin/biome', [
-	`lsp-proxy`,
-]);
+const biomeprocess = spawn(
+	isWindows
+		? isproduction
+			? path.join(
+					process.resourcesPath,
+					"/node_modules/@biomejs/cli-win-x64/biome.exe",
+				)
+			: "./node_modules/@biomejs/cli-win-x64/biome.exe"
+		: isproduction
+			? path.join(
+					process.resourcesPath,
+					"./node_modules/@biomejs/biome/bin/biome",
+				)
+			: "./node_modules/@biomejs/biome/bin/biome",
+	[`lsp-proxy`],
+);
 const connection = rpc.createMessageConnection(
 	new rpc.StreamMessageReader(biomeprocess.stdout),
 	new rpc.StreamMessageWriter(biomeprocess.stdin),
@@ -468,7 +477,7 @@ ipcMain.handle("format", async (event, object) => {
 				insertSpaces: true,
 			},
 		});
-		console.log(edits)
+		console.log(edits);
 		return edits;
 	} catch (e) {
 		win.webContents.send(
