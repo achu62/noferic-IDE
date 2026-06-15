@@ -11,27 +11,28 @@
 	<style>
 		@font-face {
 			font-family: "JetBrains Mono";
-			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
+			src: url("monacohtml/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
 			font-weight: 400;
 			font-style: normal;
 		}
+
 		@font-face {
 			font-family: "JetBrains Mono";
-			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Italic.woff2") format("woff2");
+			src: url("monacohtml/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Italic.woff2") format("woff2");
 			font-weight: 400;
 			font-style: italic;
 		}
 
 		@font-face {
 			font-family: "JetBrains Mono";
-			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Bold.woff2") format("woff2");
+			src: url("monacohtml/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Bold.woff2") format("woff2");
 			font-weight: 700;
 			font-style: normal;
 		}
 
 		@font-face {
 			font-family: "JetBrains Mono";
-			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-BoldItalic.woff2") format("woff2");
+			src: url("monacohtml/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-BoldItalic.woff2") format("woff2");
 			font-weight: 700;
 			font-style: italic;
 		}
@@ -65,16 +66,13 @@
 
 	</div>
 	<div class="common bgcolor1e1e1e" id="ltmenu">
-		<button class="common" id="expl" title="explorer"></button>
-		<button class="common" id="term" title = "terminal"></button>
-		<button class = "common" id="gitvercontmenu" title="git"></button>
+		<button class="common" id="expl"></button>
+		<button class="common" id="term"></button>
 	</div>
-
 	<div id="workspace">
-
 		<div id="middleeditor">
 			<div id="topbarforeditor"></div>
-			<iframe src="editor/index.html" id="editor" class="bgcolor1e1e1e"></iframe>
+			<iframe src="monacohtml/index.html" id="editor" class="bgcolor1e1e1e"></iframe>
 			<div id="terminalelement">
 				<div id="terminaltopbar" class="common bgcolor1e1e1e">Terminal</div>
 				<div id="terminal" class="common bgcolor1e1e1e"></div>
@@ -86,26 +84,22 @@
 		<div id="explorer">
 			<div id="explotop" class="common bgcolor1e1e1e">explorer</div>
 			<div id="explorerelement">
-
 			</div>
-						<div id="versioncontrolelement"></div>
 
-
-		</div></div>
 		</div>
 	</div>
 	<div id="viewon">
 
 		<div id="terminaltick">
 			<label>
-				<input type="checkbox"  id="terminalcheck">
+				<input type="checkbox" checked="true" id="terminalcheck">
 				Terminal Visibility
 			</label>
 		</div>
 		<div id="explorertick">
 			<label>
 				<input type="checkbox" checked="true" id="explorercheck">
-				Leftpanel Visibility
+				Explorer Visibility
 			</label>
 		</div>
 	</div>

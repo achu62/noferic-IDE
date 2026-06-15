@@ -1,6 +1,5 @@
 //jai sri ram
 const { contextBridge, ipcRenderer } = require('electron');
-
 contextBridge.exposeInMainWorld("ipc",
     {
         invoke: async function (channel, ...args) {
@@ -8,21 +7,13 @@ contextBridge.exposeInMainWorld("ipc",
                 ipcRenderer.invoke(channel, ...args);
             return answer;
 
-
-
         },
-   
-
-        
         onDataframeIPC: function (callback) {
             ipcRenderer.on("data", (event, data) => {
                 console.log(data)
                 callback(data);
 
-
-
             });
-            
         },
         send:
             async function (channel, ...args) {

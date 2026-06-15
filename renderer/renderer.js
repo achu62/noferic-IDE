@@ -13,19 +13,12 @@ const file = document.getElementById(`file`);
 const exit = document.getElementById("exit");
 const iframe = document.querySelector("iframe#editor");
 const saveas = document.getElementById("save_as");
-let globalignoredfilesarray = [''];
-let isopen = false;
 
+
+let isopen = false;
 let path;
 let globalfolderjson;
 let globalfileexplorerstatejson = {};
-let globalleftmenustate = {
-
-	isversioncontolopen: false,
-	isexploreropen: true,
-	isterminalopen: false,
-	isleftpanelopen: true,
-}
 
 export function showdialog(path) {
 	if (document.readyState == "complete") {
@@ -52,7 +45,7 @@ export function showdialog(path) {
 
 		}
 		document.getElementById("inputforopenfile").value = "";
-
+	
 
 
 	})
@@ -61,30 +54,10 @@ export function showdialog(path) {
 }
 
 window.onload = function () {
-	document.getElementById('versioncontrolelement').style.display = "none";
 
-	document.getElementById('gitvercontmenu').addEventListener('click', async () => {
-		if (!globalleftmenustate.isversioncontolopen) {
-			document.getElementById('versioncontrolelement').style.display = "flex";
-			document.getElementById('explorerelement').style.display = "none";
-			globalleftmenustate.isexploreropen = false;
-			globalleftmenustate.isversioncontolopen = true;
-			document.getElementById('explotop').innerText = "version contol"
 
-		}
-	})
-	document.getElementById('expl').addEventListener('click', async () => {
-		if (!globalleftmenustate.isexploreropen) {
-			document.getElementById('explorerelement').style.display = "flex";
-			document.getElementById('versioncontrolelement').style.display = "none";
-			globalleftmenustate.isexploreropen = true;
-			globalleftmenustate.isversioncontolopen = false;
-			document.getElementById('explotop').innerText = "explorer"
-
-		}
-	})
 	let workspacepath = null;
-	const dialogforcreatefile = document.getElementById('createnewfiledialog')
+	const dialogforcreatefile = this.document.getElementById('createnewfiledialog')
 
 	document.getElementById("file_on").style.display = "none";
 	document.getElementById("viewon").style.display = "none";
@@ -92,9 +65,8 @@ window.onload = function () {
 	exit.onclick = () => {
 		window.close();
 	};
-	const editorEl = document.getElementById("editor");
-	const terminalEl = document.getElementById("terminalelement");
-	terminalEl.style.display = "none"
+	const editorEl = this.document.getElementById("editor");
+	const terminalEl = this.document.getElementById("terminalelement");
 	async function openfileoncilick(path, iframe) {
 		const extension = path.split(`/`).pop().split(`.`).pop();
 		if (!path) {
@@ -131,7 +103,7 @@ window.onload = function () {
 		async () => {
 			path = await window.ipc.invoke("openfile");
 			if (!path) { return; }
-			DeleteOldWorkspace(document.getElementById('explorerelement'), document.getElementById('topbarforeditor'), iframe)
+			DeleteOldWorkspace(this.document.getElementById('explorerelement'), this.document.getElementById('topbarforeditor'), iframe)
 			openfileoncilick(path, iframe);
 		},
 		{ once: true },
@@ -195,30 +167,30 @@ window.onload = function () {
 		document.getElementById("terminalelement"),
 		document.getElementById("editor"),
 	);
-	resizeexplorer(document.getElementById("explorer"));
+	resizeexplorer(this.document.getElementById("explorer"));
 	const observerforterminal = new ResizeObserver(() => {
 		syncEditorBottom(editorEl, terminalEl);
 	});
 	observerforterminal.observe(terminalEl);
 	const observerforpreview = new ResizeObserver(() => {
-		const editor = document.getElementById("middleeditor");
-		const explorer = document.getElementById("explorer");
-		const preview = document.getElementById("preview");
+		const editor = this.document.getElementById("middleeditor");
+		const explorer = this.document.getElementById("explorer");
+		const preview = this.document.getElementById("preview");
 		editor.style.right = preview.offsetWidth + "px";
 		editor.style.left = explorer.offsetWidth + "px";
-		editor.style.width = `${document.getElementById("workspace").offsetWidth - (preview.offsetWidth + explorer.offsetWidth)}px`;
+		editor.style.width = `${this.document.getElementById("workspace").offsetWidth - (preview.offsetWidth + explorer.offsetWidth)}px`;
 	});
 	const observerforexplorer = new ResizeObserver(() => {
-		const editor = document.getElementById("middleeditor");
-		const explorer = document.getElementById("explorer");
-		const preview = document.getElementById("preview");
+		const editor = this.document.getElementById("middleeditor");
+		const explorer = this.document.getElementById("explorer");
+		const preview = this.document.getElementById("preview");
 		editor.style.right = preview.offsetWidth + "px";
 		editor.style.left = explorer.offsetWidth + "px";
-		editor.style.width = `${document.getElementById("workspace").offsetWidth - (preview.offsetWidth + explorer.offsetWidth)}px`;
+		editor.style.width = `${this.document.getElementById("workspace").offsetWidth - (preview.offsetWidth + explorer.offsetWidth)}px`;
 	});
-	observerforexplorer.observe(document.getElementById("explorer"));
+	observerforexplorer.observe(this.document.getElementById("explorer"));
 
-	observerforpreview.observe(document.getElementById("preview"));
+	observerforpreview.observe(this.document.getElementById("preview"));
 
 	const fileexplorerarea = document.getElementById("explorerelement");
 	async function recursiveloop(filearray, space) {
@@ -227,91 +199,81 @@ window.onload = function () {
 		depth = depth + 5;
 		for (const file of filearray) {
 			if (file.isdirectory) {//jai sri ram
+			
 
 
+					const filebutton = document.createElement("button");
+					filebutton.id = `${file.id}`;
+					filebutton.textContent = `${file.name}`;
+					filebutton.classList.add("files");
+					filebutton.classList.add("folder");
+					filebutton.style.paddingLeft = depth + "px";
+					filebutton.title = `${file.id}`
+					const statebtn = document.createElement("div");
+					statebtn.id = `statebuttonfor${file.id}`;
+					statebtn.style.position = "absolute";
+					statebtn.style.top = "0.5px";
+					statebtn.style.right = "0.5px";
+					statebtn.style.bottom = "0.5px";
+					statebtn.style.height = "16px";
+					statebtn.style.width = `16px`;
+					statebtn.style.backgroundImage = "url(images/keyarrowdown.svg)";
+					statebtn.style.backgroundRepeat = "no-repeat";
+					statebtn.style.backgroundSize = "cover";
+					const icon = document.createElement("div");
+					icon.id = `iconfor${file.id}`;
+					icon.style.position = "absolute";
+					icon.style.backgroundImage = "url(images/folder.svg)";
+					icon.style.backgroundRepeat = "no-repeat";
+					icon.style.backgroundSize = "cover";
+					icon.style.top = "0.5px";
+					icon.style.bottom = "0.5px";
+					icon.style.height = "16px";
+					icon.style.width = `16px`;
+					icon.style.left = `${depth - 19}px`;
+					filebutton.appendChild(icon);
+					globalfileexplorerstatejson[`${file.id}`] = false;
+					filebutton.appendChild(statebtn);
+					let isopen = false;
+					filebutton.addEventListener("click", (e) => {
+						if (!isopen) {
+							if (filebutton.classList.contains("folder")) {
+								console.log(findFolderById(globalfolderjson, file.id).children,
+								)
+								recursiveloop(
+									findFolderById(globalfolderjson, file.id).children,
 
-				const filebutton = document.createElement("button");
-				filebutton.id = `${file.id}`;
-
-				filebutton.textContent = `${file.name}`;
-				filebutton.classList.add("files");
-				filebutton.classList.add("folder");
-				filebutton.style.paddingLeft = depth + "px";
-				filebutton.title = `${file.id}`
-				if (globalignoredfilesarray.includes(file.id)) {
-					filebutton.style.color = "#dc360c";
-
-				}
-				const statebtn = document.createElement("div");
-				statebtn.id = `statebuttonfor${file.id}`;
-				statebtn.style.position = "absolute";
-				statebtn.style.top = "0.5px";
-				statebtn.style.right = "0.5px";
-				statebtn.style.bottom = "0.5px";
-				statebtn.style.height = "16px";
-				statebtn.style.width = `16px`;
-				statebtn.style.backgroundImage = "url(images/keyarrowdown.svg)";
-				statebtn.style.backgroundRepeat = "no-repeat";
-				statebtn.style.backgroundSize = "cover";
-				const icon = document.createElement("div");
-				icon.id = `iconfor${file.id}`;
-				icon.style.position = "absolute";
-				icon.style.backgroundImage = "url(images/folder.svg)";
-				icon.style.backgroundRepeat = "no-repeat";
-				icon.style.backgroundSize = "cover";
-				icon.style.top = "0.5px";
-				icon.style.bottom = "0.5px";
-				icon.style.height = "16px";
-				icon.style.width = `16px`;
-				icon.style.left = `${depth - 19}px`;
-				filebutton.appendChild(icon);
-				globalfileexplorerstatejson[`${file.id}`] = false;
-				filebutton.appendChild(statebtn);
-				let isopen = false;
-				filebutton.addEventListener("click", (e) => {
-					if (!isopen) {
-						if (filebutton.classList.contains("folder")) {
-							console.log(findFolderById(globalfolderjson, file.id).children,
-							)
-							recursiveloop(
-								findFolderById(globalfolderjson, file.id).children,
-
-								document.getElementById(`${file.id}`),
-							);
-							e.stopPropagation();
-							e.stopImmediatePropagation();
-							isopen = true;
-							globalfileexplorerstatejson[`${file.id}`] = true;
+									document.getElementById(`${file.id}`),
+								);
+								e.stopPropagation();
+								e.stopImmediatePropagation();
+								isopen = true;
+								globalfileexplorerstatejson[`${file.id}`] = true;
 
 
+							} else {
+								return;
+							}
 						} else {
-							return;
+							filebutton.replaceChildren(file.name, statebtn, icon);
+							isopen = false;
+							globalfileexplorerstatejson[`${file.id}`] = false;
+
+
+							e.stopPropagation();
 						}
-					} else {
-						filebutton.replaceChildren(file.name, statebtn, icon);
-						isopen = false;
-						globalfileexplorerstatejson[`${file.id}`] = false;
+						console.log(globalfileexplorerstatejson)
+					});
+					space.appendChild(filebutton);
+					createfolderdialogbox(document.body, file.id, filebutton, dialogforcreatefile)
 
-
-						e.stopPropagation();
-					}
-					console.log(globalfileexplorerstatejson)
-				});
-				space.appendChild(filebutton);
-				createfolderdialogbox(document.body, file.id, filebutton, dialogforcreatefile)
-
-
+				
 			} else {
 				const filebutton = document.createElement("button");
 				filebutton.id = `${file.id}`;
-
 				filebutton.textContent = `${file.name}`;
 				filebutton.classList.add("files");
 				filebutton.style.paddingLeft = depth + "px";
-				if (globalignoredfilesarray.includes(file.id)) {
-					filebutton.style.color = "#dc360c";
-
-				}
 				filebutton.title = `${file.id}`
 				space.appendChild(filebutton);
 				filebutton.addEventListener("click", async (e) => {
@@ -392,7 +354,7 @@ window.onload = function () {
 	async function openfolderfunction(folderjsoninput) {
 		recursiveloop(folderjsoninput, fileexplorerarea);
 	}
-	document
+	this.document
 		.getElementById("open_folder")
 		.addEventListener("click", async () => {
 			document.getElementById("file_on").style.display = "none";
@@ -400,25 +362,25 @@ window.onload = function () {
 			openfolderfunction(JSON.parse(JSON.stringify(folderjson)));
 		});
 	let isviewopen = false;
-	document.getElementById("view").addEventListener("click", (e) => {
+	this.document.getElementById("view").addEventListener("click", (e) => {
 		e.stopPropagation();
 
 		if (!isviewopen) {
 			isviewopen = true;
-			document.getElementById("viewon").style.display = "block";
+			this.document.getElementById("viewon").style.display = "block";
 		} else {
-			document.getElementById("viewon").style.display = "none";
+			this.document.getElementById("viewon").style.display = "none";
 			isviewopen = false;
 		}
 	});
 
-	document.getElementById('viewon').addEventListener("blur", (e) => {
+	this.document.getElementById('viewon').addEventListener("blur", (e) => {
 		e.stopPropagation()
 		e.preventDefault()
 
-		document.getElementById("viewon").style.display = "none";
+		this.document.getElementById("viewon").style.display = "none";
 		isviewopen = false;
-		alert(blur)
+		this.alert(blur)
 
 
 	})
@@ -432,33 +394,30 @@ window.onload = function () {
 	)
 
 
-
+	let isterminalopen = true;
+	let isexploreropen = true;
 	const checkboxforterminal = document.getElementById("terminalcheck");
-	const checkboxforexplorer = document.getElementById("explorercheck");
+	const checkboxforexplorer = this.document.getElementById("explorercheck");
 	checkboxforterminal.addEventListener("change", (e) => {
 		if (checkboxforterminal.checked) {
 			document.getElementById("terminalelement").style.display = "block";
-			if (terminalEl.offsetHeight < 70) {
-				terminalEl.style.height = 150 + "px"
-			}
-			globalleftmenustate.isterminalopen = true;
+			isterminalopen = true;
 			syncEditorBottom(editorEl, terminalEl);
 		} else {
 			document.getElementById("terminalelement").style.display = "none";
-			globalleftmenustate.isterminalopen = false;
-
+			isterminalopen = false;
 			syncEditorBottom(editorEl, terminalEl);
 		}
 	});
 	document.getElementById("term").addEventListener("click", (e) => {
-		if (globalleftmenustate.isterminalopen) {
+		if (isexploreropen) {
 			document.getElementById("terminalelement").style.display = "none";
-			globalleftmenustate.isterminalopen = false;
+			isterminalopen = false;
 			syncEditorBottom(editorEl, terminalEl);
 			checkboxforterminal.checked = false;
 		} else {
 			document.getElementById("terminalelement").style.display = "block";
-			globalleftmenustate.isterminalopen = true;
+			isterminalopen = true;
 			syncEditorBottom(editorEl, terminalEl);
 			checkboxforterminal.checked = true;
 		}
@@ -466,16 +425,26 @@ window.onload = function () {
 	checkboxforexplorer.addEventListener("change", (e) => {
 		if (checkboxforexplorer.checked) {
 			document.getElementById("explorer").style.display = "block";
-			globalleftmenustate.isleftpanelopen = true;
+			isexploreropen = true;
 			syncEditorBottom(editorEl, terminalEl);
 		} else {
 			document.getElementById("explorer").style.display = "none";
-			globalleftmenustate.isleftpanelopen = false;
+			isexploreropen = false;
 			syncEditorBottom(editorEl, terminalEl);
 		}
 	});
-
-	document.getElementById("format").addEventListener("click", async () => {
+	document.getElementById("expl").addEventListener("click", (e) => {
+		if (isexploreropen) {
+			document.getElementById("explorer").style.display = "none";
+			isexploreropen = false;
+			checkboxforexplorer.checked = false;
+		} else {
+			document.getElementById("explorer").style.display = "block";
+			isexploreropen = true;
+			checkboxforexplorer.checked = true;
+		}
+	});
+	this.document.getElementById("format").addEventListener("click", async () => {
 		iframe.contentWindow.postMessage(
 			{
 				action: "formatget",
@@ -506,31 +475,7 @@ window.onload = function () {
 			e.preventDefault();
 			document.getElementById("format").click();
 		}
-		else if (e.ctrlKey && e.key.toLowerCase() === "s") {
-			e.preventDefault();
-			document.getElementById("save").click();
-		}
-		else if (e.ctrlKey && e.key === "`") {
-			e.preventDefault();
-			document.getElementById('term').click();
-		}
-
 	});
-	iframe.contentWindow.addEventListener('keypress', (e) => {
-		if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
-			e.preventDefault();
-			document.getElementById("format").click();
-		}
-		else if (e.ctrlKey && e.key.toLowerCase() === "s") {
-			e.preventDefault();
-			document.getElementById("save").click();
-		}
-		else if (e.ctrlKey && e.key === "`") {
-			e.preventDefault();
-			document.getElementById('term').click();
-		}
-
-	})
 	window.addEventListener("message", async (e) => {
 		const message = e.data;
 		if (message.action === "autosave") {
@@ -569,56 +514,25 @@ window.onload = function () {
 				alert("foldernotfound")
 			}
 
-			recursiveloop(message.add.actualjson, document.getElementById(message.add.parentid))
+			recursiveloop(message.add.actualjson, this.document.getElementById(message.add.parentid))
 
 
 		}
 		else if (message.action == "removeelements") {
 			globalfolderjson = message.newjson;
-			document.getElementById(message.remove)?.remove();
+			this.document.getElementById(message.remove)?.remove();
 
 
-		}
-		else if (message.action === "ignoredfiles") {
-			console.log(message.ignoredfiles)
-			message.ignoredfiles.forEach(ignoredfile => {
-				if (!globalignoredfilesarray.includes(ignoredfile)) {
-					globalignoredfilesarray.push(ignoredfile)
-				}
-				if (document.getElementById(ignoredfile)) {
-					document.getElementById(ignoredfile).style.color = '#dc360c';
-				}
-			});
 		}
 
 	});
 
 
-	document.getElementById('cancelcreatefiledialog').addEventListener('click', () => {
+	this.document.getElementById('cancelcreatefiledialog').addEventListener('click', () => {
 		dialogforcreatefile.close();
 		console.log(document.getElementById("inputforopenfile").value)
 
 
-	})
-	window.addEventListener("message", (e) => {
-		const message = e.data;
-		console.log(message)
-		if (message.action === "lint") {
-			async function runLint() {
-				const result = await window.ipc.invoke('lint', {
-					code: message.code,
-					extension: message.extension,
-					language: message.language
-				})
-				iframe.contentWindow.postMessage({
-					action: "setMarkers",
-					diagnostics: result
-				})
-
-			}
-			runLint()
-
-		}
 	})
 
 };

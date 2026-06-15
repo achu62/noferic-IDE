@@ -11,7 +11,6 @@ export function getLanguagebyExtension(extension) {
         "bicep": "bicep",
         "c": "c",
         "h": "c",
-        
         "clj": "clojure",
         "cljs": "clojure",
         "cljc": "clojure",
