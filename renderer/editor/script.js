@@ -1,19 +1,20 @@
 //jai sri ram
 //jai sri ram
 //jai sri ram
-//jai sri ram///
-import { getLanguagebyExtension } from './utils.js'
+//jai sri ram
+import { getLanguagebyExtension } from "./utils.js";
 window.onload = () => {
-
 	require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
 	///
 	let editor = null;
+	let lintlistener;
+
+
+	
 	require(["vs/editor/editor.main"], () => {
-
-
-		monaco.editor.defineTheme('NofericIDETheme', {
-
+		monaco.editor.defineTheme("NofericIDETheme", {
 			base: "vs-dark",
+
 			inherit: true,
 			rules: [
 				{ token: "comment", foreground: "7A7A7A" },
@@ -24,7 +25,7 @@ window.onload = () => {
 				{ token: "class", foreground: "C77DFF" },
 				{ token: "function", foreground: "FFD166" },
 				{ token: "constant", foreground: "4DABF7" },
-				{ token: "operator", foreground: "FF922B" }
+				{ token: "operator", foreground: "FF922B" },
 			],
 			colors: {
 				"editor.background": "#1e1e1e",
@@ -32,8 +33,8 @@ window.onload = () => {
 				"editorLineNumber.foreground": "#777777",
 				"editorCursor.foreground": "#FFFFFF",
 				"editor.selectionBackground": "#505050",
-				"editor.lineHighlightBackground": "#404040"
-			}
+				"editor.lineHighlightBackground": "#404040",
+			},
 		});
 
 		editor = monaco.editor.create(document.getElementById("editor"), {
@@ -44,7 +45,7 @@ window.onload = () => {
 			folding: true,
 			minimap: { enabled: true },
 			breadcrumbs: {
-				enabled: true
+				enabled: true,
 			},
 			dragAndDrop: true,
 			cursorBlinking: "blink",
@@ -55,7 +56,7 @@ window.onload = () => {
 			fontFamily: "JetBrains Mono",
 			fontLigatures: true,
 			fontWeight: 200,
-			theme: 'NofericIDETheme'
+			theme: "NofericIDETheme",
 		});
 
 		let URI = null;
@@ -75,46 +76,52 @@ window.onload = () => {
 			if (autosavelistener) {
 				autosavelistener.dispose();
 			}
-			const model = editor.getModel()
+			const model = editor.getModel();
 			if (!editor) {
 				console.log("no editor");
-				return
+				return;
 			}
-			if (!model) { console.log("nomodel"); return; }
-			console.log(model.uri.toString())
+			if (!model) {
+				console.log("nomodel");
+				return;
+			}
+			console.log(model.uri.toString());
 			const currentPath = model.uri.toString().replace("id:", "");
-			console.log("currentpath" + currentPath)
-			if (currentPath.includes(`inmemory://`)) { return }
+			console.log("currentpath" + currentPath);
+			if (currentPath.includes(`inmemory://`)) {
+				return;
+			}
 
-			console.log(`before:${model.uri.toString()}\nafter:${currentPath}`)
+			console.log(`before:${model.uri.toString()}\nafter:${currentPath}`);
 
 			autosavelistener = editor.onDidChangeModelContent(async () => {
-				console.log("model conternt changed ")
-				if (!URI) { return }
+				console.log("model conternt changed ");
+				if (!URI) {
+					return;
+				}
 				const content = editor.getValue();
 				window.parent.postMessage(
 					{
 						action: "autosave",
 						code: content,
-						path: currentPath
+						path: currentPath,
 					},
 					"*",
 				);
 			});
-
 		}
 		track(editor);
 		window.addEventListener("message", (e) => {
 			const message = e.data;
 			const action = message.action;
-			console.log(message)
+			console.log(message);
 
 			if (action === "set") {
-				console.log('file is ')
+				console.log("file is ");
 				const content = message.content;
 				ismodel = message.isdir;
 				URI = message.path;
-				console.log(URI)
+				console.log(URI);
 				extension = message.extension;
 				window.parent.document.getElementById("language").innerText =
 					`.${message.extension}`;
@@ -123,10 +130,8 @@ window.onload = () => {
 				);
 				recentmodeluri = `id://${URI}`;
 				if (!isexisting) {
-
 					if (ismodel == false) {
-
-						console.log("content:" + content)
+						console.log("content:" + content);
 						const model = monaco.editor.createModel(
 							content,
 							getLanguagebyExtension(extension),
@@ -147,18 +152,20 @@ window.onload = () => {
 					editor.setModel(isexisting);
 				}
 
-				autosave(editor)
-				const topbarfor = window.parent.document.getElementById(`topbarelementfor${URI}`)
+				autosave(editor);
+				const topbarfor = window.parent.document.getElementById(
+					`topbarelementfor${URI}`,
+				);
 				if (!topbarfor) {
 					return;
+				} else {
+					const parent =
+						window.parent.document.getElementById("topbarforeditor");
+					parent.querySelectorAll("*").forEach((el) => {
+						el.style.backgroundColor = "#1e1e1e";
+					});
+					topbarfor.style.backgroundColor = "#404040";
 				}
-				else {
-					const parent = window.parent.document.getElementById('topbarforeditor')
-					parent.querySelectorAll("*").forEach(el => { el.style.backgroundColor = '#1e1e1e' })
-					topbarfor.style.backgroundColor = '#404040'
-
-				}
-
 			} else if (action === "get") {
 				if (!ismodel) {
 					window.parent.postMessage(
@@ -184,8 +191,7 @@ window.onload = () => {
 				}
 			} else if (action === "layout") {
 				editor.layout();
-			}
-			else if (action === "formatget") {
+			} else if (action === "formatget") {
 				cursorposition = editor.getPosition();
 				console.log(extension);
 
@@ -197,82 +203,118 @@ window.onload = () => {
 				console.log(extension);
 			} else if (action === "formatset") {
 				const edits = message.formattedcode;
-				console.log(edits)
+				console.log(edits);
 
 				const monacomarkers = [];
 
-				edits.forEach(edit => {
+				edits.forEach((edit) => {
 					monacomarkers.push({
 						range: {
 							startLineNumber: edit.range.start.line + 1,
 							startColumn: edit.range.start.character + 1,
 							endLineNumber: edit.range.end.line + 1,
-							endColumn: edit.range.end.character + 1
-						
+							endColumn: edit.range.end.character + 1,
 						},
-						text:edit.newText,
-
-					})
-
-
-				})
+						text: edit.newText,
+					});
+				});
 				editor.executeEdits("my-programmatic-edits", monacomarkers);
-			}
-			else if (action === "deletemodelonclose") {
+			} else if (action === "deletemodelonclose") {
 				const pathofmodel = `id://${message.path}`;
 				const modeltodelete = monaco.editor.getModel(
 					monaco.Uri.parse(pathofmodel),
 				);
 				modeltodelete.dispose();
-				console.log(monaco.editor.getModels())
-				console.log("is deleteed" + monaco.editor.getModel(
-					monaco.Uri.parse(pathofmodel),
-				))
-				let newmodel = monaco.editor.getModel(
-					monaco.Uri.parse(recentmodeluri)
-				)
+				console.log(monaco.editor.getModels());
+				console.log(
+					"is deleteed" + monaco.editor.getModel(monaco.Uri.parse(pathofmodel)),
+				);
+				let newmodel = monaco.editor.getModel(monaco.Uri.parse(recentmodeluri));
 				if (!newmodel) {
 					newmodel = monaco.editor.getModels()[0];
-					const topbarfor = window.parent.document.getElementById(`topbarelementfor${newmodel.uri.toString().replace('id://', '')}`);
+					const topbarfor = window.parent.document.getElementById(
+						`topbarelementfor${newmodel.uri.toString().replace("id://", "")}`,
+					);
 
-					const parent = window.parent.document.getElementById('topbarforeditor')
-					parent.querySelectorAll("*").forEach(el => { el.style.backgroundColor = '#1e1e1e' })
-					topbarfor.style.backgroundColor = '#404040'
+					const parent =
+						window.parent.document.getElementById("topbarforeditor");
+					parent.querySelectorAll("*").forEach((el) => {
+						el.style.backgroundColor = "#1e1e1e";
+					});
+					topbarfor.style.backgroundColor = "#404040";
 					editor.setModel(newmodel);
+				} else {
+					const topbarfor = window.parent.document.getElementById(
+						`topbarelementfor${recentmodeluri.replace("id://", "")}`,
+					);
 
-				}
-				else {
-					const topbarfor = window.parent.document.getElementById(`topbarelementfor${recentmodeluri.replace("id://", '')}`)
-
-					const parent = window.parent.document.getElementById('topbarforeditor')
-					parent.querySelectorAll("*").forEach(el => { el.style.backgroundColor = '#1e1e1e' })
-					topbarfor.style.backgroundColor = '#404040'
-
+					const parent =
+						window.parent.document.getElementById("topbarforeditor");
+					parent.querySelectorAll("*").forEach((el) => {
+						el.style.backgroundColor = "#1e1e1e";
+					});
+					topbarfor.style.backgroundColor = "#404040";
 
 					editor.setModel(newmodel);
-
 				}
-
-
-			}
-			else if (action == "deleteallmodels") {
-				monaco.editor.getModels().forEach(model => {
+			} else if (action == "deleteallmodels") {
+				monaco.editor.getModels().forEach((model) => {
 					model.dispose();
-					console.log("model" + monaco.editor.getModels())
+					console.log("model" + monaco.editor.getModels());
+				});
+			}
+			else if (action === 'setMarkers') {
+				console.log(message.diagnostics.
+					diagnostics)
+				let markers = []
+				message.diagnostics.
+					diagnostics.forEach((d) => {
+						markers.push(
+							{
+								startLineNumber: d.range.start.line + 1,
 
-				}
-				)
+								startColumn: d.range.start.character + 1,
+
+
+								endLineNumber: d.range.end.line + 1,
+
+								endColumn: d.range.end.character + 1,
+
+								message: `biome:${d.message}`,
+
+								severity: d.severity === 1 ? monaco.MarkerSeverity.Error : d.severity === 2 ? monaco.MarkerSeverity.Warning : d.severity === 3 ? monaco.MarkerSeverity.Info : onaco.MarkerSeverity.Hint,
+							}
+						)
+					})
+				monaco.editor.setModelMarkers(
+					editor.getModel(),
+					"biome",
+					markers
+				);
 			}
 		});
-
-
-	});
-	document.addEventListener("keypress", (e) => {
-		if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
-			e.preventDefault();
-			window.parent.document.getElementById("format").click();
+		async function lint() {
+			if (lintlistener) {
+				lintlistener.dispose();
+			}
+			lintlistener = editor.onDidChangeModelContent(() => {
+				console.log(`sending:${{
+					action: "lint",
+					code: editor.getValue(),
+					extension: extension,
+					language: getLanguagebyExtension(extension)
+				}}`)
+				window.parent.postMessage({
+					action: "lint",
+					code: editor.getValue(),
+					extension: extension,
+					language: getLanguagebyExtension(extension)
+				});
+			})
 		}
+		lint()
 	});
-}
+
+};
 
 //jai sri ram

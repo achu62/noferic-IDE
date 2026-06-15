@@ -1,14 +1,24 @@
 //jai sri ram
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 let pathreal = null;
-const isproduction = app.isPackaged;
-let addedpathbyide;
-let globalfolderjson;
+		const isproduction = app.isPackaged;
+		let addedpathbyide;
+		let globalfolderjson;
+		function consolelog(args) {
+			if (!isproduction) {
+				console.log(`\n${args}`);
+
+	}	
+	
+
+	
+}
+let gitprocess;
 //jai sri ram
 //jai sri ram
-const path = require("path");
-const fs = require("fs");
-const { Worker } = require("worker_threads");
+const path = require("node:path");
+const fs = require("node:fs");
+const { Worker } = require("node:worker_threads");
 const pty = require("node-pty");
 const { spawn, execFile } = require("child_process");
 const os = require("os");
@@ -17,11 +27,46 @@ const rpc = require(`vscode-jsonrpc`);
 const { InitializeRequest } = require("vscode-languageserver-protocol");
 const chokidar = require("chokidar");
 const { watchFile } = require("node:original-fs");
-const isWindows = process.platform === "win32"
+const { simpleGit } = require("simple-git");
 
-console.log(isWindows)
+const isWindows = process.platform === "win32";
+
+async function initialisereposcan(repopath) {
+	try {
+		const options = {
+			baseDir: repopath,
+			binary: "git",
+			maxConcurrentProcesses: 6,
+		};
+		gitprocess = simpleGit(options);
+		const status = await gitprocess.status();
+
+		const ignoredfiles = await gitprocess.raw([
+			"ls-files",
+			"--others",
+			"--ignored",
+			"--exclude-standard",
+		]);
+		if (ignoredfiles) {
+			win.webContents.send(
+				"data",
+				JSON.stringify({
+					action: "ignoredfiles",
+					ignoredfiles: ignoredfiles
+						.split(/\r?\n/)
+						.map((file) => file.trim())
+						.filter(Boolean),
+				}),
+			);
+		}
+	} catch (e) {
+		consolelog(e);
+	}
+}
+async function Updatestatus() {}
+consolelog(process.resourcesPath);
+consolelog(isWindows);
 async function scanafolder(folderpath) {
-
 	let json = [];
 	const files = fs.readdirSync(folderpath, { withFileTypes: true });
 	for (const file of files) {
@@ -39,7 +84,7 @@ async function scanafolder(folderpath) {
 			json.push({
 				id: fullpath,
 				name: file.name,
-				isdirectory: false
+				isdirectory: false,
 			});
 		}
 	}
@@ -90,7 +135,7 @@ function deleteNodeById(treeLayers, targetId) {
 let watcher = null;
 let changedpathsbyide = [];
 const apppath = process.execPath;
-console.log("apppath" + apppath);
+consolelog("apppath" + apppath);
 
 async function track(pathreal) {
 	if (!pathreal) return;
@@ -107,12 +152,11 @@ async function track(pathreal) {
 		});
 
 		watcher.on("add", (filePath) => {
-			console.log(`File added: ${filePath}`);
+			Updatestatus();
 			if (addedpathbyide) {
 				addedpathbyide = addedpathbyide.filter((item) => item !== filePath);
 			}
 			if (!addedpathbyide?.includes(filePath)) {
-				console.log("filechangedexternal:" + filePath);
 				const filepathonly = path.basename(filePath);
 				const foldepath = path.dirname(filePath);
 				injectChildrenByPath(globalfolderjson, foldepath, [
@@ -126,7 +170,6 @@ async function track(pathreal) {
 					"/home/charan/noferic-IDE/me.json",
 					JSON.stringify(globalfolderjson),
 				);
-				console.log(foldepath, filepathonly);
 				win.webContents.send(
 					"data",
 					JSON.stringify({
@@ -148,22 +191,21 @@ async function track(pathreal) {
 		});
 
 		watcher.on("change", (filePath) => {
-			console.log(`File changed: ${filePath}`);
-			console.log(`changedpathsbyide:${changedpathsbyide}`);
+			Updatestatus();
+
 			changedpathsbyide = changedpathsbyide.filter((item) => item !== filePath);
 
 			if (!changedpathsbyide.includes(filePath)) {
-				console.log("filechangedexternal:" + filePath);
+				consolelog("filechangedexternal:" + filePath);
 			}
 		});
 
 		watcher.on("unlink", (filePath) => {
-			console.log(`File removed: ${filePath}`);
+			Updatestatus();
+
 			const filepathonly = path.basename(filePath);
 			const foldepath = path.dirname(filePath);
 			deleteNodeById(globalfolderjson, filePath);
-			console.log(filepathonly);
-			console.log(JSON.stringify(globalfolderjson));
 			win.webContents.send(
 				"data",
 				JSON.stringify({
@@ -174,21 +216,21 @@ async function track(pathreal) {
 			);
 		});
 		watcher.on("addDir", async (DirPath) => {
+			Updatestatus();
 
 			const Dirnameonly = path.basename(DirPath);
 
 			const foldepath = path.dirname(DirPath);
 
-			const children = await scanafolder(DirPath)
+			const children = await scanafolder(DirPath);
 			injectChildrenByPath(globalfolderjson, foldepath, [
 				{
 					id: DirPath,
 					name: Dirnameonly,
 					isdirectory: true,
 					haschildren: children.length > 0,
-					children: []
-
-				}
+					children: [],
+				},
 			]);
 
 			win.webContents.send(
@@ -198,20 +240,22 @@ async function track(pathreal) {
 					newjson: globalfolderjson,
 					add: {
 						parentid: foldepath,
-						actualjson: [{
-							id: DirPath,
-							name: Dirnameonly,
-							isdirectory: true,
-							haschildren: children.length > 0,
-							children: children
-
-						}]
-
-					}
+						actualjson: [
+							{
+								id: DirPath,
+								name: Dirnameonly,
+								isdirectory: true,
+								haschildren: children.length > 0,
+								children: children,
+							},
+						],
+					},
 				}),
 			);
 		});
-		watcher.on('unlinkDir', (DirPath) => {
+		watcher.on("unlinkDir", (DirPath) => {
+			Updatestatus();
+
 			const Dirnameonly = path.basename(DirPath);
 
 			const foldepath = path.dirname(DirPath);
@@ -224,10 +268,9 @@ async function track(pathreal) {
 					remove: DirPath,
 				}),
 			);
-
-		})
+		});
 	} catch (e) {
-		console.log(e);
+		consolelog(e);
 	}
 }
 
@@ -248,7 +291,6 @@ function createWindow() {
 	});
 	win.loadFile("./renderer/index.html");
 	if (isproduction) {
-		console.log("");
 		win.removeMenu();
 	}
 }
@@ -279,18 +321,22 @@ async function initialiseterminalmain(pathforterminal) {
 	});
 }
 async function handleappargs(args) {
-	console.log(`args tarted func  ${args} `);
-
 	if (!args) {
-		console.log("no args");
 		return;
 	}
 	if (!fs.existsSync(args)) {
-		console.log("file doesent exist");
 		return;
 	} else {
 		if (fs.statSync(path.resolve(args)).isDirectory()) {
 			track(path.resolve(args));
+			initialisereposcan(path.resolve(args));
+			if (!fs.existsSync(path.join(path.resolve(args), '.noferic-ide')))
+			{
+				fs.mkdirSync(path.join(path.resolve(args) , '.noferic-ide'))
+				fs.promises.appendFile(path.join(path.resolve(args), '.noferic-ide/biome.json'), "");
+
+
+			}
 			const json = await scanafolder(path.resolve(args));
 			globalfolderjson = [
 				{
@@ -342,6 +388,55 @@ app.whenReady().then(() => {
 		handleappargs(args);
 	});
 });
+const biomeprocess = spawn(
+	isWindows
+		? isproduction
+			? path.join(
+					process.resourcesPath,
+					"app",
+					"node_modules",
+					"@biomejs",
+					"cli-win-x64",
+					"biome.exe",
+				)
+			: "./node_modules/@biomejs/cli-win-x64/biome.exe"
+		: isproduction
+			? path.join(
+					process.resourcesPath,
+					"app",
+					"node_modules",
+					"@biomejs",
+					"biome",
+					"bin",
+					"biome",
+				)
+			: "./node_modules/@biomejs/biome/bin/biome",
+	[`lsp-proxy`],
+);
+const connection = rpc.createMessageConnection(
+	new rpc.StreamMessageReader(biomeprocess.stdout),
+	new rpc.StreamMessageWriter(biomeprocess.stdin),
+);
+connection.listen();
+const root = `file://${path.join(__dirname, ".")}`;
+async function start() {
+	try {
+		const result = await connection.sendRequest("initialize", {
+			processId: process.pid,
+			rootUri: root,
+			capabilities: {
+				textDocument: {
+					publishDiagnostics: {},
+				},
+			},
+		});
+		consolelog(`result:\n\n${JSON.stringify(result)}`);
+		connection.sendNotification("initialized", {});
+	} catch (e) {
+		consolelog(`error:\n\n\n\n${e}`);
+	}
+}
+start();
 
 ipcMain.handle("openfile", async () => {
 	const result = await dialog.showOpenDialog({ properties: ["openFile"] });
@@ -349,6 +444,7 @@ ipcMain.handle("openfile", async () => {
 		return null;
 	pathreal = result.filePaths[0];
 	track(pathreal);
+
 	return result.filePaths[0];
 });
 
@@ -394,57 +490,6 @@ ipcMain.handle("saveas", async (e) => {
 	return result.filePath;
 });
 
-const biomeprocess = spawn(isWindows ? isproduction ? path.join(process.resourcesPath, '/node_modules/@biomejs/cli-win-x64/biome.exe') : './node_modules/@biomejs/cli-win-x64/biome.exe' : isproduction ? path.join(process.resourcesPath, './node_modules/@biomejs/biome/bin/biome') : './node_modules/@biomejs/biome/bin/biome', [
-	`lsp-proxy`,
-]);
-const connection = rpc.createMessageConnection(
-	new rpc.StreamMessageReader(biomeprocess.stdout),
-	new rpc.StreamMessageWriter(biomeprocess.stdin),
-);
-connection.listen();
-const root = `file://${path.join(__dirname, ".")}`;
-async function start() {
-	try {
-		const result = await connection.sendRequest("initialize", {
-			processId: process.pid,
-			rootUri: root,
-			capabilities: {
-				textDocument: {
-					publishDiagnostics: {},
-				},
-			},
-		});
-		console.log(`result:\n\n${JSON.stringify(result)}`);
-		connection.sendNotification("initialized", {});
-	} catch (e) {
-		console.log(`error:\n\n\n\n${e}`);
-	}
-}
-start();
-try {
-	const fileToLint = {
-		uri: "file:///example.js",
-		languageId: "javascript",
-		version: 1,
-		text: `if (working === false) {
-   fix();
-}`,
-	};
-	connection.sendNotification("textDocument/didOpen", {
-		textDocument: fileToLint,
-	});
-} catch (error) {
-	console.log(error);
-}
-connection.onNotification("textDocument/publishDiagnostics", (params) => {
-	console.log(params);
-	params.diagnostics.forEach((d) => {
-		console.log(
-			`[${d.severity}] ${d.message} at line ${d.range.start.line + 1}`,
-		);
-	});
-});
-
 ipcMain.handle("format", async (event, object) => {
 	const extension = object.extension;
 	const language = object.language;
@@ -466,10 +511,10 @@ ipcMain.handle("format", async (event, object) => {
 			options: {
 				tabSize: 2,
 				insertSpaces: true,
-			},
+			}
 		});
-		console.log(edits)
-		return edits;
+		consolelog(edits);
+		 
 	} catch (e) {
 		win.webContents.send(
 			"data",
@@ -504,7 +549,7 @@ ipcMain.handle("openfolder", async (e) => {
 		win.close();
 		biomeprocess.kill();
 	} catch (e) {
-		console.log(e);
+		consolelog(e);
 	}
 });
 
@@ -512,4 +557,39 @@ ipcMain.handle("autosave", async (e, code, path) => {
 	fs.writeFileSync(path, code, "utf-8");
 	changedpathsbyide.push(path);
 });
-console.log(globalfolderjson);
+let oldreqcomleted = true;
+ipcMain.handle("lint", async (e,message) => {
+	consolelog(`recieved:${JSON.stringify(message)}`);
+	if(!oldreqcomleted){return}
+
+	try {
+		consolelog(`recieved:${JSON.stringify(message)}`);
+
+		const fileToLint = {
+			uri: `file:///example.${message.extension}`,
+			languageId: message.language,
+			version: 1,
+			text: message.code,
+		};
+		connection.sendNotification("textDocument/didOpen", {
+			textDocument: fileToLint,
+		});
+	} catch (error) {
+		consolelog(error);
+	}
+	let params;
+	const promise = new Promise((re,rej)=>{
+		const listener = connection.onNotification("textDocument/publishDiagnostics", (params) => {
+			consolelog(`\n\n${JSON.stringify(params)}`);
+			oldreqcomleted = true;
+			re(params)
+			listener.dispose()
+			
+		});
+	}
+
+)
+	return promise;
+
+	
+});
