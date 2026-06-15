@@ -6,7 +6,7 @@ export function resizeterminal(element, checkbox) {
     let startheight = 0;
     element.addEventListener('mousedown',
         (e) => {
-            
+            if (e.clientY - element.getBoundingClientRect().top > 20){return}
             isresizing = true;
             startTop = element.offsetTop;
             startY = e.clientY;

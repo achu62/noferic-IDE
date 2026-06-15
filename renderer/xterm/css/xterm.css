@@ -32,8 +32,14 @@
  */
 
 /**
- *  Default styles for xterm.js
+
  */
+ @font-face {
+     font-family: "JetBrains Mono";
+     src: url("./JetBrainsMono-Thin.woff2") format("woff2");
+     font-weight: 400;
+     font-style: normal;
+ }
 
 .xterm {
     cursor: text;
