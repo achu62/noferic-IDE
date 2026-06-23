@@ -1,0 +1,5 @@
+Content-Length: 114
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"message":"Server initialized with PID: 125316","type":3}}Content-Length: 537
+
+{"jsonrpc":"2.0","method":"client/unregisterCapability","params":{"unregisterations":[{"id":"biome_did_change_watched_files","method":"workspace/didChangeWatchedFiles"},{"id":"biome_formatting","method":"textDocument/formatting"},{"id":"biome_did_change_extension_settings","method":"workspace/didChangeConfiguration"},{"id":"biome_range_formatting","method":"textDocument/rangeFormatting"},{"id":"biome_code_action","method":"textDocument/codeAction"},{"id":"biome_on_type_formatting","method":"textDocument/onTypeFormatting"}]},"id":3}

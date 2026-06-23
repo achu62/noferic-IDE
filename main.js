@@ -1,22 +1,31 @@
 //jai sri ram
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 let pathreal = null;
-		const isproduction = app.isPackaged;
-		let addedpathbyide;
-		let globalfolderjson;
-		function consolelog(args) {
-			if (!isproduction) {
-				console.log(`\n${args}`);
+const isproduction = app.isPackaged;
 
-	}	
-	
+let addedpathbyide;
+let globalfolderjson;
+function consolelog(args) {
+	if (!isproduction) {
+		console.log(`\n${args}`);
+	}
 
-	
 }
+
+
 let gitprocess;
+let biomeprocess;
+let connection;
+
+
+let tsserverprocess;
+let tsserverconnection;
+let count = 1;
 //jai sri ram
+
 //jai sri ram
 const path = require("node:path");
+
 const fs = require("node:fs");
 const { Worker } = require("node:worker_threads");
 const pty = require("node-pty");
@@ -24,13 +33,31 @@ const { spawn, execFile } = require("child_process");
 const os = require("os");
 const { buffer } = require("stream/consumers");
 const rpc = require(`vscode-jsonrpc`);
+
 const { InitializeRequest } = require("vscode-languageserver-protocol");
 const chokidar = require("chokidar");
 const { watchFile } = require("node:original-fs");
 const { simpleGit } = require("simple-git");
+const liveServer = require('live-server')
+console.log("starting...live..server")
 
 const isWindows = process.platform === "win32";
+consolelog(app.getPath("userData"));
+const cfpath = app.getPath("userData");
+if (!fs.existsSync(path.join(cfpath, "biome"))) {
+	fs.mkdirSync(path.join(cfpath, "biome"), { recursive: true });
+}
+if (!fs.existsSync(path.join(cfpath, "biome", "biome.json"))) {
+	fs.writeFileSync(
+		path.join(cfpath, "biome", "biome.json"),
+		`
 
+`,
+		"utf8",
+	);
+}
+
+console.log(fs.readFileSync(path.join(cfpath, "biome", "biome.json"), "utf8"));
 async function initialisereposcan(repopath) {
 	try {
 		const options = {
@@ -63,7 +90,7 @@ async function initialisereposcan(repopath) {
 		consolelog(e);
 	}
 }
-async function Updatestatus() {}
+async function Updatestatus() { }
 consolelog(process.resourcesPath);
 consolelog(isWindows);
 async function scanafolder(folderpath) {
@@ -96,7 +123,7 @@ function injectChildrenByPath(treeLayers, targetId, newChildren) {
 			node.children ??= [];
 
 			node.children.push(...newChildren);
-
+			node.haschildren = true;
 			node.haschildren = node.children.length > 0;
 
 			return true;
@@ -166,10 +193,7 @@ async function track(pathreal) {
 						isdirectory: false,
 					},
 				]);
-				fs.writeFileSync(
-					"/home/charan/noferic-IDE/me.json",
-					JSON.stringify(globalfolderjson),
-				);
+
 				win.webContents.send(
 					"data",
 					JSON.stringify({
@@ -328,15 +352,141 @@ async function handleappargs(args) {
 		return;
 	} else {
 		if (fs.statSync(path.resolve(args)).isDirectory()) {
+			pathreal = path.resolve(args);
 			track(path.resolve(args));
 			initialisereposcan(path.resolve(args));
-			if (!fs.existsSync(path.join(path.resolve(args), '.noferic-ide')))
-			{
-				fs.mkdirSync(path.join(path.resolve(args) , '.noferic-ide'))
-				fs.promises.appendFile(path.join(path.resolve(args), '.noferic-ide/biome.json'), "");
+			biomeprocess = spawn(
+				isWindows
+					? isproduction
+						? path.join(
+							process.resourcesPath,
+							"app",
+							"node_modules",
+							"@biomejs",
+							"cli-win-x64",
+							"biome.exe",
+						)
+						: "./node_modules/@biomejs/cli-win-x64/biome.exe"
+					: isproduction
+						? path.join(
+							process.resourcesPath,
+							"app",
+							"node_modules",
+							"@biomejs",
+							"biome",
+							"bin",
+							"biome",
+						)
+						: "./node_modules/@biomejs/biome/bin/biome",
+				[`lsp-proxy`],
+			);
 
+			connection = rpc.createMessageConnection(
+				new rpc.StreamMessageReader(biomeprocess.stdout),
+				new rpc.StreamMessageWriter(biomeprocess.stdin),
+			);
+			connection.listen();
+			connection.onRequest("workspace/configuration", (params) => {
+				console.log("Biome asked for configuration params:", params);
 
+				// 3. Return the settings array directly.
+				// The library automatically wraps this in a JSON-RPC response frame with matching ID!
+				return [
+					{
+						configurationPath: path.join(
+							path.resolve(args),
+							".noferic-ide",
+							"biome.json"
+						),
+						requireConfiguration: true
+					}
+				];
+			});
+			const root = `file://${path.resolve(args)}/.noferic-ide`;
+			async function start() {
+				try {
+					/*const result = await connection.sendRequest("initialize", {
+						processId: process.pid,
+						rootUri: root,
+						capabilities: {
+							textDocument: {
+								publishDiagnostics: {},
+							},
+						},
+					});
+					consolelog(`result:\n\n${JSON.stringify(result)}`);*/
+					connection.sendRequest("initialize", {
+						processId: process.pid,
+						rootUri: root,
+						workspaceFolders: [
+							{
+								uri: root,
+								name: path.basename(path.resolve(args)),
+							},
+						],
+						capabilities: {
+							workspace: {
+								configuration: true,
+								workspaceFolders: true,
+								didChangeWatchedFiles: {
+									dynamicRegistration: true
+								}
+							},
+							textDocument: {
+								synchronization: {
+									didSave: true,
+									dynamicRegistration: true,
+								},
+							},
+						},
+					});
+					console.log(`file://${path.join(path.resolve(args), '.noferic-ide', 'biome.json')}`)
+
+					connection.sendNotification("initialized", {});
+					connection.sendNotification("workspace/didChangeWatchedFiles", {
+						"changes": [
+							{
+								// Point directly to the physical biome.json file URI
+								"uri": `file://${path.join(path.resolve(args), '.noferic-ide', 'biome.json')}`,
+								"type": 2 // 2 means "Changed" in the LSP Specification
+							}
+						]
+					});
+					connection.sendNotification("workspace/didChangeConfiguration", {
+						"settings": {
+							"biome": {
+								"requireConfiguration": true,
+							}
+						}
+					});
+				} catch (e) {
+					consolelog(`error:\n\n\n\n${e}`);
+				}
 			}
+			start();
+			if (!fs.existsSync(path.join(path.resolve(args), ".noferic-ide"))) {
+				fs.mkdirSync(path.join(path.resolve(args), ".noferic-ide"));
+			}
+			try {
+				if (
+					!fs.existsSync(
+						path.join(path.resolve(args), ".noferic-ide/biome.json"),
+					)
+				) {
+					async function run() {
+						consolelog("it dont");
+						await fs.writeFileSync(
+							path.join(path.resolve(args), ".noferic-ide", "biome.json"),
+							"",
+							"utf-8",
+						);
+					}
+					run();
+				}
+			} catch (e) {
+				consolelog(e);
+			}
+			console.log(`file://${pathreal}/test${Date.now()}`, `file://${pathreal}/.noferic-ide/test${Date.now()}`)
 			const json = await scanafolder(path.resolve(args));
 			globalfolderjson = [
 				{
@@ -365,6 +515,7 @@ async function handleappargs(args) {
 			initialiseterminalmain(path.resolve(args));
 		} else {
 			track(path.resolve(args));
+			initialiseterminalmain(path.dirname(path.resolve(args)))
 			win.webContents.send(
 				"data",
 
@@ -388,64 +539,33 @@ app.whenReady().then(() => {
 		handleappargs(args);
 	});
 });
-const biomeprocess = spawn(
-	isWindows
-		? isproduction
-			? path.join(
-					process.resourcesPath,
-					"app",
-					"node_modules",
-					"@biomejs",
-					"cli-win-x64",
-					"biome.exe",
-				)
-			: "./node_modules/@biomejs/cli-win-x64/biome.exe"
-		: isproduction
-			? path.join(
-					process.resourcesPath,
-					"app",
-					"node_modules",
-					"@biomejs",
-					"biome",
-					"bin",
-					"biome",
-				)
-			: "./node_modules/@biomejs/biome/bin/biome",
-	[`lsp-proxy`],
-);
-const connection = rpc.createMessageConnection(
-	new rpc.StreamMessageReader(biomeprocess.stdout),
-	new rpc.StreamMessageWriter(biomeprocess.stdin),
-);
-connection.listen();
-const root = `file://${path.join(__dirname, ".")}`;
-async function start() {
-	try {
-		const result = await connection.sendRequest("initialize", {
-			processId: process.pid,
-			rootUri: root,
-			capabilities: {
-				textDocument: {
-					publishDiagnostics: {},
-				},
-			},
-		});
-		consolelog(`result:\n\n${JSON.stringify(result)}`);
-		connection.sendNotification("initialized", {});
-	} catch (e) {
-		consolelog(`error:\n\n\n\n${e}`);
-	}
-}
-start();
 
 ipcMain.handle("openfile", async () => {
 	const result = await dialog.showOpenDialog({ properties: ["openFile"] });
 	if (result.canceled || !result.filePaths || result.filePaths.length === 0)
 		return null;
 	pathreal = result.filePaths[0];
-	track(pathreal);
+	//track(pathreal);
 
-	return result.filePaths[0];
+	//return result.filePaths[0];
+	try {
+		if (isproduction) {
+			spawn(process.execPath, [pathreal], {
+				detached: true,
+				stdio: "ignore",
+			}).unref();
+		} else {
+			spawn(process.execPath, [app.getAppPath(), pathreal], {
+				detached: true,
+				stdio: "ignore",
+			}).unref();
+		}
+
+		//win.close();
+		biomeprocess.kill();
+	} catch (e) {
+		consolelog(e);
+	}
 });
 
 ipcMain.handle("read", async (event, filepath) => {
@@ -496,7 +616,7 @@ ipcMain.handle("format", async (event, object) => {
 	const myCode = object.code;
 
 	try {
-		const myUri = `file:///test.${extension}`;
+		const myUri = `file://${pathreal}/.noferic-ide/test${Date.now()}.${extension}`;
 
 		await connection.sendNotification("textDocument/didOpen", {
 			textDocument: {
@@ -511,11 +631,12 @@ ipcMain.handle("format", async (event, object) => {
 			options: {
 				tabSize: 2,
 				insertSpaces: true,
-			}
+			},
 		});
 		consolelog(edits);
-		 
+		return edits;
 	} catch (e) {
+		console.log(JSON.stringify(e))
 		win.webContents.send(
 			"data",
 			JSON.stringify({
@@ -546,7 +667,7 @@ ipcMain.handle("openfolder", async (e) => {
 			}).unref();
 		}
 
-		win.close();
+		//win.close();
 		biomeprocess.kill();
 	} catch (e) {
 		consolelog(e);
@@ -558,15 +679,17 @@ ipcMain.handle("autosave", async (e, code, path) => {
 	changedpathsbyide.push(path);
 });
 let oldreqcomleted = true;
-ipcMain.handle("lint", async (e,message) => {
+ipcMain.handle("lint", async (e, message) => {
 	consolelog(`recieved:${JSON.stringify(message)}`);
-	if(!oldreqcomleted){return}
+	if (!oldreqcomleted) {
+		return;
+	}
 
 	try {
 		consolelog(`recieved:${JSON.stringify(message)}`);
 
 		const fileToLint = {
-			uri: `file:///example.${message.extension}`,
+			uri: `file://${pathreal}/.noferic-ide/test${Date.now()}.${message.extension}`,
 			languageId: message.language,
 			version: 1,
 			text: message.code,
@@ -578,18 +701,57 @@ ipcMain.handle("lint", async (e,message) => {
 		consolelog(error);
 	}
 	let params;
-	const promise = new Promise((re,rej)=>{
-		const listener = connection.onNotification("textDocument/publishDiagnostics", (params) => {
-			consolelog(`\n\n${JSON.stringify(params)}`);
-			oldreqcomleted = true;
-			re(params)
-			listener.dispose()
-			
-		});
-	}
-
-)
+	const promise = new Promise((re, rej) => {
+		const listener = connection.onNotification(
+			"textDocument/publishDiagnostics",
+			(params) => {
+				consolelog(`\n\n${JSON.stringify(params)}`);
+				oldreqcomleted = true;
+				count++;
+				re(params);
+				listener.dispose();
+			},
+		);
+	});
 	return promise;
-
-	
 });
+ipcMain.handle("mkdir", async (e, path) => {
+	try {
+		await fs.promises.mkdir(path);
+
+	}
+	catch (e) {
+		win.webContents.send(
+			"data",
+			JSON.stringify({
+				action: "errorhandle",
+				errorlocation: "creating folder",
+				errormessage: e,
+			}),
+		);
+	}
+})
+ipcMain.handle("start_server", async (e, obj) => {
+	console.log(obj)
+	const serverParams = {
+		port: obj.port,                       // Set a fixed port
+		host: "127.0.0.1",                // Localhost
+		root: path.join(pathreal, obj.relativepath), // Folder containing your frontend files
+		open: obj.toOpen,                      // CRITICAL: Stop it from opening a default browser window
+		wait: 100                         // Delay before reloading (in ms)
+	};
+
+	liveServer.start(serverParams);
+})
+if(isproduction)
+{
+	tsserverprocess = spawn()
+
+}
+else
+{
+	
+}
+app.on('before-quit', () => {
+	biomeprocess.kill()
+})

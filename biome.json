@@ -10,17 +10,17 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab"
+		"indentStyle": "space"
+		
 	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
-		}
-	},
-	"javascript": {
-		"formatter": {
-			"quoteStyle": "double"
-		}
+			"style":{
+				"noDefaultExport":"info",
+				"useConst":"error"
+			}
+			
 	}
+}
 }

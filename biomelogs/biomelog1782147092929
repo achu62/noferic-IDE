@@ -1,0 +1,5 @@
+Content-Length: 364
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"message":"Biome found the configuration file /home/charan/app/.noferic-ide/biome.json outside of the current working directory /home/charan/app/.noferic-ide. If the configuration enables the scanner, Biome might scan the whole file system. This behaviour will be fixed in the next major version.","type":3}}Content-Length: 160
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"message":"Expected an array, an object, or a literal but instead found the end of the file.","type":1}}

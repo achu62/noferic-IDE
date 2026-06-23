@@ -1,0 +1,3 @@
+Content-Length: 233
+
+{"jsonrpc":"2.0","result":{"capabilities":{"positionEncoding":"utf-16","textDocumentSync":2,"workspace":{"workspaceFolders":{"changeNotifications":true,"supported":true}}},"serverInfo":{"name":"biome_lsp","version":"2.4.16"}},"id":0}

@@ -10,8 +10,14 @@ window.onload = () => {
 	let lintlistener;
 
 
-	
 	require(["vs/editor/editor.main"], () => {
+		monaco.languages.json.jsonDefaults.setDiagnosticsOptions(
+			{
+				validate:true,
+				enableSchemaRequest:true,
+				schemas:[]
+			}
+		)
 		monaco.editor.defineTheme("NofericIDETheme", {
 			base: "vs-dark",
 
@@ -34,6 +40,7 @@ window.onload = () => {
 				"editorCursor.foreground": "#FFFFFF",
 				"editor.selectionBackground": "#505050",
 				"editor.lineHighlightBackground": "#404040",
+				"editorInfo.foreground":"#001f00"
 			},
 		});
 
@@ -262,35 +269,32 @@ window.onload = () => {
 					model.dispose();
 					console.log("model" + monaco.editor.getModels());
 				});
-			}
-			else if (action === 'setMarkers') {
-				console.log(message.diagnostics.
-					diagnostics)
-				let markers = []
-				message.diagnostics.
-					diagnostics.forEach((d) => {
-						markers.push(
-							{
-								startLineNumber: d.range.start.line + 1,
+			} else if (action === "setMarkers") {
+				console.log(message.diagnostics.diagnostics);
+				let markers = [];
+				message.diagnostics.diagnostics.forEach((d) => {
+					markers.push({
+						startLineNumber: d.range.start.line + 1,
 
-								startColumn: d.range.start.character + 1,
+						startColumn: d.range.start.character + 1,
 
+						endLineNumber: d.range.end.line + 1,
 
-								endLineNumber: d.range.end.line + 1,
+						endColumn: d.range.end.character + 1,
 
-								endColumn: d.range.end.character + 1,
+						message: `biome:${d.message}`,
 
-								message: `biome:${d.message}`,
-
-								severity: d.severity === 1 ? monaco.MarkerSeverity.Error : d.severity === 2 ? monaco.MarkerSeverity.Warning : d.severity === 3 ? monaco.MarkerSeverity.Info : onaco.MarkerSeverity.Hint,
-							}
-						)
-					})
-				monaco.editor.setModelMarkers(
-					editor.getModel(),
-					"biome",
-					markers
-				);
+						severity:
+							d.severity === 1
+								? monaco.MarkerSeverity.Error
+								: d.severity === 2
+									? monaco.MarkerSeverity.Warning
+									: d.severity === 3
+										? monaco.MarkerSeverity.Info
+										: onaco.MarkerSeverity.Hint,
+					});
+				});
+				monaco.editor.setModelMarkers(editor.getModel(), "biome", markers);
 			}
 		});
 		async function lint() {
@@ -298,23 +302,24 @@ window.onload = () => {
 				lintlistener.dispose();
 			}
 			lintlistener = editor.onDidChangeModelContent(() => {
-				console.log(`sending:${{
-					action: "lint",
-					code: editor.getValue(),
-					extension: extension,
-					language: getLanguagebyExtension(extension)
-				}}`)
+				console.log(
+					`sending:${{
+						action: "lint",
+						code: editor.getValue(),
+						extension: extension,
+						language: getLanguagebyExtension(extension),
+					}}`,
+				);
 				window.parent.postMessage({
 					action: "lint",
 					code: editor.getValue(),
 					extension: extension,
-					language: getLanguagebyExtension(extension)
+					language: getLanguagebyExtension(extension),
 				});
-			})
+			});
 		}
-		lint()
+		lint();
 	});
-
 };
 
 //jai sri ram
