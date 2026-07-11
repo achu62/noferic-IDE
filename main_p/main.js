@@ -20,7 +20,9 @@ import liveServer from "live-server";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
+import {deleteNodeById , injectChildrenByPath} from "./utils.js"
+import { createbiomeprocess } from "./createbiomeprocess.js";
+import { readFilejs } from "./readfile.js";
 let pathreal = null;
 const isproduction = app.isPackaged;
 
@@ -136,7 +138,6 @@ async function initialisereposcan(repopath) {
 		consolelog(e);
 	}
 }
-async function Updatestatus() {}
 consolelog(process.resourcesPath);
 consolelog(isWindows);
 async function scanafolder(folderpath) {
@@ -163,48 +164,8 @@ async function scanafolder(folderpath) {
 	}
 	return json;
 }
-function injectChildrenByPath(treeLayers, targetId, newChildren) {
-	for (const node of treeLayers) {
-		if (node.id === targetId) {
-			node.children ??= [];
 
-			node.children.push(...newChildren);
-			node.haschildren = true;
-			node.haschildren = node.children.length > 0;
 
-			return true;
-		}
-
-		if (node.isdirectory && node.children) {
-			if (injectChildrenByPath(node.children, targetId, newChildren)) {
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-function deleteNodeById(treeLayers, targetId) {
-	for (let i = 0; i < treeLayers.length; i++) {
-		const node = treeLayers[i];
-
-		// Found it?
-		if (node.id === targetId) {
-			treeLayers.splice(i, 1);
-			return true;
-		}
-
-		// Search children
-		if (node.isdirectory && node.children) {
-			if (deleteNodeById(node.children, targetId)) {
-				node.haschildren = node.children.length > 0;
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
 let watcher = null;
 let changedpathsbyide = [];
 const apppath = process.execPath;
@@ -225,7 +186,6 @@ async function track(pathreal) {
 		});
 
 		watcher.on("add", (filePath) => {
-			Updatestatus();
 			if (addedpathbyide) {
 				addedpathbyide = addedpathbyide.filter((item) => item !== filePath);
 			}
@@ -277,8 +237,6 @@ async function track(pathreal) {
 		});
 
 		watcher.on("unlink", (filePath) => {
-			Updatestatus();
-
 			const filepathonly = path.basename(filePath);
 			const foldepath = path.dirname(filePath);
 			deleteNodeById(globalfolderjson, filePath);
@@ -292,7 +250,6 @@ async function track(pathreal) {
 			);
 		});
 		watcher.on("addDir", async (DirPath) => {
-			Updatestatus();
 
 			const Dirnameonly = path.basename(DirPath);
 
@@ -330,7 +287,6 @@ async function track(pathreal) {
 			);
 		});
 		watcher.on("unlinkDir", (DirPath) => {
-			Updatestatus();
 
 			const Dirnameonly = path.basename(DirPath);
 
@@ -413,30 +369,7 @@ async function handleappargs(args) {
 			pathreal = path.resolve(args);
 			track(path.resolve(args));
 			initialisereposcan(path.resolve(args));
-			biomeprocess = spawn(
-				isWindows
-					? isproduction
-						? path.join(
-								process.resourcesPath,
-								"app",
-								"node_modules",
-								"@biomejs",
-								"cli-win-x64",
-								"biome.exe",
-							)
-						: "./node_modules/@biomejs/cli-win-x64/biome.exe"
-					: isproduction
-						? path.join(
-								process.resourcesPath,
-								"app",
-								"node_modules",
-								"@biomejs",
-								"cli-linux-x64",
-								"biome",
-							)
-						: "./node_modules/@biomejs/cli-linux-x64/biome",
-				[`lsp-proxy`],
-			);
+			biomeprocess = createbiomeprocess(isWindows , isproduction)
 
 			connection = rpc.createMessageConnection(
 				new rpc.StreamMessageReader(biomeprocess.stdout),
@@ -445,9 +378,6 @@ async function handleappargs(args) {
 			connection.listen();
 			connection.onRequest("workspace/configuration", (params) => {
 				console.log("Biome asked for configuration params:", params);
-
-				// 3. Return the settings array directly.
-				// The library automatically wraps this in a JSON-RPC response frame with matching ID!
 				return [
 					{
 						configurationPath: path.join(
@@ -615,14 +545,7 @@ ipcMain.handle("openfile", async () => {
 });
 
 ipcMain.handle("read", async (event, filepath) => {
-	if (!filepath) return null;
-	try {
-		const content = await fs.promises.readFile(filepath, "utf8");
-		return content;
-	} catch (err) {
-		console.error("Failed to read file", err);
-		throw err;
-	}
+	return await readFilejs(filepath)
 });
 ipcMain.handle("write", (event, path, contenttosave) => {
 	fs.writeFileSync(path, contenttosave);
