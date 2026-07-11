@@ -9,24 +9,20 @@ function consolelog(args) {
 	if (!isproduction) {
 		console.log(`\n${args}`);
 	}
-
 }
-
-
-
 
 let gitprocess;
 let biomeprocess;
 let connection;
 
-
 let tsserverprocess;
+
 let tsserverconnection;
 let count = 1;
 //jai sri ram
 
 //jai sri ram
-const { detectPort } = require("detect-port")
+const { detectPort } = require("detect-port");
 const path = require("node:path");
 
 const fs = require("node:fs");
@@ -41,8 +37,8 @@ const { InitializeRequest } = require("vscode-languageserver-protocol");
 const chokidar = require("chokidar");
 const { watchFile } = require("node:original-fs");
 const { simpleGit, gitP } = require("simple-git");
-const liveServer = require('live-server')
-console.log("starting...live..server")
+const liveServer = require("live-server");
+console.log("starting...live..server");
 
 const isWindows = process.platform === "win32";
 consolelog(app.getPath("userData"));
@@ -54,7 +50,30 @@ if (!fs.existsSync(path.join(cfpath, "biome", "biome.json"))) {
 	fs.writeFileSync(
 		path.join(cfpath, "biome", "biome.json"),
 		`
-
+		{
+	"$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "space"
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"style": {
+				"noDefaultExport": "info",
+				"useConst": "error"
+			}
+		}
+	}
+}
 `,
 		"utf8",
 	);
@@ -70,19 +89,22 @@ async function initialisereposcan(repopath) {
 		};
 		gitprocess = simpleGit(options);
 		const status = await gitprocess.status();
-		consolelog(status)
-		console.log("s" + JSON.stringify(status))
 
-		win.webContents.send("data", JSON.stringify({
-			action: "status",
-			status: {
-				created: status.created,
-				modified: status.modified,
-				renamed: status.renamed,
-				deleted: status.deleted,
-				notadded: status.not_added
-			}
-		}))
+		console.log("s" + JSON.stringify(status));
+
+		win.webContents.send(
+			"data",
+			JSON.stringify({
+				action: "status",
+				status: {
+					created: status.created,
+					modified: status.modified,
+					renamed: status.renamed,
+					deleted: status.deleted,
+					notadded: status.not_added,
+				},
+			}),
+		);
 		const ignoredfiles = await gitprocess.raw([
 			"ls-files",
 			"--others",
@@ -92,17 +114,17 @@ async function initialisereposcan(repopath) {
 		const ifr = ignoredfiles
 			.split(/\r?\n/)
 			.map((file) => file.trim())
-			.filter(Boolean)
+			.filter(Boolean);
 		let ifiles = [];
 		ifr.forEach((e) => {
-			ifiles.push(path.join(repopath, e))
-		})
+			ifiles.push(path.join(repopath, e));
+		});
 		if (ignoredfiles) {
 			win.webContents.send(
 				"data",
 				JSON.stringify({
 					action: "ignoredfiles",
-					ignoredfiles: ifiles
+					ignoredfiles: ifiles,
 				}),
 			);
 		}
@@ -110,7 +132,7 @@ async function initialisereposcan(repopath) {
 		consolelog(e);
 	}
 }
-async function Updatestatus() { }
+async function Updatestatus() {}
 consolelog(process.resourcesPath);
 consolelog(isWindows);
 async function scanafolder(folderpath) {
@@ -234,14 +256,20 @@ async function track(pathreal) {
 			}
 		});
 
-		watcher.on("change", (filePath) => {
-			Updatestatus();
-
-			changedpathsbyide = changedpathsbyide.filter((item) => item !== filePath);
-
+		watcher.on("change", async (filePath) => {
 			if (!changedpathsbyide.includes(filePath)) {
 				consolelog("filechangedexternal:" + filePath);
+				win.webContents.send(
+					"data",
+					JSON.stringify({
+						action: "handleachangeinfile",
+						path: filePath,
+						content: await fs.readFileSync(filePath, "utf-8"),
+					}),
+				);
 			}
+
+			changedpathsbyide = changedpathsbyide.filter((item) => item !== filePath);
 		});
 
 		watcher.on("unlink", (filePath) => {
@@ -333,36 +361,42 @@ function createWindow() {
 			spellcheck: false,
 		},
 	});
-	win.loadFile("./renderer/index.html");
+	win.loadFile(path.join(__dirname , ".." , "renderer" , "index.html"));
 	if (isproduction) {
 		win.removeMenu();
 	}
 }
-let ptyProcess;
+let ptyProcess = {};
 let terminal = null;
 let pathforterminal;
-async function initialiseterminalmain(pathforterminal) {
+async function initialiseterminalmain(pathforterminal, id) {
 	if (process.platform === "win32") {
 		terminal = process.env.COMSPEC || "cmd.exe";
 	} else {
 		terminal = process.env.SHELL || "bash";
 	}
-	if (ptyProcess) {
-		ptyProcess.kill();
-	}
-	ptyProcess = pty.spawn(terminal, [], {
+
+	ptyProcess[id] = pty.spawn(terminal, [], {
 		cwd: pathforterminal || os.homedir(),
 		env: process.env,
 	});
-	ptyProcess.onData((data) => {
+	ptyProcess[id].onData((data) => {
 		win.webContents.send(
 			"data",
-			JSON.stringify({ action: "terminaldata", data: data.toString() }),
+			JSON.stringify({ action: "terminaldata", data: data.toString(), id: id }),
 		);
 	});
-	ipcMain.on("data", (event, data) => {
-		ptyProcess.write(data);
+	ipcMain.on("data", (event, d) => {
+		const data = JSON.parse(d);
+		if (data.action === "tdata" && data.id === id ) {
+			if(data.a2 === "resize"){
+				ptyProcess[id].resize(data.data.cols , data.data.rows)
+				return;
+			}
+			ptyProcess[id].write(data.data);
+		}
 	});
+	
 }
 async function handleappargs(args) {
 	if (!args) {
@@ -379,25 +413,24 @@ async function handleappargs(args) {
 				isWindows
 					? isproduction
 						? path.join(
-							process.resourcesPath,
-							"app",
-							"node_modules",
-							"@biomejs",
-							"cli-win-x64",
-							"biome.exe",
-						)
+								process.resourcesPath,
+								"app",
+								"node_modules",
+								"@biomejs",
+								"cli-win-x64",
+								"biome.exe",
+							)
 						: "./node_modules/@biomejs/cli-win-x64/biome.exe"
 					: isproduction
 						? path.join(
-							process.resourcesPath,
-							"app",
-							"node_modules",
-							"@biomejs",
-							"biome",
-							"bin",
-							"biome",
-						)
-						: "./node_modules/@biomejs/biome/bin/biome",
+								process.resourcesPath,
+								"app",
+								"node_modules",
+								"@biomejs",
+								"cli-linux-x64",
+								"biome",
+							)
+						: "./node_modules/@biomejs/cli-linux-x64/biome",
 				[`lsp-proxy`],
 			);
 
@@ -416,25 +449,15 @@ async function handleappargs(args) {
 						configurationPath: path.join(
 							path.resolve(args),
 							".noferic-ide",
-							"biome.json"
+							"biome.json",
 						),
-						requireConfiguration: true
-					}
+						requireConfiguration: true,
+					},
 				];
 			});
 			const root = `file://${path.resolve(args)}/.noferic-ide`;
 			async function start() {
 				try {
-					/*const result = await connection.sendRequest("initialize", {
-						processId: process.pid,
-						rootUri: root,
-						capabilities: {
-							textDocument: {
-								publishDiagnostics: {},
-							},
-						},
-					});
-					consolelog(`result:\n\n${JSON.stringify(result)}`);*/
 					connection.sendRequest("initialize", {
 						processId: process.pid,
 						rootUri: root,
@@ -449,8 +472,8 @@ async function handleappargs(args) {
 								configuration: true,
 								workspaceFolders: true,
 								didChangeWatchedFiles: {
-									dynamicRegistration: true
-								}
+									dynamicRegistration: true,
+								},
 							},
 							textDocument: {
 								synchronization: {
@@ -460,24 +483,26 @@ async function handleappargs(args) {
 							},
 						},
 					});
-					console.log(`file://${path.join(path.resolve(args), '.noferic-ide', 'biome.json')}`)
+					console.log(
+						`file://${path.join(path.resolve(args), ".noferic-ide", "biome.json")}`,
+					);
 
 					connection.sendNotification("initialized", {});
 					connection.sendNotification("workspace/didChangeWatchedFiles", {
-						"changes": [
+						changes: [
 							{
 								// Point directly to the physical biome.json file URI
-								"uri": `file://${path.join(path.resolve(args), '.noferic-ide', 'biome.json')}`,
-								"type": 2 // 2 means "Changed" in the LSP Specification
-							}
-						]
+								uri: `file://${path.join(path.resolve(args), ".noferic-ide", "biome.json")}`,
+								type: 2, // 2 means "Changed" in the LSP Specification
+							},
+						],
 					});
 					connection.sendNotification("workspace/didChangeConfiguration", {
-						"settings": {
-							"biome": {
-								"requireConfiguration": true,
-							}
-						}
+						settings: {
+							biome: {
+								requireConfiguration: true,
+							},
+						},
 					});
 				} catch (e) {
 					consolelog(`error:\n\n\n\n${e}`);
@@ -497,7 +522,7 @@ async function handleappargs(args) {
 						consolelog("it dont");
 						await fs.writeFileSync(
 							path.join(path.resolve(args), ".noferic-ide", "biome.json"),
-							"",
+							fs.readFileSync(path.join(cfpath, "biome", "biome.json"), "utf8"),
 							"utf-8",
 						);
 					}
@@ -506,7 +531,6 @@ async function handleappargs(args) {
 			} catch (e) {
 				consolelog(e);
 			}
-			console.log(`file://${pathreal}/test${Date.now()}`, `file://${pathreal}/.noferic-ide/test${Date.now()}`)
 			const json = await scanafolder(path.resolve(args));
 			globalfolderjson = [
 				{
@@ -532,10 +556,10 @@ async function handleappargs(args) {
 					],
 				}),
 			);
-			initialiseterminalmain(path.resolve(args));
+			initialiseterminalmain(path.resolve(args), "def");
 		} else {
 			track(path.resolve(args));
-			initialiseterminalmain(path.dirname(path.resolve(args)))
+			initialiseterminalmain(path.dirname(path.resolve(args)), "def");
 			win.webContents.send(
 				"data",
 
@@ -656,7 +680,7 @@ ipcMain.handle("format", async (event, object) => {
 		consolelog(edits);
 		return edits;
 	} catch (e) {
-		console.log(JSON.stringify(e))
+		console.log(JSON.stringify(e));
 		win.webContents.send(
 			"data",
 			JSON.stringify({
@@ -738,9 +762,7 @@ ipcMain.handle("lint", async (e, message) => {
 ipcMain.handle("mkdir", async (e, path) => {
 	try {
 		await fs.promises.mkdir(path);
-
-	}
-	catch (e) {
+	} catch (e) {
 		win.webContents.send(
 			"data",
 			JSON.stringify({
@@ -750,70 +772,76 @@ ipcMain.handle("mkdir", async (e, path) => {
 			}),
 		);
 	}
-})
+});
 ipcMain.handle("start_server", async (e, obj) => {
-	console.log(obj)
+	console.log(obj);
 
 	const serverParams = {
 		port: obj.port,
 		host: "127.0.0.1",
 		root: path.join(pathreal, obj.relativepath),
-		open: obj.toOpen,                      // CRITICAL: Stop it from opening a default browser window
-		wait: 100                         // Delay before reloading (in ms)
+		open: obj.toOpen, // CRITICAL: Stop it from opening a default browser window
+		wait: 100, // Delay before reloading (in ms)
 	};
 
 	liveServer.start(serverParams);
-
-
-})
-ipcMain.handle('unlink', async (e, path) => {
-	console.log(path)
-	await shell.trashItem(path)
-})
+});
+ipcMain.handle("unlink", async (e, path) => {
+	console.log(path);
+	await shell.trashItem(path);
+});
 ipcMain.handle("validate-details-liveserver", async (e, d) => {
 	const aport = await detectPort(d.port);
-	console.log(aport)
-	console.log(d.port)
+	console.log(aport);
+	console.log(d.port);
 	const npromise = new Promise((re, rej) => {
-
-		console.log(path.join(pathreal, d.relativepath))
+		console.log(path.join(pathreal, d.relativepath));
 
 		if (!fs.existsSync(path.join(pathreal, d.relativepath))) {
-			rej(new Error(`${path.join(pathreal, d.relativepath)} does not exist`))
+			rej(new Error(`${path.join(pathreal, d.relativepath)} does not exist`));
 		}
-
 
 		if (aport !== parseInt(d.port)) {
-			consolelog("nnooo")
-			rej(new Error(`Port ${d.port} seems to be not availible \nit is recommended to try out another availible port\nit has been detected  that port ${aport} might be free`))
+			consolelog("nnooo");
+			rej(
+				new Error(
+					`Port ${d.port} seems to be not availible \nit is recommended to try out another availible port\nit has been detected  that port ${aport} might be free`,
+				),
+			);
+		} else {
+			re(true);
 		}
-		else {
-			re(true)
-		}
-	})
+	});
 	return npromise;
-})
-ipcMain.handle('commit', async (e, message) => {
+});
+ipcMain.handle("commit", async (e, message) => {
 	const commitPromise = new Promise((re, rej) => {
 		try {
 			async function runn() {
-				const status = await gitprocess.status()
-				console.log("m" + status.files.length)
-				if (status.files.length === 0) { rej("no changes to commit") }
-				gitprocess.add(".")
-				const commit = gitprocess.commit(message)
-				re(commit.summary, commit.commit)
+				const status = await gitprocess.status();
+				console.log("m" + status.files.length);
+				if (status.files.length === 0) {
+					rej("no changes to commit");
+				}
+				gitprocess.add(".");
+				const commit = gitprocess.commit(message);
+				re(commit.summary, commit.commit);
 			}
-			runn()
+			runn();
+		} catch (e) {
+			rej(new Error(e));
 		}
-
-		catch (e) {
-			rej(new Error(e))
-		}
-	})
+	});
 	return commitPromise;
+});
+ipcMain.handle("create_new_terminal", async (e, id) => {
+	console.log("r r /t n");
+	initialiseterminalmain(pathtncreal, id);
+});
+ipcMain.handle("join-path" , async(e , arg1 , arg2)=>{
+	console.log(path.join(arg1, arg2))
+	return path.join(arg1 , arg2)
 })
-
-app.on('before-quit', () => {
-	//biomeprocess.kill()
+ipcMain.handle("get-ext" , async(e,fpath)=>{
+	return path.extname(fpath);
 })

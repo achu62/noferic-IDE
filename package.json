@@ -2,7 +2,7 @@
 	"name": "noferic-ide",
 	"version": "1.7.0",
 	"description": "",
-	"main": "main.js",
+	"main": "main_p/main.js",
 	"scripts": {
 		"start": "electron .",
 		"build": "electron-builder",
