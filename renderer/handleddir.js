@@ -50,7 +50,7 @@ export function handleDir() {
 				return;
 			}
 		} else {
-			filebutton.replaceChildren(file.name, statebtn, icon);
+			filebutton.replaceChildren(`|-${file.name}`, statebtn, icon);
 			isopen = false;
 			globalfileexplorerstatejson[`${file.id}`] = false;
 

@@ -1,6 +1,0 @@
-Content-Length: 132
-
-{"jsonrpc":"2.0","method":"window/logMessage","params":{"message":"Received watched file change notification: biome.json","type":3}}Content-Length: 150
-
-{"jsonrpc":"2.0","method":"workspace/configuration","params":{"items":[{"scopeUri":"file:///home/charan/app/.noferic-ide","section":"biome"}]},"id":0}Content-Length: 537
-

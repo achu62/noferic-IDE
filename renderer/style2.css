@@ -23,18 +23,17 @@
 
   --bg: #1e1e1e
 }
-
 html,
 body {
   overflow: hidden;
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: "JetBrains Mono";
+  font-family: "JetBrains Mono" !important;
   margin-top: 0;
   margin-right: 0;
   margin-left: 0;
-  background-color: var(--bg);
+  background-color: #595959;
 
 
 }
@@ -59,7 +58,11 @@ body {
   transform: none;
   border: none;
   box-sizing: border-box;
-  border-bottom: 0.5px solid var(--afaeaec9);
+  background-color: #595959;
+}
+
+#top-menu>* {
+  background-color: #1e1e1e;
 }
 
 
@@ -82,6 +85,7 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
+  background-color: inherit;
   /* prevents accidental text selection on tap */
 }
 
@@ -89,7 +93,7 @@ body {
   all: unset;
   position: fixed;
   border-radius: 2px;
-  background-color: var(--333333);
+  background-color: #333333;
   width: 40px;
   text-align: center;
   height: 30px;
@@ -118,6 +122,7 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
+  background-color: inherit;
   /* prevents accidental text selection on tap */
 }
 
@@ -135,7 +140,7 @@ body {
   border: none;
   outline: none;
   border-radius: 2px;
-  background-color: var(--333333);
+  background-color: #333333;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
@@ -171,7 +176,7 @@ body {
   border: none;
   outline: none;
   border-radius: 2px;
-  background-color: var(--333333);
+  background-color: #333333;
 }
 
 
@@ -183,25 +188,32 @@ body {
   z-index: 4;
   height: 18px;
   width: 100vw;
-  background-color: var(--ieieie);
+  background-color: #595959;
   image-rendering: optimizeQuality;
-  border-top: 0.5px solid var(--afaeaec9);
+  border-top: 0.2px solid var(--afaeaec9);
   display: flex;
   flex-direction: row-reverse;
+}
+
+#btmenu>* {
+  background-color: #1e1e1e;
 }
 
 #ltmenu {
   position: fixed;
   left: 0;
-  top: 30.5px;
+  top: 30.2px;
   bottom: 19px;
   z-index: 4;
-  background-color: var(--ieieie);
+  background-color: #595959;
   display: block;
   image-rendering: optimizeQuality;
   height: calc(100vh - 50px);
   width: 40px;
-  border-right: 0.5px solid var(--afaeaec9);
+}
+
+#ltmenu>* {
+  background-color: #1e1e1e;
 }
 
 /* Left menu items - organized vertically with consistent spacing */
@@ -209,52 +221,54 @@ body {
   all: unset;
   position: fixed;
   left: 0;
-  top: 30.5px;
+  top: 30.2px;
   background-image: url("images/fileexplorer.svg");
   background-size: cover;
   width: 40px;
   height: 40px;
   z-index: 5;
-  background-color: var(--ieieie);
+  background-color: inherit;
 }
 
 #expl:hover {
   all: unset;
   position: fixed;
   left: 0;
-  top: 30.5px;
+  top: 30.2px;
   background-size: cover;
   width: 40px;
   height: 40px;
   z-index: 5;
   background-image: url("images/fileexplorer.svg");
-  background-color: var(--333333);
+  background-color: #1e1e1e;
+
+
 }
 
 #term {
   all: unset;
   position: fixed;
   left: 0;
-  top: 80.5px;
+  top: 70.2px;
   background-image: url("images/terminalicon.svg");
   background-size: cover;
   width: 40px;
   height: 40px;
   z-index: 5;
-  background-color: var(--ieieie);
+  background-color: inherit;
 }
 
 #term:hover {
   all: unset;
   position: fixed;
   left: 0;
-  top: 80.5px;
+  top: 70.2px;
   background-image: url("images/terminalicon.svg");
   background-size: cover;
   width: 40px;
   height: 40px;
   z-index: 5;
-  background-color: var(--333333);
+  background-color: #1e1e1e;
 }
 
 #settings {
@@ -289,10 +303,12 @@ body {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 250px;
+  width: 350px;
   overflow: auto;
   box-sizing: border-box;
-  border: 0.5px solid var(--afaeaec9);
+  background-color: #333333;
+  border: 0.2px solid var(--afaeaec9);
+  border-radius: 15px;
 }
 
 #middleeditor {
@@ -303,8 +319,10 @@ body {
   left: 251px;
   width: 758px;
   box-sizing: border-box;
-  border-left: 0.5px solid var(--afaeaec9);
-  border-right: 0.5px solid var(--afaeaec9);
+  border-left: 0.2px solid var(--afaeaec9);
+  border-right: 0.2px solid var(--afaeaec9);
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 #preview {
@@ -315,7 +333,7 @@ body {
   right: 0;
   left: 1009px;
   box-sizing: border-box;
-  border-left: 0.5px solid var(--afaeaec9);
+  border-left: 0.2px solid var(--afaeaec9);
   background-color: var(--ieieie);
   width: 0;
   display: none;
@@ -331,15 +349,15 @@ body {
   height: 20px;
   line-height: 20px;
   text-align: left;
-  border-bottom: 0.5px solid var(--afaeaec9);
+  border-bottom: 0.2px solid var(--afaeaec9);
   display: block;
   z-index: 7;
   background-color: var(--404040);
   /* Add these properties to ensure text is visible */
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   padding-left: 10px;
-  border-bottom-left-radius: 0.5px;
-  border-bottom-right-radius: 0.5px;
+  border-bottom-left-radius: 0.2px;
+  border-bottom-right-radius: 0.2px;
 }
 
 #explotop {
@@ -351,12 +369,16 @@ body {
   height: 20px;
   line-height: 20px;
   text-align: left;
-  border-bottom: 0.5px solid var(--afaeaec9);
+  border-bottom: 0.2px solid var(--afaeaec9);
   display: block;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   padding-left: 10px;
   background-color: var(--404040);
 }
+
+
+
+
 
 #editor {
   position: absolute !important;
@@ -367,7 +389,6 @@ body {
   z-index: 8 !important;
   display: block !important;
   overflow: hidden !important;
-  pointer-events: auto !important;
   background-color: var(--ieieie) !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -381,12 +402,13 @@ body {
   left: 0;
   right: 0;
   z-index: 8;
-  border-top: 0.5px solid var(--afaeaec9);
-  border-bottom: 0.5px solid var(--afaeaec9);
+  border-top: 0.2px solid var(--afaeaec9);
+  border-bottom: 0.2px solid var(--afaeaec9);
   display: block;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   padding-left: 10px;
   height: 300px;
+  background-color: #1e1e1e;
 }
 
 #terminaltopbar {
@@ -398,7 +420,7 @@ body {
   height: 20px;
   line-height: 20px;
   text-align: left;
-  border-bottom: 0.5px solid var(--afaeaec9);
+  border-bottom: 0.2px solid var(--afaeaec9);
   display: block;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   padding-left: 10px;
@@ -409,11 +431,12 @@ body {
   display: block;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   position: absolute;
-  right: 0;
+  right: 152px;
   left: 0;
   bottom: 0;
   padding: 10px;
   top: 20px;
+  overflow: hidden;
 }
 
 #file_on {
@@ -423,10 +446,10 @@ body {
   left: 2px;
   width: fit-content;
   height: fit-content;
-  background-color: var(--ffffff);
+  background-color: #2d2d30;
 
-  border: 0.5px solid var(--afaeaec9);
-  border-radius: 5px;
+  border: 0.7px solid var(--afaeaec9);
+  border-radius: 10px;
 }
 
 
@@ -435,11 +458,11 @@ body {
   all: unset;
   z-index: 11;
   position: absolute;
-  top: 0.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
-  background-color: var(--333333);
+  top: 0.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
   width: 300px;
   height: 20px;
   text-align: left;
@@ -457,10 +480,10 @@ body {
   position: absolute;
 
 
-  top: 0.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
+  top: 0.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
   background-color: var(--1c1364);
   width: 300px;
   height: 20px;
@@ -484,11 +507,11 @@ body {
 
 
 
-  top: 20.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
-  background-color: var(--333333);
+  top: 20.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
   width: 300px;
   height: 20px;
   text-align: left;
@@ -504,12 +527,12 @@ body {
 
 
 
-  top: 20.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
+  top: 20.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
   background-color: var(--1c1364);
-  border-bottom: 0.5px solid var(--afaeaec9);
+  border-bottom: 0.2px solid var(--afaeaec9);
   width: 300px;
   height: 20px;
   text-align: left;
@@ -530,10 +553,10 @@ body {
 
 
   top: 41px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
-  background-color: var(--333333);
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
   width: 300px;
   height: 20px;
   text-align: left;
@@ -554,9 +577,9 @@ body {
 
 
   top: 41px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
   background-color: var(--1c1364);
   width: 300px;
   height: 20px;
@@ -576,10 +599,10 @@ body {
 
 
   top: 61px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
-  background-color: var(--333333);
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
   ;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -601,9 +624,9 @@ body {
 
 
   top: 61px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
   background-color: var(--1c1364);
   ;
   -webkit-tap-highlight-color: transparent;
@@ -625,10 +648,10 @@ body {
 
 
   top: 81.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
-  background-color: var(--333333);
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
   ;
 
   width: 300px;
@@ -636,7 +659,7 @@ body {
   text-align: left;
   line-height: 20px;
   font-size: 14px;
-  border-bottom: 0.5px solid var(--afaeaec9);
+  border-bottom: 0.2px solid var(--afaeaec9);
   padding-left: 7px;
 }
 
@@ -648,12 +671,12 @@ body {
 
 
   top: 81.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
   background-color: var(--1c1364);
   ;
-  border-bottom: 0.5px solid var(--afaeaec9);
+  border-bottom: 0.2px solid var(--afaeaec9);
   width: 300px;
   height: 20px;
   text-align: left;
@@ -669,16 +692,18 @@ body {
 
 
   top: 101.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
-  background-color: var(--333333);
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
   width: 300px;
   height: 20px;
   text-align: left;
   line-height: 20px;
   font-size: 14px;
   padding-left: 7px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 #exit:hover {
@@ -690,9 +715,9 @@ body {
 
 
   top: 101.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
   background-color: var(--1c1364);
   ;
   width: 300px;
@@ -722,10 +747,10 @@ body {
 
 #workspace {
   position: fixed;
-  left: 41px;
-  top: 30.5px;
-  bottom: 19px;
-  right: 0;
+  left: 45px;
+  top: 30.2px;
+  bottom: 18px;
+  right: 10px;
 }
 
 #explorerelement {
@@ -738,15 +763,15 @@ body {
   flex-direction: column;
   gap: 0px;
   align-items: vertical;
-  background-color: var(--ieieie);
-  overflow-y: auto;
+  background-color: #333333;
+  overflow-y: scroll;
   /*flex-wrap: wrap;*/
 }
 
 .files {
   all: unset;
   color: var(--ffffff);
-  background-color: var(--ieieie);
+  background-color: #333333;
   min-height: 17px;
   position: relative;
   right: 0;
@@ -761,13 +786,14 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
+  padding-left: 30px !important;
   /* prevents accidental text selection on tap */
 }
 
 .files:hover {
   all: unset;
   color: var(--ffffff);
-  background-color: var(--404040);
+  background-color: #404040;
   min-height: 17px;
   position: relative;
   right: 0;
@@ -777,11 +803,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0px;
-  /*flex-wrap: wrap;*/
+  flex-wrap: wrap;
   flex: 0 0 auto;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
+  padding-left: 25px;
   /* prevents accidental text selection on tap */
 }
 
@@ -814,7 +841,23 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: auto;
+  width: 17px;
+  direction: rtl;
+}
+
+::-webkit-scrollbar-track {
+  color: #ede4e4;
+  opacity: 50%;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4e4d4d;
+  opacity: 90%;
+  border-radius: 0%;
+}
+
+#topbarforeditor::-webkit-scrollbar {
+  width: 2px;
   direction: rtl;
 }
 
@@ -824,7 +867,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--333333);
+  background-color: #1e1e1e;
   opacity: 90%;
   border-radius: 0%;
 }
@@ -859,13 +902,14 @@ body {
   position: relative;
   height: 100%;
   width: fit-content;
+  max-width: 300px;
   font-size: 12px;
   padding-left: 10px;
-
   padding-right: 30px;
   line-height: 29px;
   cursor: pointer;
   box-sizing: border-box;
+  min-height: 0;
 }
 
 .class__topelements:hover {
@@ -880,8 +924,8 @@ body {
   left: 42px;
   width: fit-content;
   height: fit-content;
-  background-color: var(--ffffff);
-  border: 0.5px solid var(--afaeaec9);
+  background-color: #2d2d30;
+  border: 0.2px solid var(--afaeaec9);
   border-radius: 5px;
 }
 
@@ -889,10 +933,10 @@ body {
   z-index: 11;
   position: absolute;
   top: 0;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
-  background-color: var(--333333);
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
   width: 300px;
   height: 20px;
   text-align: left;
@@ -906,10 +950,10 @@ body {
 #explorertick:hover {
   z-index: 11;
   position: absolute;
-  top: 0.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
+  top: 0.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
   background-color: var(--1c1364);
   width: 300px;
   height: 20px;
@@ -924,12 +968,12 @@ body {
 #terminaltick {
   z-index: 11;
   position: absolute;
-  top: 20.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
-  background-color: var(--333333);
-  border-bottom: 0.5px solid var(--afaeaec9);
+  top: 20.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
+  border-bottom: 0.2px solid var(--afaeaec9);
   width: 300px;
   height: 20px;
   text-align: left;
@@ -944,16 +988,16 @@ body {
   all: unset;
   z-index: 11;
   position: absolute;
-  top: 20.5px;
-  bottom: 0.5px;
-  left: 0.5px;
-  right: 0.5px;
+  top: 20.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
   background-color: var(--1c1364);
   width: 300px;
   height: 20px;
   text-align: left;
   line-height: 20px;
-  border-bottom: 0.5px solid var(--afaeaec9);
+  border-bottom: 0.2px solid var(--afaeaec9);
   padding-left: 7px;
   font-size: 12px;
   color: #FFFFFF;
@@ -965,7 +1009,7 @@ body {
   top: 0;
   bottom: 0;
   right: 0;
-  background-color: #1e1e1e;
+  background-color: inherit;
   color: #FFFFFF;
   padding-left: 2px;
   padding-right: 2px;
@@ -976,13 +1020,13 @@ body {
   position: relative;
   top: 0;
   bottom: 0;
-  background-color: #1e1e1e;
+  background-color: inherit;
   color: #ffffff;
   padding-left: 2px;
   padding-right: 10px;
   width: fit-content;
   border-right-color: #ffffff;
-  border-right-width: 0.5px;
+  border-right-width: 0.2px;
 }
 
 .topbarclose_class {
@@ -991,7 +1035,6 @@ body {
   right: 3px;
   top: 50%;
   transform: translateY(-50%);
-  background-image: url('./images/close_small_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg');
   width: 24px;
   height: 24px;
   display: block;
@@ -1002,7 +1045,10 @@ body {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   user-select: none;
-
+  font-size: 20px;
+  line-height: 24px;
+  background-image: url("./images/close_small_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg");
+  background-color: transparent !important;
 }
 
 .topbarclose_class:hover {
@@ -1021,7 +1067,7 @@ body {
   height: 30%;
   background-color: var(--ieieie);
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
 }
 
@@ -1034,7 +1080,7 @@ body {
   font-size: 15px;
   background-color: #0e4c32;
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
   padding-left: 10px;
   padding-right: 10px;
@@ -1055,7 +1101,7 @@ body {
   font-size: 15px;
   background-color: #333333;
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
   padding-left: 10px;
   padding-right: 10px;
@@ -1070,12 +1116,12 @@ body {
   width: 300px;
   height: 20px;
   color: #eeeeee;
-  background-color: #333333;
+  background-color: inherit;
   padding-left: 10px;
   list-style: 20px;
   border-radius: 10px;
   border-color: #eeeeee;
-  border-width: 0.5px;
+  border-width: 0.2px;
   font-size: 12px;
 
 }
@@ -1089,12 +1135,12 @@ body {
   width: 300px;
   height: 20px;
   color: #eeeeee;
-  background-color: #333333;
+  background-color: inherit;
   padding-left: 10px;
   list-style: 20px;
   border-radius: 10px;
   border-color: #eeeeee;
-  border-width: 0.5px;
+  border-width: 0.2px;
   font-size: 12px;
   position: relative;
 }
@@ -1110,7 +1156,7 @@ body {
   left: 5%;
   height: 20px;
   background-color: #1e1e1e;
-  border: 0.5px solid #eeeeee;
+  border: 0.2px solid #eeeeee;
   border-radius: 5px;
   resize: none;
   color: #eeeeee;
@@ -1121,7 +1167,7 @@ body {
 }
 
 #inputforopenfile:focus {
-  border: 0.5px solid orangered;
+  border: 0.2px solid orangered;
 
 }
 
@@ -1129,26 +1175,26 @@ body {
   all: unset;
   position: fixed;
   left: 0;
-  top: 120.5px;
+  top: 120.2px;
   background-image: url("images/git-merge.svg");
   background-size: cover;
   width: 40px;
   height: 40px;
   z-index: 5;
-  background-color: var(--ieieie);
+  background-color: inherit;
 }
 
 #gitvercontmenu:hover {
   all: unset;
   position: fixed;
   left: 0;
-  top: 120.5px;
+  top: 120.2px;
   background-image: url("images/git-merge.svg");
   background-size: cover;
   width: 40px;
   height: 40px;
   z-index: 5;
-  background-color: var(--333333);
+  background-color: #1e1e1e;
 }
 
 #versioncontrolelement {
@@ -1161,8 +1207,10 @@ body {
   flex-direction: column;
   gap: 0px;
   align-items: vertical;
-  background-color: var(--ieieie);
+  background-color: #333333;
   overflow-y: auto;
+  font-size: 12px;
+  color: white;
   /*flex-wrap: wrap;*/
 }
 
@@ -1171,7 +1219,7 @@ body {
   height: 30%;
   background-color: var(--ieieie);
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
 }
 */
@@ -1182,7 +1230,7 @@ body {
   left: 5%;
   height: 20px;
   background-color: #1e1e1e;
-  border: 0.5px solid #eeeeee;
+  border: 0.2px solid #eeeeee;
   border-radius: 5px;
   resize: none;
   color: #eeeeee;
@@ -1193,7 +1241,7 @@ body {
 }
 
 #inputforopenfile:focus {
-  border: 0.5px solid orangered;
+  border: 0.2px solid orangered;
 
 }
 
@@ -1202,7 +1250,7 @@ body {
   height: 30%;
   background-color: var(--ieieie);
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
 }
 */
@@ -1213,7 +1261,7 @@ body {
   height: 30%;
   background-color: var(--ieieie);
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
 }
 
@@ -1226,7 +1274,7 @@ body {
   font-size: 15px;
   background-color: #333333;
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
   padding-left: 10px;
   padding-right: 10px;
@@ -1238,16 +1286,23 @@ body {
 
 #liveserverbtn {
   all: unset;
-  position: relative;
+  position: absolute;
   top: 0;
   bottom: 0;
-  background-color: #1e1e1e;
+  right: 0;
+  background-color: inherit;
   color: #ffffff;
-  width: 18px;
-  height: 18px;
-  background: url('./images/host_16dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg');
+  width: fit-content;
   border-right-color: #ffffff;
-  border-right-width: 0.5px;
+  border-right-width: 0.2px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+#liveserverbtn:hover {
+
+  background-color: #1e1e1e;
+
 }
 
 #createfolderindialoog {
@@ -1259,7 +1314,7 @@ body {
   font-size: 15px;
   background-color: #0e4c32;
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
   padding-left: 10px;
   padding-right: 10px;
@@ -1276,7 +1331,7 @@ body {
   left: calc(5% + 40px);
   height: 20px;
   background-color: #1e1e1e;
-  border: 0.5px solid #eeeeee;
+  border: 0.2px solid #eeeeee;
   border-radius: 5px;
   resize: none;
   color: #eeeeee;
@@ -1296,7 +1351,7 @@ body {
   font-size: 15px;
   background-color: #333333;
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
   padding-left: 10px;
   padding-right: 10px;
@@ -1315,7 +1370,7 @@ body {
   font-size: 15px;
   background-color: #0e4c32;
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 0.2px;
   border-color: #eeeeee;
   padding-left: 10px;
   padding-right: 10px;
@@ -1332,7 +1387,7 @@ body {
   left: 5%;
   height: 20px;
   background-color: #1e1e1e;
-  border: 0.5px solid #eeeeee;
+  border: 0.2px solid #eeeeee;
   border-radius: 5px;
   resize: none;
   color: #eeeeee;
@@ -1369,11 +1424,11 @@ body {
   top: 0;
   bottom: 0;
   left: 0;
-  background-color: #1e1e1e;
+  background-color: #333333;
   color: #0000ef;
   width: fit-content;
   border-right-color: #ffffff;
-  border-right-width: 0.5px;
+  border-right-width: 0.2px;
   padding-right: 10px;
 }
 
@@ -1391,43 +1446,202 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
-input[type="checkbox"]{
+
+input[type="checkbox"] {
   pointer-events: all;
-} input{
-  z-index:10000;
 }
-#alertdialog{
+
+input {
+  z-index: 10000;
+}
+
+#alertdialog {
   min-height: 30%;
   min-width: 20%;
   height: fit-content;
   width: fit-content;
-  color:white;
+  color: white;
   font-size: 15px;
 }
-#okbtn{
-  all:unset;
-  position:absolute;
+
+#okbtn {
+  all: unset;
+  position: absolute;
   bottom: 0;
   right: 0;
   left: 0;
   text-align: center;
-  border-top: 0.5px solid #ffffff;
+  border-top: 0.2px solid #ffffff;
   background-color: #1e1e1e;
-  color:#ffffff;
-  height:40px;
+  color: #ffffff;
+  height: 40px;
 }
-#okbtn:hover{
-background-color: #404040;
+
+#okbtn:hover {
+  background-color: #404040;
 }
-#contentdiv{
-  position:absolute;
-  top:0;
-  right:0;
-  left:0;
-  bottom:41px;
+
+#contentdiv {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 41px;
   color: #f9f2f2;
   background-color: #1e1e1e;
 
   font-size: 12px;
   overflow: hidden;
+}
+
+#explorervc {
+  position: absolute;
+  top: 25px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: vertical;
+  background-color: #333333;
+  overflow-y: auto;
+  font-size: 12px;
+  color: white;
+}
+
+#commitbtn {
+  all: unset;
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  right: 5px;
+  border: 1px solid white;
+  border-radius: 2px;
+  background-color: #0f6dd9;
+  text-align: center;
+  z-index:100000;
+}
+
+#inputforcommit {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  left: 5%;
+  height: 20px;
+  background-color: #1e1e1e;
+  border: 0.2px solid #eeeeee;
+  border-radius: 5px;
+  resize: none;
+  color: #eeeeee;
+  font-size: 12px;
+  line-height: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#commitreal {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #0e4c32;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+}
+
+#cancelcommit {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #333333;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+}
+
+#terminaltabmanager {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 2px solid white;
+  position: absolute;
+  top: 20px;
+  right: 0;
+  bottom: 0;
+  width: 150px;
+  z-index: 100;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.cl_terminal_tab {
+  all: unset;
+  width: 150px;
+  height: 20px;
+  position: relative;
+  inset: 0;
+  background-color: #2b2b2b;
+  border-width: 1px;
+  border-color: white;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: left;
+}
+
+#addtermbtn {
+  all: unset;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  font-size: 20px;
+  background-color: #333333;
+  border-radius: 5px;
+  line-height: 18px;
+  width: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+#addtermbtn:hover {
+  background-color: #595959;
+}
+
+.terminaltabparallels {
+  display: block;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  right: 0px;
+  left: 0;
+  bottom: 0;
+  padding: 0px;
+  top: 0px;
+  font-family: "JetBrains Mono" !important;
+}
+
+.monaco-editor .scrollbar .horizontal {
+  display: block !important;
+  height: 12px !important;
 }

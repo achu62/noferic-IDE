@@ -5,24 +5,32 @@ import { initiateterminal } from "./initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";
+import { setInVersionControl } from './handlingversioncontrol/showinversion.js'
 import {
 	isValidJSON,
 	getfileiconbytype,
 	DeleteOldWorkspace,
 	findFolderById,
 } from "./utils.js";
-import { createfolderdialogbox } from "./filedialogbox.js";
+import { createfolderdialogbox } from "./foldercontextmenu.js";
+import { Styleicon } from "./styleicon.js"
+import { handleShortCuts } from "./shortcuthandlers.js";
+import { createfiledialogbox } from "./filecontextmenu.js";
+import { StyleL } from "./stylel.js"
+
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
 const file = document.getElementById(`file`);
 const exit = document.getElementById("exit");
-
 const iframe = document.querySelector("iframe#editor");
 const saveas = document.getElementById("save_as");
-let globalignoredfilesarray = [""];
-let isopen = false;
 
+
+let globalignoredfilesarray = [""];
+let globalgitstatusjson;
+let isopen = false;
 let path;
+
 
 let globalfolderjson;
 let globalfileexplorerstatejson = {};
@@ -33,6 +41,7 @@ let globalleftmenustate = {
 	isleftpanelopen: true,
 };
 
+
 export function showdialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfiledialog").showModal();
@@ -40,35 +49,33 @@ export function showdialog(path) {
 	}
 	document
 		.getElementById("createfileindialoog")
-		.addEventListener("click", () => {
+		.addEventListener("click", async () => {
 			const filejoin = document
 				.getElementById("inputforopenfile")
 				.value.replace("\n", "");
-			console.log(`firing creeation eve ${path}/${filejoin} `);
 
 			if (!filejoin) {
 				alert("filenames cannot be empty");
 				return;
 			}
 
-			console.log(`${path}/${filejoin}`);
+			console.log(await window.ipc.invoke("join-path", path, filejoin))
 
-			window.ipc.invoke("append", `${path}/${filejoin}`);
-			if (globalfileexplorerstatejson[`${path}` === false]) {
+			window.ipc.invoke("append", `${await window.ipc.invoke("join-path", path, filejoin)}`);
+			if (globalfileexplorerstatejson[`${path}`] === false) {
 				document.getElementById(path).click();
 			}
 			document.getElementById("inputforopenfile").value = "";
 		});
 }
-export function showFolderDialog(path)
-{
+export function showFolderDialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfolderdialog").showModal();
 		console.log(path);
 	}
 	document
 		.getElementById("createfolderindialoog")
-		.addEventListener("click", () => {
+		.addEventListener("click", async () => {
 			const filejoin = document
 				.getElementById("inputforopenfolder")
 				.value.replace("\n", "");
@@ -78,10 +85,9 @@ export function showFolderDialog(path)
 				return;
 			}
 
-			console.log(`${path}/${filejoin}`);
 
-			window.ipc.invoke("mkdir", `${path}/${filejoin}`);
-			if (globalfileexplorerstatejson[`${path}` === false]) {
+			window.ipc.invoke("mkdir", `${await window.ipc.invoke("join-path", path, filejoin)}`);
+			if (globalfileexplorerstatejson[`${path}`] === false) {
 				document.getElementById(path).click();
 			}
 			document.getElementById("inputforopenfolder").value = "";
@@ -89,14 +95,34 @@ export function showFolderDialog(path)
 
 		});
 }
+export function deleteFolder(path) {
+	const isUserok = confirm(`Do you want to Move Directory ${path}  to trash \n\n The Directory can be recovered from trash`)
+	if (isUserok) {
+		console.log(`${path}`)
+		window.ipc.invoke('unlink', `${path}`)
+	}
+}
+export function deleteFile(path) {
+	const isUserok = confirm(`Do you want to Move file ${path}  to trash \n\n The File can be recovered from trash`)
+	if (isUserok) {
+		console.log(`${path}`)
+		window.ipc.invoke('unlink', `${path}`)
+	}
+}
 window.onload = function () {
 	document.getElementById('alertdialog').close()
-
-
+	let countforterminal = 1;
+	document.getElementById("addtermbtn").addEventListener("click", (e) => {
+		window.ipc.invoke("create_new_terminal", countforterminal)
+		initiateterminal(document.getElementById("terminal"), countforterminal, document)
+		countforterminal++;
+	})
+	handleShortCuts(document)
 	document.getElementById("versioncontrolelement").style.display = "none";
 	function alert_s_1(string) {
-		document.getElementById('alertdialog').showModal()	
-	document.getElementById('contentdiv').innerText = string;}
+		document.getElementById('alertdialog').showModal()
+		document.getElementById('contentdiv').innerText = string;
+	}
 
 	document
 		.getElementById("gitvercontmenu")
@@ -123,7 +149,7 @@ window.onload = function () {
 
 	document.getElementById("file_on").style.display = "none";
 	document.getElementById("viewon").style.display = "none";
-	////////////////
+
 	exit.onclick = () => {
 		window.close();
 	};
@@ -131,7 +157,13 @@ window.onload = function () {
 	const terminalEl = document.getElementById("terminalelement");
 	terminalEl.style.display = "none";
 	async function openfileoncilick(path, iframe) {
-		const extension = path.split(`/`).pop().split(`.`).pop();
+		
+		//const extension = path.split(`/`).pop().split(`.`).pop()
+		// ;
+		const ext = await window.ipc.invoke("get-ext", path);
+		const extension = ext.replace(".", "")
+
+		console.log(`ext-ex-$${extension}`)
 		if (!path) {
 			return;
 		} else {
@@ -230,7 +262,7 @@ window.onload = function () {
 			{ once: true },
 		);
 	});
-	initiateterminal(document.getElementById("terminal"));
+	initiateterminal(document.getElementById("terminal"), "def", document);
 	resizeterminal(
 		document.getElementById("terminalelement"),
 		document.getElementById("editor"),
@@ -262,9 +294,9 @@ window.onload = function () {
 
 	const fileexplorerarea = document.getElementById("explorerelement");
 	async function recursiveloop(filearray, space) {
-		let depth = 17;
+		let depth = 10;
 
-		depth = depth + 5;
+		depth = depth + 2;
 		for (const file of filearray) {
 			if (file.isdirectory) {
 				//jai sri ram
@@ -277,9 +309,12 @@ window.onload = function () {
 				filebutton.classList.add("folder");
 				filebutton.style.paddingLeft = depth + "px";
 				filebutton.title = `${file.id}`;
+
 				if (globalignoredfilesarray.includes(file.id)) {
-					filebutton.style.color = "#dc360c";
+					filebutton.style.color = "#999290";
+					filebutton.title += "Untracked"
 				}
+
 				const statebtn = document.createElement("div");
 				statebtn.id = `statebuttonfor${file.id}`;
 				statebtn.style.position = "absolute";
@@ -292,17 +327,13 @@ window.onload = function () {
 				statebtn.style.backgroundRepeat = "no-repeat";
 				statebtn.style.backgroundSize = "cover";
 				const icon = document.createElement("div");
-				icon.id = `iconfor${file.id}`;
-				icon.style.position = "absolute";
-				icon.style.backgroundImage = "url(images/folder.svg)";
-				icon.style.backgroundRepeat = "no-repeat";
-				icon.style.backgroundSize = "cover";
-				icon.style.top = "0.5px";
-				icon.style.bottom = "0.5px";
-				icon.style.height = "16px";
-				icon.style.width = `16px`;
-				icon.style.left = `${depth - 19}px`;
+				const handle = document.createElement("div");
+				StyleL(handle, file, depth, "folder")
+				Styleicon(icon, file, depth, "folder")
+
 				filebutton.appendChild(icon);
+				filebutton.appendChild(handle);
+
 				globalfileexplorerstatejson[`${file.id}`] = false;
 				filebutton.appendChild(statebtn);
 				let isopen = false;
@@ -323,13 +354,14 @@ window.onload = function () {
 							return;
 						}
 					} else {
-						filebutton.replaceChildren(file.name, statebtn, icon);
+						filebutton.replaceChildren(`${file.name}`, statebtn, icon, handle);
 						isopen = false;
 						globalfileexplorerstatejson[`${file.id}`] = false;
 
 						e.stopPropagation();
 					}
 					console.log(globalfileexplorerstatejson);
+
 				});
 				space.appendChild(filebutton);
 				createfolderdialogbox(
@@ -341,15 +373,23 @@ window.onload = function () {
 			} else {
 				const filebutton = document.createElement("button");
 				filebutton.id = `${file.id}`;
+				const extension = file.name.split(".").pop();
 
 				filebutton.textContent = `${file.name}`;
 				filebutton.classList.add("files");
 				filebutton.style.paddingLeft = depth + "px";
 				if (globalignoredfilesarray.includes(file.id)) {
-					filebutton.style.color = "#dc360c";
+					filebutton.style.color = "#999290";
+					filebutton.title += "Untracked "
 				}
 				filebutton.title = `${file.id}`;
+
 				space.appendChild(filebutton);
+				createfiledialogbox(
+					document.body,
+					file.id,
+					filebutton
+				);
 				filebutton.addEventListener("click", async (e) => {
 					e.stopPropagation();
 					e.stopImmediatePropagation();
@@ -364,9 +404,16 @@ window.onload = function () {
 						const topbarelement = document.createElement("button");
 						topbarelement.classList.add("class__topelements");
 						topbarelement.id = `topbarelementfor${file.id}`;
+						topbarelement.paddingLeft = 3 + "px";
+
 						topbarelement.textContent = `${file.name}`;
 						topbarelement.title = `${file.id}`;
-						const extension = filepathonclick.split("/").pop().split(".").pop();
+					
+						// const extension = filepathonclick.split("/").pop().split(".").pop();
+
+						const ext = await window.ipc.invoke("get-ext", filepathonclick)
+
+						console.log(`ext-ex-$${extension}`)
 						topbarelement.addEventListener("click", (e) => {
 							e.stopPropagation();
 							iframe.contentWindow.postMessage(
@@ -384,6 +431,7 @@ window.onload = function () {
 						document
 							.getElementById("topbarforeditor")
 							.appendChild(topbarelement);
+
 						const topbarclosebtn = document.createElement("button");
 						topbarclosebtn.classList.add("topbarclose_class");
 						topbarclosebtn.id = `topbarelementclosefor${file.id}`;
@@ -402,24 +450,16 @@ window.onload = function () {
 						isexisting.click();
 					}
 				});
-				const extension = file.name.split(".").pop();
 
-				let logopath = getfileiconbytype[extension];
-				if (!logopath) {
-					logopath = `images/unknown.svg`;
-				}
+
 				const icon = document.createElement("div");
-				icon.id = `iconfor${file.id}`;
-				icon.style.position = "absolute";
-				icon.style.backgroundImage = `url(${logopath})`;
-				icon.style.backgroundRepeat = "no-repeat";
-				icon.style.backgroundSize = "cover";
-				icon.style.top = "0.5px";
-				icon.style.bottom = "0.5px";
-				icon.style.height = "16px";
-				icon.style.width = `16px`;
-				icon.style.left = `${depth - 19}px`;
+
+				Styleicon(icon, file, depth, extension)
 				filebutton.appendChild(icon);
+				const handle = document.createElement("div");
+				StyleL(handle, file, depth, "folder")
+				filebutton.appendChild(handle)
+
 			}
 		}
 	}
@@ -528,30 +568,7 @@ window.onload = function () {
 			{ once: true },
 		);
 	});
-	document.addEventListener("keypress", (e) => {
-		if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
-			e.preventDefault();
-			document.getElementById("format").click();
-		} else if (e.ctrlKey && e.key.toLowerCase() === "s") {
-			e.preventDefault();
-			document.getElementById("save").click();
-		} else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "t") {
-			e.preventDefault();
-			document.getElementById("term").click();
-		}
-	});
-	iframe.contentWindow.addEventListener("keypress", (e) => {
-		if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
-			e.preventDefault();
-			document.getElementById("format").click();
-		} else if (e.ctrlKey && e.key.toLowerCase() === "s") {
-			e.preventDefault();
-			document.getElementById("save").click();
-		} else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "t") {
-			e.preventDefault();
-			document.getElementById("term").click();
-		}
-	});
+
 	window.addEventListener("message", async (e) => {
 		const message = e.data;
 		if (message.action === "autosave") {
@@ -562,6 +579,7 @@ window.onload = function () {
 		const message = JSON.parse(data);
 
 		if (JSON.parse(data).action == "handlingargsopenfolder") {
+			new Notification(`Opened Folder ${message.fjson[0].id}`)
 			console.log(message);
 			console.log(message.action);
 			console.log(message.fjson);
@@ -599,6 +617,12 @@ window.onload = function () {
 		} else if (message.action == "removeelements") {
 			globalfolderjson = message.newjson;
 			document.getElementById(message.remove)?.remove();
+			if (document.getElementById(`topbarelementfor${message.remove}`)) {
+				document.getElementById(`topbarelementfor${message.remove}`).remove()
+				alert(`${message.remove} is deleted`)
+				iframe.contentWindow.postMessage({ action: "deletemodelonclose", path: message.remove })
+
+			}
 		} else if (message.action === "ignoredfiles") {
 			console.log(message.ignoredfiles);
 			message.ignoredfiles.forEach((ignoredfile) => {
@@ -606,9 +630,36 @@ window.onload = function () {
 					globalignoredfilesarray.push(ignoredfile);
 				}
 				if (document.getElementById(ignoredfile)) {
-					document.getElementById(ignoredfile).style.color = "#dc360c";
+					document.getElementById(ignoredfile).style.color = "#999290";
 				}
 			});
+		}
+
+
+		else if (message.action === "status") {
+			console.log(`newm:${JSON.stringify(message.status)} , rawm:${JSON.stringify(message)}`)
+			globalgitstatusjson = message.status;
+			setInVersionControl(document, document.getElementById("explorervc"), globalgitstatusjson)
+
+		}
+		else if (message.action === "handleachangeinfile") {
+			console.log(`action change filepath ${message.path}`)
+			if (document.getElementById(`topbarelementfor${message.path}`)) {
+				const ext = await window.ipc.invoke("get-ext", message.path);
+				const extension = ext.replace(".", "")
+				iframe.contentWindow.postMessage(
+					{
+						action: "set",
+						content: message.content,
+						isdir: false,
+						path: message.path,
+						
+						extension: extension,
+						isspecialchange: true,
+					},
+					"*",
+				);
+			}
 		}
 	});
 
@@ -627,8 +678,15 @@ window.onload = function () {
 	document
 		.getElementById("cancelcreateliveserverdialog")
 		.addEventListener("click", () => {
-			
+
 			document.getElementById('createliveserverdialog').close();
+			console.log(document.getElementById("inputforliveserver").value);
+		});
+	document
+		.getElementById("cancelcommit")
+		.addEventListener("click", () => {
+
+			document.getElementById('commitdialog').close();
 			console.log(document.getElementById("inputforliveserver").value);
 		});
 	window.addEventListener("message", (e) => {
@@ -649,37 +707,88 @@ window.onload = function () {
 			runLint();
 		}
 	});
-	document.getElementById('liveserverbtn').addEventListener('click', (e)=>{
+	document.getElementById('liveserverbtn').addEventListener('click', (e) => {
 		document.getElementById('createliveserverdialog').showModal()
 	})
-	document.getElementById('createliveserverbtn').addEventListener('click' , (e)=>{
+	document.getElementById('createliveserverbtn').addEventListener('click', async (e) => {
 		console.log(JSON.stringify({
 			port: `${document.getElementById('inputforliveserver').value}`
 		}))
 		const relativepath = document.getElementById('inputpathforliveserver').value
-	
-		window.ipc.invoke("start_server", { port: document.getElementById('inputforliveserver').value, relativepath: relativepath ? relativepath : './', toOpen: document.getElementById("Browsercheck").checked})
+		try {
+			//@
+			const dec = await window.ipc.invoke("validate-details-liveserver", { port: document.getElementById('inputforliveserver').value, relativepath: relativepath ? relativepath : './', toOpen: document.getElementById("Browsercheck").checked })
+			console.log(dec)
+		}
+		catch (e) {
+
+			alert(e)
+			return;
+		}
+		//@
+		window.ipc.invoke("start_server", { port: document.getElementById('inputforliveserver').value, relativepath: relativepath ? relativepath : './', toOpen: document.getElementById("Browsercheck").checked })
 		document.getElementById('link').innerText = `http://127.0.0.1:${document.getElementById('inputforliveserver').value}`
-		
+
 		document.getElementById('inputforliveserver').value = "";
 
 		document.getElementById('createliveserverdialog').close();
 
 
 	})
-	document.getElementById('link').addEventListener('click' , (e)=>{
+	document.getElementById('link').addEventListener('click', (e) => {
 		e.preventDefault()
+
 		navigator.clipboard.writeText(document.getElementById('link').innerText)
+		new Notification(`copied ${document.getElementById('link').innerText} to Clipboard
+		`)
 	})
-	//alert_s_1(`(node:47168) [DEP0180] DeprecationWarning: fs.Stats constructor is deprecated.
-		//(Use electron --trace-deprecation ... to show where the warning was created)
-//terminate called after throwing an instance of 'Napi::Error'
-  //what():
-		
-  ///home/charan / noferic - IDE / node_modules / electron / dist / electron exited with signal SIGABRT
-//(node:47168) [DEP0180] DeprecationWarning: fs.Stats constructor is deprecated.
-//		(Use electron --trace-deprecation ... to show where the warning was created)
-//terminate called after throwing an instance of 'Napi::Error'
-  //`)
+
+	document.getElementById('commitbtn').addEventListener('click', (e) => {
+		document.getElementById('commitdialog').showModal()
+	})
+	document.getElementById('commitreal').addEventListener("click", (e) => {
+		if (!document.getElementById('inputforcommit').value) { alert("commit messages cannot be empty"); return; }
+		const isuserokforcommit = confirm(`Do you want to commit with commit Message ${document.getElementById('inputforcommit').value}`)
+		if (isuserokforcommit) {
+			async function runn() {
+				try {
+					await window.ipc.invoke('commit', document.getElementById('inputforcommit').value)
+					new Notification(`Comitted!`)
+
+				}
+				catch (e) {
+					alert(e)
+					return;
+				}
+
+			}
+			runn()
+		}
+	})
+	document.getElementById("inputforopenfolder").addEventListener("keydown", (e) => {
+		if (e.key === "Enter") {
+			document.getElementById("createfolderindialoog").click();
+		}
+	})
+	document.getElementById("inputforopenfile").addEventListener("keydown", (e) => {
+		if (e.key === "Enter") {
+			document.getElementById("createfileindialoog").click();
+		}
+	})
+	document.getElementById("inputforcommit").addEventListener("keydown", (e) => {
+		if (e.key === "Enter") {
+			document.getElementById("commitreal").click();
+		}
+	})
+	document.getElementById("inputforliveserver").addEventListener("keydown", (e) => {
+		if (e.key === "Enter") {
+			document.getElementById("createliveserverbtn").click();
+		}
+	})
+	document.getElementById("inputpathforliveserver").addEventListener("keydown", (e) => {
+		if (e.key === "Enter") {
+			document.getElementById("createliveserverbtn").click();
+		}
+	})
 
 };

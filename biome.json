@@ -11,16 +11,45 @@
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "space"
-		
 	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"style":{
-				"noDefaultExport":"info",
-				"useConst":"error"
+			"style": {
+				"noDefaultExport": "info",
+				"useConst": "error"
 			}
-			
+		}
 	}
 }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 {
 	"name": "noferic-ide",
-	"version": "1.6.5",
+	"version": "1.7.0",
 	"description": "",
 	"main": "main.js",
 	"scripts": {
@@ -17,7 +17,11 @@
 	},
 	"dependencies": {
 		"@biomejs/biome": "^2.4.16",
+		"@types/vscode": "^1.125.0",
 		"chokidar": "^5.0.0",
+		"detect-port": "^2.1.0",
+		"express": "^5.2.1",
+		"jsdoc": "^4.0.5",
 		"language-map": "^1.5.0",
 		"live-server": "^1.2.2",
 		"node-pty": "^1.1.0",
@@ -38,7 +42,8 @@
 			"target": [
 				"deb",
 				"AppImage"
-			]
+			],
+			"category": "Development"
 		},
 		"win": {
 			"target": [

@@ -21,6 +21,7 @@
 			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Italic.woff2") format("woff2");
 			font-weight: 400;
 			font-style: italic;
+			
 		}
 
 		@font-face {
@@ -41,10 +42,11 @@
 
 <body>
 	<canvas id="canvas"></canvas>
-	<dialog id="alertdialog"class='dialog'>
-				<button id="okbtn">Ok</button>
-				<p id="contentdiv"></p>
+	<dialog id="alertdialog" class='dialog'>
+		<button id="okbtn">Ok</button>
+		<p id="contentdiv"></p>
 	</dialog>
+
 	<dialog id="createliveserverdialog" class="dialog">
 		<label for="inputforliveserver" style="
   display: inline-block;
@@ -59,7 +61,7 @@
 		<input id="inputpathforliveserver" type="text" spellcheck="false"
 			placeholder="relative dir path(optional)" /></textarea>
 		<button id="createliveserverbtn">start server</button>
-		<div  id="checkboxtitle">Open in default browser</div>
+		<div id="checkboxtitle">Open in default browser</div>
 		<input type="checkbox" id="Browsercheck" title="Open in default browser" checked>
 
 
@@ -76,10 +78,19 @@
 		<button id="cancelcreatefolderdialog">Cancel</button>
 		<input id="inputforopenfolder" type="text" placeholder="folder/directory name..." spellcheck="false"></textarea>
 	</dialog>
+	<dialog id="commitdialog" class="dialog">
+		<button id="commitreal">commit</button>
+		<button id="cancelcommit">Cancel</button>
+
+		<input id="inputforcommit" type="text" placeholder="message for commit.." spellcheck="false"></textarea>
+
+	</dialog>
 	<div class="common bgcolor1e1e1e" id="top-menu">
 		<div id="logo"></div>
 		<button class="common bgcolor1e1e1e" id="file">File</button>
 		<button popovertarget="viewon" class="common bgcolor1e1e1e" id="view">View</button>
+		<button id="liveserverbtn" title="start live server">Live server</button>
+
 	</div>
 	<div id="file_on" tabindex=0 class="common">
 		<button id="open_file" class="common">Open file</button>
@@ -92,8 +103,6 @@
 	<div class="common bgcolor1e1e1e" id="btmenu">
 		<div id="lineandcolumn"></div>
 		<div id="language"></div>
-		<button id="liveserverbtn" title="start live server"></button>
-		<button id="link"></button>
 	</div>
 	<div class="common bgcolor1e1e1e" id="ltmenu">
 		<button class="common" id="expl" title="explorer"></button>
@@ -107,8 +116,11 @@
 			<div id="topbarforeditor"></div>
 			<iframe src="editor/index.html" id="editor" class="bgcolor1e1e1e"></iframe>
 			<div id="terminalelement">
-				<div id="terminaltopbar" class="common bgcolor1e1e1e">Terminal</div>
+				<div id="terminaltopbar" class="common bgcolor1e1e1e">Terminal
+					<button id="addtermbtn" title=" Create terminal process">+</button>
+				</div>
 				<div id="terminal" class="common bgcolor1e1e1e"></div>
+				<div id="terminaltabmanager"></div>
 			</div>
 		</div>
 		<div id="preview">
@@ -119,9 +131,15 @@
 			<div id="explorerelement">
 
 			</div>
-			<div id="versioncontrolelement"></div>
+			<div id="versioncontrolelement">
+				<div id="explorervc"></div>
 
 
+				<button id="commitbtn">Commit in current branch</button>
+
+			</div>
+
+				<div id="link" style="opacity:0;"></div>
 		</div>
 	</div>
 	</div>
@@ -144,7 +162,6 @@
 </body>
 <!---dont remove this-->
 <script src="./renderer.js" type="module"></script>
-
 <script src="./xterm/lib/xterm.js"></script>
 <!---dont remove this-->
 

@@ -16,6 +16,7 @@ You can download the AppImage for Linux here:
 
 ### Dependencies
 
+
 - Node.js (LTS recommended)
 - npm (included with Node.js)
 - git (optional, if you prefer to clone the repository)

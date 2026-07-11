@@ -12,6 +12,7 @@ export function isValidJSON(json) {
 
 
 export const getfileiconbytype = {
+	"folder":"images/folder.svg",
 	html: "images/html.png",
 	htm: "images/code.svg",
 	css: "images/css.svg",

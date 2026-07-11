@@ -32,6 +32,7 @@ window.onload = () => {
 				{ token: "function", foreground: "FFD166" },
 				{ token: "constant", foreground: "4DABF7" },
 				{ token: "operator", foreground: "FF922B" },
+				{ token: "keyword", foreground:"FF922B"}
 			],
 			colors: {
 				"editor.background": "#1e1e1e",
@@ -40,7 +41,7 @@ window.onload = () => {
 				"editorCursor.foreground": "#FFFFFF",
 				"editor.selectionBackground": "#505050",
 				"editor.lineHighlightBackground": "#404040",
-				"editorInfo.foreground":"#001f00"
+				"editorInfo.foreground":"#1edf1e"
 			},
 		});
 
@@ -54,6 +55,7 @@ window.onload = () => {
 			breadcrumbs: {
 				enabled: true,
 			},
+			codeLens: true, // Fixed casing
 			dragAndDrop: true,
 			cursorBlinking: "blink",
 			cursorStyle: "line",
@@ -63,8 +65,14 @@ window.onload = () => {
 			fontFamily: "JetBrains Mono",
 			fontLigatures: true,
 			fontWeight: 200,
+			
 			theme: "NofericIDETheme",
-		});
+			// Add these inside your main configuration object
+			wordWrap: "off",                 // Ensures text doesn't wrap down, forcing horizontal expansion
+			scrollBeyondLastColumn: 5,       // Forces extra horizontal scrolling space at the end of lines
+			alwaysConsumeMouseWheel: false,
+		}
+);
 
 		let URI = null;
 		let ismodel = false;
@@ -125,6 +133,7 @@ window.onload = () => {
 
 			if (action === "set") {
 				console.log("file is ");
+				console.log(`message${message}`)
 				const content = message.content;
 				ismodel = message.isdir;
 				URI = message.path;
@@ -138,6 +147,7 @@ window.onload = () => {
 				recentmodeluri = `id://${URI}`;
 				if (!isexisting) {
 					if (ismodel == false) {
+						console.log('tying')
 						console.log("content:" + content);
 						const model = monaco.editor.createModel(
 							content,
@@ -145,6 +155,7 @@ window.onload = () => {
 							monaco.Uri.parse(`id://${URI}`),
 						);
 						editor.setModel(model);
+
 						ismodel = false;
 					} else {
 						const model = monaco.editor.createModel(
@@ -156,7 +167,13 @@ window.onload = () => {
 						editor.setModel(model);
 					}
 				} else {
-					editor.setModel(isexisting);
+					if (message.isspecialchange){
+						isexisting.setValue(message.content)
+					}
+					else{
+						editor.setModel(isexisting);
+
+					}
 				}
 
 				autosave(editor);
@@ -247,6 +264,11 @@ window.onload = () => {
 						window.parent.document.getElementById("topbarforeditor");
 					parent.querySelectorAll("*").forEach((el) => {
 						el.style.backgroundColor = "#1e1e1e";
+
+						el.querySelectorAll("*").forEach((e)=>{
+							e.style.backgroundColor = "#1e1e1e";
+
+						})
 					});
 					topbarfor.style.backgroundColor = "#404040";
 					editor.setModel(newmodel);
