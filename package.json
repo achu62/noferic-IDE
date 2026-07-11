@@ -3,6 +3,7 @@
 	"version": "1.7.0",
 	"description": "",
 	"main": "main_p/main.js",
+	"type": "module",
 	"scripts": {
 		"start": "electron .",
 		"build": "electron-builder",

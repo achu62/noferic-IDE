@@ -1,5 +1,26 @@
 //jai sri ram
-const { app, BrowserWindow, dialog, ipcMain, shell } = require("electron");
+//yes this is working
+import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
+import { detectPort } from "detect-port";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import fs from "node:fs";
+import { Worker } from "node:worker_threads";
+import pty from "node-pty";
+import { spawn, execFile, exec } from "child_process";
+import os from "os";
+
+import { buffer } from "stream/consumers";
+import * as rpc from "vscode-jsonrpc";
+import { InitializeRequest } from "vscode-languageserver-protocol";
+import chokidar from "chokidar";
+import { watchFile } from "node:original-fs";
+import { simpleGit, gitP } from "simple-git";
+import liveServer from "live-server";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 let pathreal = null;
 const isproduction = app.isPackaged;
 
@@ -21,23 +42,6 @@ let tsserverconnection;
 let count = 1;
 //jai sri ram
 
-//jai sri ram
-const { detectPort } = require("detect-port");
-const path = require("node:path");
-
-const fs = require("node:fs");
-const { Worker } = require("node:worker_threads");
-const pty = require("node-pty");
-const { spawn, execFile, exec } = require("child_process");
-const os = require("os");
-const { buffer } = require("stream/consumers");
-const rpc = require(`vscode-jsonrpc`);
-
-const { InitializeRequest } = require("vscode-languageserver-protocol");
-const chokidar = require("chokidar");
-const { watchFile } = require("node:original-fs");
-const { simpleGit, gitP } = require("simple-git");
-const liveServer = require("live-server");
 console.log("starting...live..server");
 
 const isWindows = process.platform === "win32";
@@ -589,9 +593,7 @@ ipcMain.handle("openfile", async () => {
 	if (result.canceled || !result.filePaths || result.filePaths.length === 0)
 		return null;
 	pathreal = result.filePaths[0];
-	//track(pathreal);
-
-	//return result.filePaths[0];
+	
 	try {
 		if (isproduction) {
 			spawn(process.execPath, [pathreal], {
@@ -605,7 +607,7 @@ ipcMain.handle("openfile", async () => {
 			}).unref();
 		}
 
-		//win.close();
+		
 		biomeprocess.kill();
 	} catch (e) {
 		consolelog(e);
