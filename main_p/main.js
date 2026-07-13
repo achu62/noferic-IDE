@@ -18,12 +18,13 @@ import { watchFile } from "node:original-fs";
 import { simpleGit, gitP } from "simple-git";
 import liveServer from "live-server";
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import {deleteNodeById , injectChildrenByPath} from "./utils.js"
-import { createbiomeprocess } from "./createbiomeprocess.js";
+import { startBiomeProcess, lintWithBiome } from "./biome/biomeHandler.js";
 import { readFilejs } from "./readfile.js";
-import { formatHandler } from "./formatrequesthandler.js";
+import { formatHandler } from "./biome/formatrequesthandler.js";
 import { defaultconfigbiome } from "./defaultconfig.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
 import { handleCommit } from "./handlecommit.js";
@@ -321,80 +322,14 @@ async function handleappargs(args) {
 			pathreal = path.resolve(args);
 			track(path.resolve(args));
 			initialisereposcan(path.resolve(args));
-			biomeprocess = createbiomeprocess(isWindows , isproduction)
-
-			connection = rpc.createMessageConnection(
-				new rpc.StreamMessageReader(biomeprocess.stdout),
-				new rpc.StreamMessageWriter(biomeprocess.stdin),
-			);
-			connection.listen();
-			connection.onRequest("workspace/configuration", (params) => {
-				console.log("Biome asked for configuration params:", params);
-				return [
-					{
-						configurationPath: path.join(
-							path.resolve(args),
-							".noferic-ide",
-							"biome.json",
-						),
-						requireConfiguration: true,
-					},
-				];
+			const biomeResult = await startBiomeProcess(args, {
+				isWindows,
+				isproduction,
+				cfpath,
+				consolelog,
 			});
-			const root = `file://${path.resolve(args)}/.noferic-ide`;
-			async function start() {
-				try {
-					connection.sendRequest("initialize", {
-						processId: process.pid,
-						rootUri: root,
-						workspaceFolders: [
-							{
-								uri: root,
-								name: path.basename(path.resolve(args)),
-							},
-						],
-						capabilities: {
-							workspace: {
-								configuration: true,
-								workspaceFolders: true,
-								didChangeWatchedFiles: {
-									dynamicRegistration: true,
-								},
-							},
-							textDocument: {
-								synchronization: {
-									didSave: true,
-									dynamicRegistration: true,
-								},
-							},
-						},
-					});
-					console.log(
-						`file://${path.join(path.resolve(args), ".noferic-ide", "biome.json")}`,
-					);
-
-					connection.sendNotification("initialized", {});
-					connection.sendNotification("workspace/didChangeWatchedFiles", {
-						changes: [
-							{
-								// Point directly to the physical biome.json file URI
-								uri: `file://${path.join(path.resolve(args), ".noferic-ide", "biome.json")}`,
-								type: 2, // 2 means "Changed" in the LSP Specification
-							},
-						],
-					});
-					connection.sendNotification("workspace/didChangeConfiguration", {
-						settings: {
-							biome: {
-								requireConfiguration: true,
-							},
-						},
-					});
-				} catch (e) {
-					consolelog(`error:\n\n\n\n${e}`);
-				}
-			}
-			start();
+			biomeprocess = biomeResult.biomeprocess;
+			connection = biomeResult.connection;
 			if (!fs.existsSync(path.join(path.resolve(args), ".noferic-ide"))) {
 				fs.mkdirSync(path.join(path.resolve(args), ".noferic-ide"));
 			}
@@ -574,36 +509,16 @@ ipcMain.handle("lint", async (e, message) => {
 	if (!oldreqcomleted) {
 		return;
 	}
+	oldreqcomleted = false;
 
 	try {
-		consolelog(`recieved:${JSON.stringify(message)}`);
-
-		const fileToLint = {
-			uri: `file://${pathreal}/.noferic-ide/test${Date.now()}.${message.extension}`,
-			languageId: message.language,
-			version: 1,
-			text: message.code,
-		};
-		connection.sendNotification("textDocument/didOpen", {
-			textDocument: fileToLint,
-		});
+		return await lintWithBiome(connection, pathreal, message, consolelog);
 	} catch (error) {
 		consolelog(error);
+		throw error;
+	} finally {
+		oldreqcomleted = true;
 	}
-	let params;
-	const promise = new Promise((re, rej) => {
-		const listener = connection.onNotification(
-			"textDocument/publishDiagnostics",
-			(params) => {
-				consolelog(`\n\n${JSON.stringify(params)}`);
-				oldreqcomleted = true;
-				count++;
-				re(params);
-				listener.dispose();
-			},
-		);
-	});
-	return promise;
 });
 ipcMain.handle("mkdir", async (e, path) => {
 	try {

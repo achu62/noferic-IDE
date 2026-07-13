@@ -16,8 +16,7 @@
         "enabled": true,
         "rules": {
             "style":{
-                "noDefaultExport":"error",
-                "useBlockStatements":"info"
+                "useBlockStatements":"error"
             }
         }
     },

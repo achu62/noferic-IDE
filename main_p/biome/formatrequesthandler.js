@@ -1,5 +1,9 @@
 //jai sri ram
-export async function formatHandler(event, object, { connection, pathreal, win, consolelog }) {
+export async function formatHandler(
+	event,
+	object,
+	{ connection, pathreal, win, consolelog },
+) {
 	const extension = object.extension;
 	const language = object.language;
 	const myCode = object.code;
