@@ -1,7 +1,7 @@
 //jai sri ram
 ///////////
 //jai sri ram
-import { initiateterminal } from "./initialiseterminal.js";
+import { initiateterminal } from "./terminal/initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";

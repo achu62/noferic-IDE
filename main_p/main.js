@@ -23,6 +23,10 @@ const __dirname = path.dirname(__filename);
 import {deleteNodeById , injectChildrenByPath} from "./utils.js"
 import { createbiomeprocess } from "./createbiomeprocess.js";
 import { readFilejs } from "./readfile.js";
+import { formatHandler } from "./formatrequesthandler.js";
+import { defaultconfigbiome } from "./defaultconfig.js";
+import { initialiseterminalmain } from "./terminal/terminal.js";
+import { handleCommit } from "./handlecommit.js";
 let pathreal = null;
 const isproduction = app.isPackaged;
 
@@ -55,32 +59,7 @@ if (!fs.existsSync(path.join(cfpath, "biome"))) {
 if (!fs.existsSync(path.join(cfpath, "biome", "biome.json"))) {
 	fs.writeFileSync(
 		path.join(cfpath, "biome", "biome.json"),
-		`
-		{
-	"$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
-	"vcs": {
-		"enabled": true,
-		"clientKind": "git",
-		"useIgnoreFile": true
-	},
-	"files": {
-		"ignoreUnknown": false
-	},
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "space"
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"style": {
-				"noDefaultExport": "info",
-				"useConst": "error"
-			}
-		}
-	}
-}
-`,
+		defaultconfigbiome,
 		"utf8",
 	);
 }
@@ -329,35 +308,8 @@ function createWindow() {
 let ptyProcess = {};
 let terminal = null;
 let pathforterminal;
-async function initialiseterminalmain(pathforterminal, id) {
-	if (process.platform === "win32") {
-		terminal = process.env.COMSPEC || "cmd.exe";
-	} else {
-		terminal = process.env.SHELL || "bash";
-	}
 
-	ptyProcess[id] = pty.spawn(terminal, [], {
-		cwd: pathforterminal || os.homedir(),
-		env: process.env,
-	});
-	ptyProcess[id].onData((data) => {
-		win.webContents.send(
-			"data",
-			JSON.stringify({ action: "terminaldata", data: data.toString(), id: id }),
-		);
-	});
-	ipcMain.on("data", (event, d) => {
-		const data = JSON.parse(d);
-		if (data.action === "tdata" && data.id === id ) {
-			if(data.a2 === "resize"){
-				ptyProcess[id].resize(data.data.cols , data.data.rows)
-				return;
-			}
-			ptyProcess[id].write(data.data);
-		}
-	});
-	
-}
+
 async function handleappargs(args) {
 	if (!args) {
 		return;
@@ -490,10 +442,10 @@ async function handleappargs(args) {
 					],
 				}),
 			);
-			initialiseterminalmain(path.resolve(args), "def");
+			initialiseterminalmain(ptyProcess ,  path.resolve(args), "def" , win);
 		} else {
 			track(path.resolve(args));
-			initialiseterminalmain(path.dirname(path.resolve(args)), "def");
+			initialiseterminalmain(ptyProcess , path.dirname(path.resolve(args)), "def" , win);
 			win.webContents.send(
 				"data",
 
@@ -580,41 +532,12 @@ ipcMain.handle("saveas", async (e) => {
 });
 
 ipcMain.handle("format", async (event, object) => {
-	const extension = object.extension;
-	const language = object.language;
-	const myCode = object.code;
-
-	try {
-		const myUri = `file://${pathreal}/.noferic-ide/test${Date.now()}.${extension}`;
-
-		await connection.sendNotification("textDocument/didOpen", {
-			textDocument: {
-				uri: myUri,
-				languageId: language,
-				version: 1,
-				text: myCode,
-			},
-		});
-		const edits = await connection.sendRequest("textDocument/formatting", {
-			textDocument: { uri: myUri },
-			options: {
-				tabSize: 2,
-				insertSpaces: true,
-			},
-		});
-		consolelog(edits);
-		return edits;
-	} catch (e) {
-		console.log(JSON.stringify(e));
-		win.webContents.send(
-			"data",
-			JSON.stringify({
-				action: "errorhandle",
-				errorlocation: "formatting",
-				errormessage: JSON.stringify(e),
-			}),
-		);
-	}
+	return formatHandler(event, object, {
+		connection,
+		pathreal,
+		win,
+		consolelog,
+	});
 });
 
 ipcMain.handle("openfolder", async (e) => {
@@ -635,8 +558,6 @@ ipcMain.handle("openfolder", async (e) => {
 				stdio: "ignore",
 			}).unref();
 		}
-
-		//win.close();
 		biomeprocess.kill();
 	} catch (e) {
 		consolelog(e);
@@ -740,28 +661,14 @@ ipcMain.handle("validate-details-liveserver", async (e, d) => {
 	return npromise;
 });
 ipcMain.handle("commit", async (e, message) => {
-	const commitPromise = new Promise((re, rej) => {
-		try {
-			async function runn() {
-				const status = await gitprocess.status();
-				console.log("m" + status.files.length);
-				if (status.files.length === 0) {
-					rej("no changes to commit");
-				}
-				gitprocess.add(".");
-				const commit = gitprocess.commit(message);
-				re(commit.summary, commit.commit);
-			}
-			runn();
-		} catch (e) {
-			rej(new Error(e));
-		}
-	});
-	return commitPromise;
+	
+		const commitPromise = await handleCommit(gitprocess , message)
+		return commitPromise;
 });
 ipcMain.handle("create_new_terminal", async (e, id) => {
 	console.log("r r /t n");
-	initialiseterminalmain(pathtncreal, id);
+	initialiseterminalmain(ptyProcess , 
+		pathreal, id , win);
 });
 ipcMain.handle("join-path" , async(e , arg1 , arg2)=>{
 	console.log(path.join(arg1, arg2))

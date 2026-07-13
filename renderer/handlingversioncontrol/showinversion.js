@@ -19,6 +19,7 @@ function rl(elementr , array){
     });
 }
 export  function setInVersionControl(document, element, json){
+    element.innerText = "";
     const modifiedElement = document.createElement('button')
     modifiedElement.classList.add('files')
     modifiedElement.id = "modifiedElements"
