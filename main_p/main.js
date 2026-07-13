@@ -23,6 +23,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import {deleteNodeById , injectChildrenByPath} from "./utils.js"
 import { startBiomeProcess, lintWithBiome } from "./biome/biomeHandler.js";
+import { start_server } from "./liveserver/startServer.js";
+import { validate_details_liveserver } from "./liveserver/validateDetailsLiveserver.js";
 import { readFilejs } from "./readfile.js";
 import { formatHandler } from "./biome/formatrequesthandler.js";
 import { defaultconfigbiome } from "./defaultconfig.js";
@@ -535,45 +537,14 @@ ipcMain.handle("mkdir", async (e, path) => {
 	}
 });
 ipcMain.handle("start_server", async (e, obj) => {
-	console.log(obj);
-
-	const serverParams = {
-		port: obj.port,
-		host: "127.0.0.1",
-		root: path.join(pathreal, obj.relativepath),
-		open: obj.toOpen, // CRITICAL: Stop it from opening a default browser window
-		wait: 100, // Delay before reloading (in ms)
-	};
-
-	liveServer.start(serverParams);
+	return start_server(e, obj, pathreal);
 });
 ipcMain.handle("unlink", async (e, path) => {
 	console.log(path);
 	await shell.trashItem(path);
 });
 ipcMain.handle("validate-details-liveserver", async (e, d) => {
-	const aport = await detectPort(d.port);
-	console.log(aport);
-	console.log(d.port);
-	const npromise = new Promise((re, rej) => {
-		console.log(path.join(pathreal, d.relativepath));
-
-		if (!fs.existsSync(path.join(pathreal, d.relativepath))) {
-			rej(new Error(`${path.join(pathreal, d.relativepath)} does not exist`));
-		}
-
-		if (aport !== parseInt(d.port)) {
-			consolelog("nnooo");
-			rej(
-				new Error(
-					`Port ${d.port} seems to be not availible \nit is recommended to try out another availible port\nit has been detected  that port ${aport} might be free`,
-				),
-			);
-		} else {
-			re(true);
-		}
-	});
-	return npromise;
+	return validate_details_liveserver(e, d, pathreal, consolelog);
 });
 ipcMain.handle("commit", async (e, message) => {
 	
