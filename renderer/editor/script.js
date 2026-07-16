@@ -48,13 +48,10 @@ window.onload = () => {
 		editor = monaco.editor.create(document.getElementById("editor"), {
 			value: "//open folder or\n \n  //open file or\n \n //write code now ",
 			language: "javascript",
-			automaticLayout: true,
 			lineNumbers: "on",
 			folding: true,
 			minimap: { enabled: true },
-			breadcrumbs: {
-				enabled: true,
-			},
+			
 			codeLens: true, // Fixed casing
 			dragAndDrop: true,
 			cursorBlinking: "blink",
@@ -65,11 +62,13 @@ window.onload = () => {
 			fontFamily: "JetBrains Mono",
 			fontLigatures: true,
 			fontWeight: 200,
-			
+			scrollbar: {
+				horizontal: "visible",
+				horizontalScrollbarSize: 12,
+				alwaysConsumeMouseWheel: false,
+				vertical: "visible"
+			},
 			theme: "NofericIDETheme",
-			// Add these inside your main configuration object
-			wordWrap: "off",                 // Ensures text doesn't wrap down, forcing horizontal expansion
-			scrollBeyondLastColumn: 5,       // Forces extra horizontal scrolling space at the end of lines
 			alwaysConsumeMouseWheel: false,
 		}
 );

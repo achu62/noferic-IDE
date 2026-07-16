@@ -30,6 +30,9 @@ import { formatHandler } from "./biome/formatrequesthandler.js";
 import { defaultconfigbiome } from "./defaultconfig.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
 import { handleCommit } from "./handlecommit.js";
+import { scanafolder } from "./scanafolder.js";
+import { starttsserver } from "./type-script intelligence/Main.js";
+import { getTags } from "./tagger.js";
 let pathreal = null;
 const isproduction = app.isPackaged;
 
@@ -122,30 +125,7 @@ async function initialisereposcan(repopath) {
 }
 consolelog(process.resourcesPath);
 consolelog(isWindows);
-async function scanafolder(folderpath) {
-	let json = [];
-	const files = fs.readdirSync(folderpath, { withFileTypes: true });
-	for (const file of files) {
-		const fullpath = path.join(folderpath, file.name);
-		if (file.isDirectory()) {
-			const children = await scanafolder(fullpath);
-			json.push({
-				id: fullpath,
-				name: file.name,
-				isdirectory: true,
-				haschildren: children.length > 0,
-				children: children,
-			});
-		} else {
-			json.push({
-				id: fullpath,
-				name: file.name,
-				isdirectory: false,
-			});
-		}
-	}
-	return json;
-}
+
 
 
 let watcher = null;
@@ -322,6 +302,7 @@ async function handleappargs(args) {
 	} else {
 		if (fs.statSync(path.resolve(args)).isDirectory()) {
 			pathreal = path.resolve(args);
+			getTags(pathreal)
 			track(path.resolve(args));
 			initialisereposcan(path.resolve(args));
 			const biomeResult = await startBiomeProcess(args, {
@@ -563,3 +544,4 @@ ipcMain.handle("join-path" , async(e , arg1 , arg2)=>{
 ipcMain.handle("get-ext" , async(e,fpath)=>{
 	return path.extname(fpath);
 })
+starttsserver()

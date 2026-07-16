@@ -6,6 +6,7 @@ import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";
 import { setInVersionControl } from './handlingversioncontrol/showinversion.js'
+
 import {
 	isValidJSON,
 	getfileiconbytype,

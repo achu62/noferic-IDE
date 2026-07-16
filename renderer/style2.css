@@ -840,22 +840,62 @@ body {
   background-color: var(--ieieie);
 }
 
+/* 1. Base container rules for the scrollbar structure */
 ::-webkit-scrollbar {
-  width: 17px;
-  direction: rtl;
+  width: 10px;
+  /* Width of the vertical scrollbar */
+  height: 10px;
+  /* Height of the horizontal scrollbar */
 }
 
+/* 2. The background track area */
 ::-webkit-scrollbar-track {
-  color: #ede4e4;
-  opacity: 50%;
+  background: transparent;
+  /* Transparent background for a modern overlay feel */
 }
 
+/* 3. The draggable orange thumb component */
 ::-webkit-scrollbar-thumb {
-  background-color: #4e4d4d;
-  opacity: 90%;
-  border-radius: 0%;
+  background-color: #ff6b35;
+  /* Vibrantly modern neon/burnt orange */
+  border-radius: 20px;
+  /* Keeps the component fully rounded */
+  border: 2px solid #1a1a1a;
+
+    opacity: 50;
+  /* Creates an inset padding trick against dark backgrounds */
 }
 
+/* 4. Hover state for smooth user interaction */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ff8552;
+    opacity: 50;
+  /* Lighter, glowing orange on hover */
+}
+
+/* 5. Active/Click state when drag behavior occurs */
+::-webkit-scrollbar-thumb:active {
+  background-color: #e0531c;
+  opacity:50;
+  /* Deeper orange to show structural feedback */
+}
+
+/* 6. Fix for the corner piece where horizontal and vertical bars intersect */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* -------------------------------------------------------------
+   MODERN CROSS-BROWSER FALLBACK
+   Standard properties to handle future engines and Firefox.
+   ------------------------------------------------------------- */
+@supports (scrollbar-width: thin) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #ff6b35 transparent;
+    /* Thumb color followed by Track color */
+  }
+}
 #topbarforeditor::-webkit-scrollbar {
   width: 2px;
   direction: rtl;
