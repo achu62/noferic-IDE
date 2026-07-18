@@ -13,8 +13,9 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@electron/rebuild": "^4.0.4",
-		"electron": "^39.2.7",
+		"electron": "^43.1.1",
 		"electron-builder": "^26.15.2"
+		
 	},
 	"dependencies": {
 		"@biomejs/biome": "^2.4.16",

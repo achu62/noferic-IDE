@@ -17,8 +17,6 @@ import chokidar from "chokidar";
 import { watchFile } from "node:original-fs";
 import { simpleGit, gitP } from "simple-git";
 import liveServer from "live-server";
-
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import {deleteNodeById , injectChildrenByPath} from "./utils.js"
@@ -31,8 +29,9 @@ import { defaultconfigbiome } from "./defaultconfig.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
 import { handleCommit } from "./handlecommit.js";
 import { scanafolder } from "./scanafolder.js";
-import { starttsserver } from "./type-script intelligence/Main.js";
+import { provideautocomplete, starttsserver } from "./type-script intelligence/Main.js";
 import { getTags } from "./tagger.js";
+import { provideAutoCompleteforts } from "./type-script intelligence/autocomplete.js";
 let pathreal = null;
 const isproduction = app.isPackaged;
 
@@ -544,4 +543,16 @@ ipcMain.handle("join-path" , async(e , arg1 , arg2)=>{
 ipcMain.handle("get-ext" , async(e,fpath)=>{
 	return path.extname(fpath);
 })
-starttsserver()
+await starttsserver()
+ipcMain.handle("providetsautocomplete" , async(e , path , content , line , char )=>{
+	console.log("sss\n\n\n\n\n\n\n")
+
+		const completions = await provideautocomplete(path , content , line , char)
+		console.log("hell i send the req")
+		console.log(completions)
+		return completions ;
+	
+})
+ipcMain.handle("log" , async(e,...args)=>{
+	console.log("ren" + args)
+})

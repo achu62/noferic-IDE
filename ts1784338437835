@@ -1,0 +1,27 @@
+{"path":"/home/charan/noferic-IDE/main_p/main.js","version":1},{
+  "items": [
+    {
+      "label": "fs",
+      "kind": 1,
+      "sortText": "18",
+      "data": {
+        "cacheId": 1
+      },
+      "filterText": ".fs",
+      "textEdit": {
+        "range": {
+          "start": {
+            "line": 1,
+            "character": 2
+          },
+          "end": {
+            "line": 1,
+            "character": 3
+          }
+        },
+        "newText": ".fs"
+      }
+    }
+  ],
+  "isIncomplete": false
+}

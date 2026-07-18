@@ -12,12 +12,12 @@ export function handleDir() {
 	statebtn.style.position = "absolute";
 	statebtn.style.top = "0.5px";
 	statebtn.style.right = "0.5px";
-	
+
 	statebtn.style.bottom = "0.5px";
 	statebtn.style.height = "16px";
 	statebtn.style.width = `16px`;
 	statebtn.style.backgroundImage = "url(images/keyarrowdown.svg)";
-	statebtn.style.backgroundRepeat = "no-repeat";																					
+	statebtn.style.backgroundRepeat = "no-repeat";
 	statebtn.style.backgroundSize = "cover";
 	const icon = document.createElement("div");
 	icon.id = `iconfor${file.id}`;
@@ -68,4 +68,3 @@ export function handleDir() {
 		dialogforcreatefile,
 	);
 }
-

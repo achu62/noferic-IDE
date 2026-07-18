@@ -5,7 +5,7 @@ import { initiateterminal } from "./terminal/initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";
-import { setInVersionControl } from './handlingversioncontrol/showinversion.js'
+import { setInVersionControl } from "./handlingversioncontrol/showinversion.js";
 
 import {
 	isValidJSON,
@@ -14,10 +14,10 @@ import {
 	findFolderById,
 } from "./utils.js";
 import { createfolderdialogbox } from "./foldercontextmenu.js";
-import { Styleicon } from "./styleicon.js"
+import { Styleicon } from "./styleicon.js";
 import { handleShortCuts } from "./shortcuthandlers.js";
 import { createfiledialogbox } from "./filecontextmenu.js";
-import { StyleL } from "./stylel.js"
+import { StyleL } from "./stylel.js";
 
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
@@ -26,12 +26,10 @@ const exit = document.getElementById("exit");
 const iframe = document.querySelector("iframe#editor");
 const saveas = document.getElementById("save_as");
 
-
 let globalignoredfilesarray = [""];
 let globalgitstatusjson;
 let isopen = false;
 let path;
-
 
 let globalfolderjson;
 let globalfileexplorerstatejson = {};
@@ -42,11 +40,10 @@ let globalleftmenustate = {
 	isleftpanelopen: true,
 };
 
-
 export function showdialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfiledialog").showModal();
-		console.log(path);
+		window.ipc.invoke("log" , path);
 	}
 	document
 		.getElementById("createfileindialoog")
@@ -60,9 +57,12 @@ export function showdialog(path) {
 				return;
 			}
 
-			console.log(await window.ipc.invoke("join-path", path, filejoin))
+			window.ipc.invoke("log" , await window.ipc.invoke("join-path", path, filejoin));
 
-			window.ipc.invoke("append", `${await window.ipc.invoke("join-path", path, filejoin)}`);
+			window.ipc.invoke(
+				"append",
+				`${await window.ipc.invoke("join-path", path, filejoin)}`,
+			);
 			if (globalfileexplorerstatejson[`${path}`] === false) {
 				document.getElementById(path).click();
 			}
@@ -72,7 +72,7 @@ export function showdialog(path) {
 export function showFolderDialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfolderdialog").showModal();
-		console.log(path);
+		window.ipc.invoke("log" , path);
 	}
 	document
 		.getElementById("createfolderindialoog")
@@ -86,43 +86,72 @@ export function showFolderDialog(path) {
 				return;
 			}
 
-
-			window.ipc.invoke("mkdir", `${await window.ipc.invoke("join-path", path, filejoin)}`);
+			window.ipc.invoke(
+				"mkdir",
+				`${await window.ipc.invoke("join-path", path, filejoin)}`,
+			);
 			if (globalfileexplorerstatejson[`${path}`] === false) {
 				document.getElementById(path).click();
 			}
 			document.getElementById("inputforopenfolder").value = "";
-			document.getElementById('createnewfolderdialog').close();
-
+			document.getElementById("createnewfolderdialog").close();
 		});
 }
 export function deleteFolder(path) {
-	const isUserok = confirm(`Do you want to Move Directory ${path}  to trash \n\n The Directory can be recovered from trash`)
+	const isUserok = confirm(
+		`Do you want to Move Directory ${path}  to trash \n\n The Directory can be recovered from trash`,
+	);
 	if (isUserok) {
-		console.log(`${path}`)
-		window.ipc.invoke('unlink', `${path}`)
+		window.ipc.invoke("log" , `${path}`);
+		window.ipc.invoke("unlink", `${path}`);
 	}
 }
 export function deleteFile(path) {
-	const isUserok = confirm(`Do you want to Move file ${path}  to trash \n\n The File can be recovered from trash`)
+	const isUserok = confirm(
+		`Do you want to Move file ${path}  to trash \n\n The File can be recovered from trash`,
+	);
 	if (isUserok) {
-		console.log(`${path}`)
-		window.ipc.invoke('unlink', `${path}`)
+		window.ipc.invoke("unlink", `${path}`);
 	}
 }
 window.onload = function () {
-	document.getElementById('alertdialog').close()
+	document.getElementById("alertdialog").close();
+	async function runts() {
+		try {
+			window.ipc.invoke("log" , "Before invoke");
+			const re = await window.ipc.invoke(
+				"providetsautocomplete",
+				"/home/charan/noferic-IDE/main_p/main.js",
+				"import fs from 'fs'\nfs.",
+				3,
+				1
+			);
+			window.ipc.invoke("log" , "After invoke", re);
+			
+			window.ipc.invoke("log" , JSON.stringify(re));
+		} catch (e) {
+			console.error("Invoke failed:", e);
+			window.ipc.invoke("log" , String(e));
+		}
+	}
+
+	runts()
+
 	let countforterminal = 1;
 	document.getElementById("addtermbtn").addEventListener("click", (e) => {
-		window.ipc.invoke("create_new_terminal", countforterminal)
-		initiateterminal(document.getElementById("terminal"), countforterminal, document)
+		window.ipc.invoke("create_new_terminal", countforterminal);
+		initiateterminal(
+			document.getElementById("terminal"),
+			countforterminal,
+			document,
+		);
 		countforterminal++;
-	})
-	handleShortCuts(document)
+	});
+	handleShortCuts(document);
 	document.getElementById("versioncontrolelement").style.display = "none";
 	function alert_s_1(string) {
-		document.getElementById('alertdialog').showModal()
-		document.getElementById('contentdiv').innerText = string;
+		document.getElementById("alertdialog").showModal();
+		document.getElementById("contentdiv").innerText = string;
 	}
 
 	document
@@ -158,13 +187,11 @@ window.onload = function () {
 	const terminalEl = document.getElementById("terminalelement");
 	terminalEl.style.display = "none";
 	async function openfileoncilick(path, iframe) {
-		
 		//const extension = path.split(`/`).pop().split(`.`).pop()
 		// ;
 		const ext = await window.ipc.invoke("get-ext", path);
-		const extension = ext.replace(".", "")
+		const extension = ext.replace(".", "");
 
-		console.log(`ext-ex-$${extension}`)
 		if (!path) {
 			return;
 		} else {
@@ -313,7 +340,7 @@ window.onload = function () {
 
 				if (globalignoredfilesarray.includes(file.id)) {
 					filebutton.style.color = "#999290";
-					filebutton.title += "Untracked"
+					filebutton.title += "Untracked";
 				}
 
 				const statebtn = document.createElement("div");
@@ -329,8 +356,8 @@ window.onload = function () {
 				statebtn.style.backgroundSize = "cover";
 				const icon = document.createElement("div");
 				const handle = document.createElement("div");
-				StyleL(handle, file, depth, "folder")
-				Styleicon(icon, file, depth, "folder")
+				StyleL(handle, file, depth, "folder");
+				Styleicon(icon, file, depth, "folder");
 
 				filebutton.appendChild(icon);
 				filebutton.appendChild(handle);
@@ -341,7 +368,6 @@ window.onload = function () {
 				filebutton.addEventListener("click", (e) => {
 					if (!isopen) {
 						if (filebutton.classList.contains("folder")) {
-							console.log(findFolderById(globalfolderjson, file.id).children);
 							recursiveloop(
 								findFolderById(globalfolderjson, file.id).children,
 
@@ -361,8 +387,6 @@ window.onload = function () {
 
 						e.stopPropagation();
 					}
-					console.log(globalfileexplorerstatejson);
-
 				});
 				space.appendChild(filebutton);
 				createfolderdialogbox(
@@ -381,16 +405,12 @@ window.onload = function () {
 				filebutton.style.paddingLeft = depth + "px";
 				if (globalignoredfilesarray.includes(file.id)) {
 					filebutton.style.color = "#999290";
-					filebutton.title += "Untracked "
+					filebutton.title += "Untracked ";
 				}
 				filebutton.title = `${file.id}`;
 
 				space.appendChild(filebutton);
-				createfiledialogbox(
-					document.body,
-					file.id,
-					filebutton
-				);
+				createfiledialogbox(document.body, file.id, filebutton);
 				filebutton.addEventListener("click", async (e) => {
 					e.stopPropagation();
 					e.stopImmediatePropagation();
@@ -409,12 +429,11 @@ window.onload = function () {
 
 						topbarelement.textContent = `${file.name}`;
 						topbarelement.title = `${file.id}`;
-					
+
 						// const extension = filepathonclick.split("/").pop().split(".").pop();
 
-						const ext = await window.ipc.invoke("get-ext", filepathonclick)
+						const ext = await window.ipc.invoke("get-ext", filepathonclick);
 
-						console.log(`ext-ex-$${extension}`)
 						topbarelement.addEventListener("click", (e) => {
 							e.stopPropagation();
 							iframe.contentWindow.postMessage(
@@ -452,15 +471,13 @@ window.onload = function () {
 					}
 				});
 
-
 				const icon = document.createElement("div");
 
-				Styleicon(icon, file, depth, extension)
+				Styleicon(icon, file, depth, extension);
 				filebutton.appendChild(icon);
 				const handle = document.createElement("div");
-				StyleL(handle, file, depth, "folder")
-				filebutton.appendChild(handle)
-
+				StyleL(handle, file, depth, "folder");
+				filebutton.appendChild(handle);
 			}
 		}
 	}
@@ -554,10 +571,8 @@ window.onload = function () {
 			"message",
 			async (e) => {
 				let object = e.data;
-				console.log(object.code, object);
 
 				const formattedcode = await window.ipc.invoke("format", object);
-				console.log(formattedcode);
 				iframe.contentWindow.postMessage(
 					{
 						action: "formatset",
@@ -580,19 +595,16 @@ window.onload = function () {
 		const message = JSON.parse(data);
 
 		if (JSON.parse(data).action == "handlingargsopenfolder") {
-			new Notification(`Opened Folder ${message.fjson[0].id}`)
-			console.log(message);
-			console.log(message.action);
-			console.log(message.fjson);
+			new Notification(`Opened Folder ${message.fjson[0].id}`);
+		
 			globalfolderjson = message.fjson;
 			openfolderfunction(globalfolderjson);
 		} else if (JSON.parse(data).action == "handlefileargs") {
-			console.log(data);
-			console.log(message.path);
+		
 
 			setTimeout(() => {
 				openfileoncilick(message.path, iframe);
-				console.log("sending");
+			
 			}, 2000);
 		} else if (JSON.parse(data).action == "errorhandle") {
 			alert(
@@ -601,9 +613,8 @@ window.onload = function () {
 		} else if (message.action === "addelements") {
 			globalfolderjson = message.newjson;
 			if (!message.add) {
-				console.log("no adds");
+				window.ipc.invoke("log" , "no adds");
 			}
-			console.log(!globalfileexplorerstatejson[message.add.parentid]);
 			if (!globalfileexplorerstatejson[message.add.parentid]) {
 				return;
 			}
@@ -619,13 +630,14 @@ window.onload = function () {
 			globalfolderjson = message.newjson;
 			document.getElementById(message.remove)?.remove();
 			if (document.getElementById(`topbarelementfor${message.remove}`)) {
-				document.getElementById(`topbarelementfor${message.remove}`).remove()
-				alert(`${message.remove} is deleted`)
-				iframe.contentWindow.postMessage({ action: "deletemodelonclose", path: message.remove })
-
+				document.getElementById(`topbarelementfor${message.remove}`).remove();
+				alert(`${message.remove} is deleted`);
+				iframe.contentWindow.postMessage({
+					action: "deletemodelonclose",
+					path: message.remove,
+				});
 			}
 		} else if (message.action === "ignoredfiles") {
-			console.log(message.ignoredfiles);
 			message.ignoredfiles.forEach((ignoredfile) => {
 				if (!globalignoredfilesarray.includes(ignoredfile)) {
 					globalignoredfilesarray.push(ignoredfile);
@@ -634,27 +646,25 @@ window.onload = function () {
 					document.getElementById(ignoredfile).style.color = "#999290";
 				}
 			});
-		}
-
-
-		else if (message.action === "status") {
-			console.log(`newm:${JSON.stringify(message.status)} , rawm:${JSON.stringify(message)}`)
+		} else if (message.action === "status") {
+			
 			globalgitstatusjson = message.status;
-			setInVersionControl(document, document.getElementById("explorervc"), globalgitstatusjson)
-
-		}
-		else if (message.action === "handleachangeinfile") {
-			console.log(`action change filepath ${message.path}`)
+			setInVersionControl(
+				document,
+				document.getElementById("explorervc"),
+				globalgitstatusjson,
+			);
+		} else if (message.action === "handleachangeinfile") {
 			if (document.getElementById(`topbarelementfor${message.path}`)) {
 				const ext = await window.ipc.invoke("get-ext", message.path);
-				const extension = ext.replace(".", "")
+				const extension = ext.replace(".", "");
 				iframe.contentWindow.postMessage(
 					{
 						action: "set",
 						content: message.content,
 						isdir: false,
 						path: message.path,
-						
+
 						extension: extension,
 						isspecialchange: true,
 					},
@@ -668,31 +678,22 @@ window.onload = function () {
 		.getElementById("cancelcreatefiledialog")
 		.addEventListener("click", () => {
 			dialogforcreatefile.close();
-			console.log(document.getElementById("inputforopenfile").value);
 		});
 	document
 		.getElementById("cancelcreatefolderdialog")
 		.addEventListener("click", () => {
-			document.getElementById('createnewfolderdialog').close();
-			console.log(document.getElementById("inputforopenfolder").value);
+			document.getElementById("createnewfolderdialog").close();
 		});
 	document
 		.getElementById("cancelcreateliveserverdialog")
 		.addEventListener("click", () => {
-
-			document.getElementById('createliveserverdialog').close();
-			console.log(document.getElementById("inputforliveserver").value);
+			document.getElementById("createliveserverdialog").close();
 		});
-	document
-		.getElementById("cancelcommit")
-		.addEventListener("click", () => {
-
-			document.getElementById('commitdialog').close();
-			console.log(document.getElementById("inputforliveserver").value);
-		});
+	document.getElementById("cancelcommit").addEventListener("click", () => {
+		document.getElementById("commitdialog").close();
+	});
 	window.addEventListener("message", (e) => {
 		const message = e.data;
-		console.log(message);
 		if (message.action === "lint") {
 			async function runLint() {
 				const result = await window.ipc.invoke("lint", {
@@ -708,88 +709,106 @@ window.onload = function () {
 			runLint();
 		}
 	});
-	document.getElementById('liveserverbtn').addEventListener('click', (e) => {
-		document.getElementById('createliveserverdialog').showModal()
-	})
-	document.getElementById('createliveserverbtn').addEventListener('click', async (e) => {
-		console.log(JSON.stringify({
-			port: `${document.getElementById('inputforliveserver').value}`
-		}))
-		const relativepath = document.getElementById('inputpathforliveserver').value
-		try {
+	document.getElementById("liveserverbtn").addEventListener("click", (e) => {
+		document.getElementById("createliveserverdialog").showModal();
+	});
+	document
+		.getElementById("createliveserverbtn")
+		.addEventListener("click", async (e) => {
+			
+			const relativepath = document.getElementById(
+				"inputpathforliveserver",
+			).value;
+			try {
+				//@
+				const dec = await window.ipc.invoke("validate-details-liveserver", {
+					port: document.getElementById("inputforliveserver").value,
+					relativepath: relativepath ? relativepath : "./",
+					toOpen: document.getElementById("Browsercheck").checked,
+				});
+			} catch (e) {
+				alert(e);
+				return;
+			}
 			//@
-			const dec = await window.ipc.invoke("validate-details-liveserver", { port: document.getElementById('inputforliveserver').value, relativepath: relativepath ? relativepath : './', toOpen: document.getElementById("Browsercheck").checked })
-			console.log(dec)
-		}
-		catch (e) {
+			window.ipc.invoke("start_server", {
+				port: document.getElementById("inputforliveserver").value,
+				relativepath: relativepath ? relativepath : "./",
+				toOpen: document.getElementById("Browsercheck").checked,
+			});
+			document.getElementById("link").innerText =
+				`http://127.0.0.1:${document.getElementById("inputforliveserver").value}`;
 
-			alert(e)
+			document.getElementById("inputforliveserver").value = "";
+
+			document.getElementById("createliveserverdialog").close();
+		});
+	document.getElementById("link").addEventListener("click", (e) => {
+		e.preventDefault();
+
+		navigator.clipboard.writeText(document.getElementById("link").innerText);
+		new Notification(`copied ${document.getElementById("link").innerText} to Clipboard
+		`);
+	});
+
+	document.getElementById("commitbtn").addEventListener("click", (e) => {
+		document.getElementById("commitdialog").showModal();
+	});
+	document.getElementById("commitreal").addEventListener("click", (e) => {
+		if (!document.getElementById("inputforcommit").value) {
+			alert("commit messages cannot be empty");
 			return;
 		}
-		//@
-		window.ipc.invoke("start_server", { port: document.getElementById('inputforliveserver').value, relativepath: relativepath ? relativepath : './', toOpen: document.getElementById("Browsercheck").checked })
-		document.getElementById('link').innerText = `http://127.0.0.1:${document.getElementById('inputforliveserver').value}`
-
-		document.getElementById('inputforliveserver').value = "";
-
-		document.getElementById('createliveserverdialog').close();
-
-
-	})
-	document.getElementById('link').addEventListener('click', (e) => {
-		e.preventDefault()
-
-		navigator.clipboard.writeText(document.getElementById('link').innerText)
-		new Notification(`copied ${document.getElementById('link').innerText} to Clipboard
-		`)
-	})
-
-	document.getElementById('commitbtn').addEventListener('click', (e) => {
-		document.getElementById('commitdialog').showModal()
-	})
-	document.getElementById('commitreal').addEventListener("click", (e) => {
-		if (!document.getElementById('inputforcommit').value) { alert("commit messages cannot be empty"); return; }
-		const isuserokforcommit = confirm(`Do you want to commit with commit Message ${document.getElementById('inputforcommit').value}`)
+		const isuserokforcommit = confirm(
+			`Do you want to commit with commit Message ${document.getElementById("inputforcommit").value}`,
+		);
 		if (isuserokforcommit) {
 			async function runn() {
 				try {
-					await window.ipc.invoke('commit', document.getElementById('inputforcommit').value)
-					new Notification(`Comitted!`)
-
-				}
-				catch (e) {
-					alert(e)
+					await window.ipc.invoke(
+						"commit",
+						document.getElementById("inputforcommit").value,
+					);
+					new Notification(`Comitted!`);
+				} catch (e) {
+					alert(e);
 					return;
 				}
-
 			}
-			runn()
+			runn();
 		}
-	})
-	document.getElementById("inputforopenfolder").addEventListener("keydown", (e) => {
-		if (e.key === "Enter") {
-			document.getElementById("createfolderindialoog").click();
-		}
-	})
-	document.getElementById("inputforopenfile").addEventListener("keydown", (e) => {
-		if (e.key === "Enter") {
-			document.getElementById("createfileindialoog").click();
-		}
-	})
+	});
+	document
+		.getElementById("inputforopenfolder")
+		.addEventListener("keydown", (e) => {
+			if (e.key === "Enter") {
+				document.getElementById("createfolderindialoog").click();
+			}
+		});
+	document
+		.getElementById("inputforopenfile")
+		.addEventListener("keydown", (e) => {
+			if (e.key === "Enter") {
+				document.getElementById("createfileindialoog").click();
+			}
+		});
 	document.getElementById("inputforcommit").addEventListener("keydown", (e) => {
 		if (e.key === "Enter") {
 			document.getElementById("commitreal").click();
 		}
-	})
-	document.getElementById("inputforliveserver").addEventListener("keydown", (e) => {
-		if (e.key === "Enter") {
-			document.getElementById("createliveserverbtn").click();
-		}
-	})
-	document.getElementById("inputpathforliveserver").addEventListener("keydown", (e) => {
-		if (e.key === "Enter") {
-			document.getElementById("createliveserverbtn").click();
-		}
-	})
-
+	});
+	document
+		.getElementById("inputforliveserver")
+		.addEventListener("keydown", (e) => {
+			if (e.key === "Enter") {
+				document.getElementById("createliveserverbtn").click();
+			}
+		});
+	document
+		.getElementById("inputpathforliveserver")
+		.addEventListener("keydown", (e) => {
+			if (e.key === "Enter") {
+				document.getElementById("createliveserverbtn").click();
+			}
+		});
 };
