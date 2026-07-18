@@ -13,9 +13,9 @@ window.onload = () => {
 	require(["vs/editor/editor.main"], () => {
 		monaco.languages.json.jsonDefaults.setDiagnosticsOptions(
 			{
-				validate:true,
-				enableSchemaRequest:true,
-				schemas:[]
+				validate: true,
+				enableSchemaRequest: true,
+				schemas: []
 			}
 		)
 		monaco.editor.defineTheme("NofericIDETheme", {
@@ -32,7 +32,7 @@ window.onload = () => {
 				{ token: "function", foreground: "FFD166" },
 				{ token: "constant", foreground: "4DABF7" },
 				{ token: "operator", foreground: "FF922B" },
-				{ token: "keyword", foreground:"FF922B"}
+				{ token: "keyword", foreground: "FF922B" }
 			],
 			colors: {
 				"editor.background": "#1e1e1e",
@@ -41,7 +41,7 @@ window.onload = () => {
 				"editorCursor.foreground": "#FFFFFF",
 				"editor.selectionBackground": "#505050",
 				"editor.lineHighlightBackground": "#404040",
-				"editorInfo.foreground":"#1edf1e"
+				"editorInfo.foreground": "#1edf1e"
 			},
 		});
 
@@ -51,7 +51,7 @@ window.onload = () => {
 			lineNumbers: "on",
 			folding: true,
 			minimap: { enabled: true },
-			
+
 			codeLens: true, // Fixed casing
 			dragAndDrop: true,
 			cursorBlinking: "blink",
@@ -71,7 +71,7 @@ window.onload = () => {
 			theme: "NofericIDETheme",
 			alwaysConsumeMouseWheel: false,
 		}
-);
+		);
 
 		let URI = null;
 		let ismodel = false;
@@ -84,7 +84,33 @@ window.onload = () => {
 			editor.onDidChangeCursorPosition((e) => {
 				window.parent.document.getElementById("lineandcolumn").innerText =
 					`LN:${e.position.lineNumber}  COL:${e.position.column}`;
+
 			});
+		}
+		async function sendReqAutocomplete() {
+			const model = editor.getModel();
+
+			const path = model.uri.toString().replace("id:", "");
+
+			const localcont = model.getValue()
+
+			const pos = editor.getPosition()
+			const char  = pos.column -1;
+			const lin = pos.lineNumber  -1;
+			console.log(lin , char , pos , localcont , path)
+			window.parent.postMessage(
+				{
+					action: "getAutoComplete",
+					params:{
+						line:lin,
+						path:path,
+						character:char,
+						content:localcont
+					}
+				},
+				"*",
+			);
+
 		}
 		async function autosave(editor) {
 			if (autosavelistener) {
@@ -109,6 +135,8 @@ window.onload = () => {
 			console.log(`before:${model.uri.toString()}\nafter:${currentPath}`);
 
 			autosavelistener = editor.onDidChangeModelContent(async () => {
+				sendReqAutocomplete();
+
 				console.log("model conternt changed ");
 				if (!URI) {
 					return;
@@ -122,9 +150,11 @@ window.onload = () => {
 					},
 					"*",
 				);
+
 			});
 		}
 		track(editor);
+
 		window.addEventListener("message", (e) => {
 			const message = e.data;
 			const action = message.action;
@@ -166,10 +196,10 @@ window.onload = () => {
 						editor.setModel(model);
 					}
 				} else {
-					if (message.isspecialchange){
+					if (message.isspecialchange) {
 						isexisting.setValue(message.content)
 					}
-					else{
+					else {
 						editor.setModel(isexisting);
 
 					}
@@ -264,7 +294,7 @@ window.onload = () => {
 					parent.querySelectorAll("*").forEach((el) => {
 						el.style.backgroundColor = "#1e1e1e";
 
-						el.querySelectorAll("*").forEach((e)=>{
+						el.querySelectorAll("*").forEach((e) => {
 							e.style.backgroundColor = "#1e1e1e";
 
 						})

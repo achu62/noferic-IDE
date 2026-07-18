@@ -6,7 +6,7 @@ import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";
 import { setInVersionControl } from "./handlingversioncontrol/showinversion.js";
-
+import {} from "./"
 import {
 	isValidJSON,
 	getfileiconbytype,
@@ -39,11 +39,11 @@ let globalleftmenustate = {
 	isterminalopen: false,
 	isleftpanelopen: true,
 };
-
+console.log("\nw\o\r\k")
 export function showdialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfiledialog").showModal();
-		window.ipc.invoke("log" , path);
+		console.log(path);
 	}
 	document
 		.getElementById("createfileindialoog")
@@ -57,7 +57,7 @@ export function showdialog(path) {
 				return;
 			}
 
-			window.ipc.invoke("log" , await window.ipc.invoke("join-path", path, filejoin));
+			console.log(await window.ipc.invoke("join-path", path, filejoin));
 
 			window.ipc.invoke(
 				"append",
@@ -72,7 +72,7 @@ export function showdialog(path) {
 export function showFolderDialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfolderdialog").showModal();
-		window.ipc.invoke("log" , path);
+		console.log(path);
 	}
 	document
 		.getElementById("createfolderindialoog")
@@ -102,7 +102,7 @@ export function deleteFolder(path) {
 		`Do you want to Move Directory ${path}  to trash \n\n The Directory can be recovered from trash`,
 	);
 	if (isUserok) {
-		window.ipc.invoke("log" , `${path}`);
+		console.log(`${path}`);
 		window.ipc.invoke("unlink", `${path}`);
 	}
 }
@@ -116,26 +116,24 @@ export function deleteFile(path) {
 }
 window.onload = function () {
 	document.getElementById("alertdialog").close();
-	async function runts() {
+	async function runts(path , content , line , character) {
 		try {
-			window.ipc.invoke("log" , "Before invoke");
+			console.log("Before invoke");
 			const re = await window.ipc.invoke(
 				"providetsautocomplete",
-				"/home/charan/noferic-IDE/main_p/main.js",
-				"import fs from 'fs'\nfs.",
-				3,
-				1
+				path,
+				content,
+				line,
+				character
 			);
-			window.ipc.invoke("log" , "After invoke", re);
+			console.log("After invoke", re);
 			
-			window.ipc.invoke("log" , JSON.stringify(re));
+			console.log(JSON.stringify(re));
 		} catch (e) {
-			console.error("Invoke failed:", e);
-			window.ipc.invoke("log" , String(e));
+			console.log(String(e));
 		}
 	}
 
-	runts()
 
 	let countforterminal = 1;
 	document.getElementById("addtermbtn").addEventListener("click", (e) => {
@@ -613,7 +611,7 @@ window.onload = function () {
 		} else if (message.action === "addelements") {
 			globalfolderjson = message.newjson;
 			if (!message.add) {
-				window.ipc.invoke("log" , "no adds");
+				console.log("no adds");
 			}
 			if (!globalfileexplorerstatejson[message.add.parentid]) {
 				return;
@@ -708,6 +706,10 @@ window.onload = function () {
 			}
 			runLint();
 		}
+		if (message.action = "getAutoComplete")
+		{
+			runts(message.params.path , message.params.content , message.params.line , message.params.character)
+		}
 	});
 	document.getElementById("liveserverbtn").addEventListener("click", (e) => {
 		document.getElementById("createliveserverdialog").showModal();
@@ -720,7 +722,7 @@ window.onload = function () {
 				"inputpathforliveserver",
 			).value;
 			try {
-				//@
+				
 				const dec = await window.ipc.invoke("validate-details-liveserver", {
 					port: document.getElementById("inputforliveserver").value,
 					relativepath: relativepath ? relativepath : "./",

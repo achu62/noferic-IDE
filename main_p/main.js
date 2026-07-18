@@ -276,10 +276,10 @@ function createWindow() {
 			preload: path.join(__dirname, "preload.js"),
 			nodeIntegration: false,
 			contextIsolation: true,
-			sandbox: true,
 			allowRunningInsecureContent: false,
 			webSecurity: true,
 			spellcheck: false,
+			devTools:true,
 		},
 	});
 	win.loadFile(path.join(__dirname , ".." , "renderer" , "index.html"));
@@ -545,7 +545,7 @@ ipcMain.handle("get-ext" , async(e,fpath)=>{
 })
 await starttsserver()
 ipcMain.handle("providetsautocomplete" , async(e , path , content , line , char )=>{
-	console.log("sss\n\n\n\n\n\n\n")
+	console.log(line , char , content , path)
 
 		const completions = await provideautocomplete(path , content , line , char)
 		console.log("hell i send the req")

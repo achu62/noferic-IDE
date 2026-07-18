@@ -3,5 +3,6 @@
 
 
 export function () {
-
+    func
 }
+
