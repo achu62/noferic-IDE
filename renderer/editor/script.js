@@ -150,7 +150,6 @@ window.onload = () => {
 			const model = editor.getModel();
 
 			const path = model.uri.toString().replace("id:", "");
-			alert(path)
 			const localcont = model.getValue()
 
 			const pos = editor.getPosition()
@@ -160,7 +159,7 @@ window.onload = () => {
 			window.parent.postMessage(
 				{
 					action: "getAutoComplete",
-					params: {
+					data: {
 						line: lin,
 						path: path,
 						character: char,
@@ -229,33 +228,16 @@ window.onload = () => {
 		}
 		track(editor);
 
-		let latestCompletion;
-		monaco.languages.registerCompletionItemProvider("javascript", {
+		
+		monaco.languages.registerCompletionItemProvider("*", {
+			// Trigger completions on every letter, number, and common token characters
+			triggerCharacters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-'.split(''),
+
 			async provideCompletionItems(model, position) {
-				if(!URI) {return}
-				const res = await sendReqAutocomplete();
-				latestCompletion = res;
-				return {
-					suggestions: convertCompletionList(monaco, res)
-				};
-			},
-			provideCompletionItems() {
-				return {
-					suggestions: convertCompletionList(monaco, latestCompletion)
-				};
-			}
-		});
-		monaco.languages.registerCompletionItemProvider("typescript", {
-			async provideCompletionItems(model, position) {
-				if (!URI) { return }
+				if (!URI) { return; }
 				const res = await sendReqAutocomplete();
 				return {
 					suggestions: convertCompletionList(monaco, res)
-				};
-			},
-			provideCompletionItems() {
-				return {
-					suggestions: convertCompletionList(monaco, latestCompletion)
 				};
 			}
 		});

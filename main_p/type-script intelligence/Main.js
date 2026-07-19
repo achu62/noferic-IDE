@@ -11,7 +11,7 @@ let prevpath ={
 }
 let isCompleted =true;
 let connection;
-export async function starttsserver()
+export async function starttsserver(path)
 {
     const tsprocess = spawn(getpath() , ["--stdio"])
    connection = rpc.createMessageConnection(
@@ -22,7 +22,7 @@ export async function starttsserver()
    const inres = await connection.sendRequest("initialize",  {
         
             processId:process.pid,
-            rootUri:"file:///home/charan/noferic-IDE/main_p",
+            rootUri:`file://${path}`,
             capabilities:{}
         }
     )
@@ -90,7 +90,7 @@ export async function provideautocomplete(path, content , char , line) {
 
     })
     
-    fs.writeFileSync(`ts${Date.now()}` , `${path , JSON.stringify(prevpath)},${JSON.stringify(returncode , null , 2)}`)
+    fs.writeFileSync(`tslogs/ts${Date.now()}` , `${path , JSON.stringify(prevpath)},${JSON.stringify(returncode , null , 2)}`)
     isCompleted = true;
     return returncode;
 }

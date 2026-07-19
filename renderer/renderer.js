@@ -115,8 +115,8 @@ export function deleteFile(path) {
 }
 window.onload = function () {
 	document.getElementById("alertdialog").close();
-	async function runts(path , content , line , character) {
-		
+	async function runts(path, content, line, character) {
+
 		try {
 			console.log("Before invoke");
 			const result = await window.ipc.invoke(
@@ -126,7 +126,7 @@ window.onload = function () {
 				line,
 				character
 			);
-			
+
 			return result;
 		} catch (e) {
 			console.log(String(e));
@@ -593,15 +593,15 @@ window.onload = function () {
 
 		if (JSON.parse(data).action == "handlingargsopenfolder") {
 			new Notification(`Opened Folder ${message.fjson[0].id}`);
-		
+
 			globalfolderjson = message.fjson;
 			openfolderfunction(globalfolderjson);
 		} else if (JSON.parse(data).action == "handlefileargs") {
-		
+
 
 			setTimeout(() => {
 				openfileoncilick(message.path, iframe);
-			
+
 			}, 2000);
 		} else if (JSON.parse(data).action == "errorhandle") {
 			alert(
@@ -644,7 +644,7 @@ window.onload = function () {
 				}
 			});
 		} else if (message.action === "status") {
-			
+
 			globalgitstatusjson = message.status;
 			setInVersionControl(
 				document,
@@ -705,21 +705,31 @@ window.onload = function () {
 			}
 			runLint();
 		}
-		if (message.action = "getAutoComplete")
-		{
-			async function run()
-			{
-				const compl = await runts(message.params.path, message.params.content, message.params.line, message.params.character)
+		if (message.action === "getAutoComplete") {
+			
+			async function run() {
+				console.log("Autocomplete event intercepted successfully. Payload contents:", message.data);
+
+				// Explicitly extract parameters from the 'data' child object
+				const compl = await runts(
+					message.data.path,
+					message.data.content,
+					message.data.line,
+					message.data.character
+				);
+
+				console.log("Result received from runts backend:", compl);
 
 				iframe.contentWindow.postMessage({
 					action: "tsac",
 					data: compl,
 				});
 			}
-			run()
-			}
-		
-			
+			run();
+		}
+
+
+
 	});
 	document.getElementById("liveserverbtn").addEventListener("click", (e) => {
 		document.getElementById("createliveserverdialog").showModal();
@@ -727,12 +737,12 @@ window.onload = function () {
 	document
 		.getElementById("createliveserverbtn")
 		.addEventListener("click", async (e) => {
-			
+
 			const relativepath = document.getElementById(
 				"inputpathforliveserver",
 			).value;
 			try {
-				
+
 				const dec = await window.ipc.invoke("validate-details-liveserver", {
 					port: document.getElementById("inputforliveserver").value,
 					relativepath: relativepath ? relativepath : "./",

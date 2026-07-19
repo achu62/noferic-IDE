@@ -1,5 +1,6 @@
 //jai sri ram
 //yes this is working
+
 import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
 import { detectPort } from "detect-port";
 import path from "node:path";
@@ -9,7 +10,6 @@ import { Worker } from "node:worker_threads";
 import pty from "node-pty";
 import { spawn, execFile, exec } from "child_process";
 import os from "os";
-
 import { buffer } from "stream/consumers";
 import * as rpc from "vscode-jsonrpc";
 import { InitializeRequest } from "vscode-languageserver-protocol";
@@ -305,6 +305,8 @@ async function handleappargs(args) {
 			getTags(pathreal)
 			track(path.resolve(args));
 			initialisereposcan(path.resolve(args));
+			await starttsserver(path.resolve(args))
+
 			const biomeResult = await startBiomeProcess(args, {
 				isWindows,
 				isproduction,
@@ -544,7 +546,6 @@ ipcMain.handle("join-path" , async(e , arg1 , arg2)=>{
 ipcMain.handle("get-ext" , async(e,fpath)=>{
 	return path.extname(fpath);
 })
-await starttsserver()
 ipcMain.handle("providetsautocomplete" , async(e , path , content , line , char )=>{
 	console.log(line , char , content , path)
 
