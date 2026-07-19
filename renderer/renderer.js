@@ -6,7 +6,6 @@ import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";
 import { setInVersionControl } from "./handlingversioncontrol/showinversion.js";
-import {} from "./"
 import {
 	isValidJSON,
 	getfileiconbytype,
@@ -117,18 +116,18 @@ export function deleteFile(path) {
 window.onload = function () {
 	document.getElementById("alertdialog").close();
 	async function runts(path , content , line , character) {
+		
 		try {
 			console.log("Before invoke");
-			const re = await window.ipc.invoke(
+			const result = await window.ipc.invoke(
 				"providetsautocomplete",
 				path,
 				content,
 				line,
 				character
 			);
-			console.log("After invoke", re);
 			
-			console.log(JSON.stringify(re));
+			return result;
 		} catch (e) {
 			console.log(String(e));
 		}
@@ -708,8 +707,19 @@ window.onload = function () {
 		}
 		if (message.action = "getAutoComplete")
 		{
-			runts(message.params.path , message.params.content , message.params.line , message.params.character)
-		}
+			async function run()
+			{
+				const compl = await runts(message.params.path, message.params.content, message.params.line, message.params.character)
+
+				iframe.contentWindow.postMessage({
+					action: "tsac",
+					data: compl,
+				});
+			}
+			run()
+			}
+		
+			
 	});
 	document.getElementById("liveserverbtn").addEventListener("click", (e) => {
 		document.getElementById("createliveserverdialog").showModal();

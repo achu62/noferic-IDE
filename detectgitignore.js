@@ -2,7 +2,3 @@
 //jai sri ram
 
 
-export function () {
-    func
-}
-

@@ -3,6 +3,71 @@
 //jai sri ram
 //jai sri ram
 import { getLanguagebyExtension } from "./utils.js";
+//jai sri ram
+// lspToMonaco.js
+
+function lspKindToMonaco(monaco, kind) {
+	const K = monaco.languages.CompletionItemKind;
+
+	switch (kind) {
+		case 1: return K.Text;
+		case 2: return K.Method;
+		case 3: return K.Function;
+		case 4: return K.Constructor;
+		case 5: return K.Field;
+		case 6: return K.Variable;
+		case 7: return K.Class;
+		case 8: return K.Interface;
+		case 9: return K.Module;
+		case 10: return K.Property;
+		case 11: return K.Unit;
+		case 12: return K.Value;
+		case 13: return K.Enum;
+		case 14: return K.Keyword;
+		case 15: return K.Snippet;
+		case 16: return K.Color;
+		case 17: return K.File;
+		case 18: return K.Reference;
+		case 19: return K.Folder;
+		case 20: return K.EnumMember;
+		case 21: return K.Constant;
+		case 22: return K.Struct;
+		case 23: return K.Event;
+		case 24: return K.Operator;
+		case 25: return K.TypeParameter;
+		default: return K.Text;
+	}
+}
+
+function lspCompletionToMonaco(monaco, item) {
+	return {
+		label: item.label,
+		kind: lspKindToMonaco(monaco, item.kind),
+		detail: item.detail ?? "",
+		documentation:
+			typeof item.documentation === "string"
+				? item.documentation
+				: item.documentation?.value ?? "",
+
+		insertText: item.insertText ?? item.label,
+
+		sortText: item.sortText,
+		filterText: item.filterText,
+		preselect: item.preselect,
+		commitCharacters: item.commitCharacters,
+
+		range: undefined
+	};
+}
+
+export function convertCompletionList(monaco, completionList) {
+	const items = Array.isArray(completionList)
+		? completionList
+		: completionList.items;
+
+	return items.map(item => lspCompletionToMonaco(monaco, item));
+}
+
 window.onload = () => {
 	require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
 	///
@@ -11,13 +76,7 @@ window.onload = () => {
 
 
 	require(["vs/editor/editor.main"], () => {
-		monaco.languages.json.jsonDefaults.setDiagnosticsOptions(
-			{
-				validate: true,
-				enableSchemaRequest: true,
-				schemas: []
-			}
-		)
+
 		monaco.editor.defineTheme("NofericIDETheme", {
 			base: "vs-dark",
 
@@ -91,25 +150,35 @@ window.onload = () => {
 			const model = editor.getModel();
 
 			const path = model.uri.toString().replace("id:", "");
-
+			alert(path)
 			const localcont = model.getValue()
 
 			const pos = editor.getPosition()
-			const char  = pos.column -1;
-			const lin = pos.lineNumber  -1;
-			console.log(lin , char , pos , localcont , path)
+			const char = pos.column - 1;
+			const lin = pos.lineNumber - 1;
+			console.log(lin, char, pos, localcont, path)
 			window.parent.postMessage(
 				{
 					action: "getAutoComplete",
-					params:{
-						line:lin,
-						path:path,
-						character:char,
-						content:localcont
+					params: {
+						line: lin,
+						path: path,
+						character: char,
+						content: localcont
 					}
 				},
 				"*",
 			);
+			const promise = new Promise((re, rej) => {
+				window.addEventListener("message", (e) => {
+					const message = e.data;
+					if (message.action == "tsac") {
+						re(message.data)
+					}
+				})
+
+			})
+			return promise;
 
 		}
 		async function autosave(editor) {
@@ -135,12 +204,17 @@ window.onload = () => {
 			console.log(`before:${model.uri.toString()}\nafter:${currentPath}`);
 
 			autosavelistener = editor.onDidChangeModelContent(async () => {
-				sendReqAutocomplete();
+				
 
 				console.log("model conternt changed ");
 				if (!URI) {
 					return;
 				}
+				editor.trigger(
+					"keyboard",
+					"editor.action.triggerSuggest",
+					{}
+				);
 				const content = editor.getValue();
 				window.parent.postMessage(
 					{
@@ -155,12 +229,43 @@ window.onload = () => {
 		}
 		track(editor);
 
+		let latestCompletion;
+		monaco.languages.registerCompletionItemProvider("javascript", {
+			async provideCompletionItems(model, position) {
+				if(!URI) {return}
+				const res = await sendReqAutocomplete();
+				latestCompletion = res;
+				return {
+					suggestions: convertCompletionList(monaco, res)
+				};
+			},
+			provideCompletionItems() {
+				return {
+					suggestions: convertCompletionList(monaco, latestCompletion)
+				};
+			}
+		});
+		monaco.languages.registerCompletionItemProvider("typescript", {
+			async provideCompletionItems(model, position) {
+				if (!URI) { return }
+				const res = await sendReqAutocomplete();
+				return {
+					suggestions: convertCompletionList(monaco, res)
+				};
+			},
+			provideCompletionItems() {
+				return {
+					suggestions: convertCompletionList(monaco, latestCompletion)
+				};
+			}
+		});
 		window.addEventListener("message", (e) => {
 			const message = e.data;
 			const action = message.action;
 			console.log(message);
 
 			if (action === "set") {
+				
 				console.log("file is ");
 				console.log(`message${message}`)
 				const content = message.content;
@@ -370,6 +475,14 @@ window.onload = () => {
 			});
 		}
 		lint();
+
+		monaco.languages.json.jsonDefaults.setDiagnosticsOptions(
+			{
+				validate: true,
+				enableSchemaRequest: true,
+				schemas: []
+			}
+		)
 	});
 };
 

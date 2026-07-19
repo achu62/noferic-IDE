@@ -18,7 +18,6 @@ import fs from "fs"
 export async function getTags(dirpath)
 {
     const packagejson = path.join(dirpath , "package.json")
-
     if(fs.existsSync(packagejson))
     {
         const content = await fs.readFileSync(packagejson , "utf-8")
