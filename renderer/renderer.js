@@ -38,7 +38,7 @@ let globalleftmenustate = {
 	isterminalopen: false,
 	isleftpanelopen: true,
 };
-console.log("\nw\o\r\k")
+console.log("\nw\o\r\k");
 export function showdialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfiledialog").showModal();
@@ -116,7 +116,6 @@ export function deleteFile(path) {
 window.onload = function () {
 	document.getElementById("alertdialog").close();
 	async function runts(path, content, line, character) {
-
 		try {
 			console.log("Before invoke");
 			const result = await window.ipc.invoke(
@@ -124,7 +123,7 @@ window.onload = function () {
 				path,
 				content,
 				line,
-				character
+				character,
 			);
 
 			return result;
@@ -132,7 +131,6 @@ window.onload = function () {
 			console.log(String(e));
 		}
 	}
-
 
 	let countforterminal = 1;
 	document.getElementById("addtermbtn").addEventListener("click", (e) => {
@@ -597,11 +595,8 @@ window.onload = function () {
 			globalfolderjson = message.fjson;
 			openfolderfunction(globalfolderjson);
 		} else if (JSON.parse(data).action == "handlefileargs") {
-
-
 			setTimeout(() => {
 				openfileoncilick(message.path, iframe);
-
 			}, 2000);
 		} else if (JSON.parse(data).action == "errorhandle") {
 			alert(
@@ -644,7 +639,6 @@ window.onload = function () {
 				}
 			});
 		} else if (message.action === "status") {
-
 			globalgitstatusjson = message.status;
 			setInVersionControl(
 				document,
@@ -706,16 +700,18 @@ window.onload = function () {
 			runLint();
 		}
 		if (message.action === "getAutoComplete") {
-			
 			async function run() {
-				console.log("Autocomplete event intercepted successfully. Payload contents:", message.data);
+				console.log(
+					"Autocomplete event intercepted successfully. Payload contents:",
+					message.data,
+				);
 
 				// Explicitly extract parameters from the 'data' child object
 				const compl = await runts(
 					message.data.path,
 					message.data.content,
 					message.data.line,
-					message.data.character
+					message.data.character,
 				);
 
 				console.log("Result received from runts backend:", compl);
@@ -727,9 +723,6 @@ window.onload = function () {
 			}
 			run();
 		}
-
-
-
 	});
 	document.getElementById("liveserverbtn").addEventListener("click", (e) => {
 		document.getElementById("createliveserverdialog").showModal();
@@ -737,12 +730,10 @@ window.onload = function () {
 	document
 		.getElementById("createliveserverbtn")
 		.addEventListener("click", async (e) => {
-
 			const relativepath = document.getElementById(
 				"inputpathforliveserver",
 			).value;
 			try {
-
 				const dec = await window.ipc.invoke("validate-details-liveserver", {
 					port: document.getElementById("inputforliveserver").value,
 					relativepath: relativepath ? relativepath : "./",

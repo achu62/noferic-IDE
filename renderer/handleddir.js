@@ -1,5 +1,6 @@
 //jai sri ram
-
+import {isValidJSON} from "./utils.js"
+isValidJSON()
 export function handleDir() {
 	const filebutton = document.createElement("button");
 	filebutton.id = `${file.id}`;

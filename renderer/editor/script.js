@@ -129,6 +129,14 @@ window.onload = () => {
 			},
 			theme: "NofericIDETheme",
 			alwaysConsumeMouseWheel: false,
+			suggest: {
+				showMethods: true,
+				showWords: true,
+				showModules: true, // Crucial for node_modules
+				showPaths: true,   // Crucial for relative/absolute paths
+				maxVisibleSuggestions: 12, // Gives it more vertical room
+				shareSuggestSelections: true
+			},
 		}
 		);
 
@@ -229,7 +237,7 @@ window.onload = () => {
 		track(editor);
 
 		
-		monaco.languages.registerCompletionItemProvider("*", {
+		monaco.languages.registerCompletionItemProvider("javascript", {
 			// Trigger completions on every letter, number, and common token characters
 			triggerCharacters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-'.split(''),
 
