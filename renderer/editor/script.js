@@ -217,11 +217,7 @@ window.onload = () => {
 				if (!URI) {
 					return;
 				}
-				editor.trigger(
-					"keyboard",
-					"editor.action.triggerSuggest",
-					{}
-				);
+				
 				const content = editor.getValue();
 				window.parent.postMessage(
 					{

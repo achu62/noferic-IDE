@@ -11,13 +11,13 @@ import {
 	getfileiconbytype,
 	DeleteOldWorkspace,
 	findFolderById,
+	
 } from "./utils.js";
 import { createfolderdialogbox } from "./foldercontextmenu.js";
 import { Styleicon } from "./styleicon.js";
 import { handleShortCuts } from "./shortcuthandlers.js";
 import { createfiledialogbox } from "./filecontextmenu.js";
 import { StyleL } from "./stylel.js";
-
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
 const file = document.getElementById(`file`);
@@ -646,7 +646,7 @@ window.onload = function () {
 				globalgitstatusjson,
 			);
 		} else if (message.action === "handleachangeinfile") {
-			if (document.getElementById(`topbarelementfor${message.path}`)) {
+			if (document.getElementById(`topbarelementfor${decodeURIComponent(message.path)}`)) {
 				const ext = await window.ipc.invoke("get-ext", message.path);
 				const extension = ext.replace(".", "");
 				iframe.contentWindow.postMessage(
@@ -654,7 +654,7 @@ window.onload = function () {
 						action: "set",
 						content: message.content,
 						isdir: false,
-						path: message.path,
+						path: decodeURIComponent(message.path),
 
 						extension: extension,
 						isspecialchange: true,

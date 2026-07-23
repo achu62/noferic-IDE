@@ -126,7 +126,7 @@ export async function provideautocomplete(path, content, char, line) {
 
     })
 
-    fs.writeFileSync(`ts${Date.now()}`, `${path, JSON.stringify(prevpath)},${JSON.stringify(returncode, null, 2)}`)
+   // fs.writeFileSync(`/home/charan/noferic-IDE/tslogs/ts${Date.now()}`, `${path, JSON.stringify(prevpath)},${JSON.stringify(returncode, null, 2)}`)
     isCompleted = true;
     return returncode;
 }

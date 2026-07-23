@@ -19,7 +19,8 @@ export const defaultconfigbiome  = `
         "rules": {
             "style": {
                 "noDefaultExport": "info",
-                "useConst": "error"
+                "useConst": "error",
+                
             }
         }
     }

@@ -3,6 +3,7 @@ import path from "node:path";
 import * as rpc from "vscode-jsonrpc";
 import { createbiomeprocess } from "../createbiomeprocess.js";
 
+
 export async function startBiomeProcess(args, opts) {
 	const { isWindows, isproduction, cfpath, consolelog } = opts;
 	const resolvedArgs = path.resolve(args);

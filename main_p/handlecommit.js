@@ -19,3 +19,4 @@ export async function handleCommit(gitprocess, message) {
 	});
 	return commitPromise;
 }
+

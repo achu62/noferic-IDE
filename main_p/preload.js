@@ -17,3 +17,4 @@ contextBridge.exposeInMainWorld("ipc", {
 		ipcRenderer.send(channel, ...args);
 	},
 });
+

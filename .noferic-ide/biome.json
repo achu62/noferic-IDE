@@ -1,5 +1,6 @@
 {
     "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
+    
     "vcs": {
         "enabled": true,
         "clientKind": "git",
@@ -13,10 +14,22 @@
         "indentStyle": "tab"
     },
     "linter": {
+
         "enabled": true,
         "rules": {
+            "complexity":{
+                "useArrowFunction":"off"
+            },
+            "correctness":{
+                "noUndeclaredDependencies":"info",
+                "noUndeclaredVariables":"off"
+            }
+            ,
             "style":{
-                "useBlockStatements":"error"
+                "useBlockStatements":"off",
+                "useImportType":"off",
+                "useNodejsImportProtocol":"off",
+                "useNamingConvention":"info"
             }
         }
     },

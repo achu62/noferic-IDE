@@ -5,6 +5,7 @@ import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
 import { detectPort } from "detect-port";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
 import fs from "node:fs";
 import { Worker } from "node:worker_threads";
 import pty from "node-pty";
@@ -29,9 +30,9 @@ import { defaultconfigbiome } from "./defaultconfig.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
 import { handleCommit } from "./handlecommit.js";
 import { scanafolder } from "./scanafolder.js";
-import { provideautocomplete, starttsserver } from "./type-script intelligence/Main.js";
+import { provideautocomplete, starttsserver } from "./type-script-intelligence/Main.js";
 import { getTags } from "./tagger.js";
-import { provideAutoCompleteforts } from "./type-script intelligence/autocomplete.js";
+import { provideAutoCompleteforts } from "./type-script-intelligence/autocomplete.js";
 let pathreal = null;
 const isproduction = app.isPackaged;
 
@@ -40,6 +41,14 @@ let globalfolderjson;
 function consolelog(args) {
 	if (!isproduction) {
 		console.log(`\n${args}`);
+	}
+}
+export  function getEssentials()
+{
+	return {
+		appispackaged:app.isPackaged,
+		processplatform:process.platform,
+		path:process.resourcesPath,
 	}
 }
 
@@ -183,7 +192,6 @@ async function track(pathreal) {
 
 		watcher.on("change", async (filePath) => {
 			if (!changedpathsbyide.includes(filePath)) {
-				consolelog("filechangedexternal:" + filePath);
 				win.webContents.send(
 					"data",
 					JSON.stringify({
@@ -385,8 +393,8 @@ app.whenReady().then(() => {
 	} else {
 		args = process.argv[2];
 	}
-	win.webContents.once("did-finish-load", () => {
-		handleappargs(args);
+	win.webContents.once("did-finish-load", async() => {
+		await handleappargs(args);
 	});
 });
 
@@ -485,7 +493,7 @@ ipcMain.handle("openfolder", async (e) => {
 });
 
 ipcMain.handle("autosave", async (e, code, path) => {
-	fs.writeFileSync(path, code, "utf-8");
+	fs.writeFileSync(decodeURIComponent(path), code, "utf-8");
 	changedpathsbyide.push(path);
 });
 let oldreqcomleted = true;

@@ -1,3 +1,3 @@
 //jai sri ram
-//jai sri ram
-import fs from 
+import fs from "fs"
+fs.readFileSync()

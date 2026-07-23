@@ -1685,3 +1685,13 @@ input {
   display: block !important;
   height: 12px !important;
 }
+#tagmenu{
+  position: fixed;
+  width:200px;
+  background-color: #2b2b2b;
+  border:none;
+  border-radius: 2px;
+  font-size: 12px;
+  height: 300px;
+  overflow: auto;
+}
