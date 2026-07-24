@@ -66,13 +66,13 @@ export async function starttsserver(path) {
         return params.items.map(() => ({}));
     });
     // --------------
-
 }
 export async function provideautocomplete(path, content, char, line) {
     console.log("yes\n\n\n\n\n\n\n\n\n\n\n\n\n\\n\n\n")
     if (!isCompleted) { return }
     isCompleted = false;
     if (path !== prevpath.path) {
+
         let ext;
         if (nodepath.extname(path) === ".js" || nodepath.extname(path) === ".jsx") {
             ext = "javascript";
@@ -98,6 +98,7 @@ export async function provideautocomplete(path, content, char, line) {
                 text: `[${content}]`
             }
         });
+
     }
     else {
 
@@ -125,8 +126,22 @@ export async function provideautocomplete(path, content, char, line) {
         }
 
     })
-
-   // fs.writeFileSync(`/home/charan/noferic-IDE/tslogs/ts${Date.now()}`, `${path, JSON.stringify(prevpath)},${JSON.stringify(returncode, null, 2)}`)
+    fs.writeFileSync(`/home/charan/noferic-IDE/tslogs/ts${Date.now()}`, `${path, JSON.stringify(prevpath)},${JSON.stringify(returncode, null, 2)}`)
     isCompleted = true;
     return returncode;
+}
+export async function ProvideDiagnostics() {
+    console.log("rec............\n")
+    if(!connection) return;
+    return new Promise((resolve, rej) => {
+        const listener = connection.onNotification(
+            "textDocument/publishDiagnostics",
+            (params) => {
+                fs.writeFileSync(`/home/charan/noferic-IDE/tslogs/tsd${Date.now()}`, `,${JSON.stringify(params, null, 2)}`)
+
+                resolve(params);
+                listener.dispose();
+            },
+        );
+    });
 }

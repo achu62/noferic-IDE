@@ -30,7 +30,7 @@ import { defaultconfigbiome } from "./defaultconfig.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
 import { handleCommit } from "./handlecommit.js";
 import { scanafolder } from "./scanafolder.js";
-import { provideautocomplete, starttsserver } from "./type-script-intelligence/Main.js";
+import { provideautocomplete, starttsserver , ProvideDiagnostics} from "./type-script-intelligence/Main.js";
 import { getTags } from "./tagger.js";
 import { provideAutoCompleteforts } from "./type-script-intelligence/autocomplete.js";
 let pathreal = null;
@@ -505,7 +505,9 @@ ipcMain.handle("lint", async (e, message) => {
 	oldreqcomleted = false;
 
 	try {
+		
 		return await lintWithBiome(connection, pathreal, message, consolelog);
+
 	} catch (error) {
 		consolelog(error);
 		throw error;

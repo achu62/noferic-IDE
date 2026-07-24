@@ -15,6 +15,7 @@ export function handleDir() {
 	statebtn.style.top = "0.5px";
 	statebtn.style.right = "0.5px";
 
+
 	statebtn.style.bottom = "0.5px";
 	statebtn.style.height = "16px";
 	statebtn.style.width = `16px`;
