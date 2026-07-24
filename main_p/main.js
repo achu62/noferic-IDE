@@ -33,6 +33,7 @@ import { scanafolder } from "./scanafolder.js";
 import { provideautocomplete, starttsserver , ProvideDiagnostics} from "./type-script-intelligence/Main.js";
 import { getTags } from "./tagger.js";
 import { provideAutoCompleteforts } from "./type-script-intelligence/autocomplete.js";
+import { createTrack } from "./track.js";
 let pathreal = null;
 const isproduction = app.isPackaged;
 
@@ -136,144 +137,19 @@ consolelog(isWindows);
 
 
 
-let watcher = null;
 let changedpathsbyide = [];
 const apppath = process.execPath;
 consolelog("apppath" + apppath);
 
-async function track(pathreal) {
-	if (!pathreal) return;
-	if (watcher) {
-		watcher.close();
-		watcher = null;
-	}
-
-	try {
-		if (watcher) watcher.close();
-
-		watcher = chokidar.watch(pathreal, {
-			ignoreInitial: true,
-		});
-
-		watcher.on("add", (filePath) => {
-			if (addedpathbyide) {
-				addedpathbyide = addedpathbyide.filter((item) => item !== filePath);
-			}
-			if (!addedpathbyide?.includes(filePath)) {
-				const filepathonly = path.basename(filePath);
-				const foldepath = path.dirname(filePath);
-				injectChildrenByPath(globalfolderjson, foldepath, [
-					{
-						id: filePath,
-						name: filepathonly,
-						isdirectory: false,
-					},
-				]);
-
-				win.webContents.send(
-					"data",
-					JSON.stringify({
-						action: "addelements",
-						newjson: globalfolderjson,
-						add: {
-							parentid: foldepath,
-							actualjson: [
-								{
-									id: filePath,
-									name: filepathonly,
-									isdirectory: false,
-								},
-							],
-						},
-					}),
-				);
-			}
-		});
-
-		watcher.on("change", async (filePath) => {
-			if (!changedpathsbyide.includes(filePath)) {
-				win.webContents.send(
-					"data",
-					JSON.stringify({
-						action: "handleachangeinfile",
-						path: filePath,
-						content: await fs.readFileSync(filePath, "utf-8"),
-					}),
-				);
-			}
-
-			changedpathsbyide = changedpathsbyide.filter((item) => item !== filePath);
-		});
-
-		watcher.on("unlink", (filePath) => {
-			const filepathonly = path.basename(filePath);
-			const foldepath = path.dirname(filePath);
-			deleteNodeById(globalfolderjson, filePath);
-			win.webContents.send(
-				"data",
-				JSON.stringify({
-					action: "removeelements",
-					newjson: globalfolderjson,
-					remove: filePath,
-				}),
-			);
-		});
-		watcher.on("addDir", async (DirPath) => {
-
-			const Dirnameonly = path.basename(DirPath);
-
-			const foldepath = path.dirname(DirPath);
-
-			const children = await scanafolder(DirPath);
-			injectChildrenByPath(globalfolderjson, foldepath, [
-				{
-					id: DirPath,
-					name: Dirnameonly,
-					isdirectory: true,
-					haschildren: children.length > 0,
-					children: [],
-				},
-			]);
-
-			win.webContents.send(
-				"data",
-				JSON.stringify({
-					action: "addelements",
-					newjson: globalfolderjson,
-					add: {
-						parentid: foldepath,
-						actualjson: [
-							{
-								id: DirPath,
-								name: Dirnameonly,
-								isdirectory: true,
-								haschildren: children.length > 0,
-								children: children,
-							},
-						],
-					},
-				}),
-			);
-		});
-		watcher.on("unlinkDir", (DirPath) => {
-
-			const Dirnameonly = path.basename(DirPath);
-
-			const foldepath = path.dirname(DirPath);
-			deleteNodeById(globalfolderjson, DirPath);
-			win.webContents.send(
-				"data",
-				JSON.stringify({
-					action: "removeelements",
-					newjson: globalfolderjson,
-					remove: DirPath,
-				}),
-			);
-		});
-	} catch (e) {
-		consolelog(e);
-	}
-}
+const track = createTrack({
+	getState: () => ({
+		win,
+		addedpathbyide,
+		globalfolderjson,
+		changedpathsbyide,
+	}),
+	consolelog,
+});
 
 let win;
 function createWindow() {
@@ -295,6 +171,25 @@ function createWindow() {
 	if (isproduction) {
 		win.removeMenu();
 	}
+	win.on("close", (event) => {
+	
+			event.preventDefault();
+			win.webContents.send(
+				"data",
+				JSON.stringify({
+					action: "getOpenTabs",
+				}),
+			);
+			
+
+		ipcMain.once("data", (e, d) => {
+			console.log("CLOSING")
+			const data = JSON.parse(d);
+			if (data.action === "tabsopen") {
+				fs.writeFileSync(path.join(pathreal , ".noferic-ide" , "noferic-config.json") , JSON.stringify({"openTabs" : data.openTabs}))
+				win.removeAllListeners('close');
+			}} );		
+	});
 }
 let ptyProcess = {};
 let terminal = null;

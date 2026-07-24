@@ -663,6 +663,24 @@ window.onload = function () {
 				);
 			}
 		}
+		if (message.action === "getOpenTabs") {
+			const parent = document.getElementById("topbarforeditor");
+
+
+			const ids = Array.from(parent.children).map(child => child.id);
+			window.ipc.send(
+				"data",
+				JSON.stringify({
+					action: "tabsopen",
+					openTabs: ids,
+					
+				}),
+			)
+			setTimeout(()=>{
+				window.close()
+
+			} , 5000)
+		}
 	});
 
 	document
@@ -723,6 +741,7 @@ window.onload = function () {
 			}
 			run();
 		}
+		
 	});
 	document.getElementById("liveserverbtn").addEventListener("click", (e) => {
 		document.getElementById("createliveserverdialog").showModal();
