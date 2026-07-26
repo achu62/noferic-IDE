@@ -32,15 +32,18 @@
 		"typescript-language-server": "^5.3.0",
 		"vscode-jsonrpc": "^8.2.1",
 		"vscode-languageserver-protocol": "^3.17.5",
+		"web-tree-sitter": "^0.26.11",
 		"xterm": "^5.3.0",
 		"xterm-addon-fit": "^0.8.0"
 	},
 	"build": {
 		"appId": "noferic web",
-		"extraResources":[{
-			"from":"node_modules/.bin",
-			"to":"node_modules/.bin"
-		}],
+		"extraResources": [
+			{
+				"from": "node_modules/.bin",
+				"to": "node_modules/.bin"
+			}
+		],
 		"asar": false,
 		"files": [
 			"**/*"

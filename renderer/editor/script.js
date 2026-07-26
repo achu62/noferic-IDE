@@ -229,9 +229,24 @@ window.onload = () => {
 				);
 
 			});
+			
 		}
 		track(editor);
+		monaco.editor.onDidChangeMarkers(([resource]) => {
+			const modelae = editor.getModel();
 
+			// Ensure the markers changed for the current model
+			if (modelae && resource.toString() === modelae.uri.toString()) {
+				const markers = monaco.editor.getModelMarkers({ resource: modelae.uri });
+
+				const errors = markers.filter(m => m.severity === monaco.MarkerSeverity.Error).length;
+				const info = markers.filter(m => m.severity === monaco.MarkerSeverity.Info).length;
+				const warning = markers.filter(m => m.severity === monaco.MarkerSeverity.Warning).length;
+
+				console.log("Errors:", errors);
+				window.parent.document.getElementById("errors").innerText = `❌:${errors} , ⚠️:${warning} ℹ️:${info}`;
+			}
+		});
 		
 		monaco.languages.registerCompletionItemProvider("javascript", {
 			// Trigger completions on every letter, number, and common token characters

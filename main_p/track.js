@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import chokidar from "chokidar";
-
 import { deleteNodeById, injectChildrenByPath } from "./utils.js";
 import { scanafolder } from "./scanafolder.js";
+import {NotifyGitIntegration} from "./git/git.js"
 
 export function createTrack({ getState, consolelog }) {
 	let watcher = null;
@@ -20,8 +20,13 @@ export function createTrack({ getState, consolelog }) {
 				ignoreInitial: true,
 			});
 
+
 			watcher.on("add", (filePath) => {
 				const { win, addedpathbyide, globalfolderjson } = getState();
+				if(filePath.includes(".git"))
+				{
+					NotifyGitIntegration(win)
+				}
 				if (Array.isArray(addedpathbyide)) {
 					const addedIndex = addedpathbyide.indexOf(filePath);
 					if (addedIndex >= 0) {
@@ -60,6 +65,9 @@ export function createTrack({ getState, consolelog }) {
 			});
 
 			watcher.on("change", async (filePath) => {
+				if (filePath.includes(".git")) {
+					NotifyGitIntegration(win)
+				}
 				const { win, changedpathsbyide } = getState();
 				if (!changedpathsbyide.includes(filePath)) {
 					win.webContents.send(
@@ -79,6 +87,9 @@ export function createTrack({ getState, consolelog }) {
 			});
 
 			watcher.on("unlink", (filePath) => {
+				if (filePath.includes(".git")) {
+					NotifyGitIntegration(win)
+				}
 				const { win, globalfolderjson } = getState();
 				deleteNodeById(globalfolderjson, filePath);
 				win.webContents.send(
@@ -91,6 +102,9 @@ export function createTrack({ getState, consolelog }) {
 				);
 			});
 			watcher.on("addDir", async (DirPath) => {
+				if (filePath.includes(".git")) {
+					NotifyGitIntegration(win)
+				}
 				const { win, globalfolderjson } = getState();
 				const Dirnameonly = path.basename(DirPath);
 				const foldepath = path.dirname(DirPath);
@@ -126,6 +140,9 @@ export function createTrack({ getState, consolelog }) {
 				);
 			});
 			watcher.on("unlinkDir", (DirPath) => {
+				if (filePath.includes(".git")) {
+					NotifyGitIntegration(win)
+				}
 				const { win, globalfolderjson } = getState();
 				deleteNodeById(globalfolderjson, DirPath);
 				win.webContents.send(

@@ -5,7 +5,7 @@ import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
 import { detectPort } from "detect-port";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-
+import { initialisereposcan } from "./git/git.js";
 import fs from "node:fs";
 import { Worker } from "node:worker_threads";
 import pty from "node-pty";
@@ -28,7 +28,7 @@ import { readFilejs } from "./readfile.js";
 import { formatHandler } from "./biome/formatrequesthandler.js";
 import { defaultconfigbiome } from "./defaultconfig.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
-import { handleCommit } from "./handlecommit.js";
+import { handleCommit } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
 import { provideautocomplete, starttsserver , ProvideDiagnostics} from "./type-script-intelligence/Main.js";
 import { getTags } from "./tagger.js";
@@ -50,6 +50,7 @@ export  function getEssentials()
 		appispackaged:app.isPackaged,
 		processplatform:process.platform,
 		path:process.resourcesPath,
+		
 	}
 }
 
@@ -80,58 +81,7 @@ if (!fs.existsSync(path.join(cfpath, "biome", "biome.json"))) {
 }
 
 console.log(fs.readFileSync(path.join(cfpath, "biome", "biome.json"), "utf8"));
-async function initialisereposcan(repopath) {
-	try {
-		const options = {
-			baseDir: repopath,
-			binary: "git",
-			maxConcurrentProcesses: 100,
-		};
-		gitprocess = simpleGit(options);
-		const status = await gitprocess.status();
 
-		console.log("s" + JSON.stringify(status));
-
-		win.webContents.send(
-			"data",
-			JSON.stringify({
-				action: "status",
-				status: {
-					created: status.created,
-					modified: status.modified,
-					renamed: status.renamed,
-					deleted: status.deleted,
-					notadded: status.not_added,
-				},
-			}),
-		);
-		const ignoredfiles = await gitprocess.raw([
-			"ls-files",
-			"--others",
-			"--ignored",
-			"--exclude-standard",
-		]);
-		const ifr = ignoredfiles
-			.split(/\r?\n/)
-			.map((file) => file.trim())
-			.filter(Boolean);
-		let ifiles = [];
-		ifr.forEach((e) => {
-			ifiles.push(path.join(repopath, e));
-		});
-		if (ignoredfiles) {
-			win.webContents.send(
-				"data",
-				JSON.stringify({
-					action: "ignoredfiles",
-					ignoredfiles: ifiles,
-				}),
-			);
-		}
-	} catch (e) {
-		consolelog(e);
-	}
-}
 consolelog(process.resourcesPath);
 consolelog(isWindows);
 
@@ -207,7 +157,7 @@ async function handleappargs(args) {
 			pathreal = path.resolve(args);
 			getTags(pathreal)
 			track(path.resolve(args));
-			initialisereposcan(path.resolve(args));
+			initialisereposcan(path.resolve(args), win);
 			await starttsserver(path.resolve(args))
 
 			const biomeResult = await startBiomeProcess(args, {
@@ -436,7 +386,7 @@ ipcMain.handle("validate-details-liveserver", async (e, d) => {
 });
 ipcMain.handle("commit", async (e, message) => {
 	
-		const commitPromise = await handleCommit(gitprocess , message)
+		const commitPromise = await handleCommit(message)
 		return commitPromise;
 });
 ipcMain.handle("create_new_terminal", async (e, id) => {

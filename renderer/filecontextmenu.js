@@ -31,7 +31,7 @@ export function createfiledialogbox(parent, elementid, filebtn) {
     const deletefileelement = document.createElement('button')
     deletefileelement.id = `rightdivcreatefileelement${elementid}`
     deletefileelement.classList.add(`createfileelement`)
-    deletefileelement.innerText = 'Delete';
+    deletefileelement.innerText = '🗑️Delete';
     deletefileelement.addEventListener('click', (e) => {
         e.stopPropagation()
         deleteFile(elementid)

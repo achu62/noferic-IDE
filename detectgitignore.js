@@ -1,4 +1,5 @@
 //jai sri ram
-import fs from "node:fs"
-fs.readFileSync()
-fs.writeFile()
+export default function(){
+   const x = ;
+}
+

@@ -23,13 +23,14 @@
 
   --bg: #1e1e1e
 }
+
 html,
 body {
   overflow: hidden;
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: "JetBrains Mono" !important;
+  font-family: "JetBrains Mono", "NotoEmoji", monospace !important;
   margin-top: 0;
   margin-right: 0;
   margin-left: 0;
@@ -862,21 +863,21 @@ body {
   /* Keeps the component fully rounded */
   border: 2px solid #1a1a1a;
 
-    opacity: 50;
+  opacity: 50;
   /* Creates an inset padding trick against dark backgrounds */
 }
 
 /* 4. Hover state for smooth user interaction */
 ::-webkit-scrollbar-thumb:hover {
   background-color: #ff8552;
-    opacity: 50;
+  opacity: 50;
   /* Lighter, glowing orange on hover */
 }
 
 /* 5. Active/Click state when drag behavior occurs */
 ::-webkit-scrollbar-thumb:active {
   background-color: #e0531c;
-  opacity:50;
+  opacity: 50;
   /* Deeper orange to show structural feedback */
 }
 
@@ -896,6 +897,7 @@ body {
     /* Thumb color followed by Track color */
   }
 }
+
 #topbarforeditor::-webkit-scrollbar {
   width: 2px;
   direction: rtl;
@@ -1560,7 +1562,7 @@ input {
   border-radius: 2px;
   background-color: #0f6dd9;
   text-align: center;
-  z-index:100000;
+  z-index: 100000;
 }
 
 #inputforcommit {
@@ -1685,13 +1687,29 @@ input {
   display: block !important;
   height: 12px !important;
 }
-#tagmenu{
-  position: fixed;
-  width:200px;
-  background-color: #2b2b2b;
-  border:none;
-  border-radius: 2px;
-  font-size: 12px;
-  height: 300px;
-  overflow: auto;
+
+#errors {
+
+  position: relative;
+  top: 0;
+  bottom: 0;
+  background-color: inherit;
+  color: #ffffff;
+  padding-left: 2px;
+  padding-right: 10px;
+  width: fit-content;
+  border-right-color: #ffffff;
+  border-right-width: 0.2px;
+
 }
+#currentBranch{position: relative;
+  top: 0;
+  bottom: 0;
+  background-color: inherit;
+  color: #ffffff;
+  padding-left: 2px;
+  padding-right: 10px;
+  width: fit-content;
+  border-right-color: #ffffff;
+  border-right-width: 0.2px;}
+  

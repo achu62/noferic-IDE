@@ -18,6 +18,7 @@ import { Styleicon } from "./styleicon.js";
 import { handleShortCuts } from "./shortcuthandlers.js";
 import { createfiledialogbox } from "./filecontextmenu.js";
 import { StyleL } from "./stylel.js";
+import { openFileFromExplorer } from "./handlefileopening.js";
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
 const file = document.getElementById(`file`);
@@ -409,61 +410,7 @@ window.onload = function () {
 				filebutton.addEventListener("click", async (e) => {
 					e.stopPropagation();
 					e.stopImmediatePropagation();
-					const filepathonclick = file.id;
-					const content = await window.ipc.invoke("read", filepathonclick);
-
-					const isexisting = document.getElementById(
-						`topbarelementfor${file.id}`,
-					);
-
-					if (!isexisting) {
-						const topbarelement = document.createElement("button");
-						topbarelement.classList.add("class__topelements");
-						topbarelement.id = `topbarelementfor${file.id}`;
-						topbarelement.paddingLeft = 3 + "px";
-
-						topbarelement.textContent = `${file.name}`;
-						topbarelement.title = `${file.id}`;
-
-						// const extension = filepathonclick.split("/").pop().split(".").pop();
-
-						const ext = await window.ipc.invoke("get-ext", filepathonclick);
-
-						topbarelement.addEventListener("click", (e) => {
-							e.stopPropagation();
-							iframe.contentWindow.postMessage(
-								{
-									action: "set",
-									content: content,
-									isdir: true,
-									extension: extension,
-									path: filepathonclick,
-								},
-								"*",
-							);
-							iframe.contentWindow.postMessage(["layout"], "*");
-						});
-						document
-							.getElementById("topbarforeditor")
-							.appendChild(topbarelement);
-
-						const topbarclosebtn = document.createElement("button");
-						topbarclosebtn.classList.add("topbarclose_class");
-						topbarclosebtn.id = `topbarelementclosefor${file.id}`;
-						topbarclosebtn.addEventListener("click", (e) => {
-							e.stopPropagation();
-							topbarelement?.remove();
-							iframe.contentWindow.postMessage({
-								action: "deletemodelonclose",
-								path: file.id,
-							});
-						});
-
-						topbarelement.appendChild(topbarclosebtn);
-						topbarelement.click();
-					} else {
-						isexisting.click();
-					}
+					await openFileFromExplorer({ iframe, file });
 				});
 
 				const icon = document.createElement("div");
@@ -602,7 +549,11 @@ window.onload = function () {
 			alert(
 				`an error occured while ${JSON.stringify(message.errorlocation)} \n\n error message:${JSON.stringify(message.errormessage)}`,
 			);
-		} else if (message.action === "addelements") {
+		} 
+		else if (message.action === "branch"){
+			document.getElementById("currentBranch").innerText  = `${message.branchname}`
+		}
+		else if (message.action === "addelements") {
 			globalfolderjson = message.newjson;
 			if (!message.add) {
 				console.log("no adds");

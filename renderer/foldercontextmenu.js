@@ -54,13 +54,13 @@ export function createfolderdialogbox(parent, elementid, folderbtn) {
 
     createfileelement.id = `rightdivcreatefileelement${elementid}`
     createfileelement.classList.add(`createfileelement`)
-    createfileelement.innerText = 'Create New File';
+    createfileelement.innerText = '📄 Create New File';
     createfolderelement.id = `rightdivcreatefolderelement${elementid}`
     createfolderelement.classList.add(`createfolderelement`)
-    createfolderelement.innerText = 'Create New Folder';
+    createfolderelement.innerText = '📁 Create New Folder';
     deletefolderelement.id = `rightdivcreatefolderelement${elementid}`
     deletefolderelement.classList.add(`createfolderelement`)
-    deletefolderelement.innerText = 'Delete';
+    deletefolderelement.innerText = '🗑️ Delete';
     createfileelement.addEventListener('click', (e) => {
         e.stopPropagation()
         showdialog(elementid)
