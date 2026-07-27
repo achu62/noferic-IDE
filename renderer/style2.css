@@ -1538,7 +1538,7 @@ input {
 
 #explorervc {
   position: absolute;
-  top: 25px;
+  top: 50px;
   bottom: 0;
   right: 0;
   left: 0;
@@ -1712,4 +1712,31 @@ input {
   width: fit-content;
   border-right-color: #ffffff;
   border-right-width: 0.2px;}
-  
+  #moreactions{
+all: unset;
+  position: absolute;
+  top: 25px;
+  left: 5px;
+  right: 5px;
+  background-color: #1e1e1e;
+  text-align: center;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  }
+  .gitotheractions{
+  all: unset;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #333333;
+  text-align: center;
+  z-index: 100000;
+  justify-content: left;
+  text-align: start;
+  }
+    .gitotheractions:hover{
+        background-color: #1e1e1e;
+    }

@@ -65,10 +65,11 @@ export function createTrack({ getState, consolelog }) {
 			});
 
 			watcher.on("change", async (filePath) => {
+				const { win, changedpathsbyide } = getState();
+
 				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
-				const { win, changedpathsbyide } = getState();
 				if (!changedpathsbyide.includes(filePath)) {
 					win.webContents.send(
 						"data",
@@ -87,10 +88,11 @@ export function createTrack({ getState, consolelog }) {
 			});
 
 			watcher.on("unlink", (filePath) => {
+				const { win, globalfolderjson } = getState();
+
 				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
-				const { win, globalfolderjson } = getState();
 				deleteNodeById(globalfolderjson, filePath);
 				win.webContents.send(
 					"data",
@@ -102,10 +104,11 @@ export function createTrack({ getState, consolelog }) {
 				);
 			});
 			watcher.on("addDir", async (DirPath) => {
-				if (filePath.includes(".git")) {
+				const { win, globalfolderjson } = getState();
+
+				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
-				const { win, globalfolderjson } = getState();
 				const Dirnameonly = path.basename(DirPath);
 				const foldepath = path.dirname(DirPath);
 				const children = await scanafolder(DirPath);
@@ -140,10 +143,11 @@ export function createTrack({ getState, consolelog }) {
 				);
 			});
 			watcher.on("unlinkDir", (DirPath) => {
-				if (filePath.includes(".git")) {
+				const { win, addedpathbyide, globalfolderjson } = getState();
+
+				if (DirPathPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
-				const { win, globalfolderjson } = getState();
 				deleteNodeById(globalfolderjson, DirPath);
 				win.webContents.send(
 					"data",

@@ -1,21 +1,21 @@
 //jai sri ram
 import { simpleGit, gitP } from "simple-git";
-import { Notification } from "electron"
+import {Notification} from "electron"
 import which from "which"
-import path from "path"
-async function CheckGit() {
+import  path from "path"
+async function CheckGit(){
     const IsGit = await which("git")
     console.log(IsGit)
-    if (!IsGit) {
+    if(!IsGit){
         new Notification(`Git might not  be installed on this system`)
     }
 }
 CheckGit()
 let gitprocess;
-let prevbranch;
+let prevbranch ;
 async function GetCurrentBranch(win) {
     const bn = (await gitprocess.branch()).current;
-    if (bn === prevbranch) return;
+    if(bn===prevbranch) return;
     prevbranch = bn;
     console.log(bn)
     win.webContents.send(
@@ -27,13 +27,13 @@ async function GetCurrentBranch(win) {
     );
 }
 export async function NotifyGitIntegration(win) {
-    if (!gitprocess) { return; }
+    if(!gitprocess){return;}
     GetCurrentBranch(win)
-
+  
 }
 
-export async function initialisereposcan(repopath, win) {
-
+export async function initialisereposcan(repopath , win) {
+    
     try {
         const options = {
             baseDir: repopath,
@@ -82,7 +82,7 @@ export async function initialisereposcan(repopath, win) {
             );
         }
     } catch (e) {
-        // consolelog(e);
+       // consolelog(e);
     }
 }
 export async function handleCommit(message) {
@@ -95,8 +95,7 @@ export async function handleCommit(message) {
                     rej("no changes to commit");
                 }
                 await gitprocess.add(".");
-                const commit = await gitprocess.commit(message);
-                console.log(commit)
+               await  gitprocess.commit(message);
                 re("tr");
             }
             runn();
@@ -107,15 +106,3 @@ export async function handleCommit(message) {
     return commitPromise;
 }
 
-export async function handlePush(){
-    const promise = new Promise(async(res , rej)=>{
-        try{
-            await gitprocess.push()
-            res()
-        }
-        catch(e){
-            rej(new Error(e))
-        }
-    })
-    return promise;
-}

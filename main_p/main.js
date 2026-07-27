@@ -1,7 +1,7 @@
 //jai sri ram
 //yes this is working
 
-import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
+import { app, BrowserWindow, dialog, ipcMain, shell  , Notification} from "electron";
 import { detectPort } from "detect-port";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -28,7 +28,7 @@ import { readFilejs } from "./readfile.js";
 import { formatHandler } from "./biome/formatrequesthandler.js";
 import { defaultconfigbiome } from "./defaultconfig.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
-import { handleCommit } from "./git/git.js";
+import { handleCommit , handlePush } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
 import { provideautocomplete, starttsserver , ProvideDiagnostics} from "./type-script-intelligence/Main.js";
 import { getTags } from "./tagger.js";
@@ -413,3 +413,20 @@ ipcMain.handle("providetsautocomplete" , async(e , path , content , line , char 
 ipcMain.handle("log" , async(e,...args)=>{
 	console.log("ren" + args)
 })
+ipcMain.handle("push", async () => {
+	try {
+		await handlePush();
+		new Notification({
+			title: "Pushed",
+			body: "Pushed to remote branch",
+		}).show();
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : String(error);
+
+		new Notification({
+			title: "Push failed",
+			body: message,
+		}).show();
+	}
+});

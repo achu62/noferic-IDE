@@ -794,4 +794,7 @@ window.onload = function () {
 				document.getElementById("createliveserverbtn").click();
 			}
 		});
+		document.getElementById("push").addEventListener("click" , async(e)=>{
+			await window.ipc.invoke("push")
+		})
 };

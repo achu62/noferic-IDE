@@ -19,8 +19,9 @@ function rl(elementr , array){
     });
 }
 export  function setInVersionControl(document, element, json){
+
     element.innerText = "";
-    const modifiedElement = document.createElement('button')
+ /*   const modifiedElement = document.createElement('button')
     modifiedElement.classList.add('files')
     modifiedElement.id = "modifiedElements"
     modifiedElement.innerText= "modified"
@@ -110,5 +111,5 @@ export  function setInVersionControl(document, element, json){
     element.appendChild(created)
 
     element.appendChild(notadded)
-
+*/
 }
