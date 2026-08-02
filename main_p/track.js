@@ -3,7 +3,7 @@ import path from "node:path";
 import chokidar from "chokidar";
 import { deleteNodeById, injectChildrenByPath } from "./utils.js";
 import { scanafolder } from "./scanafolder.js";
-import {NotifyGitIntegration} from "./git/git.js"
+import { NotifyGitIntegration, initialisereposcan, Updatestatus } from "./git/git.js"
 
 export function createTrack({ getState, consolelog }) {
 	let watcher = null;
@@ -21,10 +21,11 @@ export function createTrack({ getState, consolelog }) {
 			});
 
 
+
 			watcher.on("add", (filePath) => {
 				const { win, addedpathbyide, globalfolderjson } = getState();
-				if(filePath.includes(".git"))
-				{
+				Updatestatus(win)
+				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
 				if (Array.isArray(addedpathbyide)) {
@@ -66,7 +67,7 @@ export function createTrack({ getState, consolelog }) {
 
 			watcher.on("change", async (filePath) => {
 				const { win, changedpathsbyide } = getState();
-
+				Updatestatus(win)
 				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -89,7 +90,7 @@ export function createTrack({ getState, consolelog }) {
 
 			watcher.on("unlink", (filePath) => {
 				const { win, globalfolderjson } = getState();
-
+				Updatestatus(win)
 				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -105,7 +106,7 @@ export function createTrack({ getState, consolelog }) {
 			});
 			watcher.on("addDir", async (DirPath) => {
 				const { win, globalfolderjson } = getState();
-
+				Updatestatus(win)
 				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -144,8 +145,8 @@ export function createTrack({ getState, consolelog }) {
 			});
 			watcher.on("unlinkDir", (DirPath) => {
 				const { win, addedpathbyide, globalfolderjson } = getState();
-
-				if (DirPathPath.includes(".git")) {
+				Updatestatus(win)
+				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
 				deleteNodeById(globalfolderjson, DirPath);

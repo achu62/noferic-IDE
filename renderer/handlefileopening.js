@@ -2,6 +2,7 @@ const TOPBAR_CONTAINER_ID = "topbarforeditor";
 
 function createTopbarTab({
 	iframe,
+	
 	filePath,
 	fileName,
 	content,
@@ -11,6 +12,7 @@ function createTopbarTab({
 	if (existingTab) {
 		existingTab.click();
 		return;
+
 	}
 
 	const topbarElement = document.createElement("button");

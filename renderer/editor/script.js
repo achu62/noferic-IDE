@@ -3,488 +3,558 @@
 //jai sri ram
 //jai sri ram
 import { getLanguagebyExtension } from "./utils.js";
-//jai sri ram
-// lspToMonaco.js
+import { runparser } from "./parser/dist/my-library.js";
 
+function getDeclarationName(node) {
+  let current = node;
+
+  while (current) {
+    switch (current.type) {
+      case "function_declaration":
+      case "generator_function_declaration":
+      case "class_declaration":
+      case "method_definition":
+      case "function_expression":
+      case "arrow_function": {
+        const name = current.childForFieldName("name");
+        return name ? name.text : "<anonymous>";
+      }
+    }
+
+    current = current.parent;
+  }
+
+  return null;
+}
 function lspKindToMonaco(monaco, kind) {
-	const K = monaco.languages.CompletionItemKind;
+  const K = monaco.languages.CompletionItemKind;
 
-	switch (kind) {
-		case 1: return K.Text;
-		case 2: return K.Method;
-		case 3: return K.Function;
-		case 4: return K.Constructor;
-		case 5: return K.Field;
-		case 6: return K.Variable;
-		case 7: return K.Class;
-		case 8: return K.Interface;
-		case 9: return K.Module;
-		case 10: return K.Property;
-		case 11: return K.Unit;
-		case 12: return K.Value;
-		case 13: return K.Enum;
-		case 14: return K.Keyword;
-		case 15: return K.Snippet;
-		case 16: return K.Color;
-		case 17: return K.File;
-		case 18: return K.Reference;
-		case 19: return K.Folder;
-		case 20: return K.EnumMember;
-		case 21: return K.Constant;
-		case 22: return K.Struct;
-		case 23: return K.Event;
-		case 24: return K.Operator;
-		case 25: return K.TypeParameter;
-		default: return K.Text;
-	}
+
+  switch (kind) {
+    case 1:
+      return K.Text;
+    case 2:
+      return K.Method;
+    case 3:
+      return K.Function;
+    case 4:
+      return K.Constructor;
+    case 5:
+      return K.Field;
+    case 6:
+      return K.Variable;
+    case 7:
+      return K.Class;
+    case 8:
+      return K.Interface;
+    case 9:
+      return K.Module;
+    case 10:
+      return K.Property;
+    case 11:
+      return K.Unit;
+    case 12:
+      return K.Value;
+    case 13:
+      return K.Enum;
+    case 14:
+      return K.Keyword;
+    case 15:
+      return K.Snippet;
+    case 16:
+      return K.Color;
+    case 17:
+      return K.File;
+    case 18:
+      return K.Reference;
+    case 19:
+      return K.Folder;
+    case 20:
+      return K.EnumMember;
+    case 21:
+      return K.Constant;
+    case 22:
+      return K.Struct;
+    case 23:
+      return K.Event;
+    case 24:
+      return K.Operator;
+    case 25:
+      return K.TypeParameter;
+    default:
+      return K.Text;
+  }
 }
 
 function lspCompletionToMonaco(monaco, item) {
-	return {
-		label: item.label,
-		kind: lspKindToMonaco(monaco, item.kind),
-		detail: item.detail ?? "",
-		documentation:
-			typeof item.documentation === "string"
-				? item.documentation
-				: item.documentation?.value ?? "",
+  return {
+    label: item.label,
+    kind: lspKindToMonaco(monaco, item.kind),
+    detail: item.detail ?? "",
+    documentation:
+      typeof item.documentation === "string"
+        ? item.documentation
+        : (item.documentation?.value ?? ""),
 
-		insertText: item.insertText ?? item.label,
+    insertText: item.insertText ?? item.label,
 
-		sortText: item.sortText,
-		filterText: item.filterText,
-		preselect: item.preselect,
-		commitCharacters: item.commitCharacters,
+    sortText: item.sortText,
+    filterText: item.filterText,
+    preselect: item.preselect,
+    commitCharacters: item.commitCharacters,
 
-		range: undefined
-	};
+    range: undefined,
+  };
 }
 
 export function convertCompletionList(monaco, completionList) {
-	const items = Array.isArray(completionList)
-		? completionList
-		: completionList.items;
+  const items = Array.isArray(completionList)
+    ? completionList
+    : completionList.items;
 
-	return items.map(item => lspCompletionToMonaco(monaco, item));
+  return items.map((item) => lspCompletionToMonaco(monaco, item));
 }
 
 window.onload = () => {
-	require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
-	///
-	let editor = null;
-	let lintlistener;
+  require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
+  ///
+  let editor = null;
+  let lintlistener;
+
+  require(["vs/editor/editor.main"], () => {
+    monaco.editor.defineTheme("NofericIDETheme", {
+      base: "vs-dark",
+
+      inherit: true,
+      rules: [
+        { token: "comment", foreground: "7A7A7A" },
+        { token: "keyword", foreground: "FF6B6B" },
+        { token: "string", foreground: "95D5B2" },
+        { token: "number", foreground: "74C0FC" },
+        { token: "type", foreground: "C77DFF" },
+        { token: "class", foreground: "C77DFF" },
+        { token: "function", foreground: "FFD166" },
+        { token: "constant", foreground: "4DABF7" },
+        { token: "operator", foreground: "FF922B" },
+        { token: "keyword", foreground: "FF922B" }, { token: "variable", foreground: "E8E8E8" },
+        { token: "identifier", foreground: "E8E8E8" },
+
+        { token: "parameter", foreground: "F8C471" },
+
+        { token: "property", foreground: "7DD3FC" },
+
+        { token: "delimiter", foreground: "BBBBBB" },
+
+        { token: "regexp", foreground: "95D5B2" },
+
+        { token: "tag", foreground: "FF6B6B" },
+        { token: "attribute.name", foreground: "FFD166" },
+        { token: "attribute.value", foreground: "95D5B2" },
+
+        { token: "namespace", foreground: "C77DFF" },
+
+        { token: "enum", foreground: "C77DFF" },
+        { token: "enumMember", foreground: "4DABF7" },
+
+        { token: "typeParameter", foreground: "D0A9FF" },
+
+        { token: "decorator", foreground: "FFA94D" },
+
+        { token: "invalid", foreground: "FFFFFF", background: "D32F2F" },
+      ],
+      colors: {
+        "editor.background": "#1e1e1e",
+        "editor.foreground": "#E8E8E8",
+        "editorLineNumber.foreground": "#777777",
+        "editorCursor.foreground": "#FFFFFF",
+        "editor.selectionBackground": "#505050",
+        "editor.lineHighlightBackground": "#404040",
+        "editorInfo.foreground": "#1edf1e",
+      },
+    });
+
+    editor = monaco.editor.create(document.getElementById("editor"), {
+      value: "//open folder or\n \n  //open file or\n \n //write code now ",
+      language: "javascript",
+      automaticLayout: true,
+      lineNumbers: "on",
+      folding: true,
+      minimap: { enabled: true },
+      wordWrap: "off",
+      codeLens: true,
+      dragAndDrop: true,
+      cursorBlinking: "blink",
+      cursorStyle: "line",
+      selectOnLineNumbers: true,
+      quickSuggestions: true,
+      snippetSuggestions: "inline",
+      fontFamily: "JetBrains Mono",
+      fontLigatures: true,
+      fontWeight: 200,
+      scrollbar: {
+        horizontal: "visible",
+        horizontalScrollbarSize: 12,
+        alwaysConsumeMouseWheel: false,
+        vertical: "visible",
+      },
+      theme: "NofericIDETheme",
+      alwaysConsumeMouseWheel: false,
+      suggest: {
+        showMethods: true,
+        showWords: true,
+        showModules: true,
+        showPaths: true,
+        maxVisibleSuggestions: 12,
+        shareSuggestSelections: true,
+      },
+    });
+    let URI = null;
+    let ismodel = false;
+    let extension = null;
+    let recentmodeluri;
+    let autosavelistener;
+
+    async function track(editor) {
+      if (!editor) return;
+      editor.onDidChangeCursorPosition(async(e) => {
+        window.parent.document.getElementById("lineandcolumn").innerText =
+
+          `LN:${e.position.lineNumber}  COL:${e.position.column}`;
+
+            const tree =   await runparser(editor.getValue(), {
+              row:e.position.lineNumber -1 ,
+              column: e.position.column -1,
+            })
+        const name = getDeclarationName(tree);
+        window.parent.document.getElementById("breadcrupsfunc").innerText = `${name || ""}`
+       
+
+      });
 
 
-	require(["vs/editor/editor.main"], () => {
+      
+      
+    }
+    async function sendReqAutocomplete() {
+      const model = editor.getModel();
 
-		monaco.editor.defineTheme("NofericIDETheme", {
-			base: "vs-dark",
+      const path = model.uri.toString().replace("id:", "");
+      const localcont = model.getValue();
 
-			inherit: true,
-			rules: [
-				{ token: "comment", foreground: "7A7A7A" },
-				{ token: "keyword", foreground: "FF6B6B" },
-				{ token: "string", foreground: "95D5B2" },
-				{ token: "number", foreground: "74C0FC" },
-				{ token: "type", foreground: "C77DFF" },
-				{ token: "class", foreground: "C77DFF" },
-				{ token: "function", foreground: "FFD166" },
-				{ token: "constant", foreground: "4DABF7" },
-				{ token: "operator", foreground: "FF922B" },
-				{ token: "keyword", foreground: "FF922B" }
-			],
-			colors: {
-				"editor.background": "#1e1e1e",
-				"editor.foreground": "#E8E8E8",
-				"editorLineNumber.foreground": "#777777",
-				"editorCursor.foreground": "#FFFFFF",
-				"editor.selectionBackground": "#505050",
-				"editor.lineHighlightBackground": "#404040",
-				"editorInfo.foreground": "#1edf1e"
-			},
-		});
+      const pos = editor.getPosition();
+      const char = pos.column - 1;
+      const lin = pos.lineNumber - 1;
 
-		editor = monaco.editor.create(document.getElementById("editor"), {
-			value: "//open folder or\n \n  //open file or\n \n //write code now ",
-			language: "javascript",
-			lineNumbers: "on",
-			folding: true,
-			minimap: { enabled: true },
+      window.parent.postMessage(
+        {
+          action: "getAutoComplete",
+          data: {
+            line: lin,
+            path: path,
+            character: char,
+            content: localcont,
+          },
+        },
+        "*",
+      );
+      const promise = new Promise((re, rej) => {
+        window.addEventListener("message", (e) => {
+          const message = e.data;
+          if (message.action === "tsac") {
+            re(message.data);
+          }
+        });
+      });
+      return promise;
+    }
+    async function autosave(editor) {
+      if (autosavelistener) {
+        autosavelistener.dispose();
+      }
+      const model = editor.getModel();
+      if (!editor) {
+        return;
+      }
+      if (!model) {
+        return;
+      }
+      const currentPath = model.uri.toString().replace("id:", "");
+      if (currentPath.includes(`inmemory://`)) {
+        return;
+      }
 
-			codeLens: true, // Fixed casing
-			dragAndDrop: true,
-			cursorBlinking: "blink",
-			cursorStyle: "line",
-			selectOnLineNumbers: true,
-			quickSuggestions: true,
-			snippetSuggestions: "inline",
-			fontFamily: "JetBrains Mono",
-			fontLigatures: true,
-			fontWeight: 200,
-			scrollbar: {
-				horizontal: "visible",
-				horizontalScrollbarSize: 12,
-				alwaysConsumeMouseWheel: false,
-				vertical: "visible"
-			},
-			theme: "NofericIDETheme",
-			alwaysConsumeMouseWheel: false,
-			suggest: {
-				showMethods: true,
-				showWords: true,
-				showModules: true, // Crucial for node_modules
-				showPaths: true,   // Crucial for relative/absolute paths
-				maxVisibleSuggestions: 12, // Gives it more vertical room
-				shareSuggestSelections: true
-			},
-		}
-		);
+      autosavelistener = editor.onDidChangeModelContent(async () => {
+        if (!URI) {
+          return;
+        }
 
-		let URI = null;
-		let ismodel = false;
-		let extension = null;
-		let cursorposition;
-		let recentmodeluri;
-		let autosavelistener;
-		async function track(editor) {
-			if (!editor) return;
-			editor.onDidChangeCursorPosition((e) => {
-				window.parent.document.getElementById("lineandcolumn").innerText =
-					`LN:${e.position.lineNumber}  COL:${e.position.column}`;
+        const content = editor.getValue();
+        window.parent.postMessage(
+          {
+            action: "autosave",
+            code: content,
+            path: currentPath,
+          },
+          "*",
+        );
+      });
+    }
+    track(editor);
+    monaco.editor.onDidChangeMarkers(([resource]) => {
+      const modelae = editor.getModel();
 
-			});
-		}
-		async function sendReqAutocomplete() {
-			const model = editor.getModel();
+      // Ensure the markers changed for the current model
+      if (modelae && resource.toString() === modelae.uri.toString()) {
+        const markers = monaco.editor.getModelMarkers({
+          resource: modelae.uri,
+        });
 
-			const path = model.uri.toString().replace("id:", "");
-			const localcont = model.getValue()
+        const errors = markers.filter(
+          (m) => m.severity === monaco.MarkerSeverity.Error,
+        ).length;
+        const info = markers.filter(
+          (m) => m.severity === monaco.MarkerSeverity.Info,
+        ).length;
+        const warning = markers.filter(
+          (m) => m.severity === monaco.MarkerSeverity.Warning,
+        ).length;
 
-			const pos = editor.getPosition()
-			const char = pos.column - 1;
-			const lin = pos.lineNumber - 1;
-			console.log(lin, char, pos, localcont, path)
-			window.parent.postMessage(
-				{
-					action: "getAutoComplete",
-					data: {
-						line: lin,
-						path: path,
-						character: char,
-						content: localcont
-					}
-				},
-				"*",
-			);
-			const promise = new Promise((re, rej) => {
-				window.addEventListener("message", (e) => {
-					const message = e.data;
-					if (message.action == "tsac") {
-						re(message.data)
-					}
-				})
+        window.parent.document.getElementById("errors").innerText =
+          `❌:${errors} , ⚠️:${warning} ℹ️:${info}`;
+      }
+    });
 
-			})
-			return promise;
+    monaco.languages.registerCompletionItemProvider("javascript", {
+      // Trigger completions on every letter, number, and common token characters
+      triggerCharacters:
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-".split(
+          "",
+        ),
 
-		}
-		async function autosave(editor) {
-			if (autosavelistener) {
-				autosavelistener.dispose();
-			}
-			const model = editor.getModel();
-			if (!editor) {
-				console.log("no editor");
-				return;
-			}
-			if (!model) {
-				console.log("nomodel");
-				return;
-			}
-			console.log(model.uri.toString());
-			const currentPath = model.uri.toString().replace("id:", "");
-			console.log("currentpath" + currentPath);
-			if (currentPath.includes(`inmemory://`)) {
-				return;
-			}
+      async provideCompletionItems(model, position) {
+        if (!URI) {
+          return;
+        }
+        const res = await sendReqAutocomplete();
+        return {
+          suggestions: convertCompletionList(monaco, res),
+        };
+      },
+    });
+	 monaco.languages.registerCompletionItemProvider("typescript", {
+      // Trigger completions on every letter, number, and common token characters
+      triggerCharacters:
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-".split(
+          "",
+        ),
 
-			console.log(`before:${model.uri.toString()}\nafter:${currentPath}`);
+      async provideCompletionItems(model, position) {
+        if (!URI) {
+          return;
+        }
+        const res = await sendReqAutocomplete();
+        return {
+          suggestions: convertCompletionList(monaco, res),
+        };
+      },
+    });
+    window.addEventListener("message", (e) => {
+      const message = e.data;
+      const action = message.action;
 
-			autosavelistener = editor.onDidChangeModelContent(async () => {
-				
+      if (action === "set") {
+        editor.layout();
+        const content = message.content;
+        ismodel = message.isdir;
+        URI = message.path;
+        extension = message.extension;
+        window.parent.document.getElementById("language").innerText =
+          `.${message.extension}`;
+        const isexisting = monaco.editor.getModel(
+          monaco.Uri.parse(`id://${URI}`),
+        );
+        recentmodeluri = `id://${URI}`;
+        if (!isexisting) {
+          if (ismodel === false) {
+            const model = monaco.editor.createModel(
+              content,
+              getLanguagebyExtension(extension),
+              monaco.Uri.parse(`id://${URI}`),
+            );
+            editor.setModel(model);
 
-				console.log("model conternt changed ");
-				if (!URI) {
-					return;
-				}
-				
-				const content = editor.getValue();
-				window.parent.postMessage(
-					{
-						action: "autosave",
-						code: content,
-						path: currentPath,
-					},
-					"*",
-				);
+            ismodel = false;
+          } else {																			
+            const model = monaco.editor.createModel(
+              content,
+              getLanguagebyExtension(extension),
+              monaco.Uri.parse(`id://${URI}`),
+            );
+            editor.setModel(model);
+          }
+        } else {
+          if (message.isspecialchange) {
+            isexisting.setValue(message.content);
+          } else {
+            editor.setModel(isexisting);
+          }
+        }
 
-			});
-			
-		}
-		track(editor);
-		monaco.editor.onDidChangeMarkers(([resource]) => {
-			const modelae = editor.getModel();
+        autosave(editor);
+        const topbarfor = window.parent.document.getElementById(
+          `topbarelementfor${URI}`,
+        );
+        if (!topbarfor) {
+          return;
+        } else {
+          const parent =
+            window.parent.document.getElementById("topbarforeditor");
+          parent.querySelectorAll("*").forEach((el) => {
+            el.style.backgroundColor = "#1e1e1e";
+          });
+          topbarfor.style.backgroundColor = "#404040";
+        }
+      } else if (action === "get") {
+        if (!ismodel) {
+          window.parent.postMessage(
+            {
+              content: editor.getValue(),
+              isfolder: false,
+            },
+            "*",
+          );
+        } else {
+          let contenttosave = monaco.editor.getModel(
+            monaco.Uri.parse(`id://${URI}`),
+          );
+          contenttosave = contenttosave.getValue();
+          window.parent.postMessage(
+            {
+              content: contenttosave,
+              isfolder: true,
+              path: `${URI}`,
+            },
+            "*",
+          );
+        }
+      } else if (action === "layout") {
+        editor.layout();
+      } else if (action === "formatget") {
+        cursorposition = editor.getPosition();
 
-			// Ensure the markers changed for the current model
-			if (modelae && resource.toString() === modelae.uri.toString()) {
-				const markers = monaco.editor.getModelMarkers({ resource: modelae.uri });
+        window.parent.postMessage({
+          code: editor.getValue(),
+          extension: extension,
+          language: getLanguagebyExtension(extension),
+        });
+      } else if (action === "formatset") {
+        const edits = message.formattedcode;
 
-				const errors = markers.filter(m => m.severity === monaco.MarkerSeverity.Error).length;
-				const info = markers.filter(m => m.severity === monaco.MarkerSeverity.Info).length;
-				const warning = markers.filter(m => m.severity === monaco.MarkerSeverity.Warning).length;
+        const monacomarkers = [];
 
-				console.log("Errors:", errors);
-				window.parent.document.getElementById("errors").innerText = `❌:${errors} , ⚠️:${warning} ℹ️:${info}`;
-			}
-		});
-		
-		monaco.languages.registerCompletionItemProvider("javascript", {
-			// Trigger completions on every letter, number, and common token characters
-			triggerCharacters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-'.split(''),
+        edits.forEach((edit) => {
+          monacomarkers.push({
+            range: {
+              startLineNumber: edit.range.start.line + 1,
+              startColumn: edit.range.start.character + 1,
+              endLineNumber: edit.range.end.line + 1,
+              endColumn: edit.range.end.character + 1,
+            },
+            text: edit.newText,
+          });
+        });
+        editor.executeEdits("my-programmatic-edits", monacomarkers);
+      } else if (action === "deletemodelonclose") {
+        const pathofmodel = `id://${message.path}`;
+        const modeltodelete = monaco.editor.getModel(
+          monaco.Uri.parse(pathofmodel),
+        );
+        modeltodelete.dispose();
 
-			async provideCompletionItems(model, position) {
-				if (!URI) { return; }
-				const res = await sendReqAutocomplete();
-				return {
-					suggestions: convertCompletionList(monaco, res)
-				};
-			}
-		});
-		window.addEventListener("message", (e) => {
-			const message = e.data;
-			const action = message.action;
-			console.log(message);
+        let newmodel = monaco.editor.getModel(monaco.Uri.parse(recentmodeluri));
+        if (!newmodel) {
+          newmodel = monaco.editor.getModels()[0];
+          const topbarfor = window.parent.document.getElementById(
+            `topbarelementfor${newmodel.uri.toString().replace("id://", "")}`,
+          );
 
-			if (action === "set") {
-				
-				console.log("file is ");
-				console.log(`message${message}`)
-				const content = message.content;
-				ismodel = message.isdir;
-				URI = message.path;
-				console.log(URI);
-				extension = message.extension;
-				window.parent.document.getElementById("language").innerText =
-					`.${message.extension}`;
-				const isexisting = monaco.editor.getModel(
-					monaco.Uri.parse(`id://${URI}`),
-				);
-				recentmodeluri = `id://${URI}`;
-				if (!isexisting) {
-					if (ismodel == false) {
-						console.log('tying')
-						console.log("content:" + content);
-						const model = monaco.editor.createModel(
-							content,
-							getLanguagebyExtension(extension),
-							monaco.Uri.parse(`id://${URI}`),
-						);
-						editor.setModel(model);
+          const parent =
+            window.parent.document.getElementById("topbarforeditor");
+          parent.querySelectorAll("*").forEach((el) => {
+            el.style.backgroundColor = "#1e1e1e";
 
-						ismodel = false;
-					} else {
-						const model = monaco.editor.createModel(
-							content,
-							getLanguagebyExtension(extension),
-							monaco.Uri.parse(`id://${URI}`),
-						);
-						console.log(extension);
-						editor.setModel(model);
-					}
-				} else {
-					if (message.isspecialchange) {
-						isexisting.setValue(message.content)
-					}
-					else {
-						editor.setModel(isexisting);
+            el.querySelectorAll("*").forEach((e) => {
+              e.style.backgroundColor = "#1e1e1e";
+            });
+          });
+          topbarfor.style.backgroundColor = "#404040";
+          editor.setModel(newmodel);
+        } else {
+          const topbarfor = window.parent.document.getElementById(
+            `topbarelementfor${recentmodeluri.replace("id://", "")}`,
+          );
 
-					}
-				}
+          const parent =
+            window.parent.document.getElementById("topbarforeditor");
+          parent.querySelectorAll("*").forEach((el) => {
+            el.style.backgroundColor = "#1e1e1e";
+          });
+          topbarfor.style.backgroundColor = "#404040";
 
-				autosave(editor);
-				const topbarfor = window.parent.document.getElementById(
-					`topbarelementfor${URI}`,
-				);
-				if (!topbarfor) {
-					return;
-				} else {
-					const parent =
-						window.parent.document.getElementById("topbarforeditor");
-					parent.querySelectorAll("*").forEach((el) => {
-						el.style.backgroundColor = "#1e1e1e";
-					});
-					topbarfor.style.backgroundColor = "#404040";
-				}
-			} else if (action === "get") {
-				if (!ismodel) {
-					window.parent.postMessage(
-						{
-							content: editor.getValue(),
-							isfolder: false,
-						},
-						"*",
-					);
-				} else {
-					let contenttosave = monaco.editor.getModel(
-						monaco.Uri.parse(`id://${URI}`),
-					);
-					contenttosave = contenttosave.getValue();
-					window.parent.postMessage(
-						{
-							content: contenttosave,
-							isfolder: true,
-							path: `${URI}`,
-						},
-						"*",
-					);
-				}
-			} else if (action === "layout") {
-				editor.layout();
-			} else if (action === "formatget") {
-				cursorposition = editor.getPosition();
-				console.log(extension);
+          editor.setModel(newmodel);
+        }
+      } else if (action == "deleteallmodels") {
+        monaco.editor.getModels().forEach((model) => {
+          model.dispose();
+        });
+      } else if (action === "setMarkers") {
+        let markers = [];
+        message.diagnostics.diagnostics.forEach((d) => {
+          markers.push({
+            startLineNumber: d.range.start.line + 1,
 
-				window.parent.postMessage({
-					code: editor.getValue(),
-					extension: extension,
-					language: getLanguagebyExtension(extension),
-				});
-				console.log(extension);
-			} else if (action === "formatset") {
-				const edits = message.formattedcode;
-				console.log(edits);
+            startColumn: d.range.start.character + 1,
 
-				const monacomarkers = [];
+            endLineNumber: d.range.end.line + 1,
 
-				edits.forEach((edit) => {
-					monacomarkers.push({
-						range: {
-							startLineNumber: edit.range.start.line + 1,
-							startColumn: edit.range.start.character + 1,
-							endLineNumber: edit.range.end.line + 1,
-							endColumn: edit.range.end.character + 1,
-						},
-						text: edit.newText,
-					});
-				});
-				editor.executeEdits("my-programmatic-edits", monacomarkers);
-			} else if (action === "deletemodelonclose") {
-				const pathofmodel = `id://${message.path}`;
-				const modeltodelete = monaco.editor.getModel(
-					monaco.Uri.parse(pathofmodel),
-				);
-				modeltodelete.dispose();
-				console.log(monaco.editor.getModels());
-				console.log(
-					"is deleteed" + monaco.editor.getModel(monaco.Uri.parse(pathofmodel)),
-				);
-				let newmodel = monaco.editor.getModel(monaco.Uri.parse(recentmodeluri));
-				if (!newmodel) {
-					newmodel = monaco.editor.getModels()[0];
-					const topbarfor = window.parent.document.getElementById(
-						`topbarelementfor${newmodel.uri.toString().replace("id://", "")}`,
-					);
+            endColumn: d.range.end.character + 1,
 
-					const parent =
-						window.parent.document.getElementById("topbarforeditor");
-					parent.querySelectorAll("*").forEach((el) => {
-						el.style.backgroundColor = "#1e1e1e";
+            message: `biome:${d.message}`,
 
-						el.querySelectorAll("*").forEach((e) => {
-							e.style.backgroundColor = "#1e1e1e";
+            severity:
+              d.severity === 1
+                ? monaco.MarkerSeverity.Error
+                : d.severity === 2
+                  ? monaco.MarkerSeverity.Warning
+                  : d.severity === 3
+                    ? monaco.MarkerSeverity.Info
+                    : onaco.MarkerSeverity.Hint,
+          });
+        });
+        monaco.editor.setModelMarkers(editor.getModel(), "biome", markers);
+      }
+    });
+    async function lint() {
+      if (lintlistener) {
+        lintlistener.dispose();
+      }
+      lintlistener = editor.onDidChangeModelContent(() => {
+        window.parent.postMessage({
+          action: "lint",
+          code: editor.getValue(),
+          extension: extension,
+          language: getLanguagebyExtension(extension),
+        });
+      });
+    }
+    lint();
 
-						})
-					});
-					topbarfor.style.backgroundColor = "#404040";
-					editor.setModel(newmodel);
-				} else {
-					const topbarfor = window.parent.document.getElementById(
-						`topbarelementfor${recentmodeluri.replace("id://", "")}`,
-					);
-
-					const parent =
-						window.parent.document.getElementById("topbarforeditor");
-					parent.querySelectorAll("*").forEach((el) => {
-						el.style.backgroundColor = "#1e1e1e";
-					});
-					topbarfor.style.backgroundColor = "#404040";
-
-					editor.setModel(newmodel);
-				}
-			} else if (action == "deleteallmodels") {
-				monaco.editor.getModels().forEach((model) => {
-					model.dispose();
-					console.log("model" + monaco.editor.getModels());
-				});
-			} else if (action === "setMarkers") {
-				console.log(message.diagnostics.diagnostics);
-				let markers = [];
-				message.diagnostics.diagnostics.forEach((d) => {
-					markers.push({
-						startLineNumber: d.range.start.line + 1,
-
-						startColumn: d.range.start.character + 1,
-
-						endLineNumber: d.range.end.line + 1,
-
-						endColumn: d.range.end.character + 1,
-
-						message: `biome:${d.message}`,
-
-						severity:
-							d.severity === 1
-								? monaco.MarkerSeverity.Error
-								: d.severity === 2
-									? monaco.MarkerSeverity.Warning
-									: d.severity === 3
-										? monaco.MarkerSeverity.Info
-										: onaco.MarkerSeverity.Hint,
-					});
-				});
-				monaco.editor.setModelMarkers(editor.getModel(), "biome", markers);
-			}
-		});
-		async function lint() {
-			if (lintlistener) {
-				lintlistener.dispose();
-			}
-			lintlistener = editor.onDidChangeModelContent(() => {
-				console.log(
-					`sending:${{
-						action: "lint",
-						code: editor.getValue(),
-						extension: extension,
-						language: getLanguagebyExtension(extension),
-					}}`,
-				);
-				window.parent.postMessage({
-					action: "lint",
-					code: editor.getValue(),
-					extension: extension,
-					language: getLanguagebyExtension(extension),
-				});
-			});
-		}
-		lint();
-
-		monaco.languages.json.jsonDefaults.setDiagnosticsOptions(
-			{
-				validate: true,
-				enableSchemaRequest: true,
-				schemas: []
-			}
-		)
-	});
+    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      validate: true,
+      enableSchemaRequest: true,
+      schemas: [],
+    });
+  });
 };
 
 //jai sri ram

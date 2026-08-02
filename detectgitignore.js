@@ -1,5 +1,12 @@
 //jai sri ram
-export default function(){
-   const x = ;
+import fss from "node:fs"
+ThisIsaArrow()=>{
+   const c = "x";
+   
+   fs.readdir()
+   if(x!=="x")
+   {
+      
+      
+   }
 }
-

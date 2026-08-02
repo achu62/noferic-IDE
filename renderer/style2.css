@@ -30,7 +30,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: "JetBrains Mono", "NotoEmoji", monospace !important;
+  font-family: "Google Sans", "NotoEmoji", monospace !important;
   margin-top: 0;
   margin-right: 0;
   margin-left: 0;
@@ -41,7 +41,7 @@ body {
 
 .common {
   color: var(--ffffff);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 350;
   background-color: var(--ieieie);
 }
@@ -395,6 +395,7 @@ body {
   padding: 0 !important;
   border: none !important;
   width: 100%;
+  overflow: hidden;
 }
 
 #terminalelement {
@@ -750,7 +751,7 @@ body {
   position: fixed;
   left: 45px;
   top: 30.2px;
-  bottom: 18px;
+  bottom: 20px;
   right: 10px;
 }
 
@@ -777,7 +778,7 @@ body {
   position: relative;
   right: 0;
   left: 0%;
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 350;
   display: flex;
   flex-direction: column;
@@ -788,18 +789,18 @@ body {
   touch-action: manipulation;
   user-select: none;
   padding-left: 30px !important;
+  border: 0.1px solid #4b4949;
   /* prevents accidental text selection on tap */
 }
 
 .files:hover {
-  all: unset;
   color: var(--ffffff);
   background-color: #404040;
   min-height: 17px;
   position: relative;
   right: 0;
   left: 0%;
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 350;
   display: flex;
   flex-direction: column;
@@ -810,6 +811,7 @@ body {
   touch-action: manipulation;
   user-select: none;
   padding-left: 25px;
+  z-index: 1000303030;
   /* prevents accidental text selection on tap */
 }
 
@@ -824,8 +826,8 @@ body {
   right: 0;
   left: 0;
   color: var(--ffffff);
-  font-size: 12px;
-  font-family: "JetBrains Mono";
+  font-size: 13.5px;
+  font-family: "" Google Sans"";
   background-color: var(--2b2b2b);
 }
 
@@ -945,7 +947,7 @@ body {
   height: 100%;
   width: fit-content;
   max-width: 300px;
-  font-size: 12px;
+  font-size: 13.5px;
   padding-left: 10px;
   padding-right: 30px;
   line-height: 29px;
@@ -984,7 +986,7 @@ body {
   text-align: left;
   line-height: 20px;
   padding-left: 7px;
-  font-size: 12px;
+  font-size: 13.5px;
   color: #FFFFFF;
 
 }
@@ -1002,7 +1004,7 @@ body {
   text-align: left;
   line-height: 20px;
   padding-left: 7px;
-  font-size: 12px;
+  font-size: 13.5px;
   color: #FFFFFF;
 
 }
@@ -1021,7 +1023,7 @@ body {
   text-align: left;
   line-height: 20px;
   padding-left: 7px;
-  font-size: 12px;
+  font-size: 13.5px;
   color: #FFFFFF;
 
 }
@@ -1041,7 +1043,7 @@ body {
   line-height: 20px;
   border-bottom: 0.2px solid var(--afaeaec9);
   padding-left: 7px;
-  font-size: 12px;
+  font-size: 13.5px;
   color: #FFFFFF;
 
 }
@@ -1164,7 +1166,7 @@ body {
   border-radius: 10px;
   border-color: #eeeeee;
   border-width: 0.2px;
-  font-size: 12px;
+  font-size: 13.5px;
 
 }
 
@@ -1183,7 +1185,7 @@ body {
   border-radius: 10px;
   border-color: #eeeeee;
   border-width: 0.2px;
-  font-size: 12px;
+  font-size: 13.5px;
   position: relative;
 }
 
@@ -1202,7 +1204,7 @@ body {
   border-radius: 5px;
   resize: none;
   color: #eeeeee;
-  font-size: 12px;
+  font-size: 13.5px;
   line-height: 20px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -1251,7 +1253,7 @@ body {
   align-items: vertical;
   background-color: #333333;
   overflow-y: auto;
-  font-size: 12px;
+  font-size: 13.5px;
   color: white;
   /*flex-wrap: wrap;*/
 }
@@ -1276,7 +1278,7 @@ body {
   border-radius: 5px;
   resize: none;
   color: #eeeeee;
-  font-size: 12px;
+  font-size: 13.5px;
   line-height: 20px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -1377,7 +1379,7 @@ body {
   border-radius: 5px;
   resize: none;
   color: #eeeeee;
-  font-size: 12px;
+  font-size: 13.5px;
   line-height: 20px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -1433,7 +1435,7 @@ body {
   border-radius: 5px;
   resize: none;
   color: #eeeeee;
-  font-size: 12px;
+  font-size: 13.5px;
   line-height: 20px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -1444,7 +1446,7 @@ body {
   top: 50%;
   right: 5%;
   left: 5%;
-  font-size: 12px;
+  font-size: 13.5px;
   color: #ffffff;
   height: 15px;
   width: 15px;
@@ -1456,7 +1458,7 @@ body {
   top: 50%;
   right: 5%;
   left: calc(5%+20px);
-  font-size: 12px;
+  font-size: 13.5px;
   color: #ffffff;
 }
 
@@ -1477,7 +1479,7 @@ body {
 .linkelement {
   position: absolute;
   color: #7262e9;
-  font-size: 12px;
+  font-size: 13.5px;
   line-height: 18px;
 }
 
@@ -1532,7 +1534,7 @@ input {
   color: #f9f2f2;
   background-color: #1e1e1e;
 
-  font-size: 12px;
+  font-size: 13.5px;
   overflow: hidden;
 }
 
@@ -1548,7 +1550,7 @@ input {
   align-items: vertical;
   background-color: #333333;
   overflow-y: auto;
-  font-size: 12px;
+  font-size: 13.5px;
   color: white;
 }
 
@@ -1576,7 +1578,7 @@ input {
   border-radius: 5px;
   resize: none;
   color: #eeeeee;
-  font-size: 12px;
+  font-size: 13.5px;
   line-height: 20px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -1645,7 +1647,7 @@ input {
   background-color: #2b2b2b;
   border-width: 1px;
   border-color: white;
-  font-size: 12px;
+  font-size: 13.5px;
   line-height: 20px;
   text-align: left;
 }
@@ -1680,7 +1682,7 @@ input {
   bottom: 0;
   padding: 0px;
   top: 0px;
-  font-family: "JetBrains Mono" !important;
+  font-family: "Google Sans" !important;
 }
 
 .monaco-editor .scrollbar .horizontal {
@@ -1702,7 +1704,9 @@ input {
   border-right-width: 0.2px;
 
 }
-#currentBranch{position: relative;
+
+#currentBranch {
+  position: relative;
   top: 0;
   bottom: 0;
   background-color: inherit;
@@ -1711,9 +1715,11 @@ input {
   padding-right: 10px;
   width: fit-content;
   border-right-color: #ffffff;
-  border-right-width: 0.2px;}
-  #moreactions{
-all: unset;
+  border-right-width: 0.2px;
+}
+
+#moreactions {
+  all: unset;
   position: absolute;
   top: 25px;
   left: 5px;
@@ -1724,8 +1730,9 @@ all: unset;
   display: flex;
   flex-direction: column;
   height: fit-content;
-  }
-  .gitotheractions{
+}
+
+.gitotheractions {
   all: unset;
   position: relative;
   top: 0;
@@ -1736,7 +1743,20 @@ all: unset;
   z-index: 100000;
   justify-content: left;
   text-align: start;
-  }
-    .gitotheractions:hover{
-        background-color: #1e1e1e;
-    }
+}
+
+.gitotheractions:hover {
+  background-color: #404040;
+}
+
+#breadcrupsfunc {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: inherit;
+  color: #FFD166;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: fit-content;
+}

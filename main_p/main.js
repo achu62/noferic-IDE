@@ -1,6 +1,7 @@
 //jai sri ram
 //yes this is working
-
+//jai sri ram
+//the main.js is changed
 import { app, BrowserWindow, dialog, ipcMain, shell  , Notification} from "electron";
 import { detectPort } from "detect-port";
 import path from "node:path";
@@ -28,7 +29,7 @@ import { readFilejs } from "./readfile.js";
 import { formatHandler } from "./biome/formatrequesthandler.js";
 import { defaultconfigbiome } from "./defaultconfig.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
-import { handleCommit , handlePush } from "./git/git.js";
+import { handleCommit , handlePush , handlePull , GetDifftextMain} from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
 import { provideautocomplete, starttsserver , ProvideDiagnostics} from "./type-script-intelligence/Main.js";
 import { getTags } from "./tagger.js";
@@ -415,10 +416,10 @@ ipcMain.handle("log" , async(e,...args)=>{
 })
 ipcMain.handle("push", async () => {
 	try {
-		await handlePush();
+		const message =await handlePush();
 		new Notification({
-			title: "Pushed",
-			body: "Pushed to remote branch",
+			title: "git responded",
+			body:` git responded with ${ message }`
 		}).show();
 	} catch (error) {
 		const message =
@@ -430,3 +431,27 @@ ipcMain.handle("push", async () => {
 		}).show();
 	}
 });
+ipcMain.handle("pull", async () => {
+	try {
+		const message = await handlePull();
+		new Notification({
+			title: `git responded:`,
+			body: `git responded with ${message}`,
+		}).show();
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : String(error);
+
+		new Notification({
+			title: "Pull failed",
+			body: message,
+		}).show();
+	}
+});
+
+ipcMain.handle("get-base-name" , async(e,fpath)=>{
+	return path.basename(fpath)
+})
+ipcMain.handle("get-diff-texts" , async(e , element)=>{
+	return await GetDifftextMain(element)
+})

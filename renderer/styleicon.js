@@ -5,8 +5,7 @@ import { getfileiconbytype } from "./utils.js"
 export function Styleicon(icon, file, depth, extension , id , ratio
 
 ) {
-    console.log(icon)
-    console.log(id)
+
    let logopath = getfileiconbytype[extension];
     
    if (!logopath) {

@@ -17,9 +17,9 @@
         "enabled": true,
         "rules": {
             "style": {
-                "noDefaultExport": "info",
                 "useConst": "error"
             }
         }
     }
+    
 }

@@ -15,12 +15,6 @@
 			font-family: 'NotoEmoji';
 			src: url('./editor/fonts/Noto_Color_Emoji\ \(1\)/NotoColorEmoji-Regular.ttf') format('truetype');
 		}
-
-		.emoji {
-			font-family: 'NotoEmoji', sans-serif;
-			font-size: 1.5rem;
-		}
-
 		@font-face {
 			font-family: "JetBrains Mono";
 			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
@@ -49,6 +43,14 @@
 			font-weight: 700;
 			font-style: italic;
 		}
+			@font-face {
+			font-family: "Google Sans";
+			src: url("./editor/fonts/Google_Sans/static/GoogleSans-Regular.ttf") format("truetype");
+			font-weight: 400;
+			font-style: normal;
+
+		}
+
 	</style>
 </head>
 
@@ -101,7 +103,7 @@
 		<div id="logo"></div>
 		<button class="common bgcolor1e1e1e" id="file">File</button>
 		<button popovertarget="viewon" class="common bgcolor1e1e1e" id="view">View</button>
-		<button id="liveserverbtn" title="start live server">📡Live server</button>
+		<button id="liveserverbtn" title="start live server(ctrl + shift + L)">📡Live server</button>
 
 	</div>
 	<div id="file_on" tabindex=0 class="common">
@@ -117,11 +119,12 @@
 		<div id="language"></div>
 		<div id="errors"></div>
 		<div id="currentBranch"></div>
+		<div id="breadcrupsfunc"></div>
 	</div>
 	<div class="common bgcolor1e1e1e" id="ltmenu">
-		<button class="common" id="expl" title="explorer"></button>
+		<button class="common" id="expl" title="explorer (ctrl + shift+  E)"></button>
 		<button class="common" id="term" title="terminal   (ctrl + shift + t)"></button>
-		<button class="common" id="gitvercontmenu" title="git"></button>
+		<button class="common" id="gitvercontmenu" title="git features(ctrl +G)"></button>
 	</div>
 
 	<div id="workspace">
@@ -153,9 +156,9 @@
 				<div id="moreactions">
 					<button id="push" class="gitotheractions">push(from current branch)</button>
 					<button id="switchbranches" class="gitotheractions">Switch Branch</button>
-					<button id="revert" class="gitotheractions">revert commit(hash)</button>
 					<button id="pull" class="gitotheractions">pull</button>
 					<button id="view_commits" class="gitotheractions">View commits(git log)</button>
+					<button  id="changes" class="gitotheractions">changes > </button>
 
 				</div>
 

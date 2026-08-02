@@ -10,6 +10,7 @@ export function createfolderdialogbox(parent, elementid, folderbtn) {
             rightclickdiv.style.display = "none";
 
 
+
         }, 3000);
     }
 

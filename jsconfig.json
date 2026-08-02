@@ -8,6 +8,8 @@
    
     "types": ["node" , "electron"],
    
+   
+
 
 
     "sourceMap": true,
@@ -24,6 +26,8 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": false,
+    "skipLibCheck": false
   }
 }
+
+

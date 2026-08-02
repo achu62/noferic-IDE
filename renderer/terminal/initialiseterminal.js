@@ -92,8 +92,7 @@ export function initiateterminal(e, id, document) {
 	runresizeevent();
 	window.ipc.onDataframeIPC((dataraw) => {
 		const data = JSON.parse(dataraw);
-		console.log(data.id);
-		console.log(id + data.id !== id);
+		
 		if (data.action !== "terminaldata" || data.id !== id) {
 			return;
 		}

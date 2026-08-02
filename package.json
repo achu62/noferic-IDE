@@ -6,12 +6,35 @@
 	"type": "module",
 	"scripts": {
 		"start": "electron .",
+
+
+
+
+
+
 		"build": "electron-builder",
 		"rebuild": "electron-rebuild -f -w node-pty"
 	},
+
 	"author": "charan<b.c.s.udaar@gmail.com>",
 	"license": "MIT",
 	"devDependencies": {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
 		"@electron/rebuild": "^4.0.4",
 		"electron": "^43.1.1",
 		"electron-builder": "^26.15.2"

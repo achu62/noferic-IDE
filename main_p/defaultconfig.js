@@ -1,6 +1,8 @@
 //jai sri ram
 export const defaultconfigbiome  = `
         {
+        
+        
     "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
     "vcs": {
         "enabled": true,

@@ -5,175 +5,58 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba67b937-547c-4ca1-961d-434b917bd9cf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/noferic-IDE.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.noferic-ide/noferic-config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/GoogleSans-Italic-VariableFont_GRAD,opsz,wght.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/GoogleSans-VariableFont_GRAD,opsz,wght.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans_17pt-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans_17pt-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans_17pt-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans_17pt-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans_17pt-MediumItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans_17pt-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans_17pt-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/static/GoogleSans_17pt-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/renderer/handlingversioncontrol/showinversiondt.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.noferic-ide/biome.json" beforeDir="false" afterPath="$PROJECT_DIR$/.noferic-ide/biome.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/biome.json" beforeDir="false" afterPath="$PROJECT_DIR$/biome.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032307518" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032433773" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032541155" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032541267" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032541347" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032541445" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032608241" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032647795" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032647925" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032647974" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032648258" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032648373" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032726269" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032816165" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032914408" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782032914515" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033144976" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033165845" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033166034" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033166079" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033166163" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033319143" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033319338" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033319356" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033319455" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033319735" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033408738" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033408919" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033409004" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033472116" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033472228" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033472341" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033490333" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033584368" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033846727" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033885047" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033927186" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033927308" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033927325" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033927382" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033927457" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033927524" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782033975127" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782034147592" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782034286468" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782034344298" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782034389946" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782034482605" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782034517270" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782034555967" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782034804122" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035054602" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035103773" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035196341" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035196477" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035447491" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035447598" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035533397" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035716322" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035765715" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035819094" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035965348" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035965590" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035965612" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035965702" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782035965777" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782036126862" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782036238198" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782036288023" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782036483355" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782036483506" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782036483572" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782036483671" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093015639" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093016393" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093016775" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093250868" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093351939" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093352119" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093352193" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093372764" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093503896" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093503988" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093589140" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093653590" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093674845" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093782119" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782093874174" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094017483" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094017561" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094049742" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094049916" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094050047" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094071270" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094183110" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094183256" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094262711" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094437261" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094437425" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094437470" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094437556" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094465532" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094546726" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094546818" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094546855" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782094546999" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147080376" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147092315" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147092901" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147092904" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147092929" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147092932" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147092939" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147237556" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147280969" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/biomelogs/biomelog1782147280973" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bmain.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsample/.noferic-ide/biome.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsample/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsample/index.htmll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsample/newfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsample/nf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsample/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ok.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/detectgitignore.js" beforeDir="false" afterPath="$PROJECT_DIR$/detectgitignore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/jsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_p/createbiomeprocess.js" beforeDir="false" afterPath="$PROJECT_DIR$/main_p/createbiomeprocess.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_p/git/git.js" beforeDir="false" afterPath="$PROJECT_DIR$/main_p/git/git.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_p/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main_p/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_p/preload.js" beforeDir="false" afterPath="$PROJECT_DIR$/main_p/preload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_p/track.js" beforeDir="false" afterPath="$PROJECT_DIR$/main_p/track.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preload.js" beforeDir="false" afterPath="$PROJECT_DIR$/preload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reactapppastest/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/reactapppastest/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/editor/fonts/Noto_Color_Emoji (1).zip" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/editor/fonts/Noto_Color_Emoji (1)/NotoColorEmoji-Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/editor/fonts/Noto_Color_Emoji (1)/OFL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/editor/fonts/Google_Sans/OFL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/editor/parser/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/editor/parser/src/main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/renderer/editor/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/editor/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/filedialogbox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/editor/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/editor/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/foldercontextmenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/foldercontextmenu.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/renderer/handleddir.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/handleddir.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/atom.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/atom.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/close_small_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/close_small_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/explorer/explorerlogocli.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/explorer/explorerlogocli.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/explorer/vue.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/explorer/vue.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/file-type-jsx.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/file-type-jsx.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/fileexplorer.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/fileexplorer.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/git-merge.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/git-merge.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/host_16dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/host_16dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/liveserver1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/liveserver1.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/search/search (1).svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/search/search (1).svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/search/searchcli.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/search/searchcli.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/settings/se.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/settings/se.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/settings/see.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/settings/see.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/ssvg.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/ssvg.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/svelte.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/svelte.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/terminal/terminal.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/terminal/terminal.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/terminal/terminalcli.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/terminal/terminalcli.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/terminalicon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/terminalicon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/tss.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/tss.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/vue.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/vue.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/images/xml.svg" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/images/xml.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/handlefileopening.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/handlefileopening.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/handlingversioncontrol/showinversion.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/handlingversioncontrol/showinversion.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/renderer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/initialiseterminal.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/initialiseterminal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/newfile.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/renderer/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/renderer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/shortcuthandlers.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/shortcuthandlers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/renderer/style2.css" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/style2.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer/xterm/css/xterm.css" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/xterm/css/xterm.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trackfolders.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/styleicon.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/styleicon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/syncEditorbottom.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/syncEditorbottom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer/terminal/initialiseterminal.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer/terminal/initialiseterminal.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,10 +66,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="3GLgFt48FAgKv3ToPgRnL78sxCH" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -206,13 +89,14 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/home/charan/noferic-IDE/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-WS-261.26222.58" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-WS-262.8665.259" />
       </set>
     </attachedChunks>
   </component>
@@ -224,6 +108,9 @@
       <option name="presentableId" value="Default" />
       <updated>1783756168915</updated>
       <workItem from="1783756175313" duration="893000" />
+      <workItem from="1785405422475" duration="2378000" />
+      <workItem from="1785516607645" duration="376000" />
+      <workItem from="1785659510655" duration="1494000" />
     </task>
     <servers />
   </component>
@@ -232,9 +119,31 @@
     <option name="exactExcludedFiles">
       <list>
         <option value="$PROJECT_DIR$/appoutput/linux-unpacked/resources/app/renderer/xterm-addon-fit/src/FitAddon.js" />
-        <option value="$PROJECT_DIR$/reactapppastest/main.js" />
         <option value="$PROJECT_DIR$/renderer/xterm-addon-fit/src/FitAddon.js" />
       </list>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/renderer/renderer.js</url>
+          <line>299</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/renderer/editor/script.js</url>
+          <line>197</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/renderer/editor/script.js</url>
+          <line>417</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

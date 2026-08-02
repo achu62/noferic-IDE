@@ -1,6 +1,8 @@
 //jai sri ram
 import {isValidJSON} from "./utils.js"
 isValidJSON()
+
+
 export function handleDir() {
 	const filebutton = document.createElement("button");
 	filebutton.id = `${file.id}`;
@@ -14,6 +16,8 @@ export function handleDir() {
 	statebtn.style.position = "absolute";
 	statebtn.style.top = "0.5px";
 	statebtn.style.right = "0.5px";
+
+
 
 
 
@@ -72,3 +76,4 @@ export function handleDir() {
 		dialogforcreatefile,
 	);
 }
+const x = 

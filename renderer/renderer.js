@@ -19,6 +19,7 @@ import { handleShortCuts } from "./shortcuthandlers.js";
 import { createfiledialogbox } from "./filecontextmenu.js";
 import { StyleL } from "./stylel.js";
 import { openFileFromExplorer } from "./handlefileopening.js";
+let ischangesopen = false;
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
 const file = document.getElementById(`file`);
@@ -39,11 +40,9 @@ let globalleftmenustate = {
 	isterminalopen: false,
 	isleftpanelopen: true,
 };
-console.log("\nw\o\r\k");
 export function showdialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfiledialog").showModal();
-		console.log(path);
 	}
 	document
 		.getElementById("createfileindialoog")
@@ -57,7 +56,6 @@ export function showdialog(path) {
 				return;
 			}
 
-			console.log(await window.ipc.invoke("join-path", path, filejoin));
 
 			window.ipc.invoke(
 				"append",
@@ -72,7 +70,6 @@ export function showdialog(path) {
 export function showFolderDialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfolderdialog").showModal();
-		console.log(path);
 	}
 	document
 		.getElementById("createfolderindialoog")
@@ -102,7 +99,6 @@ export function deleteFolder(path) {
 		`Do you want to Move Directory ${path}  to trash \n\n The Directory can be recovered from trash`,
 	);
 	if (isUserok) {
-		console.log(`${path}`);
 		window.ipc.invoke("unlink", `${path}`);
 	}
 }
@@ -114,11 +110,21 @@ export function deleteFile(path) {
 		window.ipc.invoke("unlink", `${path}`);
 	}
 }
+export async function GetFilebaseName(pathr){
+	return await window.ipc.invoke("get-base-name" , pathr)
+}
+export async function showDiff(element){
+	const diffText = await window.ipc.invoke("get-diff-texts" , element)
+	
+	
+}
 window.onload = function () {
+	const editorEl = document.getElementById("editor");
+	const terminalEl = document.getElementById("terminalelement");
+	syncEditorBottom(editorEl, terminalEl);
 	document.getElementById("alertdialog").close();
 	async function runts(path, content, line, character) {
 		try {
-			console.log("Before invoke");
 			const result = await window.ipc.invoke(
 				"providetsautocomplete",
 				path,
@@ -129,7 +135,6 @@ window.onload = function () {
 
 			return result;
 		} catch (e) {
-			console.log(String(e));
 		}
 	}
 
@@ -179,8 +184,7 @@ window.onload = function () {
 	exit.onclick = () => {
 		window.close();
 	};
-	const editorEl = document.getElementById("editor");
-	const terminalEl = document.getElementById("terminalelement");
+
 	terminalEl.style.display = "none";
 	async function openfileoncilick(path, iframe) {
 		//const extension = path.split(`/`).pop().split(`.`).pop()
@@ -205,7 +209,7 @@ window.onload = function () {
 			document.getElementById("file_on").style.display = "none";
 		}
 	}
-	syncEditorBottom(editorEl, terminalEl);
+	syncEditorBottom(editorEl, terminalEl , iframe);
 	file.addEventListener("click", () => {
 		if (isopen === false) {
 			document.getElementById("file_on").style.display = "block";
@@ -293,7 +297,7 @@ window.onload = function () {
 	);
 	resizeexplorer(document.getElementById("explorer"));
 	const observerforterminal = new ResizeObserver(() => {
-		syncEditorBottom(editorEl, terminalEl);
+		syncEditorBottom(editorEl, terminalEl , iframe);
 	});
 	observerforterminal.observe(terminalEl);
 	const observerforpreview = new ResizeObserver(() => {
@@ -311,6 +315,7 @@ window.onload = function () {
 		editor.style.right = preview.offsetWidth + "px";
 		editor.style.left = explorer.offsetWidth + "px";
 		editor.style.width = `${document.getElementById("workspace").offsetWidth - (preview.offsetWidth + explorer.offsetWidth)}px`;
+		syncEditorBottom(editorEl, terminalEl , iframe);
 	});
 	observerforexplorer.observe(document.getElementById("explorer"));
 
@@ -469,24 +474,24 @@ window.onload = function () {
 				terminalEl.style.height = 150 + "px";
 			}
 			globalleftmenustate.isterminalopen = true;
-			syncEditorBottom(editorEl, terminalEl);
+			syncEditorBottom(editorEl, terminalEl , iframe);
 		} else {
 			document.getElementById("terminalelement").style.display = "none";
 			globalleftmenustate.isterminalopen = false;
 
-			syncEditorBottom(editorEl, terminalEl);
+			syncEditorBottom(editorEl, terminalEl , iframe);
 		}
 	});
 	document.getElementById("term").addEventListener("click", (e) => {
 		if (globalleftmenustate.isterminalopen) {
 			document.getElementById("terminalelement").style.display = "none";
 			globalleftmenustate.isterminalopen = false;
-			syncEditorBottom(editorEl, terminalEl);
+			syncEditorBottom(editorEl, terminalEl , iframe);
 			checkboxforterminal.checked = false;
 		} else {
 			document.getElementById("terminalelement").style.display = "block";
 			globalleftmenustate.isterminalopen = true;
-			syncEditorBottom(editorEl, terminalEl);
+			syncEditorBottom(editorEl, terminalEl , iframe);
 			checkboxforterminal.checked = true;
 		}
 	});
@@ -494,11 +499,11 @@ window.onload = function () {
 		if (checkboxforexplorer.checked) {
 			document.getElementById("explorer").style.display = "block";
 			globalleftmenustate.isleftpanelopen = true;
-			syncEditorBottom(editorEl, terminalEl);
+			syncEditorBottom(editorEl, terminalEl , iframe);
 		} else {
 			document.getElementById("explorer").style.display = "none";
 			globalleftmenustate.isleftpanelopen = false;
-			syncEditorBottom(editorEl, terminalEl);
+			syncEditorBottom(editorEl, terminalEl , iframe);
 		}
 	});
 
@@ -556,7 +561,6 @@ window.onload = function () {
 		else if (message.action === "addelements") {
 			globalfolderjson = message.newjson;
 			if (!message.add) {
-				console.log("no adds");
 			}
 			if (!globalfileexplorerstatejson[message.add.parentid]) {
 				return;
@@ -591,11 +595,15 @@ window.onload = function () {
 			});
 		} else if (message.action === "status") {
 			globalgitstatusjson = message.status;
-			setInVersionControl(
-				document,
-				document.getElementById("explorervc"),
-				globalgitstatusjson,
-			);
+			if(ischangesopen){
+				setInVersionControl(
+					document,
+					document.getElementById("explorervc"),
+					globalgitstatusjson,
+				);
+			}
+
+			
 		} else if (message.action === "handleachangeinfile") {
 			if (document.getElementById(`topbarelementfor${decodeURIComponent(message.path)}`)) {
 				const ext = await window.ipc.invoke("get-ext", message.path);
@@ -670,10 +678,7 @@ window.onload = function () {
 		}
 		if (message.action === "getAutoComplete") {
 			async function run() {
-				console.log(
-					"Autocomplete event intercepted successfully. Payload contents:",
-					message.data,
-				);
+				
 
 				// Explicitly extract parameters from the 'data' child object
 				const compl = await runts(
@@ -683,7 +688,6 @@ window.onload = function () {
 					message.data.character,
 				);
 
-				console.log("Result received from runts backend:", compl);
 
 				iframe.contentWindow.postMessage({
 					action: "tsac",
@@ -795,6 +799,28 @@ window.onload = function () {
 			}
 		});
 		document.getElementById("push").addEventListener("click" , async(e)=>{
+			const confirmation = confirm(`do you want  to push this repo to a remote brach`)
+			if(!confirmation) return;
 			await window.ipc.invoke("push")
 		})
+	document.getElementById("pull").addEventListener("click", async (e) => {
+		const confirmation = confirm(`do you want  to pull this repo from a remote brach`)
+		if (!confirmation) return;
+		await window.ipc.invoke("pull")
+	})
+	document.getElementById("changes").addEventListener("click" , (e)=>{
+		e.stopPropagation()
+		if(!ischangesopen){
+			setInVersionControl(
+				document,
+				document.getElementById("explorervc"),
+				globalgitstatusjson,
+			);
+			ischangesopen =true;
+		}
+		else{
+			document.getElementById("changes").replaceChildren("changes >")
+			ischangesopen = false;
+		}
+	})
 };
