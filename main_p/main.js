@@ -155,6 +155,23 @@ async function handleappargs(args) {
 		return;
 	} else {
 		if (fs.statSync(path.resolve(args)).isDirectory()) {
+		
+
+			async function confirm(win) {
+				const result = await dialog.showMessageBox(win, {
+					type: "question",
+					buttons: ["Yes, I trust the workspace", "Quit"],
+					defaultId: 1,
+					cancelId: 1, // Treat closing the dialog as Quit
+					title: "Trust Workspace",
+					message: `Do you fully trust the workspace?\n\n${path.resolve(args)}`,
+				});
+
+				if (result.response === 1) {
+					app.quit();
+				}
+}
+			confirm(win)
 			pathreal = path.resolve(args);
 			getTags(pathreal)
 			track(path.resolve(args));

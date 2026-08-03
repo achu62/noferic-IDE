@@ -65,7 +65,7 @@ export function showdialog(path) {
 				document.getElementById(path).click();
 			}
 			document.getElementById("inputforopenfile").value = "";
-		});
+		} , {once:true});
 }
 export function showFolderDialog(path) {
 	if (document.readyState == "complete") {
@@ -92,7 +92,7 @@ export function showFolderDialog(path) {
 			}
 			document.getElementById("inputforopenfolder").value = "";
 			document.getElementById("createnewfolderdialog").close();
-		});
+		}, {once:true});
 }
 export function deleteFolder(path) {
 	const isUserok = confirm(
