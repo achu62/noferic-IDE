@@ -1,0 +1,1803 @@
+/*jai sri ram*/
+:root {
+  --1c1364: #1c1364;
+}
+
+.dark {
+  --ieieie: #1e1e1e;
+  --333333: #333333;
+  --ffffff: #FFFFFF;
+  --afaeaec9: #afaeaec9;
+  --404040: #404040;
+  --2b2b2b: #2b2b2b;
+  --bg: #ffffff;
+}
+
+.white {
+  --ieieie: #f7f7f7;
+  --333333: #1c1364;
+  --ffffff: #1a1a1a;
+  --afaeaec9: #666666;
+  --404040: #d0d0d0;
+  --2b2b2b: #eeeeee;
+
+  --bg: #1e1e1e
+}
+
+html,
+body {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Google Sans", monospace !important;
+  margin-top: 0;
+  margin-right: 0;
+  margin-left: 0;
+  background-color: #595959;
+
+
+}
+
+.common {
+  color: var(--ffffff);
+  font-size: 13.5px;
+  font-weight: 350;
+  background-color: var(--ieieie);
+}
+
+
+#top-menu {
+  height: 30px;
+  width: 100%;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  image-rendering: crisp-edges;
+  transform: none;
+  border: none;
+  box-sizing: border-box;
+  background-color: #595959;
+}
+
+#top-menu>* {
+  background-color: #1e1e1e;
+}
+
+
+#file {
+  all: unset;
+  position: fixed;
+  width: 40px;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  top: 0;
+  left: 0px;
+  z-index: 4;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  background-color: inherit;
+  /* prevents accidental text selection on tap */
+}
+
+#file:hover {
+  all: unset;
+  position: fixed;
+  border-radius: 2px;
+  background-color: #333333;
+  width: 40px;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  top: 0;
+  left: 0px;
+  z-index: 4;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+#view {
+  all: unset;
+  width: 40px;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  position: fixed;
+  top: 0;
+  left: 41px;
+  z-index: 4;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  background-color: inherit;
+  /* prevents accidental text selection on tap */
+}
+
+#view:hover {
+  all: unset;
+  width: 40px;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  position: fixed;
+  top: 0;
+  left: 41px;
+  z-index: 4;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  background-color: #333333;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  /* prevents accidental text selection on tap */
+}
+
+#edit {
+  all: unset;
+  width: 40px;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  position: fixed;
+  top: 0;
+  left: 180px;
+  z-index: 4;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+#edit:hover {
+  all: unset;
+  width: 40px;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  position: fixed;
+  top: 0;
+  left: 180px;
+  z-index: 4;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  background-color: #333333;
+}
+
+
+#btmenu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  height: 18px;
+  width: 100vw;
+  background-color: #595959;
+  image-rendering: optimizeQuality;
+  border-top: 0.2px solid var(--afaeaec9);
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#btmenu>* {
+  background-color: #1e1e1e;
+}
+
+#ltmenu {
+  position: fixed;
+  left: 0;
+  top: 30.2px;
+  bottom: 19px;
+  z-index: 4;
+  background-color: #595959;
+  display: block;
+  image-rendering: optimizeQuality;
+  height: calc(100vh - 50px);
+  width: 40px;
+}
+
+#ltmenu>* {
+  background-color: #1e1e1e;
+}
+
+/* Left menu items - organized vertically with consistent spacing */
+#expl {
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 30.2px;
+  background-image: url("images/fileexplorer.svg");
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+  background-color: inherit;
+}
+
+#expl:hover {
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 30.2px;
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+  background-image: url("images/fileexplorer.svg");
+  background-color: #1e1e1e;
+
+
+}
+
+#term {
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 70.2px;
+  background-image: url("images/terminalicon.svg");
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+  background-color: inherit;
+}
+
+#term:hover {
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 70.2px;
+  background-image: url("images/terminalicon.svg");
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+  background-color: #1e1e1e;
+}
+
+#settings {
+  all: unset;
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  background-image: url("images/settings.svg");
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+  background-color: var(--ieieie);
+}
+
+#settings:hover {
+  all: unset;
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  background-image: url("images/settings.svg");
+  background-color: var(--333333);
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+}
+
+#explorer {
+  z-index: 6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 350px;
+  overflow: auto;
+  box-sizing: border-box;
+  background-color: #333333;
+  border: 0.2px solid var(--afaeaec9);
+  border-radius: 15px;
+}
+
+#middleeditor {
+  z-index: 6;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 251px;
+  width: 758px;
+  box-sizing: border-box;
+  border-left: 0.2px solid var(--afaeaec9);
+  border-right: 0.2px solid var(--afaeaec9);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+#preview {
+  z-index: 6;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 1009px;
+  box-sizing: border-box;
+  border-left: 0.2px solid var(--afaeaec9);
+  background-color: var(--ieieie);
+  width: 0;
+  display: none;
+
+  ;
+}
+
+#prevtop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 20px;
+  line-height: 20px;
+  text-align: left;
+  border-bottom: 0.2px solid var(--afaeaec9);
+  display: block;
+  z-index: 7;
+  background-color: var(--404040);
+  /* Add these properties to ensure text is visible */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding-left: 10px;
+  border-bottom-left-radius: 0.2px;
+  border-bottom-right-radius: 0.2px;
+}
+
+#explotop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  height: 20px;
+  line-height: 20px;
+  text-align: left;
+  border-bottom: 0.2px solid var(--afaeaec9);
+  display: block;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding-left: 10px;
+  background-color: var(--404040);
+}
+
+
+
+
+
+#editor {
+  position: absolute !important;
+  top: 30px !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 300px !important;
+  z-index: 8 !important;
+  display: block !important;
+  overflow: hidden !important;
+  background-color: var(--ieieie) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  width: 100%;
+  overflow: hidden;
+}
+
+#terminalelement {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  border-top: 0.2px solid var(--afaeaec9);
+  border-bottom: 0.2px solid var(--afaeaec9);
+  display: block;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding-left: 10px;
+  height: 300px;
+  background-color: #1e1e1e;
+}
+
+#terminaltopbar {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  height: 20px;
+  line-height: 20px;
+  text-align: left;
+  border-bottom: 0.2px solid var(--afaeaec9);
+  display: block;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding-left: 10px;
+  background-color: var(--404040);
+}
+
+#terminal {
+  display: block;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  right: 152px;
+  left: 0;
+  bottom: 0;
+  padding: 10px;
+  top: 20px;
+  overflow: hidden;
+}
+
+#file_on {
+  z-index: 10;
+  position: fixed;
+  top: 29px;
+  left: 2px;
+  width: fit-content;
+  height: fit-content;
+  background-color: #2d2d30;
+
+  border: 0.7px solid var(--afaeaec9);
+  border-radius: 10px;
+}
+
+
+
+#open_file {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+  top: 0.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  /* prevents accidental text selection on tap */
+  padding-left: 7px;
+}
+
+#open_file:hover {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+
+
+  top: 0.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: var(--1c1364);
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  /* prevents accidental text selection on tap */
+  line-height: 20px;
+  padding-left: 7px;
+}
+
+#open_folder {
+  all: unset;
+  z-index: 11;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  /* prevents accidental text selection on tap */
+  position: absolute;
+
+
+
+  top: 20.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  padding-left: 7px;
+}
+
+#open_folder:hover {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+
+
+
+
+  top: 20.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: var(--1c1364);
+  border-bottom: 0.2px solid var(--afaeaec9);
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  /* prevents accidental text selection on tap */
+  padding-left: 7px;
+}
+
+#save {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+
+
+
+
+  top: 41px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  padding-left: 7px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  /* prevents accidental text selection on tap */
+}
+
+#save:hover {
+  all: unset;
+  padding-left: 7px;
+  z-index: 11;
+  position: absolute;
+
+
+
+  top: 41px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: var(--1c1364);
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  /* prevents accidental text selection on tap */
+}
+
+#save_as {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+
+
+
+  top: 61px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
+  ;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  /* prevents accidental text selection on tap */
+
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  font-size: 14px;
+  padding-left: 7px;
+}
+
+#save_as:hover {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+
+
+  top: 61px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: var(--1c1364);
+  ;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  /* prevents accidental text selection on tap */
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  font-size: 14px;
+  padding-left: 7px;
+}
+
+#format {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+
+
+  top: 81.5px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
+  ;
+
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  font-size: 14px;
+  border-bottom: 0.2px solid var(--afaeaec9);
+  padding-left: 7px;
+}
+
+#format:hover {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+
+
+
+  top: 81.5px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: var(--1c1364);
+  ;
+  border-bottom: 0.2px solid var(--afaeaec9);
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  font-size: 14px;
+  padding-left: 7px;
+}
+
+#exit {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+
+
+  top: 101.5px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  font-size: 14px;
+  padding-left: 7px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+#exit:hover {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+
+
+
+
+  top: 101.5px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: var(--1c1364);
+  ;
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  font-size: 14px;
+  padding-left: 7px;
+}
+
+#opener_file {
+  display: none;
+}
+
+#opener_folder {
+  display: none;
+}
+
+#filexplorer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30px;
+  height: fit-content;
+  border: 1px solid var(--ffffff);
+}
+
+#workspace {
+  position: fixed;
+  left: 45px;
+  top: 30.2px;
+  bottom: 20px;
+  right: 10px;
+}
+
+#explorerelement {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: vertical;
+  background-color: #333333;
+  overflow-y: scroll;
+  /*flex-wrap: wrap;*/
+}
+
+.files {
+  all: unset;
+  color: var(--ffffff);
+  background-color: #333333;
+  min-height: 17px;
+  position: relative;
+  right: 0;
+  left: 0%;
+  font-size: 13.5px;
+  font-weight: 350;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  padding-left: 30px !important;
+  border: 0.1px solid #4b4949;
+  /* prevents accidental text selection on tap */
+}
+
+.files:hover {
+  color: var(--ffffff);
+  background-color: #404040;
+  min-height: 17px;
+  position: relative;
+  right: 0;
+  left: 0%;
+  font-size: 13.5px;
+  font-weight: 350;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  padding-left: 25px;
+  z-index: 1000303030;
+  /* prevents accidental text selection on tap */
+}
+
+.folder {
+  font-weight: 450;
+}
+
+#aispace {
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  color: var(--ffffff);
+  font-size: 13.5px;
+  font-family: "" Google Sans"";
+  background-color: var(--2b2b2b);
+}
+
+#aiinputbox {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  left: 10px;
+  height: 50px;
+  border-radius: 10px;
+  border-width: 1px;
+  color: var(--ffffff);
+  background-color: var(--ieieie);
+}
+
+/* 1. Base container rules for the scrollbar structure */
+::-webkit-scrollbar {
+  width: 10px;
+  /* Width of the vertical scrollbar */
+  height: 10px;
+  /* Height of the horizontal scrollbar */
+}
+
+/* 2. The background track area */
+::-webkit-scrollbar-track {
+  background: transparent;
+  /* Transparent background for a modern overlay feel */
+}
+
+/* 3. The draggable orange thumb component */
+::-webkit-scrollbar-thumb {
+  background-color: #ff6b35;
+  /* Vibrantly modern neon/burnt orange */
+  border-radius: 20px;
+  /* Keeps the component fully rounded */
+  border: 2px solid #1a1a1a;
+
+  opacity: 50;
+  /* Creates an inset padding trick against dark backgrounds */
+}
+
+/* 4. Hover state for smooth user interaction */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ff8552;
+  opacity: 50;
+  /* Lighter, glowing orange on hover */
+}
+
+/* 5. Active/Click state when drag behavior occurs */
+::-webkit-scrollbar-thumb:active {
+  background-color: #e0531c;
+  opacity: 50;
+  /* Deeper orange to show structural feedback */
+}
+
+/* 6. Fix for the corner piece where horizontal and vertical bars intersect */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* -------------------------------------------------------------
+   MODERN CROSS-BROWSER FALLBACK
+   Standard properties to handle future engines and Firefox.
+   ------------------------------------------------------------- */
+@supports (scrollbar-width: thin) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #ff6b35 transparent;
+    /* Thumb color followed by Track color */
+  }
+}
+
+#topbarforeditor::-webkit-scrollbar {
+  width: 2px;
+  direction: rtl;
+}
+
+::-webkit-scrollbar-track {
+  color: #110101;
+  opacity: 50%;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1e1e1e;
+  opacity: 90%;
+  border-radius: 0%;
+}
+
+#topbarforeditor {
+  height: 29px;
+  background-color: var(--2b2b2b);
+  border-bottom: 1px solid var(--ffffff);
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* vertically center children */
+  justify-content: flex-start;
+  /* children flow left to right, no overlap */
+  gap: 1px;
+  /* breathing room between children */
+  overflow-x: auto;
+  /* prevents children from spilling out */
+  box-sizing: border-box;
+}
+
+.class__topelements {
+  all: unset;
+  color: var(--ffffff);
+  background-color: var(--ieieie);
+  border-left: 1px solid var(--ffffff);
+  border-right: 1px solid var(--ffffff);
+  position: relative;
+  height: 100%;
+  width: fit-content;
+  max-width: 300px;
+  font-size: 13.5px;
+  padding-left: 10px;
+  padding-right: 30px;
+  line-height: 29px;
+  cursor: pointer;
+  box-sizing: border-box;
+  min-height: 0;
+}
+
+.class__topelements:hover {
+  background-color: var(--404040);
+  cursor: pointer;
+}
+
+#viewon {
+  z-index: 11;
+  position: fixed;
+  top: 24px;
+  left: 42px;
+  width: fit-content;
+  height: fit-content;
+  background-color: #2d2d30;
+  border: 0.2px solid var(--afaeaec9);
+  border-radius: 5px;
+}
+
+#explorertick {
+  z-index: 11;
+  position: absolute;
+  top: 0;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  padding-left: 7px;
+  font-size: 13.5px;
+  color: #FFFFFF;
+
+}
+
+#explorertick:hover {
+  z-index: 11;
+  position: absolute;
+  top: 0.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: var(--1c1364);
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  padding-left: 7px;
+  font-size: 13.5px;
+  color: #FFFFFF;
+
+}
+
+#terminaltick {
+  z-index: 11;
+  position: absolute;
+  top: 20.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: inherit;
+  border-bottom: 0.2px solid var(--afaeaec9);
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  padding-left: 7px;
+  font-size: 13.5px;
+  color: #FFFFFF;
+
+}
+
+#terminaltick:hover {
+  all: unset;
+  z-index: 11;
+  position: absolute;
+  top: 20.2px;
+  bottom: 0.2px;
+  left: 0.2px;
+  right: 0.2px;
+  background-color: var(--1c1364);
+  width: 300px;
+  height: 20px;
+  text-align: left;
+  line-height: 20px;
+  border-bottom: 0.2px solid var(--afaeaec9);
+  padding-left: 7px;
+  font-size: 13.5px;
+  color: #FFFFFF;
+
+}
+
+#lineandcolumn {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: inherit;
+  color: #FFFFFF;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: fit-content;
+}
+
+#language {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  background-color: inherit;
+  color: #ffffff;
+  padding-left: 2px;
+  padding-right: 10px;
+  width: fit-content;
+  border-right-color: #ffffff;
+  border-right-width: 0.2px;
+}
+
+.topbarclose_class {
+  all: unset;
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: block;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  font-size: 20px;
+  line-height: 24px;
+  background-image: url("./images/close_small_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg");
+  background-color: transparent !important;
+}
+
+.topbarclose_class:hover {
+  filter: brightness(1.15);
+}
+
+.topbarclose_class:focus-visible {
+  outline: 2px solid var(--afaeaec9);
+  outline-offset: 2px;
+}
+
+
+
+#createnewfiledialog {
+  width: 20%;
+  height: 30%;
+  background-color: var(--ieieie);
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+}
+
+#createfileindialoog {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #0e4c32;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+
+
+}
+
+#cancelcreatefiledialog {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #333333;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+}
+
+.createfileelement {
+  all: unset;
+  width: 300px;
+  height: 20px;
+  color: #eeeeee;
+  background-color: inherit;
+  padding-left: 10px;
+  list-style: 20px;
+  border-radius: 10px;
+  border-color: #eeeeee;
+  border-width: 0.2px;
+  font-size: 13.5px;
+
+}
+
+.createfileelement:hover {
+  background-color: #404040;
+}
+
+.createfolderelement {
+  all: unset;
+  width: 300px;
+  height: 20px;
+  color: #eeeeee;
+  background-color: inherit;
+  padding-left: 10px;
+  list-style: 20px;
+  border-radius: 10px;
+  border-color: #eeeeee;
+  border-width: 0.2px;
+  font-size: 13.5px;
+  position: relative;
+}
+
+.createfolderelement:hover {
+  background-color: #404040;
+}
+
+#inputforopenfile {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  left: 5%;
+  height: 20px;
+  background-color: #1e1e1e;
+  border: 0.2px solid #eeeeee;
+  border-radius: 5px;
+  resize: none;
+  color: #eeeeee;
+  font-size: 13.5px;
+  line-height: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#inputforopenfile:focus {
+  border: 0.2px solid orangered;
+
+}
+
+#gitvercontmenu {
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 120.2px;
+  background-image: url("images/git-merge.svg");
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+  background-color: inherit;
+}
+
+#gitvercontmenu:hover {
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 120.2px;
+  background-image: url("images/git-merge.svg");
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+  background-color: #1e1e1e;
+}
+
+#versioncontrolelement {
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: vertical;
+  background-color: #333333;
+  overflow-y: auto;
+  font-size: 13.5px;
+  color: white;
+  /*flex-wrap: wrap;*/
+}
+
+/*#createnewfiledialog {
+  width: 20%;
+  height: 30%;
+  background-color: var(--ieieie);
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+}
+*/
+#inputforopenfolder {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  left: 5%;
+  height: 20px;
+  background-color: #1e1e1e;
+  border: 0.2px solid #eeeeee;
+  border-radius: 5px;
+  resize: none;
+  color: #eeeeee;
+  font-size: 13.5px;
+  line-height: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#inputforopenfile:focus {
+  border: 0.2px solid orangered;
+
+}
+
+/*#createnewfolderdialog {
+  width: 20%;
+  height: 30%;
+  background-color: var(--ieieie);
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+}
+*/
+
+
+.dialog {
+  width: 20%;
+  height: 30%;
+  background-color: var(--ieieie);
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+}
+
+#cancelcreatefolderdialog {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #333333;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+}
+
+#liveserverbtn {
+  all: unset;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: inherit;
+  color: #ffffff;
+  width: fit-content;
+  border-right-color: #ffffff;
+  border-right-width: 0.2px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+#liveserverbtn:hover {
+
+  background-color: #1e1e1e;
+
+}
+
+#createfolderindialoog {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #0e4c32;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+}
+
+#inputforliveserver {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  left: calc(5% + 40px);
+  height: 20px;
+  background-color: #1e1e1e;
+  border: 0.2px solid #eeeeee;
+  border-radius: 5px;
+  resize: none;
+  color: #eeeeee;
+  font-size: 13.5px;
+  line-height: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+
+#cancelcreateliveserverdialog {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #333333;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+}
+
+#createliveserverbtn {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #0e4c32;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+}
+
+#inputpathforliveserver {
+  position: absolute;
+  top: 25%;
+  right: 5%;
+  left: 5%;
+  height: 20px;
+  background-color: #1e1e1e;
+  border: 0.2px solid #eeeeee;
+  border-radius: 5px;
+  resize: none;
+  color: #eeeeee;
+  font-size: 13.5px;
+  line-height: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#Browsercheck {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  left: 5%;
+  font-size: 13.5px;
+  color: #ffffff;
+  height: 15px;
+  width: 15px;
+
+}
+
+#checkboxtitle {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  left: calc(5%+20px);
+  font-size: 13.5px;
+  color: #ffffff;
+}
+
+#link {
+  all: unset;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #333333;
+  color: #0000ef;
+  width: fit-content;
+  border-right-color: #ffffff;
+  border-right-width: 0.2px;
+  padding-right: 10px;
+}
+
+.linkelement {
+  position: absolute;
+  color: #7262e9;
+  font-size: 13.5px;
+  line-height: 18px;
+}
+
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="checkbox"] {
+  pointer-events: all;
+}
+
+input {
+  z-index: 10000;
+}
+
+#alertdialog {
+  min-height: 30%;
+  min-width: 20%;
+  height: fit-content;
+  width: fit-content;
+  color: white;
+  font-size: 15px;
+}
+
+#okbtn {
+  all: unset;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  text-align: center;
+  border-top: 0.2px solid #ffffff;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  height: 40px;
+}
+
+#okbtn:hover {
+  background-color: #404040;
+}
+
+#contentdiv {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 41px;
+  color: #f9f2f2;
+  background-color: #1e1e1e;
+
+  font-size: 13.5px;
+  overflow: hidden;
+}
+
+#explorervc {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: vertical;
+  background-color: #333333;
+  overflow-y: auto;
+  font-size: 13.5px;
+  color: white;
+}
+
+#commitbtn {
+  all: unset;
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  right: 5px;
+  border: 1px solid white;
+  border-radius: 2px;
+  background-color: #0f6dd9;
+  text-align: center;
+  z-index: 100000;
+}
+
+#inputforcommit {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  left: 5%;
+  height: 20px;
+  background-color: #1e1e1e;
+  border: 0.2px solid #eeeeee;
+  border-radius: 5px;
+  resize: none;
+  color: #eeeeee;
+  font-size: 13.5px;
+  line-height: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#commitreal {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #0e4c32;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+}
+
+#cancelcommit {
+  all: unset;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: white;
+  font-size: 15px;
+  background-color: #333333;
+  border-radius: 12px;
+  border-width: 0.2px;
+  border-color: #eeeeee;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  width: fit-content;
+}
+
+#terminaltabmanager {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 2px solid white;
+  position: absolute;
+  top: 20px;
+  right: 0;
+  bottom: 0;
+  width: 150px;
+  z-index: 100;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.cl_terminal_tab {
+  all: unset;
+  width: 150px;
+  height: 20px;
+  position: relative;
+  inset: 0;
+  background-color: #2b2b2b;
+  border-width: 1px;
+  border-color: white;
+  font-size: 13.5px;
+  line-height: 20px;
+  text-align: left;
+}
+
+#addtermbtn {
+  all: unset;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  font-size: 20px;
+  background-color: #333333;
+  border-radius: 5px;
+  line-height: 18px;
+  width: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+#addtermbtn:hover {
+  background-color: #595959;
+}
+
+.terminaltabparallels {
+  display: block;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  right: 0px;
+  left: 0;
+  bottom: 0;
+  padding: 0px;
+  top: 0px;
+  font-family: "Google Sans" !important;
+}
+
+.monaco-editor .scrollbar .horizontal {
+  display: block !important;
+  height: 12px !important;
+}
+
+#errors {
+
+  position: relative;
+  top: 0;
+  bottom: 0;
+  background-color: inherit;
+  color: #ffffff;
+  padding-left: 2px;
+  padding-right: 10px;
+  width: fit-content;
+  border-right-color: #ffffff;
+  border-right-width: 0.2px;
+
+}
+
+#currentBranch {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  background-color: inherit;
+  color: #ffffff;
+  padding-left: 2px;
+  padding-right: 10px;
+  width: fit-content;
+  border-right-color: #ffffff;
+  border-right-width: 0.2px;
+}
+
+#moreactions {
+  all: unset;
+  position: absolute;
+  top: 25px;
+  left: 5px;
+  right: 5px;
+  background-color: #1e1e1e;
+  text-align: center;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+.gitotheractions {
+  all: unset;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #333333;
+  text-align: center;
+  z-index: 100000;
+  justify-content: left;
+  text-align: start;
+}
+
+.gitotheractions:hover {
+  background-color: #404040;
+}
+
+#breadcrupsfunc {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: inherit;
+  color: #FFD166;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: fit-content;
+}
+#explorersearch{
+  position: absolute;
+    top: 25px;
+    left: 3px;
+    right: 3px;
+    z-index: 8;
+    height: 20px;
+    line-height: 20px;
+    text-align: left;
+    border-bottom: 0.2px solid var(--afaeaec9);
+    display: block;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    padding-left: 10px;
+    background-color: var(--404040);
+    border-radius: 3px;
+    color:#ffffff;
+    font-family: "Google Sans";
+}
+#searchresults{
+position: absolute;
+  top: 46px;
+  left: 3px;
+  right: 3px;
+  z-index: 8;
+  height:fit-content;
+  min-height: 0px;
+  max-height: 500px ;
+  line-height: 20px;
+  text-align: left;
+  border-bottom: 0.2px solid var(--afaeaec9);
+  display: block;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding-left: 10px;
+  background-color: var(--404040);
+  border-radius: 3px;
+  color: #ffffff;
+  font-family: "Google Sans";
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}

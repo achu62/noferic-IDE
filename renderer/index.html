@@ -1,0 +1,195 @@
+<!---jai sri ram-->
+<!DOCTYPE html>
+<html class="dark">
+
+<head>
+	<meta charset="UTF-8">
+	<title>NOFERIC IDE</title>
+
+	<link rel="stylesheet" href="style2.css" />
+	<link rel="stylesheet" href="./xterm/css/xterm.css" />
+
+	]
+	<style>
+		@font-face {
+			font-family: 'NotoEmoji';
+			src: url('./editor/fonts/Noto_Color_Emoji\ \(1\)/NotoColorEmoji-Regular.ttf') format('truetype');
+		}
+		@font-face {
+			font-family: "JetBrains Mono";
+			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
+			font-weight: 400;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: "JetBrains Mono";
+			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Italic.woff2") format("woff2");
+			font-weight: 400;
+			font-style: italic;
+
+		}
+
+		@font-face {
+			font-family: "JetBrains Mono";
+			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Bold.woff2") format("woff2");
+			font-weight: 700;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: "JetBrains Mono";
+			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-BoldItalic.woff2") format("woff2");
+			font-weight: 700;
+			font-style: italic;
+		}
+			@font-face {
+			font-family: "Google Sans";
+			src: url("./editor/fonts/Google_Sans/static/GoogleSans-Regular.ttf") format("truetype");
+			font-weight: 400;
+			font-style: normal;
+
+		}
+
+	</style>
+</head>
+
+<body>
+	<canvas id="canvas"></canvas>
+	<dialog id="alertdialog" class='dialog'>
+		<button id="okbtn">Ok</button>
+		<p id="contentdiv"></p>
+	</dialog>
+
+	<dialog id="createliveserverdialog" class="dialog">
+		<label for="inputforliveserver" style="
+  	display: inline-block;
+  	vertical-align: middle;
+  	color: white;
+  	font-size: 12px;
+  	position: relative;
+  	top: 5px;
+	">Port:</label>
+		<input id="inputforliveserver" type="number" spellcheck="false" value="5500"></textarea>
+		<button id="cancelcreateliveserverdialog">Cancel</button>
+		<input id="inputpathforliveserver" type="text" spellcheck="false"
+			placeholder="relative dir path(optional)" /></textarea>
+		<button id="createliveserverbtn">start server</button>
+		<div id="checkboxtitle">Open in default browser</div>
+		<input type="checkbox" id="Browsercheck" title="Open in default browser" checked>
+
+
+
+	</dialog>
+	<dialog id="createnewfiledialog" class="dialog">
+		<button id="createfileindialoog">create file</button>
+		<button id="cancelcreatefiledialog">Cancel</button>
+		<input id="inputforopenfile" type="text" placeholder="file  name..." spellcheck="false"></textarea>
+	</dialog>
+	<dialog id="createnewfolderdialog" class="dialog">
+
+		<button id="createfolderindialoog">create folder</button>
+		<button id="cancelcreatefolderdialog">Cancel</button>
+		<input id="inputforopenfolder" type="text" placeholder="folder/directory name..." spellcheck="false"></textarea>
+	</dialog>
+	<dialog id="commitdialog" class="dialog">
+		<button id="commitreal">commit</button>
+		<button id="cancelcommit">Cancel</button>
+
+		<input id="inputforcommit" type="text" placeholder="message for commit.." spellcheck="false"></textarea>
+
+	</dialog>
+	<div class="common bgcolor1e1e1e" id="top-menu">
+		<div id="logo"></div>
+		<button class="common bgcolor1e1e1e" id="file">File</button>
+		<button popovertarget="viewon" class="common bgcolor1e1e1e" id="view">View</button>
+		<button id="liveserverbtn" title="start live server(ctrl + shift + L)">📡Live server</button>
+
+	</div>
+	<div id="file_on" tabindex=0 class="common">
+		<button id="open_file" class="common">Open file</button>
+		<button id="open_folder" class="common">Open Folder</button>
+		<button id="save" class="common">Save</button>
+		<button id="save_as" class="common">Save As</button>
+		<button id="format" class="common">format</button>
+		<button id="exit" class="common">Exit</button>
+	</div>
+	<div class="common bgcolor1e1e1e" id="btmenu">
+		<div id="lineandcolumn"></div>
+		<div id="language"></div>
+		<div id="errors"></div>
+		<div id="currentBranch"></div>
+		<div id="breadcrupsfunc"></div>
+	</div>
+	<div class="common bgcolor1e1e1e" id="ltmenu">
+		<button class="common" id="expl" title="explorer (ctrl + shift+  E)"></button>
+		<button class="common" id="term" title="terminal   (ctrl + shift + t)"></button>
+		<button class="common" id="gitvercontmenu" title="git features(ctrl +G)"></button>
+	</div>
+
+	<div id="workspace">
+
+		<div id="middleeditor">
+			<div id="topbarforeditor"></div>
+			<iframe src="editor/index.html" id="editor" class="bgcolor1e1e1e"></iframe>
+			<div id="terminalelement">
+				<div id="terminaltopbar" class="common bgcolor1e1e1e">Terminal
+					<button id="addtermbtn" title=" Create terminal process">+</button>
+				</div>
+				<div id="terminal" class="common bgcolor1e1e1e"></div>
+				<div id="terminaltabmanager"></div>
+			</div>
+		</div>
+		<div id="preview">
+			<div id="prevtop" class="common bgcolor1e1e1e">YOUR AI AGENT</div>
+		</div>
+		<div id="explorer">
+			<div id="explotop" class="common bgcolor1e1e1e">explorer</div>
+			<input  type = "search" id="explorersearch" placeholder="Search for files">
+			<div id="searchresults"></div>
+			<div id="explorerelement">
+
+			</div>
+			<div id="versioncontrolelement">
+				<div id="explorervc">It seems like the repo is not initialised</div>
+
+
+				<button id="commitbtn">Commit in current branch</button>
+				<div id="moreactions">
+					<button id="push" class="gitotheractions">push(from current branch)</button>
+					<button id="switchbranches" class="gitotheractions">Switch Branch</button>
+					<button id="pull" class="gitotheractions">pull</button>
+					<button id="view_commits" class="gitotheractions">View commits(git log)</button>
+					<button  id="changes" class="gitotheractions">changes > </button>
+
+				</div>
+
+
+
+			</div>
+
+			<div id="link" style="opacity:0;"></div>
+		</div>
+	</div>
+	</div>
+	</div>
+	<div id="viewon">
+
+		<div id="terminaltick">
+			<label>
+				<input type="checkbox" id="terminalcheck">
+				Terminal Visibility
+			</label>
+		</div>
+		<div id="explorertick">
+			<label>
+				<input type="checkbox" checked="true" id="explorercheck">
+				Leftpanel Visibility
+			</label>
+		</div>
+	</div>
+</body>
+<script src="./renderer.js" type="module"></script>
+<script src="./xterm/lib/xterm.js"></script>
+
+</html>

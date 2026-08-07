@@ -1,0 +1,22 @@
+/renderer/editor/parser/node_modules/
+/node_modules/
+/tslogs/
+/appoutput/
+/configurationbiome/
+/ram
+/sri
+/binarypreinstall/
+/index.cpp
+/editor/jaisriram.txt
+/me.txt
+/me.json
+/test
+/main copy.js
+/newf
+/newfile
+/renderer/txt
+/renderer/renderer copy.js
+/renderer/initialiseterminal copy.js
+/biomelogs
+/bmain.txt
+*.deb
