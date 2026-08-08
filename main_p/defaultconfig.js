@@ -1,6 +1,6 @@
 //jai sri ram
 
-                export const defaultconfigbiome  = `
+export const defaultconfigbiome = `
         {
         
         

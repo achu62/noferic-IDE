@@ -1,7 +1,7 @@
 //jai sri ram
 import fs from "fs"
 import path from "path"
-import fuzzysort from "fuzzysort"
+                        import fuzzysort from "fuzzysort"
 
 const excludedDirectories =
     ["node_modules", "dist", ".code", ".noferic-ide", ".zed", ".idea", ".git"]
@@ -14,6 +14,7 @@ const IncludedExtensions = [
     ".mjs",
     ".cts",
     ".json",
+    
     ".html",
     ".htmx",
     ".css",

@@ -8,6 +8,7 @@ import {NofericTheme} from "./MyTheme.js"
 import {EditorConfig}  from "./EditorConfig.js"
 import {getDeclarationName} from "./getDeclarationName.js"
 import { lspKindToMonaco } from "./lspToMonaco.js";
+import { format } from "./formatter/formatter.js";
 function lspCompletionToMonaco(monaco, item) {
   return {
     label: item.label,
@@ -28,6 +29,7 @@ function lspCompletionToMonaco(monaco, item) {
     range: undefined,
   };
 }
+
 
 export function convertCompletionList(monaco, completionList) {
   const items = Array.isArray(completionList)
@@ -262,14 +264,53 @@ window.onload = () => {
           `❌:${errors} , ⚠️:${warning} ℹ️:${info}`;
       }
     });
-    ["javascript", "typescript"].forEach((lang) => {
-      monaco.languages.registerHoverProvider(lang, {
-        async provideHover(model, position) {
-          if (!URI) return null;
-          return await sendReqForHover(model, position);
-        },
-      });
-    });
+    monaco.languages.registerDocumentFormattingEditProvider("javascript" ,
+        {
+          async  provideDocumentFormattingEdits(model , options , token){
+        const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]}})
+
+
+    monaco.languages.registerDocumentFormattingEditProvider("typescript" ,
+        {
+          async  provideDocumentFormattingEdits(model , options , token){
+            const formattedCode = await format(model.getValue())
+            console.log(formattedCode)
+            return [{
+              range: model.getFullModelRange(),
+              text: formattedCode
+            }]}})
+    monaco.languages.registerDocumentFormattingEditProvider("json" ,
+        {
+          async  provideDocumentFormattingEdits(model , options , token){
+            const formattedCode = await format(model.getValue())
+            console.log(formattedCode)
+            return [{
+              range: model.getFullModelRange(),
+              text: formattedCode
+            }]}})
+    monaco.languages.registerDocumentFormattingEditProvider("html" ,
+        {
+          async  provideDocumentFormattingEdits(model , options , token){
+            const formattedCode = await format(model.getValue())
+            console.log(formattedCode)
+            return [{
+              range: model.getFullModelRange(),
+              text: formattedCode
+            }]}})
+    monaco.languages.registerDocumentFormattingEditProvider("css" ,
+        {
+          async  provideDocumentFormattingEdits(model , options , token){
+            const formattedCode = await format(model.getValue())
+            console.log(formattedCode)
+            return [{
+              range: model.getFullModelRange(),
+              text: formattedCode
+            }]}})
 
     monaco.languages.registerCompletionItemProvider("javascript", {
       // Trigger completions on every letter, number, and common token characters
@@ -287,6 +328,14 @@ window.onload = () => {
           suggestions: convertCompletionList(monaco, res),
         };
       },
+    });
+    ["javascript", "typescript"].forEach((lang) => {
+      monaco.languages.registerHoverProvider(lang, {
+        async provideHover(model, position) {
+          if (!URI) return null;
+          return await sendReqForHover(model, position);
+        },
+      });
     });
     monaco.languages.registerCompletionItemProvider("typescript", {
       // Trigger completions on every letter, number, and common token characters
@@ -312,6 +361,7 @@ window.onload = () => {
         return await sendReqForGTD();
       }
     });
+    //iam asking u
     window.addEventListener("message", (e) => {
       const message = e.data;
 
@@ -458,7 +508,7 @@ window.onload = () => {
 
           editor.setModel(newmodel);
         }
-      } else if (action == "deleteallmodels") {
+      } else if (action === "deleteallmodels") {
         monaco.editor.getModels().forEach((model) => {
           model.dispose();
         });
