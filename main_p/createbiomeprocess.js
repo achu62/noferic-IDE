@@ -10,10 +10,10 @@ export function createbiomeprocess (isWindows , isproduction){
                                     "app",
                                     "node_modules",
                                     "@biomejs",
-                                    "cli-win-x64",
+                                    "cli-win32-x64",
                                     "biome.exe",
                                 )
-                            : "./node_modules/@biomejs/cli-win-x64/biome.exe"
+                            : path.join("./node_modules","@biomejs","cli-win32-x64","biome.exe")
                         : isproduction
                             ? path.join(
                                     process.resourcesPath,

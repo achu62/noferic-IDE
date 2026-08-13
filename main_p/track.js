@@ -82,10 +82,11 @@ export function createTrack({ getState, consolelog }) {
 					return;
 				}
 				Updatestatus(win)
-				if (filePath.includes(".git")) {
+				if (filePath.includes("git")) {
 					NotifyGitIntegration(win)
 				}
 				if (!changedpathsbyide.includes(filePath)) {
+					consolle.log(changedpathsbyide)
 					win.webContents.send(
 						"data",
 						JSON.stringify({

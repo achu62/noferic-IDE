@@ -26,7 +26,7 @@ export async function starttsserver(path) {
     const inres = await connection.sendRequest("initialize", {
 
         processId: process.pid,
-        rootUri: `file://${path}`,
+        rootUri: `file://${decodeURIComponent(path)}`,
             capabilities: {
                 workspace: {
                     workspaceFolders: true,
@@ -56,7 +56,7 @@ export async function starttsserver(path) {
 ,
         workspaceFolders: [
             {
-                uri: `file://${path}`,
+                uri: `file://${decodeURIComponent(path)}`,
                 name: nodepath.basename(path)
             }
         ]
@@ -87,14 +87,14 @@ export async function provideautocomplete(path, content, char, line) {
         }
         connection.sendNotification("textDocument/didClose", {
             textDocument: {
-                uri: `file:///${prevpath.path}`,
+                uri: `file:///${decodeURIComponent(prevpath.path)}`,
             }
         });
         prevpath.path = path;
         prevpath.version = 1;
         connection.sendNotification("textDocument/didOpen", {
             textDocument: {
-                uri: `file://${path}`,
+                uri: `file://${decodeURIComponent(path)}`,
                 languageId: `${ext}`,
                 version: 1,
                 text: `[${content}]`
@@ -109,7 +109,7 @@ export async function provideautocomplete(path, content, char, line) {
         prevpath.version = prevpath.version + 1;
         connection.sendNotification("textDocument/didChange", {
             textDocument: {
-                uri: `file://${path}`,
+                uri: `file://${decodeURIComponent(path)}`,
                 version: prevpath.version,
             }, "contentChanges": {
                 text: `${content}`
@@ -149,7 +149,7 @@ export async function ProvideDiagnostics() {
 export async function GotoDefintion(position){
     const result = await connection.sendRequest("textDocument/definition", {
         textDocument: {
-            uri: `file://${prevpath.path}`,
+            uri: `file://${decodeURIComponent(prevpath.path)}`,
         },
         position: {
             line: position.lineNumber - 1,
@@ -162,7 +162,7 @@ export async function GotoDefintion(position){
 export async function HOVERFUNCTION(filePath  , position ){
     const result = await connection.sendRequest("textDocument/hover", {
         textDocument: {
-            uri: `file://${filePath}`,
+            uri: `file://${decodeURIComponent(filePath)}`,
         },
         position: {
             line: position.line,

@@ -68,6 +68,7 @@ export function showdialog(path) {
 			document.getElementById("inputforopenfile").value = "";
 		} , {once:true});
 }
+
 export function showFolderDialog(path) {
 	if (document.readyState == "complete") {
 		document.getElementById("createnewfolderdialog").showModal();
@@ -332,21 +333,21 @@ window.onload = function () {
 				//jai sri ram
 
 				const filebutton = document.createElement("button");
-				filebutton.id = `${file.id}`;
+				filebutton.id = `${decodeURIComponent(file.id)}`;
 
 				filebutton.textContent = `${file.name}`;
 				filebutton.classList.add("files");
 				filebutton.classList.add("folder");
 				filebutton.style.paddingLeft = depth + "px";
-				filebutton.title = `${file.id}`;
+				filebutton.title = `${decodeURIComponent(file.id)}`;
 
-				if (globalignoredfilesarray.includes(file.id)) {
+				if (globalignoredfilesarray.includes(decodeURIComponent(file.id))) {
 					filebutton.style.color = "#999290";
 					filebutton.title += "Untracked";
 				}
 
 				const statebtn = document.createElement("div");
-				statebtn.id = `statebuttonfor${file.id}`;
+				statebtn.id = `statebuttonfor${decodeURIComponent(file.id)}`;
 				statebtn.style.position = "absolute";
 				statebtn.style.top = "0.5px";
 				statebtn.style.right = "0.5px";
@@ -364,28 +365,28 @@ window.onload = function () {
 				filebutton.appendChild(icon);
 				filebutton.appendChild(handle);
 
-				globalfileexplorerstatejson[`${file.id}`] = false;
+				globalfileexplorerstatejson[`${decodeURIComponent(file.id)}`] = false;
 				filebutton.appendChild(statebtn);
 				let isopen = false;
 				filebutton.addEventListener("click", (e) => {
 					if (!isopen) {
 						if (filebutton.classList.contains("folder")) {
 							recursiveloop(
-								findFolderById(globalfolderjson, file.id).children,
+								findFolderById(globalfolderjson, decodeURIComponent(file.id)).children,
 
-								document.getElementById(`${file.id}`),
+								document.getElementById(`${decodeURIComponent(file.id)}`),
 							);
 							e.stopPropagation();
 							e.stopImmediatePropagation();
 							isopen = true;
-							globalfileexplorerstatejson[`${file.id}`] = true;
+							globalfileexplorerstatejson[`${decodeURIComponent(file.id)}`] = true;
 						} else {
 							return;
 						}
 					} else {
 						filebutton.replaceChildren(`${file.name}`, statebtn, icon, handle);
 						isopen = false;
-						globalfileexplorerstatejson[`${file.id}`] = false;
+						globalfileexplorerstatejson[`${decodeURIComponent(file.id)}`] = false;
 
 						e.stopPropagation();
 					}
@@ -393,26 +394,26 @@ window.onload = function () {
 				space.appendChild(filebutton);
 				createfolderdialogbox(
 					document.body,
-					file.id,
+					decodeURIComponent(file.id),
 					filebutton,
 					dialogforcreatefile,
 				);
 			} else {
 				const filebutton = document.createElement("button");
-				filebutton.id = `${file.id}`;
+				filebutton.id = `${decodeURIComponent(file.id)}`;
 				const extension = file.name.split(".").pop();
 
 				filebutton.textContent = `${file.name}`;
 				filebutton.classList.add("files");
 				filebutton.style.paddingLeft = depth + "px";
-				if (globalignoredfilesarray.includes(file.id)) {
+				if (globalignoredfilesarray.includes(decodeURIComponent(file.id))) {
 					filebutton.style.color = "#999290";
 					filebutton.title += "Untracked ";
 				}
-				filebutton.title = `${file.id}`;
+				filebutton.title = `${decodeURIComponent(file.id)}`;
 
 				space.appendChild(filebutton);
-				createfiledialogbox(document.body, file.id, filebutton);
+				createfiledialogbox(document.body, decodeURIComponent(file.id), filebutton);
 				filebutton.addEventListener("click", async (e) => {
 					e.stopPropagation();
 					e.stopImmediatePropagation();
@@ -563,35 +564,35 @@ window.onload = function () {
 			globalfolderjson = message.newjson;
 			if (!message.add) {
 			}
-			if (!globalfileexplorerstatejson[message.add.parentid]) {
+			if (!globalfileexplorerstatejson[decodeURIComponent(message.add.parentid)]) {
 				return;
 			}
-			if (!document.getElementById(message.add.parentid)) {
+			if (!document.getElementById(decodeURIComponent(message.add.parentid))) {
 				alert("foldernotfound");
 			}
 
 			recursiveloop(
 				message.add.actualjson,
-				document.getElementById(message.add.parentid),
+				document.getElementById(decodeURIComponent(message.add.parentid)),
 			);
 		} else if (message.action == "removeelements") {
 			globalfolderjson = message.newjson;
-			document.getElementById(message.remove)?.remove();
-			if (document.getElementById(`topbarelementfor${message.remove}`)) {
-				document.getElementById(`topbarelementfor${message.remove}`).remove();
+			document.getElementById(decodeURIComponent(message.remove))?.remove();
+			if (document.getElementById(`topbarelementfor${decodeURIComponent(message.remove)}`)) {
+				document.getElementById(`topbarelementfor${decodeURIComponent(message.remove)}`).remove();
 				alert(`${message.remove} is deleted`);
 				iframe.contentWindow.postMessage({
 					action: "deletemodelonclose",
-					path: message.remove,
+					path: decodeURIComponent(message.remove),
 				});
 			}
 		} else if (message.action === "ignoredfiles") {
 			message.ignoredfiles.forEach((ignoredfile) => {
-				if (!globalignoredfilesarray.includes(ignoredfile)) {
-					globalignoredfilesarray.push(ignoredfile);
+				if (!globalignoredfilesarray.includes(decodeURIComponent(ignoredfile))) {
+					globalignoredfilesarray.push(decodeURIComponent(ignoredfile));
 				}
-				if (document.getElementById(ignoredfile)) {
-					document.getElementById(ignoredfile).style.color = "#999290";
+				if (document.getElementById(decodeURIComponent(ignoredfile))) {
+					document.getElementById(decodeURIComponent(ignoredfile)).style.color = "#999290";
 				}
 			});
 		} else if (message.action === "status") {
@@ -607,6 +608,7 @@ window.onload = function () {
 			
 		} else if (message.action === "handleachangeinfile") {
 			if (document.getElementById(`topbarelementfor${decodeURIComponent(message.path)}`)) {
+
 				const ext = await window.ipc.invoke("get-ext", message.path);
 				const extension = ext.replace(".", "");
 				iframe.contentWindow.postMessage(
@@ -615,7 +617,6 @@ window.onload = function () {
 						content: message.content,
 						isdir: false,
 						path: decodeURIComponent(message.path),
-
 						extension: extension,
 						isspecialchange: true,
 					},
@@ -683,7 +684,7 @@ window.onload = function () {
 
 				// Explicitly extract parameters from the 'data' child object
 				const compl = await runts(
-					message.data.path,
+					decodeURIComponent(message.data.path),
 					message.data.content,
 					message.data.line,
 					message.data.character,
@@ -710,7 +711,7 @@ window.onload = function () {
 		}
 		if (message.action === "getHover"){
 			async function run(){
-				const res = await window.ipc.invoke("Hover" , message.path  ,  message.position)
+				const res = await window.ipc.invoke("Hover" , decodeURIComponent(message.path)  ,  message.position)
 				iframe.contentWindow.postMessage({
 					action: "tshover",
 					data: res,

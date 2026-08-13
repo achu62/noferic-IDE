@@ -1,7 +1,9 @@
+/////////////////////jai sri ram
 //jai sri ram
 //jai sri ram
 //jai sri ram
-//jai sri ram
+
+
 import { getLanguagebyExtension } from "./utils.js";
 import { runparser } from "./parser/dist/my-library.js";
 import {NofericTheme} from "./MyTheme.js"
@@ -79,7 +81,7 @@ window.onload = () => {
     async function sendReqAutocomplete() {
       const model = editor.getModel();
 
-      const path = model.uri.toString().replace("id:", "");
+      const path = decodeURIComponent(model.uri.toString().replace("id:", ""));
       const localcont = model.getValue();
 
       const pos = editor.getPosition();
@@ -133,7 +135,7 @@ window.onload = () => {
               const targetRange = loc.targetSelectionRange || loc.targetRange || loc.range;
 
               // 2. Convert 'file://' URI to 'id://' URI scheme used by your Monaco models
-              const formattedUriString = rawUri.replace(/^file:\/\//, "id://");
+              const formattedUriString = decodeURIComponent(rawUri.replace(/^file:\/\//, "id://"));
 
               return {
                 uri: monaco.Uri.parse(formattedUriString),
@@ -219,7 +221,11 @@ window.onload = () => {
       if (!model) {
         return;
       }
-      const currentPath = model.uri.toString().replace("id:", "");
+      
+      const currentPath =
+    navigator.platform === "Win32"
+        ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+        : decodeURIComponent(model.uri.toString().replace("id:", ""));
       if (currentPath.includes(`inmemory://`)) {
         return;
       }

@@ -1,4 +1,5 @@
 //jai sri ram
+
 export function getDeclarationName(node) {
     let current = node;
 

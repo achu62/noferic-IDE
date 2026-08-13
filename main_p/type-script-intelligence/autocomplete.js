@@ -5,7 +5,7 @@ export async function provideAutoCompleteforts(connection , obj){
         "textDocument/completion",
         {
             textDocument: {
-                uri: `file://${obj.path}`
+                uri: `file://${decodeURIComponent(obj.path)}`
             },
             position: {
                 line: obj.position.line,

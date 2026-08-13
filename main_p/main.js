@@ -2,6 +2,7 @@
 //yes this is working
 //jai sri ram
 //the main.js is changed
+
 import {
   app,
   BrowserWindow,
@@ -70,7 +71,9 @@ export function getEssentials() {
   return {
     appispackaged: app.isPackaged,
     processplatform: process.platform,
-    path: process.resourcesPath,
+    path: app.isPackaged ? process.resourcesPath : app.getAppPath(),
+    appPath: app.getAppPath(),
+    appRoot: app.getAppPath(),
   };
 }
 
@@ -189,10 +192,7 @@ async function handleappargs(args) {
       }
       confirm(win);
       pathreal = path.resolve(args);
-      getTags(pathreal);
-      track(path.resolve(args));
-      initialisereposcan(path.resolve(args), win);
-      await starttsserver(path.resolve(args));
+     
 
       const biomeResult = await startBiomeProcess(args, {
         isWindows,
@@ -250,6 +250,10 @@ async function handleappargs(args) {
         }),
       );
       initialiseterminalmain(ptyProcess, path.resolve(args), "def", win);
+       getTags(pathreal);
+      track(path.resolve(args));
+      initialisereposcan(path.resolve(args), win);
+      await starttsserver(path.resolve(args));
     } else {
       track(path.resolve(args));
       initialiseterminalmain(
@@ -268,6 +272,7 @@ async function handleappargs(args) {
       );
     }
   }
+  
 }
 let args;
 app.whenReady().then(() => {
@@ -380,22 +385,7 @@ ipcMain.handle("autosave", async (e, code, path) => {
   changedpathsbyide.push(path);
 });
 let oldreqcomleted = true;
-ipcMain.handle("lint", async (e, message) => {
-  consolelog(`recieved:${JSON.stringify(message)}`);
-  if (!oldreqcomleted) {
-    return;
-  }
-  oldreqcomleted = false;
-
-  try {
-    return await lintWithBiome(connection, pathreal, message, consolelog);
-  } catch (error) {
-    consolelog(error);
-    throw error;
-  } finally {
-    oldreqcomleted = true;
-  }
-});
+ipcMain.handle("lint", async (e, message) => {});
 ipcMain.handle("mkdir", async (e, path) => {
   try {
     await fs.promises.mkdir(path);

@@ -8,6 +8,7 @@ export const EditorConfig = {
       minimap: { enabled: true },
       wordWrap: "off",
       codeLens: true,
+      
       dragAndDrop: true,
       cursorBlinking: "blink",
       cursorStyle: "line",

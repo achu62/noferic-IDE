@@ -1,23 +1,22 @@
 //jai sri ram
-import path from "node:path"
-import { getEssentials } from "../main.js"
-export function getpath(){
-    let sp;
-    const items =getEssentials()
-    if (items.appispackaged)
-    {
-        //console.log("packaged")
-        sp = path.join(items.path , "app" ,"node_modules" ,   "typescript-language-server" , "lib" , "cli.mjs");
+import path from "node:path";
+import fs from "node:fs"
+import { getEssentials } from "../main.js";
 
-        
-    }
-   else{
-    sp="./node_modules/.bin/typescript-language-server"
-   }
-    return sp;
-    
+export function getpath() {
+    const items = getEssentials();
+    const appRoot = items.appispackaged
+        ? path.join(items.path, "app")
+        : items.appRoot || path.resolve(items.appPath, "..");
+
+    return path.join(
+        appRoot,
+        "node_modules",
+        "typescript-language-server",
+        "lib",
+        "cli.mjs"
+    );
 }
-
 
 
 

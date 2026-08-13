@@ -8,7 +8,7 @@ function createTopbarTab({
 	content,
 	extension,
 }) {
-	const existingTab = document.getElementById(`topbarelementfor${filePath}`);
+	const existingTab = document.getElementById(`topbarelementfor${decodeURIComponent(filePath)}`);
 	if (existingTab) {
 		existingTab.click();
 		return;
@@ -17,7 +17,7 @@ function createTopbarTab({
 
 	const topbarElement = document.createElement("button");
 	topbarElement.classList.add("class__topelements");
-	topbarElement.id = `topbarelementfor${filePath}`;
+	topbarElement.id = `topbarelementfor${decodeURIComponent(filePath)}`;
 	topbarElement.style.paddingLeft = "3px";
 	topbarElement.textContent = fileName;
 	topbarElement.title = filePath;
@@ -30,7 +30,7 @@ function createTopbarTab({
 				content,
 				isdir: false,
 				extension,
-				path: filePath,
+				path: decodeURIComponent(filePath),
 			},
 			"*",
 		);
@@ -42,13 +42,13 @@ function createTopbarTab({
 
 	const topbarCloseBtn = document.createElement("button");
 	topbarCloseBtn.classList.add("topbarclose_class");
-	topbarCloseBtn.id = `topbarelementclosefor${filePath}`;
+	topbarCloseBtn.id = `topbarelementclosefor${decodeURIComponent(filePath)}`;
 	topbarCloseBtn.addEventListener("click", (event) => {
 		event.stopPropagation();
 		topbarElement?.remove();
 		iframe.contentWindow.postMessage({
 			action: "deletemodelonclose",
-			path: filePath,
+			path: decodeURIComponent(filePath),
 		});
 	});
 

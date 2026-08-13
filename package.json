@@ -13,7 +13,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@electron/rebuild": "^4.0.4",
-		"electron": "^43.1.1",
+		"electron": "^40.10.2",
 		"electron-builder": "^26.15.2"
 	},
 	"dependencies": {
@@ -38,8 +38,10 @@
 		"xterm": "^5.3.0",
 		"xterm-addon-fit": "^0.8.0"
 	},
+	"overrides": {
+  "@electron-internal/extract-zip": "npm:extract-zip@^2.0.1"
+},
 	"build": {
-		
 		"appId": "noferic web",
 		"extraResources": [
 			{
@@ -52,7 +54,7 @@
 			"**/*"
 		],
 		"linux": {
-			"icon":"Untitled - 27 July 2026 at 15.09.38 (1).png",
+			"icon": "Untitled - 27 July 2026 at 15.09.38 (1).png",
 			"target": [
 				"deb",
 				"AppImage"
