@@ -11,7 +11,7 @@ import {
 	getfileiconbytype,
 	DeleteOldWorkspace,
 	findFolderById,
-	
+
 } from "./utils.js";
 //TYPEAD
 import { createfolderdialogbox } from "./foldercontextmenu.js";
@@ -66,7 +66,7 @@ export function showdialog(path) {
 				document.getElementById(path).click();
 			}
 			document.getElementById("inputforopenfile").value = "";
-		} , {once:true});
+		}, { once: true });
 }
 
 export function showFolderDialog(path) {
@@ -94,7 +94,7 @@ export function showFolderDialog(path) {
 			}
 			document.getElementById("inputforopenfolder").value = "";
 			document.getElementById("createnewfolderdialog").close();
-		}, {once:true});
+		}, { once: true });
 }
 export function deleteFolder(path) {
 	const isUserok = confirm(
@@ -112,14 +112,16 @@ export function deleteFile(path) {
 		window.ipc.invoke("unlink", `${path}`);
 	}
 }
-export async function GetFilebaseName(pathr){
-	return await window.ipc.invoke("get-base-name" , pathr)
+export async function GetFilebaseName(pathr) {
+	return await window.ipc.invoke("get-base-name", pathr)
 }
-export async function showDiff(element){
-	const diffText = await window.ipc.invoke("get-diff-texts" , element)
-	
-	
+export async function showDiff(element) {
+	const diffText = await window.ipc.invoke("get-diff-texts", element)
+
+
 }
+
+
 window.onload = function () {
 	const editorEl = document.getElementById("editor");
 	const terminalEl = document.getElementById("terminalelement");
@@ -156,6 +158,7 @@ window.onload = function () {
 		document.getElementById("alertdialog").showModal();
 		document.getElementById("contentdiv").innerText = string;
 	}
+
 
 	document
 		.getElementById("gitvercontmenu")
@@ -211,7 +214,7 @@ window.onload = function () {
 			document.getElementById("file_on").style.display = "none";
 		}
 	}
-	syncEditorBottom(editorEl, terminalEl , iframe);
+	syncEditorBottom(editorEl, terminalEl, iframe);
 	file.addEventListener("click", () => {
 		if (isopen === false) {
 			document.getElementById("file_on").style.display = "block";
@@ -222,6 +225,32 @@ window.onload = function () {
 		}
 	});
 
+	const sendreqfromif = {
+		SendRequesttomain: async (e) => {
+			const action = e.action;
+			const args = e.args;
+			const permittedactions = ["test"]
+			try {
+				if (permittedactions.includes(action)) {
+					const res = await window.ipc.invoke(action, args)
+					return res;
+				}
+			}
+			catch (e) {
+				alert(e)
+			}
+		}
+
+
+
+
+	}
+	const iframer = document.querySelector("iframe#editor");
+
+
+		setTimeout(()=>{
+			iframer.contentWindow.renderer = sendreqfromif
+		} , 10000)
 	openfile.addEventListener(
 		"click",
 		async () => {
@@ -299,7 +328,7 @@ window.onload = function () {
 	);
 	resizeexplorer(document.getElementById("explorer"));
 	const observerforterminal = new ResizeObserver(() => {
-		syncEditorBottom(editorEl, terminalEl , iframe);
+		syncEditorBottom(editorEl, terminalEl, iframe);
 	});
 	observerforterminal.observe(terminalEl);
 	const observerforpreview = new ResizeObserver(() => {
@@ -317,7 +346,7 @@ window.onload = function () {
 		editor.style.right = preview.offsetWidth + "px";
 		editor.style.left = explorer.offsetWidth + "px";
 		editor.style.width = `${document.getElementById("workspace").offsetWidth - (preview.offsetWidth + explorer.offsetWidth)}px`;
-		syncEditorBottom(editorEl, terminalEl , iframe);
+		syncEditorBottom(editorEl, terminalEl, iframe);
 	});
 	observerforexplorer.observe(document.getElementById("explorer"));
 
@@ -476,24 +505,24 @@ window.onload = function () {
 				terminalEl.style.height = 150 + "px";
 			}
 			globalleftmenustate.isterminalopen = true;
-			syncEditorBottom(editorEl, terminalEl , iframe);
+			syncEditorBottom(editorEl, terminalEl, iframe);
 		} else {
 			document.getElementById("terminalelement").style.display = "none";
 			globalleftmenustate.isterminalopen = false;
 
-			syncEditorBottom(editorEl, terminalEl , iframe);
+			syncEditorBottom(editorEl, terminalEl, iframe);
 		}
 	});
 	document.getElementById("term").addEventListener("click", (e) => {
 		if (globalleftmenustate.isterminalopen) {
 			document.getElementById("terminalelement").style.display = "none";
 			globalleftmenustate.isterminalopen = false;
-			syncEditorBottom(editorEl, terminalEl , iframe);
+			syncEditorBottom(editorEl, terminalEl, iframe);
 			checkboxforterminal.checked = false;
 		} else {
 			document.getElementById("terminalelement").style.display = "block";
 			globalleftmenustate.isterminalopen = true;
-			syncEditorBottom(editorEl, terminalEl , iframe);
+			syncEditorBottom(editorEl, terminalEl, iframe);
 			checkboxforterminal.checked = true;
 		}
 	});
@@ -501,11 +530,11 @@ window.onload = function () {
 		if (checkboxforexplorer.checked) {
 			document.getElementById("explorer").style.display = "block";
 			globalleftmenustate.isleftpanelopen = true;
-			syncEditorBottom(editorEl, terminalEl , iframe);
+			syncEditorBottom(editorEl, terminalEl, iframe);
 		} else {
 			document.getElementById("explorer").style.display = "none";
 			globalleftmenustate.isleftpanelopen = false;
-			syncEditorBottom(editorEl, terminalEl , iframe);
+			syncEditorBottom(editorEl, terminalEl, iframe);
 		}
 	});
 
@@ -556,9 +585,9 @@ window.onload = function () {
 			alert(
 				`an error occured while ${JSON.stringify(message.errorlocation)} \n\n error message:${JSON.stringify(message.errormessage)}`,
 			);
-		} 
-		else if (message.action === "branch"){
-			document.getElementById("currentBranch").innerText  = `${message.branchname}`
+		}
+		else if (message.action === "branch") {
+			document.getElementById("currentBranch").innerText = `${message.branchname}`
 		}
 		else if (message.action === "addelements") {
 			globalfolderjson = message.newjson;
@@ -597,7 +626,7 @@ window.onload = function () {
 			});
 		} else if (message.action === "status") {
 			globalgitstatusjson = message.status;
-			if(ischangesopen){
+			if (ischangesopen) {
 				setInVersionControl(
 					document,
 					document.getElementById("explorervc"),
@@ -605,7 +634,7 @@ window.onload = function () {
 				);
 			}
 
-			
+
 		} else if (message.action === "handleachangeinfile") {
 			if (document.getElementById(`topbarelementfor${decodeURIComponent(message.path)}`)) {
 
@@ -634,13 +663,13 @@ window.onload = function () {
 				JSON.stringify({
 					action: "tabsopen",
 					openTabs: ids,
-					
+
 				}),
 			)
-			setTimeout(()=>{
+			setTimeout(() => {
 				window.close()
 
-			} , 5000)
+			}, 5000)
 		}
 	});
 
@@ -680,7 +709,7 @@ window.onload = function () {
 		}
 		if (message.action === "getAutoComplete") {
 			async function run() {
-				
+
 
 				// Explicitly extract parameters from the 'data' child object
 				const compl = await runts(
@@ -698,9 +727,9 @@ window.onload = function () {
 			}
 			run();
 		}
-		if(message.action === "getGoTodefintion"){
-			async function runDef(){
-			const res = await window.ipc.invoke("GotoDef", message.position)
+		if (message.action === "getGoTodefintion") {
+			async function runDef() {
+				const res = await window.ipc.invoke("GotoDef", message.position)
 				iframe.contentWindow.postMessage({
 					action: "tsgtd",
 					data: res,
@@ -709,9 +738,9 @@ window.onload = function () {
 			}
 			runDef()
 		}
-		if (message.action === "getHover"){
-			async function run(){
-				const res = await window.ipc.invoke("Hover" , decodeURIComponent(message.path)  ,  message.position)
+		if (message.action === "getHover") {
+			async function run() {
+				const res = await window.ipc.invoke("Hover", decodeURIComponent(message.path), message.position)
 				iframe.contentWindow.postMessage({
 					action: "tshover",
 					data: res,
@@ -820,35 +849,35 @@ window.onload = function () {
 				document.getElementById("createliveserverbtn").click();
 			}
 		});
-		document.getElementById("push").addEventListener("click" , async(e)=>{
-			const confirmation = confirm(`do you want  to push this repo to a remote brach`)
-			if(!confirmation) return;
-			await window.ipc.invoke("push")
-		})
+	document.getElementById("push").addEventListener("click", async (e) => {
+		const confirmation = confirm(`do you want  to push this repo to a remote brach`)
+		if (!confirmation) return;
+		await window.ipc.invoke("push")
+	})
 	document.getElementById("pull").addEventListener("click", async (e) => {
 		const confirmation = confirm(`do you want  to pull this repo from a remote brach`)
 		if (!confirmation) return;
 		await window.ipc.invoke("pull")
 	})
-	document.getElementById("changes").addEventListener("click" , (e)=>{
+	document.getElementById("changes").addEventListener("click", (e) => {
 		e.stopPropagation()
-		if(!ischangesopen){
+		if (!ischangesopen) {
 			setInVersionControl(
 				document,
 				document.getElementById("explorervc"),
 				globalgitstatusjson,
 			);
-			ischangesopen =true;
+			ischangesopen = true;
 		}
-		else{
+		else {
 			document.getElementById("changes").replaceChildren("changes >")
 			ischangesopen = false;
 		}
 	})
-	document.getElementById("explorersearch").addEventListener("input" ,async (e)=>{
+	document.getElementById("explorersearch").addEventListener("input", async (e) => {
 		document.getElementById("searchresults").replaceChildren()
 		const results = await window.ipc.invoke("get-search-results", document.getElementById("explorersearch").value)
-		results.forEach((result)=>{
+		results.forEach((result) => {
 			const filebutton = document.createElement("button");
 			filebutton.id = `searchElementResultae${result.obj.FilePathInJSON}`;
 
@@ -859,19 +888,22 @@ window.onload = function () {
 			filebutton.style.left = `${1}px`
 
 			filebutton.title = `${result.obj.FilePathInJSON}`;
-			filebutton.addEventListener("click" , (e)=>{
+			filebutton.addEventListener("click", (e) => {
 				e.stopPropagation()
 				const faapath = result.obj.FilePathInJSON
 				const file = {
-					id:faapath,
-					name:result.obj.filename,
+					id: faapath,
+					name: result.obj.filename,
 					isdirectory: false
 				}
-				openFileFromExplorer({iframe ,file })
+				openFileFromExplorer({ iframe, file })
 			})
 			document.getElementById("searchresults").appendChild(filebutton)
-			
+
 
 		})
 	})
+
+
+
 };

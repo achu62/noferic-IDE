@@ -42,6 +42,7 @@ export function convertCompletionList(monaco, completionList) {
 }
 
 window.onload = () => {
+  console.log(window.renderer)
   require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
   ///
   let editor = null;
@@ -71,6 +72,7 @@ window.onload = () => {
         const name = getDeclarationName(tree);
         window.parent.document.getElementById("breadcrupsfunc").innerText = `${name || ""}`
 
+   window.renderer.SendRequesttomain("hell")
 
       });
 

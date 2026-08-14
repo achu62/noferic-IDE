@@ -27,12 +27,8 @@ export function createTrack({ getState, consolelog }) {
 				const { win, addedpathbyide, globalfolderjson } = getState();
 				const stats = await fs.promises.lstat(filePath);
 
-				if (stats.isSymbolicLink()) {
-					// Ignore it
-					return;
-				}
-				Updatestatus(win)
-				UpdateorCreatefilelist(pathreal)
+
+				
 				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -71,22 +67,20 @@ export function createTrack({ getState, consolelog }) {
 						}),
 					);
 				}
+				Updatestatus(win)
+				UpdateorCreatefilelist(pathreal)
 			});
 
 			watcher.on("change", async (filePath) => {
 				const { win, changedpathsbyide } = getState();
-				 const stats = await fs.promises.lstat(filePath);
+				const stats = await fs.promises.lstat(filePath);
 
-				if (stats.isSymbolicLink()) {
-					// Ignore it
-					return;
-				}
-				Updatestatus(win)
+
 				if (filePath.includes("git")) {
 					NotifyGitIntegration(win)
 				}
 				if (!changedpathsbyide.includes(filePath)) {
-					consolle.log(changedpathsbyide)
+					console.log(changedpathsbyide)
 					win.webContents.send(
 						"data",
 						JSON.stringify({
@@ -101,18 +95,15 @@ export function createTrack({ getState, consolelog }) {
 				if (changedIndex >= 0) {
 					changedpathsbyide.splice(changedIndex, 1);
 				}
+				Updatestatus(win)
+
 			});
 
-			watcher.on("unlink", async(filePath) => {
+			watcher.on("unlink", async (filePath) => {
 				const { win, globalfolderjson } = getState();
-				const stats = await fs.promises.lstat(filePath);
 
-				if (stats.isSymbolicLink()) {
-					// Ignore it
-					return;
-				}
-				UpdateorCreatefilelist(pathreal)
-				Updatestatus(win)
+
+
 				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -125,12 +116,12 @@ export function createTrack({ getState, consolelog }) {
 						remove: filePath,
 					}),
 				);
+				UpdateorCreatefilelist(pathreal)
+				Updatestatus(win)
 			});
 			watcher.on("addDir", async (DirPath) => {
 				const { win, globalfolderjson } = getState();
-				UpdateorCreatefilelist(pathreal)
-
-				Updatestatus(win)
+				
 				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -166,12 +157,13 @@ export function createTrack({ getState, consolelog }) {
 						},
 					}),
 				);
-			});
-			watcher.on("unlinkDir", (DirPath) => {
-				const { win, addedpathbyide, globalfolderjson } = getState();
 				UpdateorCreatefilelist(pathreal)
 
 				Updatestatus(win)
+			});
+			watcher.on("unlinkDir", (DirPath) => {
+				const { win, addedpathbyide, globalfolderjson } = getState();
+				
 				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -188,5 +180,8 @@ export function createTrack({ getState, consolelog }) {
 		} catch (e) {
 			consolelog(e);
 		}
+		UpdateorCreatefilelist(pathreal)
+
+				Updatestatus(win)
 	};
 }
