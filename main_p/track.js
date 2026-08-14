@@ -80,7 +80,6 @@ export function createTrack({ getState, consolelog }) {
 					NotifyGitIntegration(win)
 				}
 				if (!changedpathsbyide.includes(filePath)) {
-					console.log(changedpathsbyide)
 					win.webContents.send(
 						"data",
 						JSON.stringify({

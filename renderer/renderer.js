@@ -229,7 +229,7 @@ window.onload = function () {
 		SendRequesttomain: async (e) => {
 			const action = e.action;
 			const args = e.args;
-			const permittedactions = ["test"]
+			const permittedactions = ["autosave"]
 			try {
 				if (permittedactions.includes(action)) {
 					const res = await window.ipc.invoke(action, args)

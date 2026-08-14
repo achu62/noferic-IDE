@@ -380,7 +380,7 @@ ipcMain.handle("openfolder", async (e) => {
   }
 });
 
-ipcMain.handle("autosave", async (e, code, path) => {
+ipcMain.handle("autosave", async (e, {code, path}) => {
   fs.writeFileSync(decodeURIComponent(path), code, "utf-8");
   changedpathsbyide.push(path);
 });

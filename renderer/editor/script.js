@@ -224,11 +224,11 @@ window.onload = () => {
         return;
       }
       
-      const currentPath =
+      const path =
     navigator.platform === "Win32"
         ? decodeURIComponent(model.uri.toString().replace("id://", ""))
         : decodeURIComponent(model.uri.toString().replace("id:", ""));
-      if (currentPath.includes(`inmemory://`)) {
+      if(path.includes(`inmemory://`)) {
         return;
       }
 
@@ -237,15 +237,14 @@ window.onload = () => {
           return;
         }
 
-        const content = editor.getValue();
-        window.parent.postMessage(
-          {
-            action: "autosave",
-            code: content,
-            path: currentPath,
-          },
-          "*",
-        );
+        const code = editor.getValue();
+        window.renderer.SendRequesttomain({
+          action:"autosave",
+          args:{
+            code , path
+          }
+        })
+        
       });
     }
     track(editor);
