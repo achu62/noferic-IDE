@@ -5,8 +5,10 @@ import { deleteNodeById, injectChildrenByPath } from "./utils.js";
 import { scanafolder } from "./scanafolder.js";
 import { NotifyGitIntegration, initialisereposcan, Updatestatus } from "./git/git.js"
 import { UpdateorCreatefilelist } from "./getAllFilenames.js"
+import { getState, Nullify } from "./main.js";
+import { encode } from "node:punycode";
 
-export function createTrack({ getState, consolelog }) {
+export function createTrack({consolelog }) {
 	let watcher = null;
 
 	return async function track(pathreal) {
@@ -71,15 +73,18 @@ export function createTrack({ getState, consolelog }) {
 				UpdateorCreatefilelist(pathreal)
 			});
 
-			watcher.on("change", async (filePath) => {
+			watcher.on("change", async (filepath) => {
 				const { win, changedpathsbyide } = getState();
-				const stats = await fs.promises.lstat(filePath);
+				const toNormalizedWindowsId = (inputPath) =>
+					path.win32.normalize(inputPath).replace(/\\/g, "/");
+								const filePath =toNormalizedWindowsId(filepath).toLowerCase()
 
-
+				console.log(changedpathsbyide ,filePath )
+				
 				if (filePath.includes("git")) {
 					NotifyGitIntegration(win)
 				}
-				if (!changedpathsbyide.includes(filePath)) {
+				if (!changedpathsbyide.includes((filePath.toLowerCase()))) {
 					win.webContents.send(
 						"data",
 						JSON.stringify({
@@ -95,7 +100,7 @@ export function createTrack({ getState, consolelog }) {
 					changedpathsbyide.splice(changedIndex, 1);
 				}
 				Updatestatus(win)
-
+				Nullify()
 			});
 
 			watcher.on("unlink", async (filePath) => {

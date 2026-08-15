@@ -3,7 +3,6 @@
 //jai sri ram
 //jai sri ram
 
-
 import { getLanguagebyExtension } from "./utils.js";
 import { runparser } from "./parser/dist/my-library.js";
 import {NofericTheme} from "./MyTheme.js"
@@ -406,6 +405,7 @@ window.onload = () => {
           }
         } else {
           if (message.isspecialchange) {
+            alert(JSON.stringify(message))
             isexisting.setValue(message.content);
           } else {
             editor.setModel(isexisting);

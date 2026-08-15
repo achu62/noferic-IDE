@@ -67,6 +67,8 @@ function consolelog(args) {
     //console.log(`\n${args}`);
   }
 }
+let changedpathsbyide = [];
+
 export function getEssentials() {
   return {
     appispackaged: app.isPackaged,
@@ -75,6 +77,9 @@ export function getEssentials() {
     appPath: app.getAppPath(),
     appRoot: app.getAppPath(),
   };
+}
+export function Nullify(){
+  changedpathsbyide = [];
 }
 
 let gitprocess;
@@ -86,7 +91,14 @@ let tsserverprocess;
 let tsserverconnection;
 let count = 1;
 //jai sri ram
-
+export function getState() {
+  return {
+    win,
+    addedpathbyide,
+    globalfolderjson,
+    changedpathsbyide,
+  }
+}
 //console.log("starting...live..server");
 
 const isWindows = process.platform === "win32";
@@ -108,17 +120,10 @@ if (!fs.existsSync(path.join(cfpath, "biome", "biome.json"))) {
 consolelog(process.resourcesPath);
 consolelog(isWindows);
 
-let changedpathsbyide = [];
 const apppath = process.execPath;
 consolelog("apppath" + apppath);
 
 const track = createTrack({
-  getState: () => ({
-    win,
-    addedpathbyide,
-    globalfolderjson,
-    changedpathsbyide,
-  }),
   consolelog,
 });
 
@@ -192,7 +197,7 @@ async function handleappargs(args) {
       }
       confirm(win);
       pathreal = path.resolve(args);
-     
+
 
       const biomeResult = await startBiomeProcess(args, {
         isWindows,
@@ -250,7 +255,7 @@ async function handleappargs(args) {
         }),
       );
       initialiseterminalmain(ptyProcess, path.resolve(args), "def", win);
-       getTags(pathreal);
+      getTags(pathreal);
       track(path.resolve(args));
       initialisereposcan(path.resolve(args), win);
       await starttsserver(path.resolve(args));
@@ -272,7 +277,7 @@ async function handleappargs(args) {
       );
     }
   }
-  
+
 }
 let args;
 app.whenReady().then(() => {
@@ -380,12 +385,12 @@ ipcMain.handle("openfolder", async (e) => {
   }
 });
 
-ipcMain.handle("autosave", async (e, {code, path}) => {
+ipcMain.handle("autosave", async (e, { code, path }) => {
   fs.writeFileSync(decodeURIComponent(path), code, "utf-8");
-  changedpathsbyide.push(path);
+  changedpathsbyide.push(decodeURIComponent(path));
 });
 let oldreqcomleted = true;
-ipcMain.handle("lint", async (e, message) => {});
+ipcMain.handle("lint", async (e, message) => { });
 ipcMain.handle("mkdir", async (e, path) => {
   try {
     await fs.promises.mkdir(path);
@@ -425,13 +430,7 @@ ipcMain.handle("join-path", async (e, arg1, arg2) => {
 ipcMain.handle("get-ext", async (e, fpath) => {
   return path.extname(fpath);
 });
-ipcMain.handle(
-  "providetsautocomplete",
-  async (e, path, content, line, char) => {
-    const completions = await provideautocomplete(path, content, line, char);
-    return completions;
-  },
-);
+
 ipcMain.handle("push", async () => {
   try {
     const message = await handlePush();
@@ -478,11 +477,4 @@ ipcMain.handle("get-search-results", async (e, input) => {
     //console.log(e)
   }
 });
-ipcMain.handle("GotoDef", async (e, position) => {
-  const res = await GotoDefintion(position);
-  return res;
-});
-ipcMain.handle("Hover", async (e, path, pos) => {
-  const res = await HOVERFUNCTION(path, pos);
-  return res;
-});
+

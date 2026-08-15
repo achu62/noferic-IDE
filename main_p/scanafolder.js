@@ -1,6 +1,10 @@
 //jai sri ram
 import fs from "fs"
 import path from "path"
+
+const toNormalizedWindowsId = (inputPath) =>
+    path.win32.normalize(inputPath).replace(/\\/g, "/");
+
 export async function scanafolder(folderpath) {
     let json = [];
     const files = fs.readdirSync(folderpath, { withFileTypes: true });
@@ -9,7 +13,7 @@ export async function scanafolder(folderpath) {
         if (file.isDirectory()) {
             const children = await scanafolder(fullpath);
             json.push({
-                id: fullpath,
+                id: toNormalizedWindowsId(fullpath),
                 name: file.name,
                 isdirectory: true,
                 haschildren: children.length > 0,
@@ -17,7 +21,7 @@ export async function scanafolder(folderpath) {
             });
         } else {
             json.push({
-                id: fullpath,
+                id: toNormalizedWindowsId(fullpath),
                 name: file.name,
                 isdirectory: false,
             });

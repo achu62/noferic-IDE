@@ -14,6 +14,7 @@ The project is a desktop Electron-based IDE with a mixed main/renderer architect
 - Error handling is inconsistent or missing in key user flows.
 - Some functions continue executing after an error condition, which can produce unintended side effects.
 - Naming and code organization are inconsistent, making the code harder to maintain.
+//i am addin
 
 ## Detailed findings
 
@@ -79,5 +80,3 @@ The project is a desktop Electron-based IDE with a mixed main/renderer architect
 - `README.md`
 
 ## Note
-
-This review intentionally excludes library files and prebuilt bundles. Vendor directories such as `dist/linux-unpacked`, `renderer/xterm/lib`, `renderer/editor/monaco-editor`, and other third-party resources were not examined.
