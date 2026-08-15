@@ -1,73 +1,39 @@
 {
-	"name": "noferic-ide",
-	"version": "1.8.5",
-	"description": "",
-	"main": "main_p/main.js",
-	"type": "module",
-	"scripts": {
-		"start": "electron .",
-		"build": "electron-builder",
-		"rebuild": "electron-rebuild -f -w node-pty"
-	},
-	"author": "charan<b.c.s.udaar@gmail.com>",
-	"license": "MIT",
-	"devDependencies": {
-		"@electron/rebuild": "^4.0.4",
-		"electron": "^40.10.2",
-		"electron-builder": "^26.15.2"
-	},
-	"dependencies": {
-		"@biomejs/biome": "^2.4.16",
-		"@types/vscode": "^1.125.0",
-		"chokidar": "^5.0.0",
-		"detect-port": "^2.1.0",
-		"express": "^5.2.1",
-		"fuzzysort": "^3.1.0",
-		"jsdoc": "^4.0.5",
-		"language-map": "^1.5.0",
-		"live-server": "^1.2.2",
-		"node-pty": "^1.1.0",
-		"simple-git": "^3.36.0",
-		"types": "^0.1.1",
-		"typescript": "^6.0.3",
-		"typescript-language-server": "^5.3.0",
-		"vscode-jsonrpc": "^8.2.1",
-		"vscode-languageserver-protocol": "^3.17.5",
-		"web-tree-sitter": "^0.26.11",
-		"which": "^7.0.0",
-		"xterm": "^5.3.0",
-		"xterm-addon-fit": "^0.8.0"
-	},
-	"overrides": {
-  "@electron-internal/extract-zip": "npm:extract-zip@^2.0.1"
-},
-	"build": {
-		"appId": "noferic web",
-		"extraResources": [
-			{
-				"from": "node_modules/.bin",
-				"to": "node_modules/.bin"
-			}
-		],
-		"asar": false,
-		"files": [
-			"**/*"
-		],
-		"linux": {
-			"icon": "Untitled - 27 July 2026 at 15.09.38 (1).png",
-			"target": [
-				"deb",
-				"AppImage"
-			],
-			"category": "Development"
-		},
-		"win": {
-			"target": [
-				"nsis"
-			]
-		},
-		"directories": {
-			"output": "appoutput"
-		}
-	}
+  "dependencies": {
+    "@electron/rebuild": "^4.2.0",
+    "@eslint/js": "^10.0.1",
+    "biome": "^0.3.3",
+    "chokidar": "^5.0.0",
+    "detect-port": "^2.1.0",
+    "electron": "^43.4.0",
+    "electron-builder": "^26.15.3",
+    "eslint": "^10.8.1",
+    "fuzzysort": "^4.0.2",
+    "live-server": "^1.2.2",
+    "node-pty": "^1.1.0",
+    "simple-git": "^3.36.0",
+    "typescript": "^7.0.2",
+    "vscode-jsonrpc": "^9.0.1",
+    "vscode-languageserver-protocol": "^3.18.2",
+    "which": "^7.0.0",
+    "xterm": "^5.3.0",
+    "xterm-addon-fit": "^0.8.0"
+  },
+  "name": "newfoldernf",
+  "version": "1.0.0",
+  "description": "Noferic IDE is a integrated development environment for the built with web technologies.",
+  "main": "main_p/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/achu62/noferic-IDE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/achu62/noferic-IDE/issues"
+  },
+  "homepage": "https://github.com/achu62/noferic-IDE#readme"
 }

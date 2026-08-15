@@ -37,6 +37,10 @@ export function handleShortCuts(document) {
             document.getElementById("liveserverbtn").click()
 
         }
+        else if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "p"){
+                        e.preventDefault();
+                        document.getElementById("explorersearch").focus()
+        }
     });
     iframe.contentWindow.addEventListener("keypress", (e) => {
         if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
@@ -67,6 +71,10 @@ export function handleShortCuts(document) {
             e.preventDefault();
             document.getElementById("liveserverbtn").click()
 
+        }
+        else if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "p"){
+                        e.preventDefault();
+                        document.getElementById("explorersearch").focus()
         }
     });
 }

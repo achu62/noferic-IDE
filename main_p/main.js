@@ -23,8 +23,6 @@ import { spawn, execFile, exec } from "child_process";
 import os from "os";
 import { buffer } from "stream/consumers";
 
-import * as rpc from "vscode-jsonrpc";
-import { InitializeRequest } from "vscode-languageserver-protocol";
 import chokidar from "chokidar";
 import { watchFile } from "node:original-fs";
 import { simpleGit, gitP } from "simple-git";
@@ -32,12 +30,9 @@ import liveServer from "live-server";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import { deleteNodeById, injectChildrenByPath } from "./utils.js";
-import { startBiomeProcess, lintWithBiome } from "./biome/biomeHandler.js";
 import { start_server } from "./liveserver/startServer.js";
 import { validate_details_liveserver } from "./liveserver/validateDetailsLiveserver.js";
 import { readFilejs } from "./readfile.js";
-import { formatHandler } from "./biome/formatrequesthandler.js";
-import { defaultconfigbiome } from "./defaultconfig.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
 import {
   handleCommit,
@@ -46,15 +41,8 @@ import {
   GetDifftextMain,
 } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
-import {
-  provideautocomplete,
-  starttsserver,
-  ProvideDiagnostics,
-  GotoDefintion,
-  HOVERFUNCTION,
-} from "./type-script-intelligence/Main.js";
+
 import { getTags } from "./tagger.js";
-import { provideAutoCompleteforts } from "./type-script-intelligence/autocomplete.js";
 import { createTrack } from "./track.js";
 import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
 let pathreal = null;
@@ -83,12 +71,6 @@ export function Nullify(){
 }
 
 let gitprocess;
-let biomeprocess;
-let connection;
-
-let tsserverprocess;
-
-let tsserverconnection;
 let count = 1;
 //jai sri ram
 export function getState() {
@@ -104,16 +86,6 @@ export function getState() {
 const isWindows = process.platform === "win32";
 consolelog(app.getPath("userData"));
 const cfpath = app.getPath("userData");
-if (!fs.existsSync(path.join(cfpath, "biome"))) {
-  fs.mkdirSync(path.join(cfpath, "biome"), { recursive: true });
-}
-if (!fs.existsSync(path.join(cfpath, "biome", "biome.json"))) {
-  fs.writeFileSync(
-    path.join(cfpath, "biome", "biome.json"),
-    defaultconfigbiome,
-    "utf8",
-  );
-}
 
 //console.log(fs.readFileSync(path.join(cfpath, "biome", "biome.json"), "utf8"));
 
@@ -199,35 +171,8 @@ async function handleappargs(args) {
       pathreal = path.resolve(args);
 
 
-      const biomeResult = await startBiomeProcess(args, {
-        isWindows,
-        isproduction,
-        cfpath,
-        consolelog,
-      });
-      biomeprocess = biomeResult.biomeprocess;
-      connection = biomeResult.connection;
       if (!fs.existsSync(path.join(path.resolve(args), ".noferic-ide"))) {
         fs.mkdirSync(path.join(path.resolve(args), ".noferic-ide"));
-      }
-      try {
-        if (
-          !fs.existsSync(
-            path.join(path.resolve(args), ".noferic-ide/biome.json"),
-          )
-        ) {
-          async function run() {
-            consolelog("it dont");
-            await fs.writeFileSync(
-              path.join(path.resolve(args), ".noferic-ide", "biome.json"),
-              fs.readFileSync(path.join(cfpath, "biome", "biome.json"), "utf8"),
-              "utf-8",
-            );
-          }
-          run();
-        }
-      } catch (e) {
-        consolelog(e);
       }
       const json = await scanafolder(path.resolve(args));
       globalfolderjson = [
@@ -258,7 +203,6 @@ async function handleappargs(args) {
       getTags(pathreal);
       track(path.resolve(args));
       initialisereposcan(path.resolve(args), win);
-      await starttsserver(path.resolve(args));
     } else {
       track(path.resolve(args));
       initialiseterminalmain(
@@ -310,8 +254,6 @@ ipcMain.handle("openfile", async () => {
         stdio: "ignore",
       }).unref();
     }
-
-    biomeprocess.kill();
   } catch (e) {
     consolelog(e);
   }
@@ -352,14 +294,7 @@ ipcMain.handle("saveas", async (e) => {
   return result.filePath;
 });
 
-ipcMain.handle("format", async (event, object) => {
-  return formatHandler(event, object, {
-    connection,
-    pathreal,
-    win,
-    consolelog,
-  });
-});
+
 
 ipcMain.handle("openfolder", async (e) => {
   const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
@@ -379,7 +314,6 @@ ipcMain.handle("openfolder", async (e) => {
         stdio: "ignore",
       }).unref();
     }
-    biomeprocess.kill();
   } catch (e) {
     consolelog(e);
   }
@@ -390,7 +324,6 @@ ipcMain.handle("autosave", async (e, { code, path }) => {
   changedpathsbyide.push(decodeURIComponent(path));
 });
 let oldreqcomleted = true;
-ipcMain.handle("lint", async (e, message) => { });
 ipcMain.handle("mkdir", async (e, path) => {
   try {
     await fs.promises.mkdir(path);
