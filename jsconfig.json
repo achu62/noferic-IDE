@@ -4,7 +4,7 @@
  
     "module": "nodenext",
     "target": "esnext",
-   
+
    
     "types": ["node" , "electron"],
    
@@ -16,7 +16,7 @@
 
     "noUncheckedIndexedAccess": true,
    
-   
+    
     "strict":false,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,

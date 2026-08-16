@@ -2,7 +2,7 @@
 //yes this is working
 //jai sri ram
 //the main.js is changed
-
+import {lint ,  initialiseLinter} from "./Linting-features/eslint.js"
 import {
   app,
   BrowserWindow,
@@ -153,6 +153,7 @@ async function handleappargs(args) {
   } else {
     if (fs.statSync(path.resolve(args)).isDirectory()) {
       UpdateorCreatefilelist(path.resolve(args));
+      initialiseLinter(path.resolve(args))
       async function confirm(win) {
         const result = await dialog.showMessageBox(win, {
           type: "question",
@@ -410,4 +411,3 @@ ipcMain.handle("get-search-results", async (e, input) => {
     //console.log(e)
   }
 });
-
