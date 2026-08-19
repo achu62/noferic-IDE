@@ -5,9 +5,9 @@
 
 import { getLanguagebyExtension } from "./utils.js";
 import { runparser } from "./parser/dist/my-library.js";
-import {NofericTheme} from "./MyTheme.js"
-import {EditorConfig}  from "./EditorConfig.js"
-import {getDeclarationName} from "./getDeclarationName.js"
+import { NofericTheme } from "./MyTheme.js"
+import { EditorConfig } from "./EditorConfig.js"
+import { getDeclarationName } from "./getDeclarationName.js"
 import { lspKindToMonaco } from "./lspToMonaco.js";
 import { format } from "./formatter/formatter.js";
 function lspCompletionToMonaco(monaco, item) {
@@ -45,12 +45,13 @@ window.onload = () => {
   require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
   ///
   let editor = null;
+
   let lintlistener;
 
   require(["vs/editor/editor.main"], () => {
     monaco.editor.defineTheme("NofericIDETheme", NofericTheme);
 
-    editor = monaco.editor.create(document.getElementById("editor"),EditorConfig );
+    editor = monaco.editor.create(document.getElementById("editor"), EditorConfig);
     let URI = null;
     let ismodel = false;
     let extension = null;
@@ -71,7 +72,7 @@ window.onload = () => {
         const name = getDeclarationName(tree);
         window.parent.document.getElementById("breadcrupsfunc").innerText = `${name || ""}`
 
-   window.renderer.SendRequesttomain("hell")
+        window.renderer.SendRequesttomain("hell")
 
       });
 
@@ -222,12 +223,12 @@ window.onload = () => {
       if (!model) {
         return;
       }
-      
+
       const path =
-    navigator.platform === "Win32"
-        ? decodeURIComponent(model.uri.toString().replace("id://", ""))
-        : decodeURIComponent(model.uri.toString().replace("id:", ""));
-      if(path.includes(`inmemory://`)) {
+        navigator.platform === "Win32"
+          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+          : decodeURIComponent(model.uri.toString().replace("id:", ""));
+      if (path.includes(`inmemory://`)) {
         return;
       }
 
@@ -238,12 +239,12 @@ window.onload = () => {
 
         const code = editor.getValue();
         window.renderer.SendRequesttomain({
-          action:"autosave",
-          args:{
-            code , path
+          action: "autosave",
+          args: {
+            code, path
           }
         })
-        
+
       });
     }
     track(editor);
@@ -270,53 +271,63 @@ window.onload = () => {
           `❌:${errors} , ⚠️:${warning} ℹ️:${info}`;
       }
     });
-    monaco.languages.registerDocumentFormattingEditProvider("javascript" ,
-        {
-          async  provideDocumentFormattingEdits(model , options , token){
-        const formattedCode = await format(model.getValue())
+    monaco.languages.registerDocumentFormattingEditProvider("javascript",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
           console.log(formattedCode)
           return [{
             range: model.getFullModelRange(),
             text: formattedCode
-          }]}})
+          }]
+        }
+      })
 
 
-    monaco.languages.registerDocumentFormattingEditProvider("typescript" ,
-        {
-          async  provideDocumentFormattingEdits(model , options , token){
-            const formattedCode = await format(model.getValue())
-            console.log(formattedCode)
-            return [{
-              range: model.getFullModelRange(),
-              text: formattedCode
-            }]}})
-    monaco.languages.registerDocumentFormattingEditProvider("json" ,
-        {
-          async  provideDocumentFormattingEdits(model , options , token){
-            const formattedCode = await format(model.getValue())
-            console.log(formattedCode)
-            return [{
-              range: model.getFullModelRange(),
-              text: formattedCode
-            }]}})
-    monaco.languages.registerDocumentFormattingEditProvider("html" ,
-        {
-          async  provideDocumentFormattingEdits(model , options , token){
-            const formattedCode = await format(model.getValue())
-            console.log(formattedCode)
-            return [{
-              range: model.getFullModelRange(),
-              text: formattedCode
-            }]}})
-    monaco.languages.registerDocumentFormattingEditProvider("css" ,
-        {
-          async  provideDocumentFormattingEdits(model , options , token){
-            const formattedCode = await format(model.getValue())
-            console.log(formattedCode)
-            return [{
-              range: model.getFullModelRange(),
-              text: formattedCode
-            }]}})
+    monaco.languages.registerDocumentFormattingEditProvider("typescript",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]
+        }
+      })
+    monaco.languages.registerDocumentFormattingEditProvider("json",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]
+        }
+      })
+    monaco.languages.registerDocumentFormattingEditProvider("html",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]
+        }
+      })
+    monaco.languages.registerDocumentFormattingEditProvider("css",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]
+        }
+      })
 
     monaco.languages.registerCompletionItemProvider("javascript", {
       // Trigger completions on every letter, number, and common token characters
@@ -519,44 +530,50 @@ window.onload = () => {
         monaco.editor.getModels().forEach((model) => {
           model.dispose();
         });
-      } else if (action === "setMarkers") {
-        let markers = [];
-        message.diagnostics.diagnostics.forEach((d) => {
-          markers.push({
-            startLineNumber: d.range.start.line + 1,
-
-            startColumn: d.range.start.character + 1,
-
-            endLineNumber: d.range.end.line + 1,
-
-            endColumn: d.range.end.character + 1,
-
-            message: `biome:${d.message}`,
-
-            severity:
-              d.severity === 1
-                ? monaco.MarkerSeverity.Error
-                : d.severity === 2
-                  ? monaco.MarkerSeverity.Warning
-                  : d.severity === 3
-                    ? monaco.MarkerSeverity.Info
-                    : onaco.MarkerSeverity.Hint,
-          });
-        });
-        monaco.editor.setModelMarkers(editor.getModel(), "biome", markers);
-      }
+      } else if (action === "setMarkers") { }
     });
     async function lint() {
       if (lintlistener) {
         lintlistener.dispose();
       }
-      lintlistener = editor.onDidChangeModelContent(() => {
-        window.parent.postMessage({
-          action: "lint",
-          code: editor.getValue(),
-          extension: extension,
-          language: getLanguagebyExtension(extension),
-        });
+      lintlistener = editor.onDidChangeModelContent(async () => {
+        const code = editor.getValue();
+        const model = editor.getModel();
+        const filePath = navigator.platform === "Win32"
+          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+          : decodeURIComponent(model.uri.toString().replace("id:", ""));
+
+        if (filePath.includes(`inmemory://`)) {
+          return;
+        }
+
+        try {
+          const result = await window.renderer.SendRequesttomain({ action: "lint", args: { code, filePath } });
+          let markers = [];
+          console.log(result)
+          console.log(result[0])
+          console.log(result[0].messages)
+          if (result && result[0]) {
+            result[0].messages.forEach((d) => {
+              console.log(d)
+              console.log(d.line , d.column , d.endLine , d.endColumn)
+              markers.push({
+                startLineNumber: d.line,
+                startColumn: d.column,
+                endLineNumber: d.endLine ?? d.line,
+                endColumn: d.endColumn ?? d.column + 1,
+                message: `eslint: ${d.message}`,
+                severity:
+                  d.severity === 2
+                    ? monaco.MarkerSeverity.Error
+                    : monaco.MarkerSeverity.Warning,
+              });
+            });
+            monaco.editor.setModelMarkers(editor.getModel(), "biome", markers);
+          }
+        } catch (error) {
+          console.error("Linting error:", error);
+        }
       });
     }
     lint();

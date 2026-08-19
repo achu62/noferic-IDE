@@ -7,9 +7,11 @@ import {
   app,
   BrowserWindow,
   dialog,
+
   ipcMain,
   shell,
   Notification,
+
 } from "electron";
 import { detectPort } from "detect-port";
 import path from "node:path";
@@ -73,6 +75,7 @@ export function Nullify(){
 let gitprocess;
 let count = 1;
 //jai sri ram
+
 export function getState() {
   return {
     win,
@@ -411,3 +414,14 @@ ipcMain.handle("get-search-results", async (e, input) => {
     //console.log(e)
   }
 });
+ipcMain.handle("lint" , async (e,{code , filePath})=>{
+  console.log(code)
+  console.log(filePath)
+  console.log(await lint(code , filePath))
+  try{
+   return await lint(code , filePath)
+  }
+  catch(e){
+    console.log(e)
+  }
+})

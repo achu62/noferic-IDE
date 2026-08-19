@@ -8,6 +8,7 @@ import { resizeterminal } from "./resize/resizeterminal.js";
 import { setInVersionControl } from "./handlingversioncontrol/showinversion.js";
 import {
   isValidJSON,
+  
   getfileiconbytype,
   DeleteOldWorkspace,
   findFolderById,
@@ -226,7 +227,7 @@ window.onload = function () {
     SendRequesttomain: async (e) => {
       const action = e.action;
       const args = e.args;
-      const permittedactions = ["autosave"];
+      const permittedactions = ["autosave" , "lint"];
       try {
         if (permittedactions.includes(action)) {
           const res = await window.ipc.invoke(action, args);

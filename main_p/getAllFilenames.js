@@ -16,8 +16,11 @@ const IncludedExtensions = [
     ".json",
     
     ".html",
+    
+    
     ".htmx",
     ".css",
+
     ".scss",
     ".vue",
     ".svelte",
@@ -64,5 +67,6 @@ export async function getSearchResults(input){
         key: "FilePathInJSON"
     })
     console.log(result)
+    
     return result;
 }

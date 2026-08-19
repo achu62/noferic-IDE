@@ -18,4 +18,3 @@ export async function lint(code , FILEPATH){
         console.log(e)
     }
 }
-console.log(await lint("//jai sri ram \n\n const == var;", "D:/newfoldernf/main_p/ts-features/main.js"))
