@@ -52,6 +52,7 @@ window.onload = () => {
     monaco.editor.defineTheme("NofericIDETheme", NofericTheme);
 
     editor = monaco.editor.create(document.getElementById("editor"), EditorConfig);
+    document.fonts.ready.then(() => monaco.editor.remeasureFonts());
     let URI = null;
     let ismodel = false;
     let extension = null;
@@ -562,7 +563,7 @@ window.onload = () => {
                 startColumn: d.column,
                 endLineNumber: d.endLine ?? d.line,
                 endColumn: d.endColumn ?? d.column + 1,
-                message: `eslint: ${d.message}`,
+                message: ` ${d.message}`,
                 severity:
                   d.severity === 2
                     ? monaco.MarkerSeverity.Error

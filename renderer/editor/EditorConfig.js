@@ -17,7 +17,7 @@ export const EditorConfig = {
       snippetSuggestions: "inline",
       fontFamily: "JetBrains Mono",
       fontLigatures: true,
-      fontWeight: 200,
+      fontWeight: 400,
       scrollbar: {
         horizontal: "visible",
         horizontalScrollbarSize: 12,

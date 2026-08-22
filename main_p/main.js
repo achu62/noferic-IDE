@@ -43,13 +43,17 @@ import {
   GetDifftextMain,
 } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
+import {initialisetds , getSyntacticDiagnosticsfromts} from "./ts-features/main.js"
 
 import { getTags } from "./tagger.js";
 import { createTrack } from "./track.js";
 import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
 let pathreal = null;
 const isproduction = app.isPackaged;
+function toNormalisedWindowsId(inputPath) {
+    return path.win32.normalize(inputPath).replace(/\\/g, "/");
 
+}
 let addedpathbyide;
 let globalfolderjson;
 function consolelog(args) {
@@ -207,6 +211,7 @@ async function handleappargs(args) {
       getTags(pathreal);
       track(path.resolve(args));
       initialisereposcan(path.resolve(args), win);
+      initialisetds(toNormalisedWindowsId(path.resolve(args)))
     } else {
       track(path.resolve(args));
       initialiseterminalmain(
@@ -415,11 +420,16 @@ ipcMain.handle("get-search-results", async (e, input) => {
   }
 });
 ipcMain.handle("lint" , async (e,{code , filePath})=>{
-  console.log(code)
-  console.log(filePath)
-  console.log(await lint(code , filePath))
+
   try{
-   return await lint(code , filePath)
+    let esd =  await lint(code , filePath);
+    let syd = await getSyntacticDiagnosticsfromts(toNormalisedWindowsId(filePath))
+    syd.forEach((ydx)=>{
+    esd[0].messages.push(ydx)
+
+    })
+    console.log(esd)
+    return esd;
   }
   catch(e){
     console.log(e)

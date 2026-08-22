@@ -8,7 +8,7 @@ import { UpdateorCreatefilelist } from "./getAllFilenames.js"
 import { getState, Nullify } from "./main.js";
 import { encode } from "node:punycode";
 
-export function createTrack({consolelog }) {
+export function createTrack({ consolelog }) {
 	let watcher = null;
 
 	return async function track(pathreal) {
@@ -19,18 +19,18 @@ export function createTrack({consolelog }) {
 		}
 
 		try {
-			watcher = chokidar.watch(pathreal, {
+
+			watcher = chokidar.watch(projectRoot, {
 				ignoreInitial: true,
+				ignored: "**/.git/index.lock"
 			});
-
-
 
 			watcher.on("add", async (filePath) => {
 				const { win, addedpathbyide, globalfolderjson } = getState();
 				const stats = await fs.promises.lstat(filePath);
 
 
-				
+
 				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -77,10 +77,10 @@ export function createTrack({consolelog }) {
 				const { win, changedpathsbyide } = getState();
 				const toNormalizedWindowsId = (inputPath) =>
 					path.win32.normalize(inputPath).replace(/\\/g, "/");
-								const filePath =toNormalizedWindowsId(filepath).toLowerCase()
+				const filePath = toNormalizedWindowsId(filepath).toLowerCase()
 
-				console.log(changedpathsbyide ,filePath )
-				
+				console.log(changedpathsbyide, filePath)
+
 				if (filePath.includes("git")) {
 					NotifyGitIntegration(win)
 				}
@@ -125,7 +125,7 @@ export function createTrack({consolelog }) {
 			});
 			watcher.on("addDir", async (DirPath) => {
 				const { win, globalfolderjson } = getState();
-				
+
 				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -167,7 +167,7 @@ export function createTrack({consolelog }) {
 			});
 			watcher.on("unlinkDir", (DirPath) => {
 				const { win, addedpathbyide, globalfolderjson } = getState();
-				
+
 				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -186,6 +186,6 @@ export function createTrack({consolelog }) {
 		}
 		UpdateorCreatefilelist(pathreal)
 
-				Updatestatus(win)
+		Updatestatus(win)
 	};
 }
