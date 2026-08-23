@@ -1,11 +1,12 @@
 //jai sri ram
-import path from "path"
-import fs from "fs"
-import ts from "typescript"
-/**@param {ts.LanguageServiceHost} host */
+/**@param {ts.LanguageServiceHost} hostforpresentfile */
 /**@param  {string} DirPath */
 /**@param {Array} list*/
 /**@param {Array} details*/
+
+import path from "path"
+import fs from "fs"
+import ts from "typescript"
 
 let details = []
 let round_one_file_paths = [];
@@ -67,6 +68,7 @@ function toNormalisedWindowsId(inputPath) {
     return path.win32.normalize(inputPath).replace(/\\/g, "/");
 
 }
+/**@param {ts.LanguageService} hostforpresentfile */
 let hostforpresentfile;
 
 async function PlanTheMap(DirPath) {
@@ -200,7 +202,7 @@ export async function getSyntacticDiagnosticsfromts(fileName) {
             endLine: end.line + 1,
             endColumn: end.character + 1,
 
-            message: `source:ts-intelligence\ntype:syntax\n error:${ts.flattenDiagnosticMessageText(
+            message: `source:ts-intelligence\n type:syntax\n error:${ts.flattenDiagnosticMessageText(
 
                 d.messageText,
                 "\n")
@@ -211,6 +213,53 @@ export async function getSyntacticDiagnosticsfromts(fileName) {
         };
     }).filter(Boolean);
 }
-setTimeout(() => {
-    console.log(getSyntacticDiagnosticsfromts(`${toNormalisedWindowsId("D:\\newfoldernf\\main_p\\ts-features\\synatic-diagnosticstest.js")}`))
-}, 10000) 
+let count = 1;
+function quickInfoToMonaco(info, ts) {
+  if (!info) return null;
+
+  const signature = ts.displayPartsToString(info.displayParts);
+
+  const documentation = info.documentation
+    ? ts.displayPartsToString(info.documentation)
+    : "";
+
+  const contents = [];
+
+  if (signature) {
+    contents.push({
+      value: `\`\`\`typescript\n${signature}\n\`\`\``
+    });
+  }
+
+  if (documentation) {
+    contents.push({
+      value: `source:typescript-intelligence  , ${documentation}`
+    });
+  }
+
+  if (info.tags?.length) {
+    for (const tag of info.tags) {
+      const text = tag.text
+        ? typeof tag.text === "string"
+          ? tag.text
+          : ts.displayPartsToString(tag.text)
+        : "";
+
+      contents.push({
+        value: `**@${tag.name}**${text ? ` ${text}` : ""}`
+      });
+    }
+  }
+
+  return {
+    contents
+  };
+}
+export async  function GetHover(filePath ,position ){
+    console.log(quickInfoToMonaco(hostforpresentfile.getQuickInfoAtPosition(toNormalisedWindowsId(filePath) , position) , ts))
+    return quickInfoToMonaco(hostforpresentfile.getQuickInfoAtPosition(toNormalisedWindowsId(filePath) , position) , ts)
+}
+//setInterval(()=>{
+//console.log(quickInfoToMonaco(hostforpresentfile.getQuickInfoAtPosition("d:/newfoldernf/main_p/ts-features/main.js" ,count ) , ts))
+//count ++;
+//} , 1000)

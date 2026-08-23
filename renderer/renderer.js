@@ -14,6 +14,7 @@ import {
   findFolderById,
 } from "./utils.js";
 //TYPEAD
+
 import { createfolderdialogbox } from "./foldercontextmenu.js";
 import { Styleicon } from "./styleicon.js";
 import { handleShortCuts } from "./shortcuthandlers.js";
@@ -227,7 +228,7 @@ window.onload = function () {
     SendRequesttomain: async (e) => {
       const action = e.action;
       const args = e.args;
-      const permittedactions = ["autosave" , "lint"];
+      const permittedactions = ["autosave" , "lint" , "hover"];
       try {
         if (permittedactions.includes(action)) {
           const res = await window.ipc.invoke(action, args);

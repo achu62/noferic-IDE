@@ -43,7 +43,7 @@ import {
   GetDifftextMain,
 } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
-import {initialisetds , getSyntacticDiagnosticsfromts} from "./ts-features/main.js"
+import {initialisetds , getSyntacticDiagnosticsfromts , GetHover} from "./ts-features/main.js"
 
 import { getTags } from "./tagger.js";
 import { createTrack } from "./track.js";
@@ -434,4 +434,8 @@ ipcMain.handle("lint" , async (e,{code , filePath})=>{
   catch(e){
     console.log(e)
   }
+})
+ipcMain.handle("hover" , async(e ,{filepath ,  Offset})=>{
+  console.log("we heard it right")
+  return await GetHover(filepath , Offset)
 })

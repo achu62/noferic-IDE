@@ -114,105 +114,6 @@ window.onload = () => {
       });
       return promise;
     }
-    async function sendReqForGTD() {
-      const pos = editor.getPosition();
-      window.parent.postMessage({
-        action: "getGoTodefintion",
-        position: pos,
-      });
-
-      return new Promise((resolve) => {
-        const handleMessage = (e) => {
-          const message = e.data;
-          if (message.action === "tsgtd") {
-            window.removeEventListener("message", handleMessage); // Clean up event listener
-
-            if (!message.data) return resolve([]);
-
-            // Ensure data is an array (LSP can send a single object or an array)
-            const rawItems = Array.isArray(message.data) ? message.data : [message.data];
-
-            const definitions = rawItems.map((loc) => {
-              // 1. Support both Location (uri/range) and LocationLink (targetUri/targetRange)
-              const rawUri = loc.targetUri || loc.uri || "";
-              const targetRange = loc.targetSelectionRange || loc.targetRange || loc.range;
-
-              // 2. Convert 'file://' URI to 'id://' URI scheme used by your Monaco models
-              const formattedUriString = decodeURIComponent(rawUri.replace(/^file:\/\//, "id://"));
-
-              return {
-                uri: monaco.Uri.parse(formattedUriString),
-                range: new monaco.Range(
-                  targetRange.start.line + 1,
-                  targetRange.start.character + 1,
-                  targetRange.end.line + 1,
-                  targetRange.end.character + 1
-                ),
-              };
-            });
-
-            resolve(definitions);
-          }
-        };
-
-        window.addEventListener("message", handleMessage);
-      });
-    }
-    async function sendReqForHover(model, position) {
-      const currentPath = model.uri.toString().replace("id:", "");
-
-      window.parent.postMessage({
-        action: "getHover",
-        path: currentPath,
-        position: {
-          line: position.lineNumber - 1,
-          character: position.column - 1,
-        },
-      });
-
-      return new Promise((resolve) => {
-        const handleMessage = (e) => {
-          const message = e.data;
-          if (message.action === "tshover") {
-            window.removeEventListener("message", handleMessage);
-
-            const hoverData = message.data;
-            if (!hoverData || !hoverData.contents) {
-              return resolve(null);
-            }
-
-            let contents = [];
-
-            if (Array.isArray(hoverData.contents)) {
-              contents = hoverData.contents.map((item) => ({
-                value: typeof item === "string" ? item : item.value,
-              }));
-            } else if (typeof hoverData.contents === "string") {
-              contents = [{ value: hoverData.contents }];
-            } else if (hoverData.contents.value) {
-              contents = [{ value: hoverData.contents.value }];
-            }
-
-            let range = undefined;
-            if (hoverData.range) {
-              range = new monaco.Range(
-                hoverData.range.start.line + 1,
-                hoverData.range.start.character + 1,
-                hoverData.range.end.line + 1,
-                hoverData.range.end.character + 1
-              );
-            }
-
-            resolve({
-              contents: contents,
-              range: range,
-            });
-          }
-        };
-
-        window.addEventListener("message", handleMessage);
-      });
-    }
     async function autosave(editor) {
       if (autosavelistener) {
         autosavelistener.dispose();
@@ -272,6 +173,28 @@ window.onload = () => {
           `❌:${errors} , ⚠️:${warning} ℹ️:${info}`;
       }
     });
+    monaco.languages.registerHoverProvider(
+      "javascript",
+      {
+        provideHover: async (model, position) => {
+          const filepath =
+            navigator.platform === "Win32"
+              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+              : decodeURIComponent(model.uri.toString().replace("id:", ""));
+          const Offset = model.getOffsetAt(position)
+
+          const result =
+            await window.renderer.SendRequesttomain({action:"hover" , args:{filepath , Offset}});
+          if (!result) {
+            return null;
+          }
+
+          return {
+            contents: result.contents
+          };
+        }
+      }
+    );
     monaco.languages.registerDocumentFormattingEditProvider("javascript",
       {
         async provideDocumentFormattingEdits(model, options, token) {
@@ -347,14 +270,7 @@ window.onload = () => {
         };
       },
     });
-    ["javascript", "typescript"].forEach((lang) => {
-      monaco.languages.registerHoverProvider(lang, {
-        async provideHover(model, position) {
-          if (!URI) return null;
-          return await sendReqForHover(model, position);
-        },
-      });
-    });
+   
     monaco.languages.registerCompletionItemProvider("typescript", {
       // Trigger completions on every letter, number, and common token characters
       triggerCharacters:
@@ -557,7 +473,7 @@ window.onload = () => {
           if (result && result[0]) {
             result[0].messages.forEach((d) => {
               console.log(d)
-              console.log(d.line , d.column , d.endLine , d.endColumn)
+              console.log(d.line, d.column, d.endLine, d.endColumn)
               markers.push({
                 startLineNumber: d.line,
                 startColumn: d.column,
