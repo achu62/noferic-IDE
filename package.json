@@ -1,16 +1,18 @@
 {
-  "dependencies": {
+  "devDependencies": {
     "@electron/rebuild": "^4.2.0",
+    "electron": "^43.4.0",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
     "@eslint/js": "^10.0.1",
-    "biome": "^0.3.3",
     "chokidar": "^5.0.0",
     "detect-port": "^2.1.0",
-    "electron": "^43.4.0",
-    "electron-builder": "^26.15.3",
     "eslint": "^10.8.1",
     "fuzzysort": "^4.0.2",
     "live-server": "^1.2.2",
-    "node-pty": "^1.1.0",
+    "node-gyp": "^13.0.1",
+    "@lydell/node-pty": "^1.1.0",
     "simple-git": "^3.36.0",
     "typescript": "^7.0.2",
     "vscode-jsonrpc": "^9.0.1",
@@ -24,7 +26,21 @@
   "description": "Noferic IDE is a integrated development environment for the built with web technologies.",
   "main": "main_p/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.charan.noferic",
+    "productName": "Noferic IDE",
+    "asar": false,
+    "win": {
+      "target": "nsis",
+      "icon": "logo2.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "repository": {
     "type": "git",

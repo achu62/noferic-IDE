@@ -2,7 +2,7 @@
 //yes this is working
 //jai sri ram
 //the main.js is changed
-import {lint ,  initialiseLinter} from "./Linting-features/eslint.js"
+import { lint, initialiseLinter } from "./Linting-features/eslint.js"
 import {
   app,
   BrowserWindow,
@@ -10,6 +10,7 @@ import {
 
   ipcMain,
   shell,
+
   Notification,
 
 } from "electron";
@@ -19,7 +20,6 @@ import { fileURLToPath } from "node:url";
 import { initialisereposcan } from "./git/git.js";
 import fs from "node:fs";
 import { Worker } from "node:worker_threads";
-import pty from "node-pty";
 
 import { spawn, execFile, exec } from "child_process";
 import os from "os";
@@ -43,7 +43,7 @@ import {
   GetDifftextMain,
 } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
-import {initialisetds , getSyntacticDiagnosticsfromts , GetHover} from "./ts-features/main.js"
+import { initialisetds, getSyntacticDiagnosticsfromts, GetHover } from "./ts-features/main.js"
 
 import { getTags } from "./tagger.js";
 import { createTrack } from "./track.js";
@@ -51,7 +51,7 @@ import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
 let pathreal = null;
 const isproduction = app.isPackaged;
 function toNormalisedWindowsId(inputPath) {
-    return path.win32.normalize(inputPath).replace(/\\/g, "/");
+  return path.win32.normalize(inputPath).replace(/\\/g, "/");
 
 }
 let addedpathbyide;
@@ -72,7 +72,7 @@ export function getEssentials() {
     appRoot: app.getAppPath(),
   };
 }
-export function Nullify(){
+export function Nullify() {
   changedpathsbyide = [];
 }
 
@@ -80,14 +80,7 @@ let gitprocess;
 let count = 1;
 //jai sri ram
 
-export function getState() {
-  return {
-    win,
-    addedpathbyide,
-    globalfolderjson,
-    changedpathsbyide,
-  }
-}
+
 //console.log("starting...live..server");
 
 const isWindows = process.platform === "win32";
@@ -103,7 +96,6 @@ const apppath = process.execPath;
 consolelog("apppath" + apppath);
 
 const track = createTrack({
-  consolelog,
 });
 
 let win;
@@ -148,9 +140,14 @@ function createWindow() {
   });
 }
 let ptyProcess = {};
-let terminal = null;
-let pathforterminal;
-
+export function getState() {
+  return {
+    win,
+    addedpathbyide,
+    globalfolderjson,
+    changedpathsbyide,
+  }
+}
 async function handleappargs(args) {
   if (!args) {
     return;
@@ -159,8 +156,38 @@ async function handleappargs(args) {
     return;
   } else {
     if (fs.statSync(path.resolve(args)).isDirectory()) {
-      UpdateorCreatefilelist(path.resolve(args));
-      initialiseLinter(path.resolve(args))
+      try {
+        initialisetds(toNormalisedWindowsId(path.resolve(args)))
+
+      }
+      catch (e) { }
+      try {
+        initialiseterminalmain(ptyProcess, path.resolve(args), "def", win);
+
+      }
+      catch (e) {
+      }
+      try {
+        getTags(pathreal);
+
+      }
+      catch (e) { }
+
+
+      try { 
+      track(path.resolve(args)); }
+      catch (e) {
+      }
+      try { initialisereposcan(path.resolve(args), win) }
+      catch (e) { }
+      try {
+        UpdateorCreatefilelist(path.resolve(args));
+      }
+      catch (e) { }
+      try {
+        initialiseLinter(path.resolve(args))
+      }
+      catch (e) { }
       async function confirm(win) {
         const result = await dialog.showMessageBox(win, {
           type: "question",
@@ -207,11 +234,7 @@ async function handleappargs(args) {
           ],
         }),
       );
-      initialiseterminalmain(ptyProcess, path.resolve(args), "def", win);
-      getTags(pathreal);
-      track(path.resolve(args));
-      initialisereposcan(path.resolve(args), win);
-      initialisetds(toNormalisedWindowsId(path.resolve(args)))
+
     } else {
       track(path.resolve(args));
       initialiseterminalmain(
@@ -419,23 +442,22 @@ ipcMain.handle("get-search-results", async (e, input) => {
     //console.log(e)
   }
 });
-ipcMain.handle("lint" , async (e,{code , filePath})=>{
+ipcMain.handle("lint", async (e, { code, filePath }) => {
 
-  try{
-    let esd =  await lint(code , filePath);
+  try {
+    let esd = await lint(code, filePath);
     let syd = await getSyntacticDiagnosticsfromts(toNormalisedWindowsId(filePath))
-    syd.forEach((ydx)=>{
-    esd[0].messages.push(ydx)
+    syd.forEach((ydx) => {
+      esd[0].messages.push(ydx)
 
     })
     console.log(esd)
     return esd;
   }
-  catch(e){
+  catch (e) {
     console.log(e)
   }
 })
-ipcMain.handle("hover" , async(e ,{filepath ,  Offset})=>{
-  console.log("we heard it right")
-  return await GetHover(filepath , Offset)
+ipcMain.handle("hover", async (e, { filepath, Offset }) => {
+            return await GetHover(filepath, Offset)
 })

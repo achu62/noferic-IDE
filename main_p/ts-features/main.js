@@ -48,7 +48,9 @@ function sourceFileToTree(sourceFile) {
 }
 async function scanafolder(Dirpath) {
     const files = fs.readdirSync(Dirpath, { withFileTypes: true });
+    console.log("1")
     for (const file of files) {
+        console.log("2")
         const fullpath = path.join(Dirpath, file.name);
         if (file.isDirectory()) {
             if (excludedDirectories.includes(file.name) === false) {
@@ -73,6 +75,8 @@ let hostforpresentfile;
 
 async function PlanTheMap(DirPath) {
     if (fs.existsSync(toNormalisedWindowsId(path.join(DirPath, "package.json")))) {
+                    await scanafolder(DirPath)
+
         const packagejson = JSON.parse(fs.readFileSync(toNormalisedWindowsId(path.join(DirPath, "package.json"))))
         if (packagejson.main) {
             const MainPath = toNormalisedWindowsId(path.join(DirPath, packagejson.main))
@@ -96,12 +100,13 @@ async function PlanTheMap(DirPath) {
 
                 }
             }
-            await scanafolder(DirPath)
             round_three_file_paths = round_three_file_paths.filter(x => !round_one_file_paths.includes(x));
-            fs.promises.writeFile(toNormalisedWindowsId("D:\\newfoldernf\\main_p\\ts-features\\round_one_file_paths.js"), `let round_one_file_paths =  [${round_one_file_paths}]; \n let round_three_file_paths =   [${round_three_file_paths};] \n let r2 = [${round_two_file_paths}]`)
 
         }
         return { round_one_file_paths, round_two_file_paths, round_three_file_paths }
+    }
+    else {
+        await scanafolder(DirPath)
     }
 }
 
@@ -109,6 +114,7 @@ async function PlanTheMap(DirPath) {
 export async function initialisetds(projectRoot) {
     if (hostforpresentfile) hostforpresentfile.dispose()
     await PlanTheMap(projectRoot)
+    console.log(round_one_file_paths , round_two_file_paths , round_three_file_paths)
 
 
 
@@ -168,9 +174,7 @@ export async function initialisetds(projectRoot) {
 
     hostforpresentfile = ts.createLanguageService(host);
 
-    console.log(hostforpresentfile)
 }
-initialisetds(toNormalisedWindowsId("D:\\newfoldernf\\"))
 
 
 

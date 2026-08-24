@@ -8,9 +8,7 @@ export function initialiseLinter(Dirpath){
     })
     console.log(eslinter)
 
-}
-initialiseLinter("D:/newfoldernf")
-export async function lint(code , FILEPATH){
+}export async function lint(code , FILEPATH){
     try{
         return await eslinter.lintText(code , {filePath:FILEPATH})
     }

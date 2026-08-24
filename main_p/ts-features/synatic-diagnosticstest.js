@@ -1,19 +1,23 @@
 //jai sri ram
-const = 
+function is(){
+    return "a";
+}
+function was(){
+    return "hell nah"
+}
+async function someting(){
+    try {
+        console.log(nah())
+    }
+    catch(e){
 
-;
+    }
+    try {
+        console.log(is())
+    }
+    catch(e){
 
-const = 
-
-;
-
-
-
-
-{{{{{{{{{{{{}}}}}}}}}}}}
-
-
-app = this.
-//
-
-
+    }
+    console.log(was())
+}
+someting()

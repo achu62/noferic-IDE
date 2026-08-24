@@ -8,7 +8,7 @@ import { UpdateorCreatefilelist } from "./getAllFilenames.js"
 import { getState, Nullify } from "./main.js";
 import { encode } from "node:punycode";
 
-export function createTrack({ consolelog }) {
+export function createTrack() {
 	let watcher = null;
 
 	return async function track(pathreal) {
@@ -27,7 +27,6 @@ export function createTrack({ consolelog }) {
 
 			watcher.on("add", async (filePath) => {
 				const { win, addedpathbyide, globalfolderjson } = getState();
-				const stats = await fs.promises.lstat(filePath);
 
 
 
@@ -182,7 +181,6 @@ export function createTrack({ consolelog }) {
 				);
 			});
 		} catch (e) {
-			consolelog(e);
 		}
 		UpdateorCreatefilelist(pathreal)
 
