@@ -1,8 +1,7 @@
 const TOPBAR_CONTAINER_ID = "topbarforeditor";
 
 function createTopbarTab({
-	iframe,
-	
+	iframe,	
 	filePath,
 	fileName,
 	content,
@@ -64,7 +63,13 @@ export async function openFileFromExplorer({ iframe, file }) {
 		".",
 		"",
 	);
-
+	if(extension === "exe" || extension === "png" || extension === "bin" || extension === "deb" || 
+		extension === "ico" || extension === "jpg" || extension === "jpeg" || extension === "rpm" || 
+		extension === "msi" || extension === "pak" || extension === "dll" || extension === "ttf" 
+	){
+		const confirmation = confirm("this file might not be opened correctly with the editor , \nDo  you still want to open it")
+		if(!confirmation) {return}
+	}
 	createTopbarTab({
 		iframe,
 		filePath,

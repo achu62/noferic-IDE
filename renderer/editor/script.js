@@ -413,7 +413,9 @@ window.onload = () => {
 
         let newmodel = monaco.editor.getModel(monaco.Uri.parse(recentmodeluri));
         if (!newmodel) {
+
           newmodel = monaco.editor.getModels()[0];
+          console.log(newmodel)
           const topbarfor = window.parent.document.getElementById(
             `topbarelementfor${newmodel.uri.toString().replace("id://", "")}`,
           );
@@ -424,7 +426,7 @@ window.onload = () => {
             el.style.backgroundColor = "#1e1e1e";
 
             el.querySelectorAll("*").forEach((e) => {
-              e.style.backgroundColor = "#1e1e1e";
+              e?.style.backgroundColor = "#1e1e1e";
             });
           });
           topbarfor.style.backgroundColor = "#404040";

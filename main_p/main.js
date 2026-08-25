@@ -80,7 +80,13 @@ let gitprocess;
 let count = 1;
 //jai sri ram
 
-
+export function getState() {
+  return {
+    addedpathbyide,
+    globalfolderjson,
+    changedpathsbyide,
+  }
+}
 //console.log("starting...live..server");
 
 const isWindows = process.platform === "win32";
@@ -95,8 +101,6 @@ consolelog(isWindows);
 const apppath = process.execPath;
 consolelog("apppath" + apppath);
 
-const track = createTrack({
-});
 
 let win;
 function createWindow() {
@@ -113,6 +117,8 @@ function createWindow() {
       devTools: true,
     },
   });
+  const track = createTrack({ win });
+
   win.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
   if (isproduction) {
     win.removeMenu();
@@ -140,14 +146,7 @@ function createWindow() {
   });
 }
 let ptyProcess = {};
-export function getState() {
-  return {
-    win,
-    addedpathbyide,
-    globalfolderjson,
-    changedpathsbyide,
-  }
-}
+
 async function handleappargs(args) {
   if (!args) {
     return;
@@ -168,14 +167,13 @@ async function handleappargs(args) {
       catch (e) {
       }
       try {
-        getTags(pathreal);
+        getTags(toNormalisedWindowsId(path.resolve(args)));
 
       }
-      catch (e) { }
-
-
-      try { 
-      track(path.resolve(args)); }
+      catch (e) {}
+      try {
+        track(path.resolve(args));
+      }
       catch (e) {
       }
       try { initialisereposcan(path.resolve(args), win) }
@@ -373,9 +371,8 @@ ipcMain.handle("mkdir", async (e, path) => {
 ipcMain.handle("start_server", async (e, obj) => {
   return start_server(e, obj, pathreal);
 });
-ipcMain.handle("unlink", async (e, path) => {
-  //console.log(path);
-  await shell.trashItem(path);
+ipcMain.handle("unlink", async (e, Dirpath) => {
+  await fs.promises.unlink(Dirpath)
 });
 ipcMain.handle("validate-details-liveserver", async (e, d) => {
   return validate_details_liveserver(e, d, pathreal, consolelog);
@@ -459,5 +456,5 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
   }
 })
 ipcMain.handle("hover", async (e, { filepath, Offset }) => {
-            return await GetHover(filepath, Offset)
+  return await GetHover(filepath, Offset)
 })

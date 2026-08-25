@@ -11,6 +11,7 @@ export async function scanafolder(folderpath) {
     for (const file of files) {
         const fullpath = path.join(folderpath, file.name);
         if (file.isDirectory()) {
+            if(file.name !== ".git"){
             const children = await scanafolder(fullpath);
             json.push({
                 id: toNormalizedWindowsId(fullpath),
@@ -18,7 +19,7 @@ export async function scanafolder(folderpath) {
                 isdirectory: true,
                 haschildren: children.length > 0,
                 children: children,
-            });
+            })}
         } else {
             json.push({
                 id: toNormalizedWindowsId(fullpath),

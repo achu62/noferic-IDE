@@ -25,6 +25,7 @@
   "version": "1.0.0",
   "description": "Noferic IDE is a integrated development environment for the built with web technologies.",
   "main": "main_p/main.js",
+  "type":"module",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder --win"

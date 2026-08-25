@@ -8,7 +8,7 @@ import { UpdateorCreatefilelist } from "./getAllFilenames.js"
 import { getState, Nullify } from "./main.js";
 import { encode } from "node:punycode";
 
-export function createTrack() {
+export function createTrack({win}) {
 	let watcher = null;
 
 	return async function track(pathreal) {
@@ -26,7 +26,7 @@ export function createTrack() {
 			});
 
 			watcher.on("add", async (filePath) => {
-				const { win, addedpathbyide, globalfolderjson } = getState();
+				const {  addedpathbyide, globalfolderjson } = getState();
 
 
 
@@ -73,7 +73,7 @@ export function createTrack() {
 			});
 
 			watcher.on("change", async (filepath) => {
-				const { win, changedpathsbyide } = getState();
+				const { changedpathsbyide } = getState();
 				const toNormalizedWindowsId = (inputPath) =>
 					path.win32.normalize(inputPath).replace(/\\/g, "/");
 				const filePath = toNormalizedWindowsId(filepath).toLowerCase()
@@ -103,7 +103,7 @@ export function createTrack() {
 			});
 
 			watcher.on("unlink", async (filePath) => {
-				const { win, globalfolderjson } = getState();
+				const { globalfolderjson } = getState();
 
 
 
@@ -123,7 +123,7 @@ export function createTrack() {
 				Updatestatus(win)
 			});
 			watcher.on("addDir", async (DirPath) => {
-				const { win, globalfolderjson } = getState();
+				const { globalfolderjson } = getState();
 
 				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
@@ -165,7 +165,7 @@ export function createTrack() {
 				Updatestatus(win)
 			});
 			watcher.on("unlinkDir", (DirPath) => {
-				const { win, addedpathbyide, globalfolderjson } = getState();
+				const { addedpathbyide, globalfolderjson } = getState();
 
 				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
@@ -180,7 +180,7 @@ export function createTrack() {
 					}),
 				);
 			});
-		} catch (e) {
+		} catch (e) {console.log(e)
 		}
 		UpdateorCreatefilelist(pathreal)
 
