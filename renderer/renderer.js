@@ -8,7 +8,7 @@ import { resizeterminal } from "./resize/resizeterminal.js";
 import { setInVersionControl } from "./handlingversioncontrol/showinversion.js";
 import {
   isValidJSON,
-  
+
   getfileiconbytype,
   DeleteOldWorkspace,
   findFolderById,
@@ -123,6 +123,8 @@ export async function showDiff(element) {
 }
 
 window.onload = function () {
+
+ 
   const editorEl = document.getElementById("editor");
   const terminalEl = document.getElementById("terminalelement");
   syncEditorBottom(editorEl, terminalEl);
@@ -143,7 +145,7 @@ window.onload = function () {
       );
 
       return result;
-    } catch (e) {}
+    } catch (e) { }
   }
 
   let countforterminal = 1;
@@ -232,7 +234,7 @@ window.onload = function () {
     SendRequesttomain: async (e) => {
       const action = e.action;
       const args = e.args;
-      const permittedactions = ["autosave" , "lint" , "hover"];
+      const permittedactions = ["autosave", "lint", "hover"];
       try {
         if (permittedactions.includes(action)) {
           const res = await window.ipc.invoke(action, args);

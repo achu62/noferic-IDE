@@ -261,6 +261,13 @@ function createWindow() {
   if (isproduction) {
     win.removeMenu();
   }
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.insertCSS(`
+      [fill="#1e1e1e" i] { fill: #FFFFFF !important; }
+      [stroke="#1e1e1e" i] { stroke: #FFFFFF !important; }
+      [style*="#1e1e1e" i] { color: #FFFFFF !important; }
+    `);
+  });
   win.on("close", (event) => {
     event.preventDefault();
     win.webContents.send(
