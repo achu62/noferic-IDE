@@ -1,36 +1,26 @@
-Google Sans Variable Font
+Roboto Slab Variable Font
 =========================
 
-This download contains Google Sans as both variable fonts and static fonts.
+This download contains Roboto Slab as both a variable font and static fonts.
 
-Google Sans is a variable font with these axes:
-  GRAD
-  opsz
+Roboto Slab is a variable font with this axis:
   wght
 
-This means all the styles are contained in these files:
-  GoogleSans-VariableFont_GRAD,opsz,wght.ttf
-  GoogleSans-Italic-VariableFont_GRAD,opsz,wght.ttf
+This means all the styles are contained in a single file:
+  RobotoSlab-VariableFont_wght.ttf
 
 If your app fully supports variable fonts, you can now pick intermediate styles
 that aren’t available as static fonts. Not all apps support variable fonts, and
-in those cases you can use the static font files for Google Sans:
-  static/GoogleSans_17pt-Regular.ttf
-  static/GoogleSans_17pt-Medium.ttf
-  static/GoogleSans_17pt-SemiBold.ttf
-  static/GoogleSans_17pt-Bold.ttf
-  static/GoogleSans-Regular.ttf
-  static/GoogleSans-Medium.ttf
-  static/GoogleSans-SemiBold.ttf
-  static/GoogleSans-Bold.ttf
-  static/GoogleSans_17pt-Italic.ttf
-  static/GoogleSans_17pt-MediumItalic.ttf
-  static/GoogleSans_17pt-SemiBoldItalic.ttf
-  static/GoogleSans_17pt-BoldItalic.ttf
-  static/GoogleSans-Italic.ttf
-  static/GoogleSans-MediumItalic.ttf
-  static/GoogleSans-SemiBoldItalic.ttf
-  static/GoogleSans-BoldItalic.ttf
+in those cases you can use the static font files for Roboto Slab:
+  static/RobotoSlab-Thin.ttf
+  static/RobotoSlab-ExtraLight.ttf
+  static/RobotoSlab-Light.ttf
+  static/RobotoSlab-Regular.ttf
+  static/RobotoSlab-Medium.ttf
+  static/RobotoSlab-SemiBold.ttf
+  static/RobotoSlab-Bold.ttf
+  static/RobotoSlab-ExtraBold.ttf
+  static/RobotoSlab-Black.ttf
 
 Get started
 -----------
@@ -71,7 +61,7 @@ Android Apps
 
 License
 -------
-Please read the full license text (OFL.txt) to understand the permissions,
+Please read the full license text (LICENSE.txt) to understand the permissions,
 restrictions and requirements for usage, redistribution, and modification.
 
 You can use them in your products & projects – print or digital,

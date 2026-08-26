@@ -13,7 +13,6 @@ import {
   DeleteOldWorkspace,
   findFolderById,
 } from "./utils.js";
-//TYPEAD
 
 import { createfolderdialogbox } from "./foldercontextmenu.js";
 import { Styleicon } from "./styleicon.js";
@@ -127,7 +126,12 @@ window.onload = function () {
   const editorEl = document.getElementById("editor");
   const terminalEl = document.getElementById("terminalelement");
   syncEditorBottom(editorEl, terminalEl);
-  document.getElementById("alertdialog").close();
+  document.getElementById("settings").addEventListener("click", () => {
+    document.getElementById("SettingsDialog").showModal();
+  });
+  document.getElementById("closeSettings").addEventListener("click", () => {
+    document.getElementById("SettingsDialog").close();
+  });
   async function runts(path, content, line, character) {
     try {
       const result = await window.ipc.invoke(

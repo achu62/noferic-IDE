@@ -30,13 +30,11 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: "Google Sans", monospace !important;
+  font-family: "Roboto slab", monospace !important;
   margin-top: 0;
   margin-right: 0;
   margin-left: 0;
   background-color: #595959;
-
-
 }
 
 .common {
@@ -48,7 +46,7 @@ body {
 
 
 #top-menu {
-  height: 30px;
+  height: 20px;
   width: 100%;
   z-index: 2;
   position: fixed;
@@ -60,6 +58,7 @@ body {
   border: none;
   box-sizing: border-box;
   background-color: #595959;
+  overflow: hidden;
 }
 
 #top-menu>* {
@@ -72,8 +71,7 @@ body {
   position: fixed;
   width: 40px;
   text-align: center;
-  height: 30px;
-  line-height: 30px;
+  line-height: 20px;
   top: 0;
   left: 0px;
   z-index: 4;
@@ -87,6 +85,7 @@ body {
   touch-action: manipulation;
   user-select: none;
   background-color: inherit;
+  height:20px;
   /* prevents accidental text selection on tap */
 }
 
@@ -97,8 +96,7 @@ body {
   background-color: #333333;
   width: 40px;
   text-align: center;
-  height: 30px;
-  line-height: 30px;
+  line-height: 20px;
   top: 0;
   left: 0px;
   z-index: 4;
@@ -111,8 +109,8 @@ body {
   all: unset;
   width: 40px;
   text-align: center;
-  height: 30px;
-  line-height: 30px;
+  height: 20px;
+  line-height: 20px;
   position: fixed;
   top: 0;
   left: 41px;
@@ -131,8 +129,8 @@ body {
   all: unset;
   width: 40px;
   text-align: center;
-  height: 30px;
-  line-height: 30px;
+  height: 20px;
+  line-height: 20px;
   position: fixed;
   top: 0;
   left: 41px;
@@ -282,7 +280,6 @@ body {
   width: 40px;
   height: 40px;
   z-index: 5;
-  background-color: var(--ieieie);
 }
 
 #settings:hover {
@@ -291,7 +288,6 @@ body {
   left: 0;
   bottom: 0px;
   background-image: url("images/settings.svg");
-  background-color: var(--333333);
   background-size: cover;
   width: 40px;
   height: 40px;
@@ -444,7 +440,7 @@ body {
 #file_on {
   z-index: 10;
   position: fixed;
-  top: 29px;
+  top: 19px;
   left: 2px;
   width: fit-content;
   height: fit-content;
@@ -750,7 +746,7 @@ body {
 #workspace {
   position: fixed;
   left: 45px;
-  top: 30.2px;
+  top: 20.2px;
   bottom: 20px;
   right: 10px;
 }
@@ -827,7 +823,7 @@ body {
   left: 0;
   color: var(--ffffff);
   font-size: 13.5px;
-  font-family: "" Google Sans"";
+  font-family: "Roboto slab";
   background-color: var(--2b2b2b);
 }
 
@@ -1682,7 +1678,7 @@ input {
   bottom: 0;
   padding: 0px;
   top: 0px;
-  font-family: "Google Sans" !important;
+  font-family: "Roboto slab" !important;
 }
 
 .monaco-editor .scrollbar .horizontal {
@@ -1776,7 +1772,7 @@ input {
     background-color: var(--404040);
     border-radius: 3px;
     color:#ffffff;
-    font-family: "Google Sans";
+    font-family: "Roboto slab";
 }
 #searchresults{
 position: absolute;
@@ -1796,8 +1792,46 @@ position: absolute;
   background-color: var(--404040);
   border-radius: 3px;
   color: #ffffff;
-  font-family: "Google Sans";
+  font-family: "Roboto slab";
   display: flex;
   flex-direction: column;
   overflow: auto;
+}
+#SettingsDialog {
+  position: fixed;
+  inset: 10%;
+  width: auto;
+  height: auto;
+  padding: 24px;
+  color: var(--ffffff);
+  background-color: var(--2b2b2b);
+  border: 1px solid var(--afaeaec9);
+  border-radius: 6px;
+  z-index: 1009094;
+}
+
+#SettingsDialog h2 {
+  margin: 0 0 24px;
+  font-size: 18px;
+}
+
+#closeSettings {
+  all: unset;
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  padding: 8px 16px;
+  color: var(--ffffff);
+  background-color: var(--333333);
+  border: 1px solid var(--afaeaec9);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#closeSettings:hover {
+  background-color: var(--404040);
+}
+
+#SettingsDialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.55);
 }
