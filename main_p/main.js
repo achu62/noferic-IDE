@@ -46,7 +46,6 @@ import { scanafolder } from "./scanafolder.js";
 import { initialisetds, getSyntacticDiagnosticsfromts, GetHover } from "./ts-features/main.js"
 
 import { getTags } from "./tagger.js";
-import { createTrack } from "./track.js";
 import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
 let pathreal = null;
 const isproduction = app.isPackaged;
@@ -97,9 +96,149 @@ const cfpath = app.getPath("userData");
 
 consolelog(process.resourcesPath);
 consolelog(isWindows);
+process.on("uncaughtException" , (err)=>{
+  console.error(err)
+})
 
 const apppath = process.execPath;
 consolelog("apppath" + apppath);
+let watcher ;
+/**@param {string} pathreal */
+async function track(pathreal) {
+	if (!pathreal) return;
+	if (watcher) {
+		watcher.close();
+		watcher = null;
+	}
+
+	try {
+		if (watcher) watcher.close();
+
+		watcher = chokidar.watch(toNormalisedWindowsId(pathreal), {
+			ignoreInitial: true,
+		});
+
+		watcher.on("add", (filePath) => {
+			if (addedpathbyide) {
+				addedpathbyide = addedpathbyide.filter((item) => item !== filePath);
+			}
+			if (!addedpathbyide?.includes(filePath)) {
+				const filepathonly = path.basename(filePath);
+				const foldepath = path.dirname(filePath);
+				injectChildrenByPath(globalfolderjson, toNormalisedWindowsId(foldepath), [
+					{
+						id: toNormalisedWindowsId(filePath),
+						name: filepathonly,
+						isdirectory: false,
+					},
+				]);
+
+				win.webContents.send(
+					"data",
+					JSON.stringify({
+						action: "addelements",
+						newjson: globalfolderjson,
+						add: {
+							parentid: toNormalisedWindowsId(foldepath),
+							actualjson: [
+								{
+									id: toNormalisedWindowsId(filePath),
+									name: filepathonly,
+									isdirectory: false,
+								},
+							],
+						},
+					}),
+				);
+			}
+		});
+
+		watcher.on("change", async (filePath) => {
+			if (!toNormalisedWindowsId(changedpathsbyide).includes(toNormalisedWindowsId(filePath))) {
+				win.webContents.send(
+					"data",
+					JSON.stringify({
+						action: "handleachangeinfile",
+						path: toNormalisedWindowsId(filePath),
+						content: await fs.readFileSync(filePath, "utf-8"),
+					}),
+				);
+			}
+
+			changedpathsbyide = changedpathsbyide.filter((item) => item !== filePath);
+		});
+
+		watcher.on("unlink", (filePath) => {
+			const filepathonly = path.basename(filePath);
+			const foldepath = path.dirname(filePath);
+      console.log(toNormalisedWindowsId(filePath))
+			deleteNodeById(globalfolderjson, filePath);
+			win.webContents.send(
+				"data",
+				JSON.stringify({
+					action: "removeelements",
+					newjson: globalfolderjson,
+					remove: toNormalisedWindowsId(filePath),
+				}),
+			);
+		});
+		watcher.on("addDir", async (DirPath) => {
+
+			const Dirnameonly = path.basename(DirPath);
+
+			const foldepath = path.dirname(DirPath);
+
+			const children = await scanafolder(toNormalisedWindowsId(DirPath));
+			injectChildrenByPath(globalfolderjson, toNormalisedWindowsId(foldepath), [
+				{
+					id: toNormalisedWindowsId(DirPath),
+					name: Dirnameonly,
+					isdirectory: true,
+					haschildren: children.length > 0,
+					children: [],
+				},
+			]);
+
+			win.webContents.send(
+				"data",
+				JSON.stringify({
+					action: "addelements",
+					newjson: globalfolderjson,
+					add: {
+						parentid: toNormalisedWindowsId(foldepath),
+						actualjson: [
+							{
+								id: toNormalisedWindowsId(DirPath),
+								name: Dirnameonly,
+								isdirectory: true,
+								haschildren: children.length > 0,
+								children: children,
+							},
+						],
+					},
+				}),
+			);
+		});
+		watcher.on("unlinkDir", (DirPath) => {
+
+			const Dirnameonly = path.basename(DirPath);
+
+			const foldepath = path.dirname(DirPath);
+			deleteNodeById(globalfolderjson, DirPath);
+			win.webContents.send(
+				"data",
+				JSON.stringify({
+					action: "removeelements",
+					newjson: globalfolderjson,
+					remove: DirPath,
+				}),
+			);
+		});
+	} catch (e) {
+		consolelog(e);
+	}
+}
+
 
 
 let win;
@@ -117,7 +256,6 @@ function createWindow() {
       devTools: true,
     },
   });
-  const track = createTrack({ win });
 
   win.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
   if (isproduction) {
@@ -210,7 +348,7 @@ async function handleappargs(args) {
       const json = await scanafolder(path.resolve(args));
       globalfolderjson = [
         {
-          id: path.resolve(args),
+          id: toNormalisedWindowsId(path.resolve(args)),
           name: path.basename(path.resolve(args)),
           isdirectory: true,
           haschildren: fs.readdirSync(path.resolve(args)).length > 0,
@@ -372,7 +510,8 @@ ipcMain.handle("start_server", async (e, obj) => {
   return start_server(e, obj, pathreal);
 });
 ipcMain.handle("unlink", async (e, Dirpath) => {
-  await fs.promises.unlink(Dirpath)
+  
+  await fs.promises.unlink(toNormalisedWindowsId(Dirpath))
 });
 ipcMain.handle("validate-details-liveserver", async (e, d) => {
   return validate_details_liveserver(e, d, pathreal, consolelog);

@@ -590,20 +590,21 @@ window.onload = function () {
         `${message.branchname}`;
     } else if (message.action === "addelements") {
       globalfolderjson = message.newjson;
+      console.log(message)
       if (!message.add) {
       }
       if (
-        !globalfileexplorerstatejson[decodeURIComponent(message.add.parentid)]
+        !globalfileexplorerstatejson[(message.add.parentid)]
       ) {
         return;
       }
-      if (!document.getElementById(decodeURIComponent(message.add.parentid))) {
+      if (!document.getElementById(message.add.parentid)) {
         alert("foldernotfound");
       }
 
       recursiveloop(
         message.add.actualjson,
-        document.getElementById(decodeURIComponent(message.add.parentid)),
+        document.getElementById(message.add.parentid),
       );
     } else if (message.action == "removeelements") {
       globalfolderjson = message.newjson;

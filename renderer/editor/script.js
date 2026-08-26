@@ -426,7 +426,7 @@ window.onload = () => {
             el.style.backgroundColor = "#1e1e1e";
 
             el.querySelectorAll("*").forEach((e) => {
-              e?.style.backgroundColor = "#1e1e1e";
+              e.style.backgroundColor = "#1e1e1e";
             });
           });
           topbarfor.style.backgroundColor = "#404040";
