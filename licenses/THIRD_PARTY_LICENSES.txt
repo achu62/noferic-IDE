@@ -5,6 +5,7 @@
     "path": "/home/charan/noferic-IDE/node_modules/7zip-bin",
     "licenseFile": "/home/charan/noferic-IDE/node_modules/7zip-bin/LICENSE.txt"
   },
+  
   "@biomejs/biome@1.9.4": {
     "licenses": "MIT OR Apache-2.0",
     "repository": "https://github.com/biomejs/biome",

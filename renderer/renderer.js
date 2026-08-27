@@ -41,7 +41,7 @@ let globalleftmenustate = {
   isterminalopen: false,
   isleftpanelopen: true,
 };
-export function showdialog(path) {
+export async function showdialog(path) {
   if (document.readyState == "complete") {
     document.getElementById("createnewfiledialog").showModal();
   }
@@ -124,7 +124,8 @@ export async function showDiff(element) {
 
 window.onload = function () {
 
- 
+  window.ipc.invoke("request-settings")
+
   const editorEl = document.getElementById("editor");
   const terminalEl = document.getElementById("terminalelement");
   syncEditorBottom(editorEl, terminalEl);
@@ -583,7 +584,9 @@ window.onload = function () {
 
       globalfolderjson = message.fjson;
       openfolderfunction(globalfolderjson);
-    } else if (JSON.parse(data).action == "handlefileargs") {
+    }
+
+    else if (JSON.parse(data).action == "handlefileargs") {
       setTimeout(() => {
         openfileoncilick(message.path, iframe);
       }, 2000);
@@ -671,6 +674,17 @@ window.onload = function () {
           },
           "*",
         );
+      }
+    }
+    else if (message.action == "appSettings") {
+      console.log(JSON.parse(message.settings))
+       document.getElementById('Theme').value = JSON.parse(message.settings).theme; 
+      if (JSON.parse(message.settings).theme !== "dark") {
+        document.getElementById("theme-blanket-overlay").style.display = "block"
+      }
+      else {
+        document.getElementById("theme-blanket-overlay").style.display = "none"
+
       }
     }
     if (message.action === "getOpenTabs") {
@@ -931,4 +945,11 @@ window.onload = function () {
       document.getElementById("searchresults").replaceChildren();
     }, 1000);
   });
+const dropdownForTheme = document.getElementById('Theme');
+
+dropdownForTheme.addEventListener('change', (event) => {
+  const selectedValue = event.target.value;
+  window.ipc.invoke("changesettings" , "theme" , selectedValue)
+});
+
 };

@@ -41,6 +41,10 @@ export function handleShortCuts(document) {
                         e.preventDefault();
                         document.getElementById("explorersearch").focus()
         }
+        else if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "j"){
+            e.preventDefault()
+            document.getElementById("settings").click()
+        }
     });
     iframe.contentWindow.addEventListener("keypress", (e) => {
         if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
@@ -75,6 +79,10 @@ export function handleShortCuts(document) {
         else if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "p"){
                         e.preventDefault();
                         document.getElementById("explorersearch").focus()
+        }
+        else if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "j"){
+            e.preventDefault()
+            document.getElementById("settings").click()
         }
     });
 }

@@ -2,6 +2,8 @@
 //yes this is working
 //jai sri ram
 //the main.js is changed
+import envPaths from "env-paths";
+
 import { lint, initialiseLinter } from "./Linting-features/eslint.js"
 import {
   app,
@@ -47,6 +49,37 @@ import { initialisetds, getSyntacticDiagnosticsfromts, GetHover } from "./ts-fea
 
 import { getTags } from "./tagger.js";
 import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
+async function handleConfigurations() {
+  if (!fs.existsSync(toNormalisedWindowsId(path.join(pathsforappdatas.config))) && toNormalisedWindowsId(path.join(pathsforappdatas.config, "noferic-config.json"))) {
+    fs.mkdirSync(toNormalisedWindowsId(path.join(pathsforappdatas.config)), { recursive: true })
+    fs.mkdirSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings")), { recursive: true })
+    fs.promises.appendFile(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")))
+    fs.writeFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")),
+      JSON.stringify(
+        {
+          "theme": "dark"
+        }
+      )
+    )
+  }
+
+  win.webContents.send("data", JSON.stringify({
+    action: "appSettings",
+    settings:
+      fs.readFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")), "utf8")
+  }))
+  const settingWatcher = chokidar.watch(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json"))
+  )
+  settingWatcher.on("change", (filepath) => {
+    win.webContents.send("data", JSON.stringify({
+      action: "appSettings",
+      settings:
+        fs.readFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")), "utf8")
+    }))
+  })
+}
+const pathsforappdatas = envPaths("Noferic IDE");
+console.log(toNormalisedWindowsId(pathsforappdatas.config))
 let pathreal = null;
 const isproduction = app.isPackaged;
 function toNormalisedWindowsId(inputPath) {
@@ -96,147 +129,147 @@ const cfpath = app.getPath("userData");
 
 consolelog(process.resourcesPath);
 consolelog(isWindows);
-process.on("uncaughtException" , (err)=>{
+process.on("uncaughtException", (err) => {
   console.error(err)
 })
 
 const apppath = process.execPath;
 consolelog("apppath" + apppath);
-let watcher ;
+let watcher;
 /**@param {string} pathreal */
 async function track(pathreal) {
-	if (!pathreal) return;
-	if (watcher) {
-		watcher.close();
-		watcher = null;
-	}
+  if (!pathreal) return;
+  if (watcher) {
+    watcher.close();
+    watcher = null;
+  }
 
-	try {
-		if (watcher) watcher.close();
+  try {
+    if (watcher) watcher.close();
 
-		watcher = chokidar.watch(toNormalisedWindowsId(pathreal), {
-			ignoreInitial: true,
-		});
+    watcher = chokidar.watch(toNormalisedWindowsId(pathreal), {
+      ignoreInitial: true,
+    });
 
-		watcher.on("add", (filePath) => {
-			if (addedpathbyide) {
-				addedpathbyide = addedpathbyide.filter((item) => item !== filePath);
-			}
-			if (!addedpathbyide?.includes(filePath)) {
-				const filepathonly = path.basename(filePath);
-				const foldepath = path.dirname(filePath);
-				injectChildrenByPath(globalfolderjson, toNormalisedWindowsId(foldepath), [
-					{
-						id: toNormalisedWindowsId(filePath),
-						name: filepathonly,
-						isdirectory: false,
-					},
-				]);
+    watcher.on("add", (filePath) => {
+      if (addedpathbyide) {
+        addedpathbyide = addedpathbyide.filter((item) => item !== filePath);
+      }
+      if (!addedpathbyide?.includes(filePath)) {
+        const filepathonly = path.basename(filePath);
+        const foldepath = path.dirname(filePath);
+        injectChildrenByPath(globalfolderjson, toNormalisedWindowsId(foldepath), [
+          {
+            id: toNormalisedWindowsId(filePath),
+            name: filepathonly,
+            isdirectory: false,
+          },
+        ]);
 
-				win.webContents.send(
-					"data",
-					JSON.stringify({
-						action: "addelements",
-						newjson: globalfolderjson,
-						add: {
-							parentid: toNormalisedWindowsId(foldepath),
-							actualjson: [
-								{
-									id: toNormalisedWindowsId(filePath),
-									name: filepathonly,
-									isdirectory: false,
-								},
-							],
-						},
-					}),
-				);
-			}
-		});
+        win.webContents.send(
+          "data",
+          JSON.stringify({
+            action: "addelements",
+            newjson: globalfolderjson,
+            add: {
+              parentid: toNormalisedWindowsId(foldepath),
+              actualjson: [
+                {
+                  id: toNormalisedWindowsId(filePath),
+                  name: filepathonly,
+                  isdirectory: false,
+                },
+              ],
+            },
+          }),
+        );
+      }
+    });
 
-		watcher.on("change", async (filePath) => {
-			if (!toNormalisedWindowsId(changedpathsbyide).includes(toNormalisedWindowsId(filePath))) {
-				win.webContents.send(
-					"data",
-					JSON.stringify({
-						action: "handleachangeinfile",
-						path: toNormalisedWindowsId(filePath),
-						content: await fs.readFileSync(filePath, "utf-8"),
-					}),
-				);
-			}
+    watcher.on("change", async (filePath) => {
+      if (!toNormalisedWindowsId(changedpathsbyide).includes(toNormalisedWindowsId(filePath))) {
+        win.webContents.send(
+          "data",
+          JSON.stringify({
+            action: "handleachangeinfile",
+            path: toNormalisedWindowsId(filePath),
+            content: await fs.readFileSync(filePath, "utf-8"),
+          }),
+        );
+      }
 
-			changedpathsbyide = changedpathsbyide.filter((item) => item !== filePath);
-		});
+      changedpathsbyide = changedpathsbyide.filter((item) => item !== filePath);
+    });
 
-		watcher.on("unlink", (filePath) => {
-			const filepathonly = path.basename(filePath);
-			const foldepath = path.dirname(filePath);
+    watcher.on("unlink", (filePath) => {
+      const filepathonly = path.basename(filePath);
+      const foldepath = path.dirname(filePath);
       console.log(toNormalisedWindowsId(filePath))
-			deleteNodeById(globalfolderjson, filePath);
-			win.webContents.send(
-				"data",
-				JSON.stringify({
-					action: "removeelements",
-					newjson: globalfolderjson,
-					remove: toNormalisedWindowsId(filePath),
-				}),
-			);
-		});
-		watcher.on("addDir", async (DirPath) => {
+      deleteNodeById(globalfolderjson, filePath);
+      win.webContents.send(
+        "data",
+        JSON.stringify({
+          action: "removeelements",
+          newjson: globalfolderjson,
+          remove: toNormalisedWindowsId(filePath),
+        }),
+      );
+    });
+    watcher.on("addDir", async (DirPath) => {
 
-			const Dirnameonly = path.basename(DirPath);
+      const Dirnameonly = path.basename(DirPath);
 
-			const foldepath = path.dirname(DirPath);
+      const foldepath = path.dirname(DirPath);
 
-			const children = await scanafolder(toNormalisedWindowsId(DirPath));
-			injectChildrenByPath(globalfolderjson, toNormalisedWindowsId(foldepath), [
-				{
-					id: toNormalisedWindowsId(DirPath),
-					name: Dirnameonly,
-					isdirectory: true,
-					haschildren: children.length > 0,
-					children: [],
-				},
-			]);
+      const children = await scanafolder(toNormalisedWindowsId(DirPath));
+      injectChildrenByPath(globalfolderjson, toNormalisedWindowsId(foldepath), [
+        {
+          id: toNormalisedWindowsId(DirPath),
+          name: Dirnameonly,
+          isdirectory: true,
+          haschildren: children.length > 0,
+          children: [],
+        },
+      ]);
 
-			win.webContents.send(
-				"data",
-				JSON.stringify({
-					action: "addelements",
-					newjson: globalfolderjson,
-					add: {
-						parentid: toNormalisedWindowsId(foldepath),
-						actualjson: [
-							{
-								id: toNormalisedWindowsId(DirPath),
-								name: Dirnameonly,
-								isdirectory: true,
-								haschildren: children.length > 0,
-								children: children,
-							},
-						],
-					},
-				}),
-			);
-		});
-		watcher.on("unlinkDir", (DirPath) => {
+      win.webContents.send(
+        "data",
+        JSON.stringify({
+          action: "addelements",
+          newjson: globalfolderjson,
+          add: {
+            parentid: toNormalisedWindowsId(foldepath),
+            actualjson: [
+              {
+                id: toNormalisedWindowsId(DirPath),
+                name: Dirnameonly,
+                isdirectory: true,
+                haschildren: children.length > 0,
+                children: children,
+              },
+            ],
+          },
+        }),
+      );
+    });
+    watcher.on("unlinkDir", (DirPath) => {
 
-			const Dirnameonly = path.basename(DirPath);
+      const Dirnameonly = path.basename(DirPath);
 
-			const foldepath = path.dirname(DirPath);
-			deleteNodeById(globalfolderjson, DirPath);
-			win.webContents.send(
-				"data",
-				JSON.stringify({
-					action: "removeelements",
-					newjson: globalfolderjson,
-					remove: DirPath,
-				}),
-			);
-		});
-	} catch (e) {
-		consolelog(e);
-	}
+      const foldepath = path.dirname(DirPath);
+      deleteNodeById(globalfolderjson, DirPath);
+      win.webContents.send(
+        "data",
+        JSON.stringify({
+          action: "removeelements",
+          newjson: globalfolderjson,
+          remove: DirPath,
+        }),
+      );
+    });
+  } catch (e) {
+    consolelog(e);
+  }
 }
 
 
@@ -315,7 +348,7 @@ async function handleappargs(args) {
         getTags(toNormalisedWindowsId(path.resolve(args)));
 
       }
-      catch (e) {}
+      catch (e) { }
       try {
         track(path.resolve(args));
       }
@@ -448,8 +481,9 @@ ipcMain.handle("save", async (e) => {
   });
   return result.filePath;
 });
-ipcMain.handle("append", async (e, path) => {
-  if (fs.existsSync(path)) {
+ipcMain.handle("append", async (e, fpath) => {
+  
+  if (fs.existsSync(fpath)) {
     win.webContents.send(
       "data",
       JSON.stringify({
@@ -459,7 +493,7 @@ ipcMain.handle("append", async (e, path) => {
       }),
     );
   }
-  await fs.promises.appendFile(path, "");
+  await fs.promises.appendFile(toNormalisedWindowsId(fpath) , "");
 });
 ipcMain.handle("saveas", async (e) => {
   const result = await dialog.showSaveDialog({
@@ -498,7 +532,6 @@ ipcMain.handle("autosave", async (e, { code, path }) => {
   fs.writeFileSync(decodeURIComponent(path), code, "utf-8");
   changedpathsbyide.push(decodeURIComponent(path));
 });
-let oldreqcomleted = true;
 ipcMain.handle("mkdir", async (e, path) => {
   try {
     await fs.promises.mkdir(path);
@@ -517,7 +550,7 @@ ipcMain.handle("start_server", async (e, obj) => {
   return start_server(e, obj, pathreal);
 });
 ipcMain.handle("unlink", async (e, Dirpath) => {
-  
+
   await fs.promises.unlink(toNormalisedWindowsId(Dirpath))
 });
 ipcMain.handle("validate-details-liveserver", async (e, d) => {
@@ -532,8 +565,8 @@ ipcMain.handle("create_new_terminal", async (e, id) => {
   initialiseterminalmain(ptyProcess, pathreal, id, win);
 });
 ipcMain.handle("join-path", async (e, arg1, arg2) => {
-  //console.log(path.join(arg1, arg2))
-  return path.join(arg1, arg2);
+  console.log(arg1, arg2)
+  return toNormalisedWindowsId(path.join(arg1, arg2));
 });
 ipcMain.handle("get-ext", async (e, fpath) => {
   return path.extname(fpath);
@@ -603,4 +636,18 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
 })
 ipcMain.handle("hover", async (e, { filepath, Offset }) => {
   return await GetHover(filepath, Offset)
+})
+
+ipcMain.handle("request-settings", async (e) => {
+  handleConfigurations()
+})
+ipcMain.handle("changesettings", async (e, property, value) => {
+  let set = JSON.parse(fs.readFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")), "utf8"))
+  set[property] = value;
+    fs.writeFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")),
+      JSON.stringify(
+       set
+      )
+    )
+
 })

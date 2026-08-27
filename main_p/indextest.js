@@ -3,7 +3,3 @@ import fs from "node:fs"
 import {getEssentials} from "./main.js"
 //typing something
 //are you are you
-
-
-
-

@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="./xterm/css/xterm.css" />
 
 
+
 	<style>
 		@font-face {
 			font-family: 'NotoEmoji';
@@ -57,6 +58,7 @@
 
 <body>
 	<canvas id="canvas"></canvas>
+	<div id="theme-blanket-overlay"></div>
 	<dialog id="alertdialog" class='dialog'>
 		<button id="okbtn">Ok</button>
 		<p id="contentdiv"></p>
@@ -113,7 +115,9 @@
 		<button id="exit" class="common">Exit</button>
 	</div>
 	<div class="common bgcolor1e1e1e" id="btmenu">
-		<div id="lineandcolumn"></div>
+		<div id="lineandcolumn">
+		</div>
+
 		<div id="language"></div>
 		<div id="errors"></div>
 		<div id="currentBranch"></div>
@@ -128,6 +132,15 @@
 	<dialog id="SettingsDialog">
 		<h2>Settings</h2>
 		<button id="closeSettings">Close</button>
+		<div id="settings-area">
+			<div id="settings-theme" class="settings">Theme
+				<select id="Theme">
+					<option value="dark" selected>Dark
+					</option>
+					<option value="light">Light</option>
+				</select>
+			</div>
+		</div>
 	</dialog>
 	<div id="workspace">
 
