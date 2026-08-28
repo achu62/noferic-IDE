@@ -3,7 +3,6 @@
 import fs from "fs";
 import path from "path";
 import fuzzysort from "fuzzysort";
-
 const excludedDirectories = [
   "node_modules",
   "dist",

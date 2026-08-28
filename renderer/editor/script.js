@@ -81,39 +81,6 @@ window.onload = () => {
 
 
     }
-    async function sendReqAutocomplete() {
-      const model = editor.getModel();
-
-      const path = decodeURIComponent(model.uri.toString().replace("id:", ""));
-      const localcont = model.getValue();
-
-      const pos = editor.getPosition();
-      const char = pos.column - 1;
-      const lin = pos.lineNumber - 1;
-
-      window.parent.postMessage(
-        {
-          action: "getAutoComplete",
-          data: {
-            line: lin,
-            path: path,
-            character: char,
-            content: localcont,
-          },
-        },
-        "*",
-      );
-
-      const promise = new Promise((re, rej) => {
-        window.addEventListener("message", (e) => {
-          const message = e.data;
-          if (message.action === "tsac") {
-            re(message.data);
-          }
-        });
-      });
-      return promise;
-    }
     async function autosave(editor) {
       if (autosavelistener) {
         autosavelistener.dispose();
@@ -173,6 +140,70 @@ window.onload = () => {
           `❌:${errors} , ⚠️:${warning} ℹ️:${info}`;
       }
     });
+    monaco.languages.registerCompletionItemProvider("javascript", {
+      triggerCharacters: [
+  ".",
+  '"',
+  "'",
+  "/",
+  "<",
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z"
+],
+  async provideCompletionItems(model, position) {
+    try {
+      const offset = model.getOffsetAt(position);
+      console.log(offset)
+      const filepath = 
+        navigator.platform === "Win32"
+          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+          : decodeURIComponent(model.uri.toString().replace("id:", ""));
+
+      const result = await window.renderer.SendRequesttomain({
+        action: "get-auto-complete",
+        args: {
+          filepath,
+          offset
+        }
+      });
+      console.log(result)
+
+      return {
+        suggestions: result?.suggestions || []
+      };
+    } catch (error) {
+      console.error("Autocomplete error:", error);
+
+      return {
+        suggestions: []
+      };
+    }
+  }
+});
     monaco.languages.registerHoverProvider(
       "javascript",
       {
@@ -253,48 +284,11 @@ window.onload = () => {
         }
       })
 
-    monaco.languages.registerCompletionItemProvider("javascript", {
-      // Trigger completions on every letter, number, and common token characters
-      triggerCharacters:
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-".split(
-          "",
-        ),
-
-      async provideCompletionItems(model, position) {
-        if (!URI) {
-          return;
-        }
-        const res = await sendReqAutocomplete();
-        return {
-          suggestions: convertCompletionList(monaco, res),
-        };
-      },
-    });
+  
    
-    monaco.languages.registerCompletionItemProvider("typescript", {
-      // Trigger completions on every letter, number, and common token characters
-      triggerCharacters:
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-".split(
-          "",
-        ),
+    
 
-      async provideCompletionItems(model, position) {
-        if (!URI) {
-          return;
-        }
-        const res = await sendReqAutocomplete();
-        return {
-          suggestions: convertCompletionList(monaco, res),
-        };
-      },
-    });
-    let resolveGTD;
-
-    monaco.languages.registerDefinitionProvider("javascript", {
-      async provideDefinition() {
-        return await sendReqForGTD();
-      }
-    });
+  
     //iam asking u
     window.addEventListener("message", (e) => {
       const message = e.data;

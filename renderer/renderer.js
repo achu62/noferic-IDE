@@ -135,19 +135,7 @@ window.onload = function () {
   document.getElementById("closeSettings").addEventListener("click", () => {
     document.getElementById("SettingsDialog").close();
   });
-  async function runts(path, content, line, character) {
-    try {
-      const result = await window.ipc.invoke(
-        "providetsautocomplete",
-        path,
-        content,
-        line,
-        character,
-      );
-
-      return result;
-    } catch (e) { }
-  }
+ 
 
   let countforterminal = 1;
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
@@ -235,7 +223,9 @@ window.onload = function () {
     SendRequesttomain: async (e) => {
       const action = e.action;
       const args = e.args;
-      const permittedactions = ["autosave", "lint", "hover"];
+      console.log(action)
+      console.log(JSON.stringify(args))
+      const permittedactions = ["autosave", "lint", "hover" , "get-auto-complete"];
       try {
         if (permittedactions.includes(action)) {
           const res = await window.ipc.invoke(action, args);

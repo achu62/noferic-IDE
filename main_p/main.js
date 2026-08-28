@@ -16,13 +16,12 @@ import {
   Notification,
 
 } from "electron";
-import { detectPort } from "detect-port";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { initialisereposcan } from "./git/git.js";
 import fs from "node:fs";
 import { Worker } from "node:worker_threads";
-
+import {detectPort} from "detect-port"
 import { spawn, execFile, exec } from "child_process";
 import os from "os";
 import { buffer } from "stream/consumers";
@@ -45,7 +44,7 @@ import {
   GetDifftextMain,
 } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
-import { initialisetds, getSyntacticDiagnosticsfromts, GetHover } from "./ts-features/main.js"
+import { initialisetds, getSyntacticDiagnosticsfromts, GetHover, GetAutoComplete } from "./ts-features/main.js"
 
 import { getTags } from "./tagger.js";
 import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
@@ -665,4 +664,8 @@ ipcMain.handle("changesettings", async (e, property, value) => {
       )
     )
 
+})
+ipcMain.handle("get-auto-complete" , async(e , {filepath , offset})=>{
+  console.log(offset , filepath)
+  return await GetAutoComplete(offset , filepath);
 })
