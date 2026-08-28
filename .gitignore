@@ -1,6 +1,7 @@
 /renderer/editor/parser/node_modules/
 /node_modules/
 /tslogs/
+/dist/
 /appoutput/
 /configurationbiome/
 /ram
