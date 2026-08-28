@@ -358,6 +358,7 @@ export async function GetAutoComplete(c, fpath) {
                 includeCompletionsWithSnippetText: true
             }
         );
+       console.log(JSON.stringify(result))
 
         if (!result) {
             return {
