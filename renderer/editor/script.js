@@ -333,7 +333,6 @@ window.onload = () => {
           }
         } else {
           if (message.isspecialchange) {
-            alert(JSON.stringify(message))
             isexisting.setValue(message.content);
           } else {
             editor.setModel(isexisting);
