@@ -1,5 +1,5 @@
 //jai sri ram
-import pty from  "node-pty";
+import pty from  "@lydell/node-pty";
 import os from "os";
 let terminal;
 import { ipcMain } from "electron";

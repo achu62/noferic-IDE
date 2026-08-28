@@ -1,14 +1,13 @@
 const TOPBAR_CONTAINER_ID = "topbarforeditor";
 
 function createTopbarTab({
-	iframe,
-	
+	iframe,	
 	filePath,
 	fileName,
 	content,
 	extension,
 }) {
-	const existingTab = document.getElementById(`topbarelementfor${filePath}`);
+	const existingTab = document.getElementById(`topbarelementfor${decodeURIComponent(filePath)}`);
 	if (existingTab) {
 		existingTab.click();
 		return;
@@ -17,7 +16,7 @@ function createTopbarTab({
 
 	const topbarElement = document.createElement("button");
 	topbarElement.classList.add("class__topelements");
-	topbarElement.id = `topbarelementfor${filePath}`;
+	topbarElement.id = `topbarelementfor${decodeURIComponent(filePath)}`;
 	topbarElement.style.paddingLeft = "3px";
 	topbarElement.textContent = fileName;
 	topbarElement.title = filePath;
@@ -30,7 +29,7 @@ function createTopbarTab({
 				content,
 				isdir: false,
 				extension,
-				path: filePath,
+				path: decodeURIComponent(filePath),
 			},
 			"*",
 		);
@@ -42,13 +41,13 @@ function createTopbarTab({
 
 	const topbarCloseBtn = document.createElement("button");
 	topbarCloseBtn.classList.add("topbarclose_class");
-	topbarCloseBtn.id = `topbarelementclosefor${filePath}`;
+	topbarCloseBtn.id = `topbarelementclosefor${decodeURIComponent(filePath)}`;
 	topbarCloseBtn.addEventListener("click", (event) => {
 		event.stopPropagation();
 		topbarElement?.remove();
 		iframe.contentWindow.postMessage({
 			action: "deletemodelonclose",
-			path: filePath,
+			path: decodeURIComponent(filePath),
 		});
 	});
 
@@ -64,7 +63,13 @@ export async function openFileFromExplorer({ iframe, file }) {
 		".",
 		"",
 	);
-
+	if(extension === "exe" || extension === "png" || extension === "bin" || extension === "deb" || 
+		extension === "ico" || extension === "jpg" || extension === "jpeg" || extension === "rpm" || 
+		extension === "msi" || extension === "pak" || extension === "dll" || extension === "ttf" 
+	){
+		const confirmation = confirm("this file might not be opened correctly with the editor , \nDo  you still want to open it")
+		if(!confirmation) {return}
+	}
 	createTopbarTab({
 		iframe,
 		filePath,

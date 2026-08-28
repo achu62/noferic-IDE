@@ -4,19 +4,18 @@
  
     "module": "nodenext",
     "target": "esnext",
-   
+
+
    
     "types": ["node" , "electron"],
    
    
 
+
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-
     "noUncheckedIndexedAccess": true,
-   
-   
     "strict":false,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,

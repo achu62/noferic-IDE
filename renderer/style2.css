@@ -1,4 +1,17 @@
 /*jai sri ram*/
+/* Swaps hardcoded hex colors on inline SVGs, fills, and text universally */
+[fill="#1e1e1e" i], [fill="#1E1E1E"] { fill: #FFFFFF !important; }
+[stroke="#1e1e1e" i], [stroke="#1E1E1E"] { stroke: #FFFFFF !important; }
+[color="#1e1e1e" i] { color: #FFFFFF !important; }
+
+/* Blanket background & text color overrides for HTML elements */
+* {
+  /* Forces any element with hardcoded inline background colors to swap */
+  &[style*="background-color: #1e1e1e" i],
+  &[style*="background: #1e1e1e" i] {
+    background-color: #FFFFFF !important;
+  }
+}
 :root {
   --1c1364: #1c1364;
 }
@@ -30,15 +43,26 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: "Google Sans", monospace !important;
+  font-family: "Roboto slab", monospace !important;
   margin-top: 0;
   margin-right: 0;
   margin-left: 0;
   background-color: #595959;
-
-
+ /* filter: invert(1) hue-rotate(180deg) contrast(120%) brightness(105%);
+  background-color: #000;*/
+  
 }
-
+#theme-blanket-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  mix-blend-mode: difference;
+  filter: contrast(250%) grayscale(100%);
+  pointer-events: none;
+  z-index: 999999;}
 .common {
   color: var(--ffffff);
   font-size: 13.5px;
@@ -48,7 +72,7 @@ body {
 
 
 #top-menu {
-  height: 30px;
+  height: 20px;
   width: 100%;
   z-index: 2;
   position: fixed;
@@ -60,6 +84,7 @@ body {
   border: none;
   box-sizing: border-box;
   background-color: #595959;
+  overflow: hidden;
 }
 
 #top-menu>* {
@@ -72,8 +97,7 @@ body {
   position: fixed;
   width: 40px;
   text-align: center;
-  height: 30px;
-  line-height: 30px;
+  line-height: 20px;
   top: 0;
   left: 0px;
   z-index: 4;
@@ -87,6 +111,7 @@ body {
   touch-action: manipulation;
   user-select: none;
   background-color: inherit;
+  height:20px;
   /* prevents accidental text selection on tap */
 }
 
@@ -97,8 +122,7 @@ body {
   background-color: #333333;
   width: 40px;
   text-align: center;
-  height: 30px;
-  line-height: 30px;
+  line-height: 20px;
   top: 0;
   left: 0px;
   z-index: 4;
@@ -111,8 +135,8 @@ body {
   all: unset;
   width: 40px;
   text-align: center;
-  height: 30px;
-  line-height: 30px;
+  height: 20px;
+  line-height: 20px;
   position: fixed;
   top: 0;
   left: 41px;
@@ -131,8 +155,8 @@ body {
   all: unset;
   width: 40px;
   text-align: center;
-  height: 30px;
-  line-height: 30px;
+  height: 20px;
+  line-height: 20px;
   position: fixed;
   top: 0;
   left: 41px;
@@ -282,7 +306,6 @@ body {
   width: 40px;
   height: 40px;
   z-index: 5;
-  background-color: var(--ieieie);
 }
 
 #settings:hover {
@@ -291,7 +314,6 @@ body {
   left: 0;
   bottom: 0px;
   background-image: url("images/settings.svg");
-  background-color: var(--333333);
   background-size: cover;
   width: 40px;
   height: 40px;
@@ -444,7 +466,7 @@ body {
 #file_on {
   z-index: 10;
   position: fixed;
-  top: 29px;
+  top: 19px;
   left: 2px;
   width: fit-content;
   height: fit-content;
@@ -750,7 +772,7 @@ body {
 #workspace {
   position: fixed;
   left: 45px;
-  top: 30.2px;
+  top: 20.2px;
   bottom: 20px;
   right: 10px;
 }
@@ -827,7 +849,7 @@ body {
   left: 0;
   color: var(--ffffff);
   font-size: 13.5px;
-  font-family: "" Google Sans"";
+  font-family: "Roboto slab";
   background-color: var(--2b2b2b);
 }
 
@@ -1682,7 +1704,7 @@ input {
   bottom: 0;
   padding: 0px;
   top: 0px;
-  font-family: "Google Sans" !important;
+  font-family: "Roboto slab" !important;
 }
 
 .monaco-editor .scrollbar .horizontal {
@@ -1776,7 +1798,7 @@ input {
     background-color: var(--404040);
     border-radius: 3px;
     color:#ffffff;
-    font-family: "Google Sans";
+    font-family: "Roboto slab";
 }
 #searchresults{
 position: absolute;
@@ -1796,8 +1818,94 @@ position: absolute;
   background-color: var(--404040);
   border-radius: 3px;
   color: #ffffff;
-  font-family: "Google Sans";
+  font-family: "Roboto slab";
   display: flex;
   flex-direction: column;
   overflow: auto;
+}
+#SettingsDialog {
+  position: fixed;
+  inset: 10%;
+  width: auto;
+  height: auto;
+  padding: 24px;
+  color: var(--ffffff);
+  background-color: var(--2b2b2b);
+  border: 1px solid var(--afaeaec9);
+  border-radius: 6px;
+  z-index: 1009094;
+}
+
+#SettingsDialog h2 {
+  margin: 0 0 24px;
+  font-size: 18px;
+}
+
+#closeSettings {
+  all: unset;
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  padding: 8px 16px;
+  color: var(--ffffff);
+  background-color: var(--333333);
+  border: 1px solid var(--afaeaec9);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#closeSettings:hover {
+  background-color: var(--404040);
+}
+
+#SettingsDialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.55);
+}
+#settings-area{
+  
+  position: absolute;
+  top: 100px;
+  bottom: 100px;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: vertical;
+  background-color: #333333;
+  overflow-y: scroll;
+  /*flex-wrap: wrap;*/
+
+}
+.settings{
+  all: unset;
+  color: var(--ffffff);
+  background-color: #333333;
+  min-height: 60px;
+  position: relative;
+  right: 0;
+  left: 0%;
+  font-size: 13.5px;
+  font-weight: 350;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  padding-left: 30px !important;
+  border: 0.1px solid #4b4949;
+  /* prevents accidental text selection on tap */
+}
+#Theme{
+  position:absolute;
+  top:10px;
+  right:30px;
+  width:130px;
+  height:30px;
+  background-color: #1e1e1e;
+  font-size: 12px;
+  color:#ffffff
 }

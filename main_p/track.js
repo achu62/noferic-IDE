@@ -5,8 +5,10 @@ import { deleteNodeById, injectChildrenByPath } from "./utils.js";
 import { scanafolder } from "./scanafolder.js";
 import { NotifyGitIntegration, initialisereposcan, Updatestatus } from "./git/git.js"
 import { UpdateorCreatefilelist } from "./getAllFilenames.js"
+import { getState, Nullify } from "./main.js";
+import { encode } from "node:punycode";
 
-export function createTrack({ getState, consolelog }) {
+export function createTrack({win}) {
 	let watcher = null;
 
 	return async function track(pathreal) {
@@ -17,22 +19,17 @@ export function createTrack({ getState, consolelog }) {
 		}
 
 		try {
-			watcher = chokidar.watch(pathreal, {
+
+			watcher = chokidar.watch(projectRoot, {
 				ignoreInitial: true,
+				ignored: "**/.git/index.lock"
 			});
 
-
-
 			watcher.on("add", async (filePath) => {
-				const { win, addedpathbyide, globalfolderjson } = getState();
-				const stats = await fs.promises.lstat(filePath);
+				const {  addedpathbyide, globalfolderjson } = getState();
 
-				if (stats.isSymbolicLink()) {
-					// Ignore it
-					return;
-				}
-				Updatestatus(win)
-				UpdateorCreatefilelist(pathreal)
+
+
 				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -71,21 +68,22 @@ export function createTrack({ getState, consolelog }) {
 						}),
 					);
 				}
+				Updatestatus(win)
+				UpdateorCreatefilelist(pathreal)
 			});
 
-			watcher.on("change", async (filePath) => {
-				const { win, changedpathsbyide } = getState();
-				 const stats = await fs.promises.lstat(filePath);
+			watcher.on("change", async (filepath) => {
+				const { changedpathsbyide } = getState();
+				const toNormalizedWindowsId = (inputPath) =>
+					path.win32.normalize(inputPath).replace(/\\/g, "/");
+				const filePath = toNormalizedWindowsId(filepath).toLowerCase()
 
-				if (stats.isSymbolicLink()) {
-					// Ignore it
-					return;
-				}
-				Updatestatus(win)
-				if (filePath.includes(".git")) {
+				console.log(changedpathsbyide, filePath)
+
+				if (filePath.includes("git")) {
 					NotifyGitIntegration(win)
 				}
-				if (!changedpathsbyide.includes(filePath)) {
+				if (!changedpathsbyide.includes((filePath.toLowerCase()))) {
 					win.webContents.send(
 						"data",
 						JSON.stringify({
@@ -100,18 +98,15 @@ export function createTrack({ getState, consolelog }) {
 				if (changedIndex >= 0) {
 					changedpathsbyide.splice(changedIndex, 1);
 				}
+				Updatestatus(win)
+				Nullify()
 			});
 
-			watcher.on("unlink", async(filePath) => {
-				const { win, globalfolderjson } = getState();
-				const stats = await fs.promises.lstat(filePath);
+			watcher.on("unlink", async (filePath) => {
+				const { globalfolderjson } = getState();
 
-				if (stats.isSymbolicLink()) {
-					// Ignore it
-					return;
-				}
-				UpdateorCreatefilelist(pathreal)
-				Updatestatus(win)
+
+
 				if (filePath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -124,12 +119,12 @@ export function createTrack({ getState, consolelog }) {
 						remove: filePath,
 					}),
 				);
+				UpdateorCreatefilelist(pathreal)
+				Updatestatus(win)
 			});
 			watcher.on("addDir", async (DirPath) => {
-				const { win, globalfolderjson } = getState();
-				UpdateorCreatefilelist(pathreal)
+				const { globalfolderjson } = getState();
 
-				Updatestatus(win)
 				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -165,12 +160,13 @@ export function createTrack({ getState, consolelog }) {
 						},
 					}),
 				);
-			});
-			watcher.on("unlinkDir", (DirPath) => {
-				const { win, addedpathbyide, globalfolderjson } = getState();
 				UpdateorCreatefilelist(pathreal)
 
 				Updatestatus(win)
+			});
+			watcher.on("unlinkDir", (DirPath) => {
+				const { addedpathbyide, globalfolderjson } = getState();
+
 				if (DirPath.includes(".git")) {
 					NotifyGitIntegration(win)
 				}
@@ -184,8 +180,10 @@ export function createTrack({ getState, consolelog }) {
 					}),
 				);
 			});
-		} catch (e) {
-			consolelog(e);
+		} catch (e) {console.log(e)
 		}
+		UpdateorCreatefilelist(pathreal)
+
+		Updatestatus(win)
 	};
 }

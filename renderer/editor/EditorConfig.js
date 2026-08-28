@@ -8,6 +8,7 @@ export const EditorConfig = {
       minimap: { enabled: true },
       wordWrap: "off",
       codeLens: true,
+      
       dragAndDrop: true,
       cursorBlinking: "blink",
       cursorStyle: "line",
@@ -16,7 +17,7 @@ export const EditorConfig = {
       snippetSuggestions: "inline",
       fontFamily: "JetBrains Mono",
       fontLigatures: true,
-      fontWeight: 200,
+      fontWeight: 400,
       scrollbar: {
         horizontal: "visible",
         horizontalScrollbarSize: 12,

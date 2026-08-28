@@ -9,7 +9,7 @@ export async function formatHandler(
 	const myCode = object.code;
 
 	try {
-		const myUri = `file://${pathreal}/.noferic-ide/test${Date.now()}.${extension}`;
+		const myUri = `file://${decodeURIComponent(pathreal)}/.noferic-ide/test${Date.now()}.${extension}`;
 
 		await connection.sendNotification("textDocument/didOpen", {
 			textDocument: {

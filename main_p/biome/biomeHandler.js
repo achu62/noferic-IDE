@@ -29,7 +29,7 @@ export async function startBiomeProcess(args, opts) {
 		];
 	});
 
-	const root = `file://${resolvedArgs}/.noferic-ide`;
+	const root = `file://${decodeURIComponent(resolvedArgs)}/.noferic-ide`;
 
 	async function start() {
 		try {
@@ -39,7 +39,7 @@ export async function startBiomeProcess(args, opts) {
 				workspaceFolders: [
 					{
 						uri: root,
-						name: path.basename(resolvedArgs),
+						name: path.basename(decodeURIComponent(resolvedArgs)),
 					},
 				],
 				capabilities: {
@@ -66,7 +66,7 @@ export async function startBiomeProcess(args, opts) {
 			connection.sendNotification("workspace/didChangeWatchedFiles", {
 				changes: [
 					{
-						uri: `file://${path.join(resolvedArgs, ".noferic-ide", "biome.json")}`,
+						uri: `file://${decodeURIComponent(path.join(resolvedArgs, ".noferic-ide", "biome.json"))}`,
 						type: 2,
 					},
 				],
@@ -104,7 +104,7 @@ export async function startBiomeProcess(args, opts) {
 
 export async function lintWithBiome(connection, pathreal, message, consolelog) {
 	const fileToLint = {
-		uri: `file://${pathreal}/.noferic-ide/test${Date.now()}.${message.extension}`,
+		uri: `file://${decodeURIComponent(pathreal)}/.noferic-ide/test${Date.now()}.${message.extension}`,
 		languageId: message.language,
 		version: 1,
 		text: message.code,

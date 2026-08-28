@@ -1,13 +1,15 @@
+/////////////////////jai sri ram
 //jai sri ram
 //jai sri ram
 //jai sri ram
-//jai sri ram
+
 import { getLanguagebyExtension } from "./utils.js";
 import { runparser } from "./parser/dist/my-library.js";
-import {NofericTheme} from "./MyTheme.js"
-import {EditorConfig}  from "./EditorConfig.js"
-import {getDeclarationName} from "./getDeclarationName.js"
+import { NofericTheme } from "./MyTheme.js"
+import { EditorConfig } from "./EditorConfig.js"
+import { getDeclarationName } from "./getDeclarationName.js"
 import { lspKindToMonaco } from "./lspToMonaco.js";
+import { format } from "./formatter/formatter.js";
 function lspCompletionToMonaco(monaco, item) {
   return {
     label: item.label,
@@ -29,6 +31,7 @@ function lspCompletionToMonaco(monaco, item) {
   };
 }
 
+
 export function convertCompletionList(monaco, completionList) {
   const items = Array.isArray(completionList)
     ? completionList
@@ -38,15 +41,18 @@ export function convertCompletionList(monaco, completionList) {
 }
 
 window.onload = () => {
+  console.log(window.renderer)
   require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
   ///
   let editor = null;
+
   let lintlistener;
 
   require(["vs/editor/editor.main"], () => {
     monaco.editor.defineTheme("NofericIDETheme", NofericTheme);
 
-    editor = monaco.editor.create(document.getElementById("editor"),EditorConfig );
+    editor = monaco.editor.create(document.getElementById("editor"), EditorConfig);
+    document.fonts.ready.then(() => monaco.editor.remeasureFonts());
     let URI = null;
     let ismodel = false;
     let extension = null;
@@ -67,6 +73,7 @@ window.onload = () => {
         const name = getDeclarationName(tree);
         window.parent.document.getElementById("breadcrupsfunc").innerText = `${name || ""}`
 
+        window.renderer.SendRequesttomain("hell")
 
       });
 
@@ -77,7 +84,7 @@ window.onload = () => {
     async function sendReqAutocomplete() {
       const model = editor.getModel();
 
-      const path = model.uri.toString().replace("id:", "");
+      const path = decodeURIComponent(model.uri.toString().replace("id:", ""));
       const localcont = model.getValue();
 
       const pos = editor.getPosition();
@@ -107,105 +114,6 @@ window.onload = () => {
       });
       return promise;
     }
-    async function sendReqForGTD() {
-      const pos = editor.getPosition();
-      window.parent.postMessage({
-        action: "getGoTodefintion",
-        position: pos,
-      });
-
-      return new Promise((resolve) => {
-        const handleMessage = (e) => {
-          const message = e.data;
-          if (message.action === "tsgtd") {
-            window.removeEventListener("message", handleMessage); // Clean up event listener
-
-            if (!message.data) return resolve([]);
-
-            // Ensure data is an array (LSP can send a single object or an array)
-            const rawItems = Array.isArray(message.data) ? message.data : [message.data];
-
-            const definitions = rawItems.map((loc) => {
-              // 1. Support both Location (uri/range) and LocationLink (targetUri/targetRange)
-              const rawUri = loc.targetUri || loc.uri || "";
-              const targetRange = loc.targetSelectionRange || loc.targetRange || loc.range;
-
-              // 2. Convert 'file://' URI to 'id://' URI scheme used by your Monaco models
-              const formattedUriString = rawUri.replace(/^file:\/\//, "id://");
-
-              return {
-                uri: monaco.Uri.parse(formattedUriString),
-                range: new monaco.Range(
-                  targetRange.start.line + 1,
-                  targetRange.start.character + 1,
-                  targetRange.end.line + 1,
-                  targetRange.end.character + 1
-                ),
-              };
-            });
-
-            resolve(definitions);
-          }
-        };
-
-        window.addEventListener("message", handleMessage);
-      });
-    }
-    async function sendReqForHover(model, position) {
-      const currentPath = model.uri.toString().replace("id:", "");
-
-      window.parent.postMessage({
-        action: "getHover",
-        path: currentPath,
-        position: {
-          line: position.lineNumber - 1,
-          character: position.column - 1,
-        },
-      });
-
-      return new Promise((resolve) => {
-        const handleMessage = (e) => {
-          const message = e.data;
-          if (message.action === "tshover") {
-            window.removeEventListener("message", handleMessage);
-
-            const hoverData = message.data;
-            if (!hoverData || !hoverData.contents) {
-              return resolve(null);
-            }
-
-            let contents = [];
-
-            if (Array.isArray(hoverData.contents)) {
-              contents = hoverData.contents.map((item) => ({
-                value: typeof item === "string" ? item : item.value,
-              }));
-            } else if (typeof hoverData.contents === "string") {
-              contents = [{ value: hoverData.contents }];
-            } else if (hoverData.contents.value) {
-              contents = [{ value: hoverData.contents.value }];
-            }
-
-            let range = undefined;
-            if (hoverData.range) {
-              range = new monaco.Range(
-                hoverData.range.start.line + 1,
-                hoverData.range.start.character + 1,
-                hoverData.range.end.line + 1,
-                hoverData.range.end.character + 1
-              );
-            }
-
-            resolve({
-              contents: contents,
-              range: range,
-            });
-          }
-        };
-
-        window.addEventListener("message", handleMessage);
-      });
-    }
     async function autosave(editor) {
       if (autosavelistener) {
         autosavelistener.dispose();
@@ -217,8 +125,12 @@ window.onload = () => {
       if (!model) {
         return;
       }
-      const currentPath = model.uri.toString().replace("id:", "");
-      if (currentPath.includes(`inmemory://`)) {
+
+      const path =
+        navigator.platform === "Win32"
+          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+          : decodeURIComponent(model.uri.toString().replace("id:", ""));
+      if (path.includes(`inmemory://`)) {
         return;
       }
 
@@ -227,15 +139,14 @@ window.onload = () => {
           return;
         }
 
-        const content = editor.getValue();
-        window.parent.postMessage(
-          {
-            action: "autosave",
-            code: content,
-            path: currentPath,
-          },
-          "*",
-        );
+        const code = editor.getValue();
+        window.renderer.SendRequesttomain({
+          action: "autosave",
+          args: {
+            code, path
+          }
+        })
+
       });
     }
     track(editor);
@@ -262,14 +173,85 @@ window.onload = () => {
           `❌:${errors} , ⚠️:${warning} ℹ️:${info}`;
       }
     });
-    ["javascript", "typescript"].forEach((lang) => {
-      monaco.languages.registerHoverProvider(lang, {
-        async provideHover(model, position) {
-          if (!URI) return null;
-          return await sendReqForHover(model, position);
-        },
-      });
-    });
+    monaco.languages.registerHoverProvider(
+      "javascript",
+      {
+        provideHover: async (model, position) => {
+          const filepath =
+            navigator.platform === "Win32"
+              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+              : decodeURIComponent(model.uri.toString().replace("id:", ""));
+          const Offset = model.getOffsetAt(position)
+
+          const result =
+            await window.renderer.SendRequesttomain({action:"hover" , args:{filepath , Offset}});
+          if (!result) {
+            return null;
+          }
+
+          return {
+            contents: result.contents
+          };
+        }
+      }
+    );
+    monaco.languages.registerDocumentFormattingEditProvider("javascript",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]
+        }
+      })
+
+
+    monaco.languages.registerDocumentFormattingEditProvider("typescript",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]
+        }
+      })
+    monaco.languages.registerDocumentFormattingEditProvider("json",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]
+        }
+      })
+    monaco.languages.registerDocumentFormattingEditProvider("html",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]
+        }
+      })
+    monaco.languages.registerDocumentFormattingEditProvider("css",
+      {
+        async provideDocumentFormattingEdits(model, options, token) {
+          const formattedCode = await format(model.getValue())
+          console.log(formattedCode)
+          return [{
+            range: model.getFullModelRange(),
+            text: formattedCode
+          }]
+        }
+      })
 
     monaco.languages.registerCompletionItemProvider("javascript", {
       // Trigger completions on every letter, number, and common token characters
@@ -288,6 +270,7 @@ window.onload = () => {
         };
       },
     });
+   
     monaco.languages.registerCompletionItemProvider("typescript", {
       // Trigger completions on every letter, number, and common token characters
       triggerCharacters:
@@ -312,6 +295,7 @@ window.onload = () => {
         return await sendReqForGTD();
       }
     });
+    //iam asking u
     window.addEventListener("message", (e) => {
       const message = e.data;
 
@@ -428,7 +412,9 @@ window.onload = () => {
 
         let newmodel = monaco.editor.getModel(monaco.Uri.parse(recentmodeluri));
         if (!newmodel) {
+
           newmodel = monaco.editor.getModels()[0];
+          console.log(newmodel)
           const topbarfor = window.parent.document.getElementById(
             `topbarelementfor${newmodel.uri.toString().replace("id://", "")}`,
           );
@@ -458,48 +444,54 @@ window.onload = () => {
 
           editor.setModel(newmodel);
         }
-      } else if (action == "deleteallmodels") {
+      } else if (action === "deleteallmodels") {
         monaco.editor.getModels().forEach((model) => {
           model.dispose();
         });
-      } else if (action === "setMarkers") {
-        let markers = [];
-        message.diagnostics.diagnostics.forEach((d) => {
-          markers.push({
-            startLineNumber: d.range.start.line + 1,
-
-            startColumn: d.range.start.character + 1,
-
-            endLineNumber: d.range.end.line + 1,
-
-            endColumn: d.range.end.character + 1,
-
-            message: `biome:${d.message}`,
-
-            severity:
-              d.severity === 1
-                ? monaco.MarkerSeverity.Error
-                : d.severity === 2
-                  ? monaco.MarkerSeverity.Warning
-                  : d.severity === 3
-                    ? monaco.MarkerSeverity.Info
-                    : onaco.MarkerSeverity.Hint,
-          });
-        });
-        monaco.editor.setModelMarkers(editor.getModel(), "biome", markers);
-      }
+      } else if (action === "setMarkers") { }
     });
     async function lint() {
       if (lintlistener) {
         lintlistener.dispose();
       }
-      lintlistener = editor.onDidChangeModelContent(() => {
-        window.parent.postMessage({
-          action: "lint",
-          code: editor.getValue(),
-          extension: extension,
-          language: getLanguagebyExtension(extension),
-        });
+      lintlistener = editor.onDidChangeModelContent(async () => {
+        const code = editor.getValue();
+        const model = editor.getModel();
+        const filePath = navigator.platform === "Win32"
+          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+          : decodeURIComponent(model.uri.toString().replace("id:", ""));
+
+        if (filePath.includes(`inmemory://`)) {
+          return;
+        }
+
+        try {
+          const result = await window.renderer.SendRequesttomain({ action: "lint", args: { code, filePath } });
+          let markers = [];
+          console.log(result)
+          console.log(result[0])
+          console.log(result[0].messages)
+          if (result && result[0]) {
+            result[0].messages.forEach((d) => {
+              console.log(d)
+              console.log(d.line, d.column, d.endLine, d.endColumn)
+              markers.push({
+                startLineNumber: d.line,
+                startColumn: d.column,
+                endLineNumber: d.endLine ?? d.line,
+                endColumn: d.endColumn ?? d.column + 1,
+                message: ` ${d.message}`,
+                severity:
+                  d.severity === 2
+                    ? monaco.MarkerSeverity.Error
+                    : monaco.MarkerSeverity.Warning,
+              });
+            });
+            monaco.editor.setModelMarkers(editor.getModel(), "biome", markers);
+          }
+        } catch (error) {
+          console.error("Linting error:", error);
+        }
       });
     }
     lint();

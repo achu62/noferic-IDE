@@ -5,16 +5,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>NOFERIC IDE</title>
-
+	<script src="./script-override-colors.js"></script>
 	<link rel="stylesheet" href="style2.css" />
 	<link rel="stylesheet" href="./xterm/css/xterm.css" />
 
-	]
+
+
 	<style>
 		@font-face {
 			font-family: 'NotoEmoji';
 			src: url('./editor/fonts/Noto_Color_Emoji\ \(1\)/NotoColorEmoji-Regular.ttf') format('truetype');
 		}
+
 		@font-face {
 			font-family: "JetBrains Mono";
 			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
@@ -43,19 +45,20 @@
 			font-weight: 700;
 			font-style: italic;
 		}
-			@font-face {
-			font-family: "Google Sans";
-			src: url("./editor/fonts/Google_Sans/static/GoogleSans-Regular.ttf") format("truetype");
+
+		@font-face {
+			font-family: "Roboto slab";
+			src: url("./editor/fonts/Roboto_Slab/RobotoSlab-VariableFont_wght.ttf") format("truetype");
 			font-weight: 400;
 			font-style: normal;
 
 		}
-
 	</style>
 </head>
 
 <body>
 	<canvas id="canvas"></canvas>
+	<div id="theme-blanket-overlay"></div>
 	<dialog id="alertdialog" class='dialog'>
 		<button id="okbtn">Ok</button>
 		<p id="contentdiv"></p>
@@ -77,9 +80,6 @@
 		<button id="createliveserverbtn">start server</button>
 		<div id="checkboxtitle">Open in default browser</div>
 		<input type="checkbox" id="Browsercheck" title="Open in default browser" checked>
-
-
-
 	</dialog>
 	<dialog id="createnewfiledialog" class="dialog">
 		<button id="createfileindialoog">create file</button>
@@ -115,7 +115,9 @@
 		<button id="exit" class="common">Exit</button>
 	</div>
 	<div class="common bgcolor1e1e1e" id="btmenu">
-		<div id="lineandcolumn"></div>
+		<div id="lineandcolumn">
+		</div>
+
 		<div id="language"></div>
 		<div id="errors"></div>
 		<div id="currentBranch"></div>
@@ -125,13 +127,26 @@
 		<button class="common" id="expl" title="explorer (ctrl + shift+  E)"></button>
 		<button class="common" id="term" title="terminal   (ctrl + shift + t)"></button>
 		<button class="common" id="gitvercontmenu" title="git features(ctrl +G)"></button>
+		<button class="common" id="settings"></button>
 	</div>
-
+	<dialog id="SettingsDialog">
+		<h2>Settings</h2>
+		<button id="closeSettings">Close</button>
+		<div id="settings-area">
+			<div id="settings-theme" class="settings">Theme
+				<select id="Theme">
+					<option value="dark" selected>Dark
+					</option>
+					<option value="light">Light</option>
+				</select>
+			</div>
+		</div>
+	</dialog>
 	<div id="workspace">
 
 		<div id="middleeditor">
 			<div id="topbarforeditor"></div>
-			<iframe src="editor/index.html" id="editor" class="bgcolor1e1e1e"></iframe>
+			<iframe src="./editor/index.html" id="editor" class="bgcolor1e1e1e"></iframe>
 			<div id="terminalelement">
 				<div id="terminaltopbar" class="common bgcolor1e1e1e">Terminal
 					<button id="addtermbtn" title=" Create terminal process">+</button>
@@ -145,7 +160,7 @@
 		</div>
 		<div id="explorer">
 			<div id="explotop" class="common bgcolor1e1e1e">explorer</div>
-			<input  type = "search" id="explorersearch" placeholder="Search for files">
+			<input type="search" id="explorersearch" placeholder="Search for files">
 			<div id="searchresults"></div>
 			<div id="explorerelement">
 
@@ -160,7 +175,7 @@
 					<button id="switchbranches" class="gitotheractions">Switch Branch</button>
 					<button id="pull" class="gitotheractions">pull</button>
 					<button id="view_commits" class="gitotheractions">View commits(git log)</button>
-					<button  id="changes" class="gitotheractions">changes > </button>
+					<button id="changes" class="gitotheractions">changes > </button>
 
 				</div>
 

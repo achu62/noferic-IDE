@@ -1,4 +1,3 @@
-
 # Noferic IDE
 
  Noferic IDE is a integrated development environment for the built with web technologies.
