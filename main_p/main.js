@@ -2,7 +2,10 @@
 //yes this is working
 //jai sri ram
 //the main.js is changed
+
 import envPaths from "env-paths";
+
+
 
 
 
@@ -643,6 +646,7 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
     let syd = await getSyntacticDiagnosticsfromts(toNormalisedWindowsId(filePath))
     syd.forEach((ydx) => {
       esd[0].messages.push(ydx)
+      console.log(ydx) 
 
     })
     console.log(esd)

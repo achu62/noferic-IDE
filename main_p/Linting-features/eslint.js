@@ -22,6 +22,6 @@ export async function lint(code, FILEPATH) {
             }).show();
             eshown = true;
         }
-        return []
+        return [{messages:[]}]
     }
 }

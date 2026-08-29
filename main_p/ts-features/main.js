@@ -207,9 +207,22 @@ export async function initialisetds(projectRoot) {
     const configPath = path.join(projectRoot, "tsconfig.json");
 
     let compilerOptions = {
+        module: ts.ModuleKind.NodeNext,
+        target: ts.ScriptTarget.ESNext,
+        types: ["node", "electron"],
+        sourceMap: true,
+        declaration: true,
+        declarationMap: true,
+        noUncheckedIndexedAccess: true,
+        strict: true,
+        jsx: ts.JsxEmit.ReactJSX,
+        verbatimModuleSyntax: true,
+        isolatedModules: true,
+        noUncheckedSideEffectImports: true,
+        moduleDetection: ts.ModuleDetectionKind.Force,
+        skipLibCheck: false,
         allowJs: true,
-        checkJs: false,
-        types: ["node"]
+        checkJs: true
     };
 
     if (ts.sys.fileExists(configPath)) {
@@ -273,37 +286,94 @@ export async function initialisetds(projectRoot) {
 
 
 export async function getSyntacticDiagnosticsfromts(fileName) {
-    const diagnostics =
-        hostforpresentfile.getSyntacticDiagnostics(fileName);
+    if (!fileName || typeof fileName !== "string") {
+        return [];
+    }
+
+    if (!hostforpresentfile) {
+        console.warn("Language service host not initialized");
+        return [];
+    }
+
+    let syntacticDiagnostics = [];
+    let semanticDiagnostics = [];
+
+    try {
+        syntacticDiagnostics = hostforpresentfile.getSyntacticDiagnostics(fileName) || [];
+    } catch (e) {
+        console.error("Error getting syntactic diagnostics:", e);
+        syntacticDiagnostics = [];
+    }
+
+    try {
+        semanticDiagnostics = hostforpresentfile.getSemanticDiagnostics(fileName) || [];
+    } catch (e) {
+        console.error("Error getting semantic diagnostics:", e);
+        semanticDiagnostics = [];
+    }
+
+    if (!Array.isArray(syntacticDiagnostics)) syntacticDiagnostics = [];
+    if (!Array.isArray(semanticDiagnostics)) semanticDiagnostics = [];
+
+    const diagnostics = [...syntacticDiagnostics, ...semanticDiagnostics];
+    console.log(diagnostics);
 
     return diagnostics.map((d) => {
-        if (!d.file || d.start === undefined) {
+        if (!d || typeof d !== "object") {
             return null;
         }
 
-        const start =
-            d.file.getLineAndCharacterOfPosition(d.start);
+        if (!d.file || d.start === undefined || d.start === null) {
+            return null;
+        }
 
-        const end =
-            d.file.getLineAndCharacterOfPosition(
-                d.start + (d.length ?? 1)
-            );
+        if (typeof d.start !== "number" || d.start < 0) {
+            return null;
+        }
+
+        if (!d.file.getLineAndCharacterOfPosition || typeof d.file.getLineAndCharacterOfPosition !== "function") {
+            return null;
+        }
+
+        let start, end;
+        try {
+            start = d.file.getLineAndCharacterOfPosition(d.start);
+            if (!start || typeof start.line !== "number" || typeof start.character !== "number") {
+                return null;
+            }
+
+            const length = typeof d.length === "number" && d.length > 0 ? d.length : 1;
+            end = d.file.getLineAndCharacterOfPosition(d.start + length);
+            if (!end || typeof end.line !== "number" || typeof end.character !== "number") {
+                return null;
+            }
+        } catch (e) {
+            console.error("Error getting line/character position:", e);
+            return null;
+        }
+
+        let messageText = "";
+        if (d.messageText) {
+            try {
+                messageText = ts.flattenDiagnosticMessageText(d.messageText, "\n") || "";
+            } catch (e) {
+                console.error("Error flattening diagnostic message:", e);
+                messageText = String(d.messageText || "");
+            }
+        }
+
+        const type = d.semantic ? "semantic" : "syntax";
+        const severity = typeof d.category === "number" ? d.category : 0;
+        const code = d.code ?? null;
 
         return {
             line: start.line + 1,
             column: start.character + 1,
-
             endLine: end.line + 1,
             endColumn: end.character + 1,
-
-            message: `source:ts-intelligence\n type:syntax\n error:${ts.flattenDiagnosticMessageText(
-
-                d.messageText,
-                "\n")
-                }`,
-
-            severity: d.category,
-            code: d.code
+            message: `source:ts-intelligence\n type:${type}\n error:${messageText}`,
+            severity: severity,
+            code: code
         };
     }).filter(Boolean);
 } function quickInfoToMonaco(info, ts) {
