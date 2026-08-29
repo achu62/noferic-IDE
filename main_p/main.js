@@ -44,9 +44,9 @@ import {
   GetDifftextMain,
 } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
-import { initialisetds, getSyntacticDiagnosticsfromts, GetHover, GetAutoComplete } from "./ts-features/main.js"
+import { initialisetds, getSyntacticDiagnosticsfromts, GetHover, GetAutoComplete, updateList } from "./ts-features/main.js"
 
-import { getTags } from "./tagger.js";
+import { getTags } from "./tagger.js"
 import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
 async function handleConfigurations() {
   if (!fs.existsSync(toNormalisedWindowsId(path.join(pathsforappdatas.config))) && toNormalisedWindowsId(path.join(pathsforappdatas.config, "noferic-config.json"))) {
@@ -193,6 +193,7 @@ async function track(pathreal) {
           }),
         );
       }
+      updateList(filePath)
     });
 
     watcher.on("change", async (filePath) => {
@@ -543,7 +544,7 @@ ipcMain.handle("openfolder", async (e) => {
 
 ipcMain.handle("autosave", async (e, { code, path }) => {
   const normalizedPath = toNormalizedWindospath(decodeURIComponent(path));
-  fs.writeFileSync(normalizedPath, code, "utf-8");
+  fs.promises.writeFile(normalizedPath, code, "utf-8");
   changedpathsbyide.push(normalizedPath);
 });
 ipcMain.handle("mkdir", async (e, path) => {

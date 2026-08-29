@@ -462,9 +462,7 @@ window.onload = () => {
         try {
           const result = await window.renderer.SendRequesttomain({ action: "lint", args: { code, filePath } });
           let markers = [];
-          console.log(result)
-          console.log(result[0])
-          console.log(result[0].messages)
+         
           if (result && result[0]) {
             result[0].messages.forEach((d) => {
               console.log(d)

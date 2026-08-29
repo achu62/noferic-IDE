@@ -12,90 +12,92 @@ let round_one_file_paths = [];
 let round_two_file_paths = [];
 let round_three_file_paths = [];
 const MonacoCompletionItemKind = {
-  Method: 0,
-  Function: 1,
-  Constructor: 2,
-  Field: 3,
-  Variable: 4,
-  Class: 5,
-  Interface: 6,
-  Module: 8,
-  Property: 9,
-  Unit: 10,
-  Value: 11,
-  Enum: 12,
-  Keyword: 13,
-  Snippet: 14,
-  Color: 15,
-  File: 16,
-  Reference: 17,
-  Folder: 18,
-  EnumMember: 19,
-  Constant: 20,
-  Struct: 21,
-  Event: 22,
-  Operator: 23,
-  TypeParameter: 24
+    Method: 0,
+    Function: 1,
+    Constructor: 2,
+    Field: 3,
+    Variable: 4,
+    Class: 5,
+    Interface: 6,
+    Module: 8,
+    Property: 9,
+    Unit: 10,
+    Value: 11,
+    Enum: 12,
+    Keyword: 13,
+    Snippet: 14,
+    Color: 15,
+    File: 16,
+    Reference: 17,
+    Folder: 18,
+    EnumMember: 19,
+    Constant: 20,
+    Struct: 21,
+    Event: 22,
+    Operator: 23,
+    TypeParameter: 24
 };
 
 function convertCompletionKind(kind) {
-  switch (kind) {
-    case ts.ScriptElementKind.memberFunctionElement:
-      return MonacoCompletionItemKind.Method;
+    switch (kind) {
+        case ts.ScriptElementKind.memberFunctionElement:
+            return MonacoCompletionItemKind.Method;
 
-    case ts.ScriptElementKind.functionElement:
-    case ts.ScriptElementKind.localFunctionElement:
-      return MonacoCompletionItemKind.Function;
+        case ts.ScriptElementKind.functionElement:
+        case ts.ScriptElementKind.localFunctionElement:
+            return MonacoCompletionItemKind.Function;
 
-    case ts.ScriptElementKind.constructorImplementationElement:
-      return MonacoCompletionItemKind.Constructor;
+        case ts.ScriptElementKind.constructorImplementationElement:
+            return MonacoCompletionItemKind.Constructor;
 
-    case ts.ScriptElementKind.memberVariableElement:
-      return MonacoCompletionItemKind.Field;
+        case ts.ScriptElementKind.memberVariableElement:
+            return MonacoCompletionItemKind.Field;
 
-    case ts.ScriptElementKind.variableElement:
-    case ts.ScriptElementKind.localVariableElement:
-    case ts.ScriptElementKind.letElement:
-    case ts.ScriptElementKind.parameterElement:
-      return MonacoCompletionItemKind.Variable;
+        case ts.ScriptElementKind.variableElement:
+        case ts.ScriptElementKind.localVariableElement:
+        case ts.ScriptElementKind.letElement:
+        case ts.ScriptElementKind.parameterElement:
+            return MonacoCompletionItemKind.Variable;
 
-    case ts.ScriptElementKind.classElement:
-    case ts.ScriptElementKind.localClassElement:
-      return MonacoCompletionItemKind.Class;
+        case ts.ScriptElementKind.classElement:
+        case ts.ScriptElementKind.localClassElement:
+            return MonacoCompletionItemKind.Class;
 
-    case ts.ScriptElementKind.interfaceElement:
-      return MonacoCompletionItemKind.Interface;
+        case ts.ScriptElementKind.interfaceElement:
+            return MonacoCompletionItemKind.Interface;
 
-    case ts.ScriptElementKind.moduleElement:
-      return MonacoCompletionItemKind.Module;
+        case ts.ScriptElementKind.moduleElement:
+            return MonacoCompletionItemKind.Module;
 
-    case ts.ScriptElementKind.propertyElement:
-      return MonacoCompletionItemKind.Property;
+        case ts.ScriptElementKind.propertyElement:
+            return MonacoCompletionItemKind.Property;
 
-    case ts.ScriptElementKind.enumElement:
-      return MonacoCompletionItemKind.Enum;
+        case ts.ScriptElementKind.enumElement:
+            return MonacoCompletionItemKind.Enum;
 
-    case ts.ScriptElementKind.enumMemberElement:
-      return MonacoCompletionItemKind.EnumMember;
+        case ts.ScriptElementKind.enumMemberElement:
+            return MonacoCompletionItemKind.EnumMember;
 
-    case ts.ScriptElementKind.constElement:
-      return MonacoCompletionItemKind.Constant;
+        case ts.ScriptElementKind.constElement:
+            return MonacoCompletionItemKind.Constant;
 
-    case ts.ScriptElementKind.keyword:
-      return MonacoCompletionItemKind.Keyword;
+        case ts.ScriptElementKind.keyword:
+            return MonacoCompletionItemKind.Keyword;
 
-    case ts.ScriptElementKind.alias:
-      return MonacoCompletionItemKind.Reference;
+        case ts.ScriptElementKind.alias:
+            return MonacoCompletionItemKind.Reference;
 
-    case ts.ScriptElementKind.typeElement:
-      return MonacoCompletionItemKind.TypeParameter;
+        case ts.ScriptElementKind.typeElement:
+            return MonacoCompletionItemKind.TypeParameter;
 
-    default:
-      return MonacoCompletionItemKind.Text;
-  }
+        default:
+            return MonacoCompletionItemKind.Text;
+    }
 }
 
 let statemanager = { version: "1", filepath: null, currentcode: null }
+const currentFiles = new Map();
+const fileVersions = new Map();
 const excludedDirectories =
     ["node_modules", "dist", ".code", ".noferic-ide", ".zed", ".idea", ".git", "monaco-editor"]
 const IncludedExtensions = [
@@ -190,11 +192,13 @@ async function PlanTheMap(DirPath) {
         await scanafolder(DirPath)
     }
 }
-
+let state = { files: null, version: 1 }
 
 export async function initialisetds(projectRoot) {
     if (hostforpresentfile) hostforpresentfile.dispose()
     await PlanTheMap(projectRoot)
+    state.files = [...round_one_file_paths, ...round_two_file_paths, ...round_three_file_paths]
+
     console.log(round_one_file_paths, round_two_file_paths, round_three_file_paths)
 
 
@@ -226,13 +230,16 @@ export async function initialisetds(projectRoot) {
 
     const host = {
         getScriptFileNames() {
-            return [...round_one_file_paths, ...round_two_file_paths, ...round_three_file_paths]
+            return state.files ?? []
         },
-        getScriptVersion() {
-            return statemanager.version
+        getScriptVersion(fileName) {
+            return state.version
         },
         getScriptSnapshot(fileName) {
-            const code = ts.sys.readFile(fileName);
+            const normalizedFileName = toNormalisedWindowsId(fileName);
+            const code = currentFiles.has(normalizedFileName)
+                ? currentFiles.get(normalizedFileName)
+                : ts.sys.readFile(fileName);
 
             if (code === undefined) {
                 return undefined;
@@ -340,7 +347,6 @@ export async function getSyntacticDiagnosticsfromts(fileName) {
     };
 }
 export async function GetHover(filePath, position) {
-    console.log(quickInfoToMonaco(hostforpresentfile.getQuickInfoAtPosition(toNormalisedWindowsId(filePath), position), ts))
     return quickInfoToMonaco(hostforpresentfile.getQuickInfoAtPosition(toNormalisedWindowsId(filePath), position), ts)
 }
 export async function GetAutoComplete(c, fpath) {
@@ -358,7 +364,7 @@ export async function GetAutoComplete(c, fpath) {
                 includeCompletionsWithSnippetText: true
             }
         );
-       console.log(JSON.stringify(result))
+        console.log(JSON.stringify(result))
 
         if (!result) {
             return {
@@ -392,3 +398,8 @@ export async function GetAutoComplete(c, fpath) {
 
 }
 
+export async function updateList(filePath) {
+    const normalizedFilePath = toNormalisedWindowsId(filePath);
+    state.files.push(normalizedFilePath)
+    state.version = state.version + 1
+}
