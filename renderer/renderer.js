@@ -343,6 +343,8 @@ window.onload = function () {
   observerforpreview.observe(document.getElementById("preview"));
 
   const fileexplorerarea = document.getElementById("explorerelement");
+  let previousselection;
+
   async function recursiveloop(filearray, space) {
     let depth = 10;
 
@@ -388,6 +390,10 @@ window.onload = function () {
         filebutton.appendChild(statebtn);
         let isopen = false;
         filebutton.addEventListener("click", (e) => {
+          filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
+          if(previousselection){
+          document.getElementById(previousselection).style.backgroundColor =  "#333333"}
+          previousselection = file.id;
           if (!isopen) {
             if (filebutton.classList.contains("folder")) {
               recursiveloop(
@@ -443,6 +449,10 @@ window.onload = function () {
         filebutton.addEventListener("click", async (e) => {
           e.stopPropagation();
           e.stopImmediatePropagation();
+          filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
+          if(previousselection){
+          document.getElementById(previousselection).style.backgroundColor =  "#333333"}
+          previousselection = file.id;
           await openFileFromExplorer({ iframe, file });
         });
 

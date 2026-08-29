@@ -1,4 +1,2 @@
-
-////jai sri ram
-import {ass} from "from"
-ass = ;
+//jai sri ram
+const app = ;

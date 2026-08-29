@@ -16,6 +16,7 @@ const IncludedExtensions = [
   ".js",
   ".jsx",
   ".ts",
+  
   ".tsx",
   ".cjs",
   ".mjs",
