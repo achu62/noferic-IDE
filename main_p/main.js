@@ -20,6 +20,8 @@ import {
 
   Notification,
   
+  
+
 
 } from "electron";
 import path from "node:path";
@@ -50,7 +52,7 @@ import {
   GetDifftextMain,
 } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
-import { initialisetds, getSyntacticDiagnosticsfromts, GetHover, GetAutoComplete, updateList } from "./ts-features/main.js"
+import { initialisetds, getSyntacticDiagnosticsfromts, GetHover, GetAutoComplete, updateList, UpdateVersion } from "./ts-features/main.js"
 
 import { getTags } from "./tagger.js"
 import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
@@ -216,6 +218,7 @@ async function track(pathreal) {
       }
 
       changedpathsbyide = changedpathsbyide.filter((item) => toPathKey(item) !== toPathKey(filePath));
+      UpdateVersion(filePath)
     });
 
     watcher.on("unlink", (filePath) => {
@@ -397,7 +400,8 @@ async function handleappargs(args) {
           app.quit();
         }
       }
-      confirm(win);
+      if(!fs.existsSync(path.join(path.resolve(args) , ".noferic-ide")))   {    confirm(win);}
+
       pathreal = path.resolve(args);
 
 

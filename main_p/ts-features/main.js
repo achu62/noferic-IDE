@@ -222,7 +222,7 @@ export async function initialisetds(projectRoot) {
         moduleDetection: ts.ModuleDetectionKind.Force,
         skipLibCheck: false,
         allowJs: true,
-        checkJs: true
+        checkJs: false
     };
 
     if (ts.sys.fileExists(configPath)) {
@@ -470,7 +470,18 @@ export async function GetAutoComplete(c, fpath) {
 }
 
 export async function updateList(filePath) {
-    const normalizedFilePath = toNormalisedWindowsId(filePath);
+    if(IncludedExtensions.includes(path.extname(path.basename(filePath)))){
+ const normalizedFilePath = toNormalisedWindowsId(filePath);
     state.files.push(normalizedFilePath)
+        state.version = state.version + 1
+
+    }
+   
+}
+export async function UpdateVersion(filePath){
+    if(IncludedExtensions.includes(path.extname(path.basename(filePath))))
+    {
     state.version = state.version + 1
+
+    }
 }
