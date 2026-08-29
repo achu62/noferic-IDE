@@ -4,6 +4,8 @@
 //the main.js is changed
 import envPaths from "env-paths";
 
+
+
 import { lint, initialiseLinter } from "./Linting-features/eslint.js"
 import {
   app,
@@ -14,6 +16,7 @@ import {
   shell,
 
   Notification,
+  
 
 } from "electron";
 import path from "node:path";

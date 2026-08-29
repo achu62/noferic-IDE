@@ -1,18 +1,27 @@
 //jai sri ram
-import path from "path"
-import {ESLint} from "eslint"
+import { Notification } from "electron"
+import { ESLint } from "eslint"
 let eslinter;
-export function initialiseLinter(Dirpath){
+export function initialiseLinter(Dirpath) {
     eslinter = new ESLint({
-        cwd:Dirpath
+        cwd: Dirpath
     })
     console.log(eslinter)
 
-}export async function lint(code , FILEPATH){
-    try{
-        return await eslinter.lintText(code , {filePath:FILEPATH})
+}
+let eshown = false;
+export async function lint(code, FILEPATH) {
+    try {
+        return await eslinter.lintText(code, { filePath: FILEPATH })
     }
-    catch(e){
-        console.log(e)
+    catch (e) {
+        if (!eshown) {
+            new Notification({
+                title: "ESLINT",
+                body: ` eslint responded with ${JSON.stringify(e)}`,
+            }).show();
+            eshown = true;
+        }
+        return []
     }
 }

@@ -108,6 +108,7 @@ const IncludedExtensions = [
     ".cjs",
     ".mjs",
     ".cts",
+    ".d.ts"
 ];
 
 
