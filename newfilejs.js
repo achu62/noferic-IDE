@@ -1,3 +1,3 @@
 //jai sri ram
-const app = ;
-const app = documetn.getElementById()
+
+const app = document.getElementbyid()

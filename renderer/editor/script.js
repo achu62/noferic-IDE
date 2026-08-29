@@ -87,29 +87,33 @@ window.onload = () => {
       if (autosavelistener) {
         autosavelistener.dispose();
       }
-      const model = editor.getModel();
-      if (!autosavecompleted) { return }
-      if (!editor) {
-        return;
-      }
-      if (!model) {
-        return;
-      }
 
-      if (!URI) {
-        return;
-      }
-      setTimeout(async () => {
-      
-        autosavelistener = editor.onDidChangeModelContent(async () => {
+      autosavelistener = editor.onDidChangeModelContent(async () => {
+        if (!autosavecompleted) { return }
+
+        const model = editor.getModel();
+
+        if (!editor) {
+          return;
+        }
+        if (!model) {
+          return;
+        }
+
+        if (!URI) {
+          return;
+        }
+        autosavecompleted = false;
+       const timeout=   setTimeout(async () => {
+
 
           const path =
             navigator.platform === "Win32"
               ? decodeURIComponent(model.uri.toString().replace("id://", ""))
               : decodeURIComponent(model.uri.toString().replace("id:", ""));
-                if (path.includes(`inmemory://`)) {
-          return;
-        }
+          if (path.includes(`inmemory://`)) {
+            return;
+          }
 
           const code = editor.getValue();
           window.renderer.SendRequesttomain({
@@ -119,8 +123,9 @@ window.onload = () => {
             }
           })
           autosavecompleted = true;
-        });
-      }, 1000)
+          timeout.close()
+        }, 10000);
+      })
 
 
 
