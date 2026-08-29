@@ -10,7 +10,7 @@ import { EditorConfig } from "./EditorConfig.js"
 import { getDeclarationName } from "./getDeclarationName.js"
 import { lspKindToMonaco } from "./lspToMonaco.js";
 import { format } from "./formatter/formatter.js";
-function lspCompletionToMonaco(monaco, item) {
+async function lspCompletionToMonaco(monaco, item) {
   return {
     label: item.label,
     kind: lspKindToMonaco(monaco, item.kind),
@@ -32,7 +32,7 @@ function lspCompletionToMonaco(monaco, item) {
 }
 
 
-export function convertCompletionList(monaco, completionList) {
+export async function convertCompletionList(monaco, completionList) {
   const items = Array.isArray(completionList)
     ? completionList
     : completionList.items;
@@ -81,11 +81,14 @@ window.onload = () => {
 
 
     }
+    let autosavecompleted = true
     async function autosave(editor) {
+
       if (autosavelistener) {
         autosavelistener.dispose();
       }
       const model = editor.getModel();
+      if (!autosavecompleted) { return }
       if (!editor) {
         return;
       }
@@ -93,28 +96,34 @@ window.onload = () => {
         return;
       }
 
-      const path =
-        navigator.platform === "Win32"
-          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
-          : decodeURIComponent(model.uri.toString().replace("id:", ""));
-      if (path.includes(`inmemory://`)) {
+      if (!URI) {
         return;
       }
+      setTimeout(async () => {
+      
+        autosavelistener = editor.onDidChangeModelContent(async () => {
 
-      autosavelistener = editor.onDidChangeModelContent(async () => {
-        if (!URI) {
+          const path =
+            navigator.platform === "Win32"
+              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+              : decodeURIComponent(model.uri.toString().replace("id:", ""));
+                if (path.includes(`inmemory://`)) {
           return;
         }
 
-        const code = editor.getValue();
-        window.renderer.SendRequesttomain({
-          action: "autosave",
-          args: {
-            code, path
-          }
-        })
+          const code = editor.getValue();
+          window.renderer.SendRequesttomain({
+            action: "autosave",
+            args: {
+              code, path
+            }
+          })
+          autosavecompleted = true;
+        });
+      }, 1000)
 
-      });
+
+
     }
     track(editor);
     monaco.editor.onDidChangeMarkers(([resource]) => {
@@ -142,68 +151,68 @@ window.onload = () => {
     });
     monaco.languages.registerCompletionItemProvider("javascript", {
       triggerCharacters: [
-  ".",
-  '"',
-  "'",
-  "/",
-  "<",
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z"
-],
-  async provideCompletionItems(model, position) {
-    try {
-      const offset = model.getOffsetAt(position);
-      console.log(offset)
-      const filepath = 
-        navigator.platform === "Win32"
-          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
-          : decodeURIComponent(model.uri.toString().replace("id:", ""));
+        ".",
+        '"',
+        "'",
+        "/",
+        "<",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z"
+      ],
+      async provideCompletionItems(model, position) {
+        try {
+          const offset = model.getOffsetAt(position);
+          console.log(offset)
+          const filepath =
+            navigator.platform === "Win32"
+              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+              : decodeURIComponent(model.uri.toString().replace("id:", ""));
 
-      const result = await window.renderer.SendRequesttomain({
-        action: "get-auto-complete",
-        args: {
-          filepath,
-          offset
+          const result = await window.renderer.SendRequesttomain({
+            action: "get-auto-complete",
+            args: {
+              filepath,
+              offset
+            }
+          });
+          console.log(result)
+
+          return {
+            suggestions: result?.suggestions || []
+          };
+        } catch (error) {
+          console.error("Autocomplete error:", error);
+
+          return {
+            suggestions: []
+          };
         }
-      });
-      console.log(result)
-
-      return {
-        suggestions: result?.suggestions || []
-      };
-    } catch (error) {
-      console.error("Autocomplete error:", error);
-
-      return {
-        suggestions: []
-      };
-    }
-  }
-});
+      }
+    });
     monaco.languages.registerHoverProvider(
       "javascript",
       {
@@ -215,7 +224,7 @@ window.onload = () => {
           const Offset = model.getOffsetAt(position)
 
           const result =
-            await window.renderer.SendRequesttomain({action:"hover" , args:{filepath , Offset}});
+            await window.renderer.SendRequesttomain({ action: "hover", args: { filepath, Offset } });
           if (!result) {
             return null;
           }
@@ -284,11 +293,11 @@ window.onload = () => {
         }
       })
 
-  
-   
-    
 
-  
+
+
+
+
     //iam asking u
     window.addEventListener("message", (e) => {
       const message = e.data;
@@ -444,49 +453,55 @@ window.onload = () => {
         });
       } else if (action === "setMarkers") { }
     });
+    let debouncerforlinting;
+    const debouncedLint = () => {
+      clearTimeout(debouncerforlinting);
+      debouncerforlinting = setTimeout(lint, 250);
+    };
+
     async function lint() {
-      if (lintlistener) {
-        lintlistener.dispose();
+      console.log("linting")
+      const code = editor.getValue();
+      const model = editor.getModel();
+      if (!model) return;
+
+      const filePath = navigator.platform === "Win32"
+        ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+        : decodeURIComponent(model.uri.toString().replace("id:", ""));
+
+      if (filePath.includes(`inmemory://`)) {
+        return;
       }
-      lintlistener = editor.onDidChangeModelContent(async () => {
-        const code = editor.getValue();
-        const model = editor.getModel();
-        const filePath = navigator.platform === "Win32"
-          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
-          : decodeURIComponent(model.uri.toString().replace("id:", ""));
 
-        if (filePath.includes(`inmemory://`)) {
-          return;
-        }
+      try {
+        const result = await window.renderer.SendRequesttomain({ action: "lint", args: { code, filePath } });
+        const markers = [];
 
-        try {
-          const result = await window.renderer.SendRequesttomain({ action: "lint", args: { code, filePath } });
-          let markers = [];
-         
-          if (result && result[0]) {
-            result[0].messages.forEach((d) => {
-              console.log(d)
-              console.log(d.line, d.column, d.endLine, d.endColumn)
-              markers.push({
-                startLineNumber: d.line,
-                startColumn: d.column,
-                endLineNumber: d.endLine ?? d.line,
-                endColumn: d.endColumn ?? d.column + 1,
-                message: ` ${d.message}`,
-                severity:
-                  d.severity === 2
-                    ? monaco.MarkerSeverity.Error
-                    : monaco.MarkerSeverity.Warning,
-              });
+        if (result && result[0]) {
+          result[0].messages.forEach((d) => {
+            markers.push({
+              startLineNumber: d.line,
+              startColumn: d.column,
+              endLineNumber: d.endLine ?? d.line,
+              endColumn: d.endColumn ?? d.column + 1,
+              message: ` ${d.message}`,
+              severity:
+                d.severity === 2
+                  ? monaco.MarkerSeverity.Error
+                  : monaco.MarkerSeverity.Warning,
             });
-            monaco.editor.setModelMarkers(editor.getModel(), "biome", markers);
-          }
-        } catch (error) {
-          console.error("Linting error:", error);
+          });
+          monaco.editor.setModelMarkers(model, "biome", markers);
         }
-      });
+      } catch (error) {
+        console.error("Linting error:", error);
+      }
     }
-    lint();
+
+    if (lintlistener) {
+      lintlistener.dispose();
+    }
+    lintlistener = editor.onDidChangeModelContent(debouncedLint);
 
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
