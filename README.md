@@ -1,7 +1,6 @@
 # Noferic IDE
 
  Noferic IDE is a integrated development environment for the built with web technologies.
- 
 
 ## Download
 
@@ -15,7 +14,7 @@ You can download the AppImage for Linux here:
 ## Build from source
 
 ### Dependencies
-
+//jai sri ram
 
 - Node.js (LTS recommended)
 - npm (included with Node.js)

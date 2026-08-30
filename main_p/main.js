@@ -2,8 +2,10 @@
 //yes this is working
 //jai sri ram
 //the main.js is changed
-
+//jai sri ram
+ 
 import envPaths from "env-paths";
+//jai srir am
 
 
 
@@ -207,6 +209,7 @@ async function track(pathreal) {
     watcher.on("change", async (filePath) => {
       filePath = toNormalizedWindospath(filePath);
       if (!changedpathsbyide.map(toPathKey).includes(toPathKey(filePath))) {
+        console.log("changed")
         win.webContents.send(
           "data",
           JSON.stringify({

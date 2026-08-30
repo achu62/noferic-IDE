@@ -59,78 +59,62 @@ window.onload = () => {
     let recentmodeluri;
     let autosavelistener;
 
-    async function track(editor) {
-      if (!editor) return;
-      editor.onDidChangeCursorPosition(async (e) => {
-        window.parent.document.getElementById("lineandcolumn").innerText =
+    //async function track(editor) {
+    //  if (!editor) return;
+      //editor.onDidChangeCursorPosition(async (e) => {
+        //window.parent.document.getElementById("lineandcolumn").innerText =
 
-          `LN:${e.position.lineNumber}  COL:${e.position.column}`;
+          //`LN:${e.position.lineNumber}  COL:${e.position.column}`;
 
-        const tree = await runparser(editor.getValue(), {
-          row: e.position.lineNumber - 1,
-          column: e.position.column - 1,
-        })
-        const name = getDeclarationName(tree);
-        window.parent.document.getElementById("breadcrupsfunc").innerText = `${name || ""}`
+        //const tree = await runparser(editor.getValue(), {
+          //row: e.position.lineNumber - 1,
+          //column: e.position.column - 1,
+        //})
+        //const name = getDeclarationName(tree);
+       // window.parent.document.getElementById("breadcrupsfunc").innerText = `${name || ""}`
 
-        window.renderer.SendRequesttomain("hell")
+        //window.renderer.SendRequesttomain("hell")
 
+      //});
+
+
+
+
+//    }
+    let autosaveTimer = null; // Stored globally/outer-scope to persist across keypresses
+
+async function autosave(editor) {
+  if (autosavelistener) {
+    autosavelistener.dispose();
+  }
+
+  autosavelistener = editor.onDidChangeModelContent(() => {
+    // 1. Cancel the previous scheduled save on every new keypress
+    if (autosaveTimer) {
+      clearTimeout(autosaveTimer);
+    }
+
+    // 2. Schedule a single save 1 second after typing pauses
+    autosaveTimer = setTimeout(async () => {
+      const model = editor.getModel();
+      if (!editor || !model || !URI) return;
+
+      const path =
+        navigator.platform === "Win32"
+          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+          : decodeURIComponent(model.uri.toString().replace("id:", ""));
+
+      if (path.includes("inmemory://")) return;
+
+      const code = editor.getValue();
+      
+      window.renderer.SendRequesttomain({
+        action: "autosave",
+        args: { code, path }
       });
-
-
-
-
-    }
-    let autosavecompleted = true
-    async function autosave(editor) {
-
-      if (autosavelistener) {
-        autosavelistener.dispose();
-      }
-
-      autosavelistener = editor.onDidChangeModelContent(async () => {
-        if (!autosavecompleted) { return }
-
-        const model = editor.getModel();
-
-        if (!editor) {
-          return;
-        }
-        if (!model) {
-          return;
-        }
-
-        if (!URI) {
-          return;
-        }
-        autosavecompleted = false;
-       const timeout=   setTimeout(async () => {
-
-
-          const path =
-            navigator.platform === "Win32"
-              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
-              : decodeURIComponent(model.uri.toString().replace("id:", ""));
-          if (path.includes(`inmemory://`)) {
-            return;
-          }
-
-          const code = editor.getValue();
-          window.renderer.SendRequesttomain({
-            action: "autosave",
-            args: {
-              code, path
-            }
-          })
-          autosavecompleted = true;
-          timeout.close()
-        }, 10000);
-      })
-
-
-
-    }
-    track(editor);
+    }, 1000); 
+  });
+}
     monaco.editor.onDidChangeMarkers(([resource]) => {
       const modelae = editor.getModel();
 
@@ -155,39 +139,7 @@ window.onload = () => {
       }
     });
     monaco.languages.registerCompletionItemProvider("javascript", {
-      triggerCharacters: [
-        ".",
-        '"',
-        "'",
-        "/",
-        "<",
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z"
-      ],
+      triggerCharacters: ["." , "<" , "/"],
       async provideCompletionItems(model, position) {
         try {
           const offset = model.getOffsetAt(position);
@@ -299,6 +251,7 @@ window.onload = () => {
       })
 
 
+        autosave(editor);
 
 
 
@@ -347,7 +300,6 @@ window.onload = () => {
           }
         }
 
-        autosave(editor);
         const topbarfor = window.parent.document.getElementById(
           `topbarelementfor${URI}`,
         );
@@ -461,7 +413,7 @@ window.onload = () => {
     let debouncerforlinting;
     const debouncedLint = () => {
       clearTimeout(debouncerforlinting);
-      debouncerforlinting = setTimeout(lint, 250);
+      debouncerforlinting = setTimeout(lint, 2500);
     };
 
     async function lint() {
