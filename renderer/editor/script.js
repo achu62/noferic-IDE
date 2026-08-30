@@ -41,7 +41,7 @@ export async function convertCompletionList(monaco, completionList) {
 }
 
 window.onload = () => {
-  console.log(window.renderer)
+  //console.log(window.renderer)
   require.config({ paths: { vs: "monaco-editor/package/min/vs" } });
   ///
   let editor = null;
@@ -143,7 +143,7 @@ async function autosave(editor) {
       async provideCompletionItems(model, position) {
         try {
           const offset = model.getOffsetAt(position);
-          console.log(offset)
+          //console.log(offset)
           const filepath =
             navigator.platform === "Win32"
               ? decodeURIComponent(model.uri.toString().replace("id://", ""))
@@ -156,7 +156,7 @@ async function autosave(editor) {
               offset
             }
           });
-          console.log(result)
+          //console.log(result)
 
           return {
             suggestions: result?.suggestions || []
@@ -196,7 +196,7 @@ async function autosave(editor) {
       {
         async provideDocumentFormattingEdits(model, options, token) {
           const formattedCode = await format(model.getValue())
-          console.log(formattedCode)
+          //console.log(formattedCode)
           return [{
             range: model.getFullModelRange(),
             text: formattedCode
@@ -209,7 +209,7 @@ async function autosave(editor) {
       {
         async provideDocumentFormattingEdits(model, options, token) {
           const formattedCode = await format(model.getValue())
-          console.log(formattedCode)
+          //console.log(formattedCode)
           return [{
             range: model.getFullModelRange(),
             text: formattedCode
@@ -220,7 +220,7 @@ async function autosave(editor) {
       {
         async provideDocumentFormattingEdits(model, options, token) {
           const formattedCode = await format(model.getValue())
-          console.log(formattedCode)
+          //console.log(formattedCode)
           return [{
             range: model.getFullModelRange(),
             text: formattedCode
@@ -231,7 +231,7 @@ async function autosave(editor) {
       {
         async provideDocumentFormattingEdits(model, options, token) {
           const formattedCode = await format(model.getValue())
-          console.log(formattedCode)
+          //console.log(formattedCode)
           return [{
             range: model.getFullModelRange(),
             text: formattedCode
@@ -242,7 +242,7 @@ async function autosave(editor) {
       {
         async provideDocumentFormattingEdits(model, options, token) {
           const formattedCode = await format(model.getValue())
-          console.log(formattedCode)
+          //console.log(formattedCode)
           return [{
             range: model.getFullModelRange(),
             text: formattedCode
@@ -264,6 +264,7 @@ async function autosave(editor) {
 
       if (action === "set") {
         editor.layout();
+        document.getElementById("iamg")?.remove()
         const content = message.content;
         ismodel = message.isdir;
         URI = message.path;
@@ -374,7 +375,7 @@ async function autosave(editor) {
         if (!newmodel) {
 
           newmodel = monaco.editor.getModels()[0];
-          console.log(newmodel)
+          //console.log(newmodel)
           const topbarfor = window.parent.document.getElementById(
             `topbarelementfor${newmodel.uri.toString().replace("id://", "")}`,
           );
@@ -417,7 +418,7 @@ async function autosave(editor) {
     };
 
     async function lint() {
-      console.log("linting")
+      //console.log("linting")
       const code = editor.getValue();
       const model = editor.getModel();
       if (!model) return;

@@ -6,7 +6,6 @@ export function initialiseLinter(Dirpath) {
     eslinter = new ESLint({
         cwd: Dirpath
     })
-    console.log(eslinter)
 
 }
 let eshown = false;

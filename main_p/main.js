@@ -9,7 +9,10 @@ import envPaths from "env-paths";
 
 
 
-
+import ts from "typescript"
+export function getts(){
+  return ts;
+}
 
 import { lint, initialiseLinter } from "./Linting-features/eslint.js"
 import {
@@ -88,7 +91,6 @@ async function handleConfigurations() {
   })
 }
 const pathsforappdatas = envPaths("Noferic IDE");
-console.log(toNormalisedWindowsId(pathsforappdatas.config))
 let pathreal = null;
 const isproduction = app.isPackaged;
 function toNormalisedWindowsId(inputPath) {
@@ -653,14 +655,11 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
     let syd = await getSyntacticDiagnosticsfromts(toNormalisedWindowsId(filePath))
     syd.forEach((ydx) => {
       esd[0].messages.push(ydx)
-      console.log(ydx) 
 
     })
-    console.log(esd)
     return esd;
   }
   catch (e) {
-    console.log(e)
   }
 })
 ipcMain.handle("hover", async (e, { filepath, Offset }) => {
@@ -681,6 +680,5 @@ ipcMain.handle("changesettings", async (e, property, value) => {
 
 })
 ipcMain.handle("get-auto-complete" , async(e , {filepath , offset})=>{
-  console.log(offset , filepath)
   return await GetAutoComplete(offset , filepath);
 })

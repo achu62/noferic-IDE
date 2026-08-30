@@ -2,7 +2,6 @@ import path from "node:path";
 import liveServer from "live-server";
 
 export const start_server = async (e, obj, pathreal) => {
-	//console.log(obj);
 
 	const serverParams = {
 		port: obj.port,

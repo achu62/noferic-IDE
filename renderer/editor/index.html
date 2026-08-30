@@ -56,11 +56,27 @@
       height: auto;
       pointer-events: auto;
     }
+    #iamg{
+      
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: auto;
+      text-align: center;
+      font-family:"JetBrains Mono";
+      color:#FFFFFF;
+      z-index:12;
+      background-color: black;
+    }
   </style>
 </head>
 
 <body>
   <div id="editor"></div>
+  <div id="iamg">
+    Open a file
+  </div>
   <script src="monaco-editor/package/min/vs/loader.js"></script>
   <script src="script.js" type="module">
 

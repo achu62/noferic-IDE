@@ -45,6 +45,14 @@ export function handleShortCuts(document) {
             e.preventDefault()
             document.getElementById("settings").click()
         }
+        else if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "o"){
+            e.preventDefault()
+            document.getElementById("open_folder").click()
+        }
+         else if(e.ctrlKey  && e.key.toLowerCase() === "o"){
+            e.preventDefault()
+            document.getElementById("open_file").click()
+        }
     });
    
 }

@@ -62,14 +62,14 @@ body {
   mix-blend-mode: difference;
   filter: contrast(250%) grayscale(100%);
   pointer-events: none;
-  z-index: 999999;}
+  z-index: 999999;}*/
 .common {
   color: var(--ffffff);
   font-size: 13.5px;
   font-weight: 350;
   background-color: var(--ieieie);
 }
-*/
+
 
 #top-menu {
   height: 20px;

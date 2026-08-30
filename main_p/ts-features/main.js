@@ -3,7 +3,6 @@
 /**@param  {string} DirPath */
 /**@param {Array} list*/
 /**@param {Array} details*/
-
 import path from "path"
 import fs from "fs"
 import ts from "typescript"
@@ -132,9 +131,7 @@ function sourceFileToTree(sourceFile) {
 }
 async function scanafolder(Dirpath) {
     const files = fs.readdirSync(Dirpath, { withFileTypes: true });
-    console.log("1")
     for (const file of files) {
-        console.log("2")
         const fullpath = path.join(Dirpath, file.name);
         if (file.isDirectory()) {
             if (excludedDirectories.includes(file.name) === false) {
@@ -164,7 +161,6 @@ async function PlanTheMap(DirPath) {
         const packagejson = JSON.parse(fs.readFileSync(toNormalisedWindowsId(path.join(DirPath, "package.json"))))
         if (packagejson.main) {
             const MainPath = toNormalisedWindowsId(path.join(DirPath, packagejson.main))
-            console.log(MainPath)
             details.push({ "mainpath": MainPath })
             const program = ts.createProgram(
                 [MainPath],
@@ -200,7 +196,6 @@ export async function initialisetds(projectRoot) {
     await PlanTheMap(projectRoot)
     state.files = [...round_one_file_paths, ...round_two_file_paths, ...round_three_file_paths]
 
-    console.log(round_one_file_paths, round_two_file_paths, round_three_file_paths)
 
 
 
@@ -316,7 +311,6 @@ export async function getSyntacticDiagnosticsfromts(fileName) {
     if (!Array.isArray(semanticDiagnostics)) semanticDiagnostics = [];
 
     const diagnostics = [...syntacticDiagnostics, ...semanticDiagnostics];
-    console.log(diagnostics);
 
     return diagnostics.map((d) => {
         if (!d || typeof d !== "object") {
@@ -421,8 +415,7 @@ export async function GetHover(filePath, position) {
     return quickInfoToMonaco(hostforpresentfile.getQuickInfoAtPosition(toNormalisedWindowsId(filePath), position), ts)
 }
 export async function GetAutoComplete(c, fpath) {
-    console.log(toNormalisedWindowsId(fpath))
-    console.log(c)
+  
     try {
         const result = hostforpresentfile.getCompletionsAtPosition(
             fpath,
@@ -435,7 +428,6 @@ export async function GetAutoComplete(c, fpath) {
                 includeCompletionsWithSnippetText: true
             }
         );
-        console.log(JSON.stringify(result))
 
         if (!result) {
             return {

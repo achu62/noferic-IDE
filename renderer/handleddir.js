@@ -64,7 +64,6 @@ export function handleDir() {
 
       e.stopPropagation();
     }
-    console.log(globalfileexplorerstatejson);
   });
   space.appendChild(filebutton);
   createfolderdialogbox(

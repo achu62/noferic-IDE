@@ -44,6 +44,9 @@ let globalleftmenustate = {
 export async function showdialog(path) {
   if (document.readyState == "complete") {
     document.getElementById("createnewfiledialog").showModal();
+    document.getElementById("inputforopenfile").focus()
+    document.getElementById("createnewfiledialogtitle").innerText = `Create a file in ${path}`
+
   }
   document.getElementById("createfileindialoog").addEventListener(
     "click",
@@ -73,6 +76,9 @@ export async function showdialog(path) {
 export function showFolderDialog(path) {
   if (document.readyState == "complete") {
     document.getElementById("createnewfolderdialog").showModal();
+    document.getElementById("inputforopenfolder").focus()
+    
+
   }
   document.getElementById("createfolderindialoog").addEventListener(
     "click",
@@ -135,7 +141,7 @@ window.onload = function () {
   document.getElementById("closeSettings").addEventListener("click", () => {
     document.getElementById("SettingsDialog").close();
   });
- 
+
 
   let countforterminal = 1;
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
@@ -223,9 +229,8 @@ window.onload = function () {
     SendRequesttomain: async (e) => {
       const action = e.action;
       const args = e.args;
-      console.log(action)
-      console.log(JSON.stringify(args))
-      const permittedactions = ["autosave", "lint", "hover" , "get-auto-complete"];
+
+      const permittedactions = ["autosave", "lint", "hover", "get-auto-complete"];
       try {
         if (permittedactions.includes(action)) {
           const res = await window.ipc.invoke(action, args);
@@ -391,8 +396,9 @@ window.onload = function () {
         let isopen = false;
         filebutton.addEventListener("click", (e) => {
           filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
-          if(previousselection){
-          document.getElementById(previousselection).style.backgroundColor =  "#333333"}
+          if (previousselection) {
+            document.getElementById(previousselection).style.backgroundColor = "#333333"
+          }
           previousselection = file.id;
           if (!isopen) {
             if (filebutton.classList.contains("folder")) {
@@ -450,8 +456,9 @@ window.onload = function () {
           e.stopPropagation();
           e.stopImmediatePropagation();
           filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
-          if(previousselection){
-          document.getElementById(previousselection).style.backgroundColor =  "#333333"}
+          if (previousselection) {
+            document.getElementById(previousselection).style.backgroundColor = "#333333"
+          }
           previousselection = file.id;
           await openFileFromExplorer({ iframe, file });
         });
@@ -678,7 +685,7 @@ window.onload = function () {
     }
     else if (message.action == "appSettings") {
       console.log(JSON.parse(message.settings))
-       document.getElementById('Theme').value = JSON.parse(message.settings).theme; 
+      document.getElementById('Theme').value = JSON.parse(message.settings).theme;
       if (JSON.parse(message.settings).theme !== "dark") {
         document.getElementById("theme-blanket-overlay").style.display = "block"
       }
@@ -945,11 +952,11 @@ window.onload = function () {
       document.getElementById("searchresults").replaceChildren();
     }, 1000);
   });
-const dropdownForTheme = document.getElementById('Theme');
+  const dropdownForTheme = document.getElementById('Theme');
 
-dropdownForTheme.addEventListener('change', (event) => {
-  const selectedValue = event.target.value;
-  window.ipc.invoke("changesettings" , "theme" , selectedValue)
-});
+  dropdownForTheme.addEventListener('change', (event) => {
+    const selectedValue = event.target.value;
+    window.ipc.invoke("changesettings", "theme", selectedValue)
+  });
 
 };
