@@ -1,8 +1,8 @@
 //jai sri ram
 /**@param {HTMLDocument} document  */
-
+import { showdialog, getSelectionoffile , showFolderDialog} from "./renderer.js";
 export function handleShortCuts(document) {
-    
+
     /**@param {HTMLIFrameElement} iframe */
     const iframe = document.querySelector("iframe#editor");
 
@@ -37,24 +37,48 @@ export function handleShortCuts(document) {
             document.getElementById("liveserverbtn").click()
 
         }
-        else if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "p"){
-                        e.preventDefault();
-                        document.getElementById("explorersearch").focus()
+        else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "p") {
+            e.preventDefault();
+            document.getElementById("explorersearch").focus()
         }
-        else if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "j"){
+        else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "j") {
             e.preventDefault()
             document.getElementById("settings").click()
         }
-        else if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "o"){
+        else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "o") {
             e.preventDefault()
             document.getElementById("open_folder").click()
         }
-         else if(e.ctrlKey  && e.key.toLowerCase() === "o"){
+        else if (e.ctrlKey && e.key.toLowerCase() === "o") {
             e.preventDefault()
             document.getElementById("open_file").click()
         }
+        else if (e.ctrlKey && !e.shiftKey && e.key.toLowerCase() == "n" ) {
+            e.preventDefault()
+
+            const getpath = getSelectionoffile()
+            console.log(getpath)
+            if (!getpath || getpath.type.toLowerCase() !== "directory") {
+                alert("no folder is selected,to create a file , select a folder")
+                return;
+            }
+            showdialog(getpath.path)
+        }
+        else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() == "n") {
+
+            e.preventDefault()
+
+            const getpath = getSelectionoffile()
+            console.log(getpath)
+            if (!getpath || getpath.type.toLowerCase() !== "directory") {
+                alert("no folder is selected,to create a folder , select a folder")
+                return;
+            }
+            showFolderDialog(getpath.path)
+
+        }
     });
-   
+
 }
 
 

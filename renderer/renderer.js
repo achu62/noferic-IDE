@@ -41,6 +41,11 @@ let globalleftmenustate = {
   isterminalopen: false,
   isleftpanelopen: true,
 };
+  let previousselection;
+
+export function getSelectionoffile(){
+  return previousselection;
+}
 export async function showdialog(path) {
   if (document.readyState == "complete") {
     document.getElementById("createnewfiledialog").showModal();
@@ -348,7 +353,6 @@ window.onload = function () {
   observerforpreview.observe(document.getElementById("preview"));
 
   const fileexplorerarea = document.getElementById("explorerelement");
-  let previousselection;
 
   async function recursiveloop(filearray, space) {
     let depth = 10;
@@ -397,9 +401,9 @@ window.onload = function () {
         filebutton.addEventListener("click", (e) => {
           filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
           if (previousselection) {
-            document.getElementById(previousselection).style.backgroundColor = "#333333"
+            document.getElementById(previousselection.path).style.backgroundColor = "#333333"
           }
-          previousselection = file.id;
+          previousselection = {path:file.id , type:"Directory"};
           if (!isopen) {
             if (filebutton.classList.contains("folder")) {
               recursiveloop(
@@ -457,9 +461,9 @@ window.onload = function () {
           e.stopImmediatePropagation();
           filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
           if (previousselection) {
-            document.getElementById(previousselection).style.backgroundColor = "#333333"
+            document.getElementById(previousselection.path).style.backgroundColor = "#333333"
           }
-          previousselection = file.id;
+          previousselection = {path:file.id , type:"file"};
           await openFileFromExplorer({ iframe, file });
         });
 
@@ -958,5 +962,6 @@ window.onload = function () {
     const selectedValue = event.target.value;
     window.ipc.invoke("changesettings", "theme", selectedValue)
   });
+  
 
 };
