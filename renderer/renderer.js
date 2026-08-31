@@ -20,6 +20,7 @@ import { handleShortCuts } from "./shortcuthandlers.js";
 import { createfiledialogbox } from "./filecontextmenu.js";
 import { StyleL } from "./stylel.js";
 import { openFileFromExplorer } from "./handlefileopening.js";
+import {IDEComponentApi} from "./editor UI components.js"
 let ischangesopen = false;
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
@@ -591,7 +592,10 @@ window.onload = function () {
     const message = JSON.parse(data);
 
     if (JSON.parse(data).action == "handlingargsopenfolder") {
-      new Notification(`Opened Folder ${message.fjson[0].id}`);
+      IDEComponentApi.ShowNotification(`Opened Folder ${message.fjson[0].id}`, {
+        duration: 9000,
+        type: "success",
+      });
 
       globalfolderjson = message.fjson;
       openfolderfunction(globalfolderjson);
@@ -827,8 +831,10 @@ window.onload = function () {
     e.preventDefault();
 
     navigator.clipboard.writeText(document.getElementById("link").innerText);
-    new Notification(`copied ${document.getElementById("link").innerText} to Clipboard
-		`);
+    IDEComponentApi.ShowNotification(`copied ${document.getElementById("link").innerText} to Clipboard`, {
+      duration: 900,
+      type: "success",
+    });
   });
 
   document.getElementById("commitbtn").addEventListener("click", (e) => {
@@ -849,7 +855,10 @@ window.onload = function () {
             "commit",
             document.getElementById("inputforcommit").value,
           );
-          new Notification(`Comitted!`);
+          IDEComponentApi.ShowNotification("Comitted!", {
+            duration: 900,
+            type: "success",
+          });
         } catch (e) {
           alert(e);
           return;
@@ -962,6 +971,7 @@ window.onload = function () {
     const selectedValue = event.target.value;
     window.ipc.invoke("changesettings", "theme", selectedValue)
   });
-  
-
+IDEComponentApi.ShowNotification(`Opened Folder ${message.fjson[0].id}`, {
+        duration: 9000,
+      });
 };
