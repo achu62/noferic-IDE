@@ -1,6 +1,8 @@
 //jai sri ram
 ///////////
 //jai sri ram
+let countforterminal = 1;
+
 import { initiateterminal } from "./terminal/initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
@@ -20,7 +22,7 @@ import { handleShortCuts } from "./shortcuthandlers.js";
 import { createfiledialogbox } from "./filecontextmenu.js";
 import { StyleL } from "./stylel.js";
 import { openFileFromExplorer } from "./handlefileopening.js";
-import {IDEComponentApi} from "./editor UI components.js"
+import { IDEComponentApi } from "./editor UI components.js"
 let ischangesopen = false;
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
@@ -42,9 +44,24 @@ let globalleftmenustate = {
   isterminalopen: false,
   isleftpanelopen: true,
 };
-  let previousselection;
+let previousselection;
+export function ctil(pathcwd) {
 
-export function getSelectionoffile(){
+  window.ipc.invoke("create_new_terminal", countforterminal, pathcwd);
+  initiateterminal(
+    document.getElementById("terminal"),
+    countforterminal,
+    document,
+  );
+  if (!globalleftmenustate.isterminalopen)
+  {
+    document.getElementById("term").click()
+    globalleftmenustate.isterminalopen = true
+  }
+  countforterminal++;
+
+}
+export function getSelectionoffile() {
   return previousselection;
 }
 export async function showdialog(path) {
@@ -62,7 +79,7 @@ export async function showdialog(path) {
         .value.replace("\n", "");
 
       if (!filejoin) {
-        IDEComponentApi.ShowNotification("filenames cannot be empty" , {duration:40000 , type:"warning"});
+        IDEComponentApi.ShowNotification("filenames cannot be empty", { duration: 40000, type: "warning" });
         return;
       }
 
@@ -83,7 +100,7 @@ export function showFolderDialog(path) {
   if (document.readyState == "complete") {
     document.getElementById("createnewfolderdialog").showModal();
     document.getElementById("inputforopenfolder").focus()
-    
+
 
   }
   document.getElementById("createfolderindialoog").addEventListener(
@@ -94,7 +111,7 @@ export function showFolderDialog(path) {
         .value.replace("\n", "");
 
       if (!filejoin) {
-                IDEComponentApi.ShowNotification("directory names cannot be empty" , {duration:40000 , type:"warning"});
+        IDEComponentApi.ShowNotification("directory names cannot be empty", { duration: 40000, type: "warning" });
 
         return;
       }
@@ -150,7 +167,6 @@ window.onload = function () {
   });
 
 
-  let countforterminal = 1;
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
     window.ipc.invoke("create_new_terminal", countforterminal);
     initiateterminal(
@@ -162,7 +178,7 @@ window.onload = function () {
   });
   handleShortCuts(document);
   document.getElementById("versioncontrolelement").style.display = "none";
-  
+
 
   document
     .getElementById("gitvercontmenu")
@@ -399,10 +415,10 @@ window.onload = function () {
         let isopen = false;
         filebutton.addEventListener("click", (e) => {
           filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
-          if (previousselection && document.getElementById(previousselection.path) ) {
+          if (previousselection && document.getElementById(previousselection.path)) {
             document.getElementById(previousselection.path).style.backgroundColor = "#333333"
           }
-          previousselection = {path:file.id , type:"Directory"};
+          previousselection = { path: file.id, type: "Directory" };
           if (!isopen) {
             if (filebutton.classList.contains("folder")) {
               recursiveloop(
@@ -462,7 +478,7 @@ window.onload = function () {
           if (previousselection && document.getElementById(previousselection.path)) {
             document.getElementById(previousselection.path).style.backgroundColor = "#333333"
           }
-          previousselection = {path:file.id , type:"file"};
+          previousselection = { path: file.id, type: "file" };
           await openFileFromExplorer({ iframe, file });
         });
 
@@ -605,8 +621,8 @@ window.onload = function () {
       IDEComponentApi.ShowNotification(
         `an error occured while ${JSON.stringify(message.errorlocation)} \n\n error message:${JSON.stringify(message.errormessage)}`,
         {
-          duration:30000,
-          type:"error"
+          duration: 30000,
+          type: "error"
         }
       );
     } else if (message.action === "branch") {
@@ -643,9 +659,9 @@ window.onload = function () {
             `topbarelementfor${decodeURIComponent(message.remove)}`,
           )
           .remove();
-        IDEComponentApi.ShowNotification(`${message.remove} is deleted` , {
-          duration:40000,
-          type:"warning"
+        IDEComponentApi.ShowNotification(`${message.remove} is deleted`, {
+          duration: 40000,
+          type: "warning"
         });
         iframe.contentWindow.postMessage({
           action: "deletemodelonclose",
@@ -974,8 +990,8 @@ window.onload = function () {
     const selectedValue = event.target.value;
     window.ipc.invoke("changesettings", "theme", selectedValue)
   });
-IDEComponentApi.ShowNotification(`HI COck`, {
-        duration: 9000,
-        type:"warning"
-      });
+  IDEComponentApi.ShowNotification(`HI COck`, {
+    duration: 9000,
+    type: "warning"
+  });
 };

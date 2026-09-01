@@ -6,43 +6,26 @@
  
 import envPaths from "env-paths";
 //jai srir am
-
-
-
 import ts from "typescript"
 export function getts(){
   return ts;
 }
-
 import { lint, initialiseLinter } from "./Linting-features/eslint.js"
 import {
   app,
   BrowserWindow,
   dialog,
-
   ipcMain,
-  shell,
-
   Notification,
-  
-  
-
 
 } from "electron";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { initialisereposcan } from "./git/git.js";
 import fs from "node:fs";
-import { Worker } from "node:worker_threads";
-import {detectPort} from "detect-port"
-import { spawn, execFile, exec } from "child_process";
-import os from "os";
-import { buffer } from "stream/consumers";
-
+import { spawn } from "child_process";
 import chokidar from "chokidar";
-import { watchFile } from "node:original-fs";
-import { simpleGit, gitP } from "simple-git";
-import liveServer from "live-server";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import { deleteNodeById, injectChildrenByPath } from "./utils.js";
@@ -61,6 +44,8 @@ import { initialisetds, getSyntacticDiagnosticsfromts, GetHover, GetAutoComplete
 
 import { getTags } from "./tagger.js"
 import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
+
+
 async function handleConfigurations() {
   if (!fs.existsSync(toNormalisedWindowsId(path.join(pathsforappdatas.config))) && toNormalisedWindowsId(path.join(pathsforappdatas.config, "noferic-config.json"))) {
     fs.mkdirSync(toNormalisedWindowsId(path.join(pathsforappdatas.config)), { recursive: true })
@@ -597,9 +582,9 @@ ipcMain.handle("commit", async (e, message) => {
   const commitPromise = await handleCommit(message);
   return commitPromise;
 });
-ipcMain.handle("create_new_terminal", async (e, id) => {
+ipcMain.handle("create_new_terminal", async (e, id , currentworkingdir) => {
   //console.log("r r /t n");
-  initialiseterminalmain(ptyProcess, pathreal, id, win);
+  initialiseterminalmain(ptyProcess, currentworkingdir|| pathreal, id, win);
 });
 ipcMain.handle("join-path", async (e, arg1, arg2) => {
   console.log(arg1, arg2)

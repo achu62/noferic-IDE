@@ -1,5 +1,5 @@
 //jai sri ram
-import { deleteFolder, showdialog , showFolderDialog} from './renderer.js'
+import { ctil, deleteFolder, showdialog , showFolderDialog} from './renderer.js'
 let inactivityTimer;
 
 export function createfolderdialogbox(parent, elementid, folderbtn) {
@@ -39,6 +39,7 @@ export function createfolderdialogbox(parent, elementid, folderbtn) {
     const createfileelement = document.createElement('button')
     const createfolderelement = document.createElement('button')
     const deletefolderelement = document.createElement('button')
+        const openterminalincurrentdir = document.createElement('button')
 
 
     folderbtn.addEventListener('contextmenu', (e) => {
@@ -59,6 +60,9 @@ export function createfolderdialogbox(parent, elementid, folderbtn) {
     createfolderelement.id = `rightdivcreatefolderelement${elementid}`
     createfolderelement.classList.add(`createfolderelement`)
     createfolderelement.innerText = '📁 Create New Folder';
+     openterminalincurrentdir.id = `rightdivcreatethelement${elementid}`
+    openterminalincurrentdir.classList.add(`createfolderelement`)
+    openterminalincurrentdir.innerText = "open Terminal Here";
     deletefolderelement.id = `rightdivcreatefolderelement${elementid}`
     deletefolderelement.classList.add(`createfolderelement`)
     deletefolderelement.innerText = '🗑️ Delete';
@@ -76,9 +80,14 @@ export function createfolderdialogbox(parent, elementid, folderbtn) {
         e.stopPropagation()
         deleteFolder(elementid)
     })
+    openterminalincurrentdir.addEventListener("click" , (e)=>{
+        e.stopPropagation()
+        ctil(elementid)
+    })
     rightclickdiv.appendChild(createfileelement)
     rightclickdiv.appendChild(createfolderelement)
     rightclickdiv.appendChild(deletefolderelement)
+    rightclickdiv.appendChild(openterminalincurrentdir)
     folderbtn.addEventListener("blur", (e) => {
         e.preventDefault(
         )
