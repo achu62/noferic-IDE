@@ -1,5 +1,6 @@
 //jai sri ram
 /**@param {HTMLDocument} document  */
+import { IDEComponentApi } from "./editor UI components.js";
 import { showdialog, getSelectionoffile , showFolderDialog} from "./renderer.js";
 export function handleShortCuts(document) {
 
@@ -59,7 +60,10 @@ export function handleShortCuts(document) {
             const getpath = getSelectionoffile()
             console.log(getpath)
             if (!getpath || getpath.type.toLowerCase() !== "directory") {
-                alert("no folder is selected,to create a file , select a folder")
+                IDEComponentApi.ShowNotification("no folder is selected,to create a file , select a folder" , {
+                    duration:30000,
+                    type:"error"
+                })
                 return;
             }
             showdialog(getpath.path)
@@ -71,7 +75,10 @@ export function handleShortCuts(document) {
             const getpath = getSelectionoffile()
             console.log(getpath)
             if (!getpath || getpath.type.toLowerCase() !== "directory") {
-                alert("no folder is selected,to create a folder , select a folder")
+                IDEComponentApi.ShowNotification("no folder is selected,to create a folder , select a folder" , {
+                    duration:30000,
+                    type:"error"
+                })
                 return;
             }
             showFolderDialog(getpath.path)

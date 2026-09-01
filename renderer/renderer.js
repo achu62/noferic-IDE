@@ -62,7 +62,7 @@ export async function showdialog(path) {
         .value.replace("\n", "");
 
       if (!filejoin) {
-        alert("filenames cannot be empty");
+        IDEComponentApi.ShowNotification("filenames cannot be empty" , {duration:40000 , type:"warning"});
         return;
       }
 
@@ -94,7 +94,8 @@ export function showFolderDialog(path) {
         .value.replace("\n", "");
 
       if (!filejoin) {
-        alert("Dirnames cannot be empty");
+                IDEComponentApi.ShowNotification("directory names cannot be empty" , {duration:40000 , type:"warning"});
+
         return;
       }
 
@@ -161,10 +162,7 @@ window.onload = function () {
   });
   handleShortCuts(document);
   document.getElementById("versioncontrolelement").style.display = "none";
-  function alert_s_1(string) {
-    document.getElementById("alertdialog").showModal();
-    document.getElementById("contentdiv").innerText = string;
-  }
+  
 
   document
     .getElementById("gitvercontmenu")
@@ -401,7 +399,7 @@ window.onload = function () {
         let isopen = false;
         filebutton.addEventListener("click", (e) => {
           filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
-          if (previousselection) {
+          if (previousselection && document.getElementById(previousselection.path) ) {
             document.getElementById(previousselection.path).style.backgroundColor = "#333333"
           }
           previousselection = {path:file.id , type:"Directory"};
@@ -461,7 +459,7 @@ window.onload = function () {
           e.stopPropagation();
           e.stopImmediatePropagation();
           filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
-          if (previousselection) {
+          if (previousselection && document.getElementById(previousselection.path)) {
             document.getElementById(previousselection.path).style.backgroundColor = "#333333"
           }
           previousselection = {path:file.id , type:"file"};
@@ -505,12 +503,10 @@ window.onload = function () {
 
     document.getElementById("viewon").style.display = "none";
     isviewopen = false;
-    alert(blur);
   });
   document.getElementById("file_on").addEventListener("blur", (e) => {
     e.stopPropagation();
     e.preventDefault();
-    alert("blur");
     document.getElementById("file_on").style.display = "none";
     isopen = false;
   });
@@ -606,8 +602,12 @@ window.onload = function () {
         openfileoncilick(message.path, iframe);
       }, 2000);
     } else if (JSON.parse(data).action == "errorhandle") {
-      alert(
+      IDEComponentApi.ShowNotification(
         `an error occured while ${JSON.stringify(message.errorlocation)} \n\n error message:${JSON.stringify(message.errormessage)}`,
+        {
+          duration:30000,
+          type:"error"
+        }
       );
     } else if (message.action === "branch") {
       document.getElementById("currentBranch").innerText =
@@ -643,7 +643,10 @@ window.onload = function () {
             `topbarelementfor${decodeURIComponent(message.remove)}`,
           )
           .remove();
-        alert(`${message.remove} is deleted`);
+        IDEComponentApi.ShowNotification(`${message.remove} is deleted` , {
+          duration:40000,
+          type:"warning"
+        });
         iframe.contentWindow.postMessage({
           action: "deletemodelonclose",
           path: decodeURIComponent(message.remove),
@@ -971,7 +974,8 @@ window.onload = function () {
     const selectedValue = event.target.value;
     window.ipc.invoke("changesettings", "theme", selectedValue)
   });
-IDEComponentApi.ShowNotification(`Opened Folder ${message.fjson[0].id}`, {
+IDEComponentApi.ShowNotification(`HI COck`, {
         duration: 9000,
+        type:"warning"
       });
 };

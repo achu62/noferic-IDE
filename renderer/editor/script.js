@@ -389,7 +389,10 @@ async function autosave(editor) {
               e.style.backgroundColor = "#1e1e1e";
             });
           });
+          if(topbarfor){
           topbarfor.style.backgroundColor = "#404040";
+
+          }
           editor.setModel(newmodel);
         } else {
           const topbarfor = window.parent.document.getElementById(

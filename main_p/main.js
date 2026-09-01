@@ -580,8 +580,15 @@ ipcMain.handle("start_server", async (e, obj) => {
   return start_server(e, obj, pathreal);
 });
 ipcMain.handle("unlink", async (e, Dirpath) => {
+  if(fs.statSync(path.resolve(args)).isDirectory()){
+  await fs.promises.rm(toNormalisedWindowsId(Dirpath) , {recursive:true})
 
-  await fs.promises.unlink(toNormalisedWindowsId(Dirpath))
+
+  }
+  else{
+      await fs.promises.rm(toNormalisedWindowsId(Dirpath))
+
+  }
 });
 ipcMain.handle("validate-details-liveserver", async (e, d) => {
   return validate_details_liveserver(e, d, pathreal, consolelog);
