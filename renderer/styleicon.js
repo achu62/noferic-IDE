@@ -1,30 +1,38 @@
 //jai sri ram
 
-import { getfileiconbytype  } from "./utils.js"
+import { getfileiconbytype } from "./utils.js"
+const includedlist = [".code" , ".noferic-ide" , ".idea" , ".zed" , "eslint.config.js" , "node_modules" , "dist"]
 
-export function Styleicon(icon, file, depth, extension , id , ratio
+export async function Styleicon(icon, file, depth, extension, id, ratio) {
+    console.log(id)
+    let logopath;
 
+    if (includedlist.includes(file.name)){
+         logopath = getfileiconbytype[file.name];
 
-) {
+    }
+    else
+    {
+         logopath = getfileiconbytype[extension];
 
-   let logopath = getfileiconbytype[extension];
-    
-   if (!logopath) {
-        logopath = `images/unknown.svg`;
     }
 
-    icon.id = id?`${id}`:`iconfor${file.id}`;
+    if (!logopath) {
+        logopath = `images/unknown.svg`;``
+    }
+
+    icon.id = id ? `${id}` : `iconfor${file.id}`;
     icon.style.position = "absolute";
     icon.style.backgroundImage = `url(${logopath})`;
     icon.style.backgroundRepeat = "no-repeat";
     icon.style.backgroundSize = "cover";
     icon.style.top = "0.5px";
     icon.style.bottom = "0.5px";
-    icon.style.height = ratio ? ratio.height :"16px";
+    icon.style.height = ratio ? ratio.height : "16px";
     icon.style.width = ratio ? ratio.width : "16px";
-    
-    icon.style.left = `${depth-5}px`;
-    icon.style.borderLeftColor="#ffffff"
+
+    icon.style.left = `${depth - 5}px`;
+    icon.style.borderLeftColor = "#ffffff"
     icon.style.borderLeftWidth = `${1}px`;
 
     icon.style.backgroundColor = "transparent !important"

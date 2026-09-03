@@ -449,7 +449,7 @@ window.onload = function () {
           document.body,
           decodeURIComponent(file.id),
           filebutton,
-          dialogforcreatefile,
+          file
         );
       } else {
         const filebutton = document.createElement("button");
@@ -470,6 +470,7 @@ window.onload = function () {
           document.body,
           decodeURIComponent(file.id),
           filebutton,
+          file
         );
         filebutton.addEventListener("click", async (e) => {
           e.stopPropagation();
@@ -990,8 +991,5 @@ window.onload = function () {
     const selectedValue = event.target.value;
     window.ipc.invoke("changesettings", "theme", selectedValue)
   });
-  IDEComponentApi.ShowNotification(`HI COck`, {
-    duration: 9000,
-    type: "warning"
-  });
+  
 };

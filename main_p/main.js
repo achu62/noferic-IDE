@@ -593,6 +593,10 @@ ipcMain.handle("join-path", async (e, arg1, arg2) => {
 ipcMain.handle("get-ext", async (e, fpath) => {
   return path.extname(fpath);
 });
+ipcMain.handle("get-base" , (e,f)=>{
+  console.log(f)
+  return path.basename(f)
+})
 
 ipcMain.handle("push", async () => {
   try {

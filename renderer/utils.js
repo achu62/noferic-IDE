@@ -12,7 +12,14 @@ export function isValidJSON(json) {
 
 
 export const getfileiconbytype = {
-	"folder":"images/folder.svg",
+	"folder": "images/folder.svg",
+	".code": "images/config_svg.svg",
+	".noferic-ide": "images/logo.ico",
+	".zed": "images/config_svg.svg",
+	".idea": "images/config_svg.svg",
+	".eslint.config.js": "images/config_svg.svg",
+	"node_modules":"images/node-m.svg",
+	"dist":"images/dist.svg",
 	html: "images/html.png",
 	htm: "images/code.svg",
 	css: "images/css.svg",
@@ -210,7 +217,7 @@ export function DeleteOldWorkspace(fileexplorer, opentabs, iframe) {
 	fileexplorer.replaceChildren("");
 	opentabs.replaceChildren("");
 	iframe.contentWindow.postMessage({
-		action:"deleteallmodels"
+		action: "deleteallmodels"
 	})
 }
 export function findFolderById(rootArray, targetId) {
