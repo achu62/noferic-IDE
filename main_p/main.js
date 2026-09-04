@@ -5,6 +5,7 @@
 //jai sri ram
  
 import envPaths from "env-paths";
+import trash from "trash"
 //jai srir am
 import ts from "typescript"
 export function getts(){
@@ -566,12 +567,12 @@ ipcMain.handle("start_server", async (e, obj) => {
 });
 ipcMain.handle("unlink", async (e, Dirpath) => {
   if(fs.statSync(path.resolve(args)).isDirectory()){
-  await fs.promises.rm(toNormalisedWindowsId(Dirpath) , {recursive:true})
+  await trash(toNormalisedWindowsId(Dirpath), {recursive:true})
 
 
   }
   else{
-      await fs.promises.rm(toNormalisedWindowsId(Dirpath))
+      await trash(toNormalisedWindowsId(Dirpath))
 
   }
 });
