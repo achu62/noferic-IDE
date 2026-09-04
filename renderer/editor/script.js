@@ -295,7 +295,9 @@ async function autosave(editor) {
           }
         } else {
           if (message.isspecialchange) {
+           const pos =  editor.getPosition()
             isexisting.setValue(message.content);
+            editor.setPosition(pos)
           } else {
             editor.setModel(isexisting);
           }
