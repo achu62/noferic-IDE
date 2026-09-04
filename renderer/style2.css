@@ -1326,27 +1326,7 @@ body {
   background-color: #404040;
 }
 
-#inputforopenfile {
-  position: absolute;
-  top: 10%;
-  right: 5%;
-  left: 5%;
-  height: 20px;
-  background-color: #1e1e1e;
-  border: 0.2px solid #eeeeee;
-  border-radius: 5px;
-  resize: none;
-  color: #eeeeee;
-  font-size: 13.5px;
-  line-height: 20px;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
 
-#inputforopenfile:focus {
-  border: 0.2px solid orangered;
-
-}
 
 #gitvercontmenu {
   all: unset;
@@ -1417,20 +1397,7 @@ body {
   overflow-y: hidden;
 }
 
-#inputforopenfile:focus {
-  border: 0.2px solid orangered;
 
-}
-
-/*#createnewfolderdialog {
-  width: 20%;
-  height: 30%;
-  background-color: var(--ieieie);
-  border-radius: 12px;
-  border-width: 0.2px;
-  border-color: #eeeeee;
-}
-*/
 
 
 .dialog {
@@ -1440,6 +1407,7 @@ body {
   border-radius: 12px;
   border-width: 0.2px;
   border-color: #eeeeee;
+  
 }
 
 #cancelcreatefolderdialog {
@@ -1501,90 +1469,11 @@ body {
   width: fit-content;
 }
 
-#inputforliveserver {
-  position: absolute;
-  top: 10%;
-  right: 5%;
-  left: calc(5% + 40px);
-  height: 20px;
-  background-color: #1e1e1e;
-  border: 0.2px solid #eeeeee;
-  border-radius: 5px;
-  resize: none;
-  color: #eeeeee;
-  font-size: 13.5px;
-  line-height: 20px;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
 
 
-#cancelcreateliveserverdialog {
-  all: unset;
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-  color: white;
-  font-size: 15px;
-  background-color: #333333;
-  border-radius: 12px;
-  border-width: 0.2px;
-  border-color: #eeeeee;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  height: fit-content;
-  width: fit-content;
-}
 
-#createliveserverbtn {
-  all: unset;
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-  color: white;
-  font-size: 15px;
-  background-color: #0e4c32;
-  border-radius: 12px;
-  border-width: 0.2px;
-  border-color: #eeeeee;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  height: fit-content;
-  width: fit-content;
-}
 
-#inputpathforliveserver {
-  position: absolute;
-  top: 25%;
-  right: 5%;
-  left: 5%;
-  height: 20px;
-  background-color: #1e1e1e;
-  border: 0.2px solid #eeeeee;
-  border-radius: 5px;
-  resize: none;
-  color: #eeeeee;
-  font-size: 13.5px;
-  line-height: 20px;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
 
-#Browsercheck {
-  position: absolute;
-  top: 50%;
-  right: 5%;
-  left: 5%;
-  font-size: 13.5px;
-  color: #ffffff;
-  height: 15px;
-  width: 15px;
-
-}
 
 #checkboxtitle {
   position: absolute;
@@ -1632,44 +1521,9 @@ input {
   z-index: 10000;
 }
 
-#alertdialog {
-  min-height: 30%;
-  min-width: 20%;
-  height: fit-content;
-  width: fit-content;
-  color: white;
-  font-size: 15px;
-}
 
-#okbtn {
-  all: unset;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  text-align: center;
-  border-top: 0.2px solid #ffffff;
-  background-color: #1e1e1e;
-  color: #ffffff;
-  height: 40px;
-}
 
-#okbtn:hover {
-  background-color: #404040;
-}
 
-#contentdiv {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 41px;
-  color: #f9f2f2;
-  background-color: #1e1e1e;
-
-  font-size: 13.5px;
-  overflow: hidden;
-}
 
 #explorervc {
   position: absolute;

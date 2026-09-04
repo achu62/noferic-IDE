@@ -16,7 +16,7 @@ import {
   DeleteOldWorkspace,
   findFolderById,
 } from "./utils.js";
-
+import { createDialog } from "./Editor_Dialog_Components.js"
 import { createfolderdialogbox } from "./foldercontextmenu.js";
 import { Styleicon } from "./styleicon.js";
 import { handleShortCuts } from "./shortcuthandlers.js";
@@ -54,8 +54,7 @@ export function ctil(pathcwd) {
     countforterminal,
     document,
   );
-  if (!globalleftmenustate.isterminalopen)
-  {
+  if (!globalleftmenustate.isterminalopen) {
     document.getElementById("term").click()
     globalleftmenustate.isterminalopen = true
   }
@@ -65,70 +64,61 @@ export function ctil(pathcwd) {
 export function getSelectionoffile() {
   return previousselection;
 }
+
 export async function showdialog(path) {
-  if (document.readyState == "complete") {
-    document.getElementById("createnewfiledialog").showModal();
-    document.getElementById("inputforopenfile").focus()
-    document.getElementById("createnewfiledialogtitle").innerText = `Create a file in ${path}`
+  createDialog({
+    "heading": `create File in ${path}`, items: [
+      { type: "input", label: "File name" }], "affirmative": {
+        "name": "create File",
+        callback: async (values) => {
 
-  }
-  document.getElementById("createfileindialoog").addEventListener(
-    "click",
-    async () => {
-      const filejoin = document
-        .getElementById("inputforopenfile")
-        .value.replace("\n", "");
+          const filejoin = values[0]
 
-      if (!filejoin) {
-        IDEComponentApi.ShowNotification("filenames cannot be empty", { duration: 40000, type: "warning" });
-        return;
+          if (!filejoin) {
+            IDEComponentApi.ShowNotification("filenames cannot be empty", { duration: 40000, type: "warning" });
+            return;
+          }
+
+          window.ipc.invoke(
+            "append",
+            `${await window.ipc.invoke("join-path", path, filejoin)}`,
+          );
+          if (globalfileexplorerstatejson[`${path}`] === false) {
+            document.getElementById(path).click();
+          }
+
+        },
+
       }
-
-      window.ipc.invoke(
-        "append",
-        `${await window.ipc.invoke("join-path", path, filejoin)}`,
-      );
-      if (globalfileexplorerstatejson[`${path}`] === false) {
-        document.getElementById(path).click();
-      }
-      document.getElementById("inputforopenfile").value = "";
-    },
-    { once: true },
-  );
+  })
 }
 
 export function showFolderDialog(path) {
-  if (document.readyState == "complete") {
-    document.getElementById("createnewfolderdialog").showModal();
-    document.getElementById("inputforopenfolder").focus()
+  createDialog({
+    "heading": `create File in ${path}`, items: [
+      { type: "input", label: "Directory" }], "affirmative": {
+        "name": "create File",
+        callback: async (values) => {
+          const filejoin = values[0]
 
+          if (!filejoin) {
+            IDEComponentApi.ShowNotification("directory names cannot be empty", { duration: 40000, type: "warning" });
 
-  }
-  document.getElementById("createfolderindialoog").addEventListener(
-    "click",
-    async () => {
-      const filejoin = document
-        .getElementById("inputforopenfolder")
-        .value.replace("\n", "");
+            return;
+          }
 
-      if (!filejoin) {
-        IDEComponentApi.ShowNotification("directory names cannot be empty", { duration: 40000, type: "warning" });
+          window.ipc.invoke(
+            "mkdir",
+            `${await window.ipc.invoke("join-path", path, filejoin)}`,
+          );
+          if (globalfileexplorerstatejson[`${path}`] === false) {
+            document.getElementById(path).click();
+          }
 
-        return;
+        },
+
       }
-
-      window.ipc.invoke(
-        "mkdir",
-        `${await window.ipc.invoke("join-path", path, filejoin)}`,
-      );
-      if (globalfileexplorerstatejson[`${path}`] === false) {
-        document.getElementById(path).click();
-      }
-      document.getElementById("inputforopenfolder").value = "";
-      document.getElementById("createnewfolderdialog").close();
-    },
-    { once: true },
-  );
+  })
 }
 export function deleteFolder(path) {
   const isUserok = confirm(
@@ -740,21 +730,13 @@ window.onload = function () {
     }
   });
 
-  document
-    .getElementById("cancelcreatefiledialog")
-    .addEventListener("click", () => {
-      dialogforcreatefile.close();
-    });
+ 
   document
     .getElementById("cancelcreatefolderdialog")
     .addEventListener("click", () => {
       document.getElementById("createnewfolderdialog").close();
     });
-  document
-    .getElementById("cancelcreateliveserverdialog")
-    .addEventListener("click", () => {
-      document.getElementById("createliveserverdialog").close();
-    });
+  
   document.getElementById("cancelcommit").addEventListener("click", () => {
     document.getElementById("commitdialog").close();
   });
@@ -817,19 +799,34 @@ window.onload = function () {
     }
   });
   document.getElementById("liveserverbtn").addEventListener("click", (e) => {
-    document.getElementById("createliveserverdialog").showModal();
-  });
-  document
-    .getElementById("createliveserverbtn")
-    .addEventListener("click", async (e) => {
-      const relativepath = document.getElementById(
-        "inputpathforliveserver",
-      ).value;
+    createDialog({
+      "items": [
+        {
+          "type": "input",
+          "label": "port"
+        },
+
+        {
+          "type": "input",
+          "label": "relpath"
+        },
+      {
+        
+        "type":"check", 
+        "label":"Open in default browser"
+      
+      }],
+      "heading":"Start Live Server",
+      affirmative: {
+    name: "Start Live Server",
+    callback:async (values) => {
+      
+     
       try {
         const dec = await window.ipc.invoke("validate-details-liveserver", {
-          port: document.getElementById("inputforliveserver").value,
-          relativepath: relativepath ? relativepath : "./",
-          toOpen: document.getElementById("Browsercheck").checked,
+          port: values[0],
+          relativepath: values[1] || "./",
+          toOpen: values[2],
         });
       } catch (e) {
         alert(e);
@@ -837,26 +834,19 @@ window.onload = function () {
       }
       //@
       window.ipc.invoke("start_server", {
-        port: document.getElementById("inputforliveserver").value,
-        relativepath: relativepath ? relativepath : "./",
-        toOpen: document.getElementById("Browsercheck").checked,
+         port: values[0],
+          relativepath: values[1] || "./",
+          toOpen: values[2],
       });
-      document.getElementById("link").innerText =
-        `http://127.0.0.1:${document.getElementById("inputforliveserver").value}`;
+ 
 
-      document.getElementById("inputforliveserver").value = "";
+     
+    
+    }}
 
-      document.getElementById("createliveserverdialog").close();
-    });
-  document.getElementById("link").addEventListener("click", (e) => {
-    e.preventDefault();
-
-    navigator.clipboard.writeText(document.getElementById("link").innerText);
-    IDEComponentApi.ShowNotification(`copied ${document.getElementById("link").innerText} to Clipboard`, {
-      duration: 900,
-      type: "success",
-    });
+    })
   });
+
 
   document.getElementById("commitbtn").addEventListener("click", (e) => {
     document.getElementById("commitdialog").showModal();
@@ -895,32 +885,13 @@ window.onload = function () {
         document.getElementById("createfolderindialoog").click();
       }
     });
-  document
-    .getElementById("inputforopenfile")
-    .addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        document.getElementById("createfileindialoog").click();
-      }
-    });
+  
   document.getElementById("inputforcommit").addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       document.getElementById("commitreal").click();
     }
   });
-  document
-    .getElementById("inputforliveserver")
-    .addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        document.getElementById("createliveserverbtn").click();
-      }
-    });
-  document
-    .getElementById("inputpathforliveserver")
-    .addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        document.getElementById("createliveserverbtn").click();
-      }
-    });
+ 
   document.getElementById("push").addEventListener("click", async (e) => {
     const confirmation = confirm(
       `do you want  to push this repo to a remote brach`,
@@ -992,5 +963,5 @@ window.onload = function () {
     const selectedValue = event.target.value;
     window.ipc.invoke("changesettings", "theme", selectedValue)
   });
-  
+
 };

@@ -2,6 +2,7 @@
 import { ctil, deleteFolder, showdialog, showFolderDialog } from './renderer.js'
 let inactivityTimer;
 
+
 export function createfolderdialogbox(parent, elementid, folderbtn, file) {
     const rightclickdiv = document.createElement('div')
     function startTimer() {
