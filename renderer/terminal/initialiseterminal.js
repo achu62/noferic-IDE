@@ -4,10 +4,10 @@ import { FitAddon } from "../xterm-addon-fit/src/FitAddon.js";
 
 export function initiateterminal(e, id, document) {
 	const terminal = new Terminal({
-		fontSize: 14,
+		fontSize: 12,
 		fontWeight: 400,
 		fontStyle: "normal",
-		fontFamily: "Courier New, Courier, monospace",
+		fontFamily: "JetBrains Mono",
 		lineHeight: 1.25,
 		letterSpacing: 0,
 		cursorBlink: true,
@@ -33,7 +33,7 @@ export function initiateterminal(e, id, document) {
 	ro.observe(element);
 	const tab = document.createElement("button");
 	tab.id = `ttabfor${id}`;
-	tab.innerText = `tab ${id}`;
+	tab.innerText = `${id}`;
 	tab.classList.add("cl_terminal_tab");
 	document.querySelectorAll(".cl_terminal_tab").forEach((terminaltab) => {
 		terminaltab.style.backgroundColor = "inherit";
