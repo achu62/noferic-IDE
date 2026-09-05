@@ -43,7 +43,7 @@ export function createfolderdialogbox(parent, elementid, folderbtn, file) {
     const openterminalincurrentdir = document.createElement('button')
     const copypath = document.createElement('button')
     const copyname = document.createElement('button')
-
+    const renamefolderelement = document.createElement("button")
 
     folderbtn.addEventListener('contextmenu', (e) => {
         e.stopPropagation();
@@ -61,7 +61,7 @@ export function createfolderdialogbox(parent, elementid, folderbtn, file) {
     createfileelement.id =
         `rightdivcreatefileelement${elementid}`
     createfileelement.classList.add(`createfileelement`)
-    createfileelement.innerText = '📄 Create New File';
+    createfileelement.innerText = ' Create New File';
 
 
 
@@ -103,13 +103,16 @@ export function createfolderdialogbox(parent, elementid, folderbtn, file) {
 
     createfolderelement.id = `rightdivcreatefolderelement${elementid}`
     createfolderelement.classList.add(`createfolderelement`)
-    createfolderelement.innerText = '📁 Create New Folder';
+    createfolderelement.innerText = ' Create New Folder';
     openterminalincurrentdir.id = `rightdivcreatethelement${elementid}`
     openterminalincurrentdir.classList.add(`createfolderelement`)
     openterminalincurrentdir.innerText = "open Terminal Here";
     deletefolderelement.id = `rightdivcreatefolderelement${elementid}`
     deletefolderelement.classList.add(`createfolderelement`)
-    deletefolderelement.innerText = '🗑️ Delete';
+    deletefolderelement.innerText = ' Delete';
+      renamefolderelement.id = `rightdivrn${elementid}`
+    renamefolderelement.classList.add(`createfolderelement`)
+    renamefolderelement.innerText = 'rename';
     createfileelement.addEventListener('click', (e) => {
         e.stopPropagation()
         showdialog(elementid)
@@ -127,6 +130,10 @@ export function createfolderdialogbox(parent, elementid, folderbtn, file) {
     openterminalincurrentdir.addEventListener("click", (e) => {
         e.stopPropagation()
         ctil(elementid)
+    })
+    renamefolderelement.addEventListener("click" , (e)=>{
+                e.stopPropagation()
+                
     })
     rightclickdiv.appendChild(createfileelement)
     rightclickdiv.appendChild(createfolderelement)

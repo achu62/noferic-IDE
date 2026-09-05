@@ -95,7 +95,7 @@ export async function showdialog(path) {
 
 export function showFolderDialog(path) {
   createDialog({
-    "heading": `create File in ${path}`, items: [
+    "heading": `create Folder in ${path}`, items: [
       { type: "input", label: "Directory" }], "affirmative": {
         "name": "create File",
         callback: async (values) => {
@@ -731,12 +731,7 @@ window.onload = function () {
   });
 
  
-  document
-    .getElementById("cancelcreatefolderdialog")
-    .addEventListener("click", () => {
-      document.getElementById("createnewfolderdialog").close();
-    });
-  
+ 
   document.getElementById("cancelcommit").addEventListener("click", () => {
     document.getElementById("commitdialog").close();
   });
@@ -878,13 +873,7 @@ window.onload = function () {
       runn();
     }
   });
-  document
-    .getElementById("inputforopenfolder")
-    .addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        document.getElementById("createfolderindialoog").click();
-      }
-    });
+ 
   
   document.getElementById("inputforcommit").addEventListener("keydown", (e) => {
     if (e.key === "Enter") {

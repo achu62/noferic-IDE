@@ -3,7 +3,17 @@
 [fill="#1e1e1e" i], [fill="#1E1E1E"] { fill: #FFFFFF !important; }
 [stroke="#1e1e1e" i], [stroke="#1E1E1E"] { stroke: #FFFFFF !important; }
 [color="#1e1e1e" i] { color: #FFFFFF !important; }
-
+#theme-blanket-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  mix-blend-mode: difference;
+  filter: contrast(250%) grayscale(100%);
+  pointer-events: none;
+  z-index: 999999;}
 /* Blanket background & text color overrides for HTML elements */
 * {
   /* Forces any element with hardcoded inline background colors to swap */

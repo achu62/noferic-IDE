@@ -679,3 +679,7 @@ ipcMain.handle("changesettings", async (e, property, value) => {
 ipcMain.handle("get-auto-complete" , async(e , {filepath , offset})=>{
   return await GetAutoComplete(offset , filepath);
 })
+ipcMain.handle("rename" , async(e , t , n)=>{
+  
+  await fs.promises.rename(t , n)
+})

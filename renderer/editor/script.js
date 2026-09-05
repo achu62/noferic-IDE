@@ -377,7 +377,6 @@ async function autosave(editor) {
         if (!newmodel) {
 
           newmodel = monaco.editor.getModels()[0];
-          //console.log(newmodel)
           const topbarfor = window.parent.document.getElementById(
             `topbarelementfor${newmodel?.uri?.toString().replace("id://", "")}`,
           ) || "null"
