@@ -23,7 +23,7 @@
     "xterm-addon-fit": "^0.8.0"
   },
   "name": "newfoldernf",
-  "version": "1.0.0",
+  "version": "1.9.5",
   "description": "Noferic IDE is a integrated development environment for the built with web technologies.",
   "main": "main_p/main.js",
   "type": "module",
@@ -48,8 +48,8 @@
     "type": "git",
     "url": "git+https://github.com/achu62/noferic-IDE.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Charan",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/achu62/noferic-IDE/issues"
   },

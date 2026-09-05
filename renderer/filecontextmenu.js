@@ -1,6 +1,7 @@
 //jai sri ram
-import {deleteFile} from "./renderer.js"
+import {deleteFile , rendererrename} from "./renderer.js"
 import {IDEComponentApi} from "./editor UI components.js"
+
 let inactivityTimer;
 
 export function createfiledialogbox(parent, elementid, filebtn , file) {
@@ -31,7 +32,10 @@ export function createfiledialogbox(parent, elementid, filebtn , file) {
     rightclickdiv.style.height = 'fit-content';
     rightclickdiv.style.borderRadius = 5 + "px"
     rightclickdiv.style.left = `${filebtn.getBoundingClientRect().left + filebtnoffsetWidth - 10}px`
-
+    const renamefolderelement = document.createElement("button")
+  renamefolderelement.id = `rightdivrn${elementid}`
+    renamefolderelement.classList.add(`createfolderelement`)
+    renamefolderelement.innerText = 'rename';
     rightclickdiv.style.top = `${filebtn.getBoundingClientRect().top + filebtnoffsetHeight - 3}px`
     rightclickdiv.style.flexDirection = "column"
     rightclickdiv.style.gap = 0 + "px";
@@ -78,6 +82,11 @@ export function createfiledialogbox(parent, elementid, filebtn , file) {
         e.stopPropagation()
         deleteFile(elementid)
     })
+     renamefolderelement.addEventListener("click" , (e)=>{
+                    e.stopPropagation()
+                    rendererrename(elementid , file.name)
+    
+        })
     rightclickdiv.appendChild(deletefileelement)
 
     filebtn.addEventListener('contextmenu', (e) => {
@@ -93,4 +102,6 @@ export function createfiledialogbox(parent, elementid, filebtn , file) {
     })
     rightclickdiv.appendChild(copyname)
     rightclickdiv.appendChild(copypath)
+        rightclickdiv.appendChild(renamefolderelement)
+
 }
