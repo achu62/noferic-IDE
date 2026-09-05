@@ -92,8 +92,24 @@ export async function showdialog(path) {
       }
   })
 }
-
-export function showFolderDialog(path) {
+export function rendererrename(path , fn){
+  createDialog({
+    "heading":`rename ${path}`,
+    "items":[
+      {
+        "type":"input",
+        "label":"Rename to:"
+      }
+    ],
+    "affirmative":{
+      "name":"Rename",
+      callback:async(values)=>{
+        window.ipc.invoke("rename" , path , path.replace(fn , values[0]))
+      }
+    }
+  })
+}
+export function showFolderDialog(path , fn) {
   createDialog({
     "heading": `create Folder in ${path}`, items: [
       { type: "input", label: "Directory" }], "affirmative": {

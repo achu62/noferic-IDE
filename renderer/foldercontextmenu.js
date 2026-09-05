@@ -1,5 +1,5 @@
 //jai sri ram
-import { ctil, deleteFolder, showdialog, showFolderDialog } from './renderer.js'
+import { ctil, deleteFolder, showdialog, showFolderDialog , rendererrename} from './renderer.js'
 let inactivityTimer;
 
 
@@ -133,7 +133,8 @@ export function createfolderdialogbox(parent, elementid, folderbtn, file) {
     })
     renamefolderelement.addEventListener("click" , (e)=>{
                 e.stopPropagation()
-                
+                rendererrename(elementid , file.name)
+
     })
     rightclickdiv.appendChild(createfileelement)
     rightclickdiv.appendChild(createfolderelement)
@@ -141,6 +142,7 @@ export function createfolderdialogbox(parent, elementid, folderbtn, file) {
     rightclickdiv.appendChild(openterminalincurrentdir)
     rightclickdiv.appendChild(copyname)
     rightclickdiv.appendChild(copypath)
+    rightclickdiv.appendChild(renamefolderelement)
     folderbtn.addEventListener("blur", (e) => {
         e.preventDefault(
         )
