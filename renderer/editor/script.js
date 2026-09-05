@@ -60,7 +60,7 @@ window.onload = () => {
     let autosavelistener;
 
     //async function track(editor) {
-    //  if (!editor) return;
+    // if (!editor) return;
       //editor.onDidChangeCursorPosition(async (e) => {
         //window.parent.document.getElementById("lineandcolumn").innerText =
 
