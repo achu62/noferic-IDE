@@ -52,6 +52,7 @@ async function handleConfigurations() {
     fs.mkdirSync(toNormalisedWindowsId(path.join(pathsforappdatas.config)), { recursive: true })
     fs.mkdirSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings")), { recursive: true })
     fs.promises.appendFile(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")))
+
     fs.writeFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")),
       JSON.stringify(
         {
@@ -286,58 +287,6 @@ async function track(pathreal) {
   }
 }
 
-
-
-function createWindow() {
-  win = new BrowserWindow({
-    width: 1200,
-    height: 800,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: false,
-      contextIsolation: true,
-      allowRunningInsecureContent: true,
-      webSecurity: true,
-      spellcheck: false,
-      devTools: true,
-    },
-  });
-
-  win.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
-  if (isproduction) {
-    win.removeMenu();
-  }
-  win.webContents.on('did-finish-load', () => {
-    win.webContents.insertCSS(`
-      [fill="#1e1e1e" i] { fill: #FFFFFF !important; }
-      [stroke="#1e1e1e" i] { stroke: #FFFFFF !important; }
-      [style*="#1e1e1e" i] { color: #FFFFFF !important; }
-    `);
-  });
-  win.on("close", (event) => {
-    event.preventDefault();
-    win.webContents.send(
-      "data",
-      JSON.stringify({
-        action: "getOpenTabs",
-      }),
-    );
-
-    ipcMain.once("data", (e, d) => {
-      //console.log("CLOSING")
-      const data = JSON.parse(d);
-      if (data.action === "tabsopen") {
-        fs.writeFileSync(
-          path.join(pathreal, ".noferic-ide", "noferic-config.json"),
-          JSON.stringify({ openTabs: data.openTabs }),
-        );
-        win.removeAllListeners("close");
-      }
-    });
-  });
-}
-let ptyProcess = {};
-
 async function handleappargs(args) {
   if (!args) {
     return;
@@ -445,16 +394,88 @@ async function handleappargs(args) {
   }
 
 }
+
+function createWindow() {
+  win = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: false,
+      contextIsolation: true,
+      allowRunningInsecureContent: true,
+      webSecurity: true,
+      spellcheck: false,
+      devTools: true,
+    },
+  });
+  win.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
+  if (isproduction) {
+    win.removeMenu();
+  }
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.insertCSS(`
+      [fill="#1e1e1e" i] { fill: #FFFFFF !important; }
+      [stroke="#1e1e1e" i] { stroke: #FFFFFF !important; }
+      [style*="#1e1e1e" i] { color: #FFFFFF !important; }
+    `);
+  });
+  win.on("close", (event) => {
+    event.preventDefault();
+    win.webContents.send(
+      "data",
+      JSON.stringify({
+        action: "getOpenTabs",
+      }),
+    );
+
+    ipcMain.once("data", (e, d) => {
+      const data = JSON.parse(d);
+      if (data.action === "tabsopen") {
+        fs.writeFileSync(
+          path.join(pathreal, ".noferic-ide", "noferic-config.json"),
+          JSON.stringify({ openTabs: data.openTabs }),
+        );
+        win.removeAllListeners("close");
+      }
+    });
+    fs.writeFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "prev-dir-path")) , pathreal, {recursive:true})
+  });
+}
+let ptyProcess = {};
+
+
 let args;
 app.whenReady().then(() => {
-  createWindow();
   if (isproduction) {
     args = process.argv[1];
   } else {
     args = process.argv[2];
   }
+  createWindow();
   win.webContents.once("did-finish-load", async () => {
-    await handleappargs(args);
+    let startupPath = args;
+    if (!startupPath) {
+      const previousPathFile = path.join(
+        pathsforappdatas.config,
+        "appsettings",
+        "prev-dir-path",
+      );
+      if (fs.existsSync(previousPathFile)) {
+        startupPath = fs.readFileSync(previousPathFile, "utf-8").trim();
+      }
+    }
+
+
+    if (
+      startupPath &&
+      fs.existsSync(startupPath) &&
+      fs.statSync(startupPath).isDirectory()
+    ) {
+      await handleappargs(toNormalisedWindowsId(startupPath));
+    } else if (args) {
+      await handleappargs(args);
+    }
   });
 });
 

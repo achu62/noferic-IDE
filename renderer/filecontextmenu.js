@@ -1,10 +1,10 @@
 //jai sri ram
-import {deleteFile , rendererrename} from "./renderer.js"
-import {IDEComponentApi} from "./editor UI components.js"
+import { deleteFile, rendererrename } from "./renderer.js"
+import { IDEComponentApi } from "./editor UI components.js"
 
 let inactivityTimer;
 
-export function createfiledialogbox(parent, elementid, filebtn , file) {
+export function createfiledialogbox(parent, elementid, filebtn, file) {
     const rightclickdiv = document.createElement('div')
     function startTimer() {
 
@@ -22,7 +22,7 @@ export function createfiledialogbox(parent, elementid, filebtn , file) {
         startTimer();                  // Start a fresh 60-second countdown
     };
     rightclickdiv.id = `rightdiv${elementid}`
-   rightclickdiv.style.display = "none";
+    rightclickdiv.style.display = "none";
     rightclickdiv.style.position = "fixed";
     rightclickdiv.style.color = "white";
     rightclickdiv.style.backgroundColor = '#2d2d30';
@@ -33,19 +33,19 @@ export function createfiledialogbox(parent, elementid, filebtn , file) {
     rightclickdiv.style.borderRadius = 5 + "px"
     rightclickdiv.style.left = `${filebtn.getBoundingClientRect().left + filebtnoffsetWidth - 10}px`
     const renamefolderelement = document.createElement("button")
-  renamefolderelement.id = `rightdivrn${elementid}`
+    renamefolderelement.id = `rightdivrn${elementid}`
     renamefolderelement.classList.add(`createfolderelement`)
     renamefolderelement.innerText = 'rename';
     rightclickdiv.style.top = `${filebtn.getBoundingClientRect().top + filebtnoffsetHeight - 3}px`
     rightclickdiv.style.flexDirection = "column"
     rightclickdiv.style.gap = 0 + "px";
-    
+
     parent.appendChild(rightclickdiv)
     const deletefileelement = document.createElement('button')
-      const copypath = document.createElement('button')
+    const copypath = document.createElement('button')
     const copyname = document.createElement('button')
 
- copypath.id = `rightdivcpf${elementid}`
+    copypath.id = `rightdivcpf${elementid}`
     copypath.classList.add(`createfileelement`)
     copypath.innerText = 'Copy File Path';
 
@@ -57,21 +57,22 @@ export function createfiledialogbox(parent, elementid, filebtn , file) {
 
     copyname.classList.add(`createfileelement`)
     copyname.innerText = ' Create File Name';
-    copyname.addEventListener("click" , (e)=>{
+    copyname.addEventListener("click", (e) => {
         e.preventDefault()
         navigator.clipboard.writeText(file.name)
         console.log(file)
-     IDEComponentApi.ShowNotification("copied" , {
-            duration:9000,
-            type:"success"
-        })    })
-      copypath.addEventListener("click" , (e)=>{
+        IDEComponentApi.ShowNotification("copied", {
+            duration: 9000,
+            type: "success"
+        })
+    })
+    copypath.addEventListener("click", (e) => {
         e.preventDefault()
         console.log(file)
         navigator.clipboard.writeText(file.id)
-        IDEComponentApi.ShowNotification("copied" , {
-            duration:9000,
-            type:"success"
+        IDEComponentApi.ShowNotification("copied", {
+            duration: 9000,
+            type: "success"
         })
     })
 
@@ -82,11 +83,11 @@ export function createfiledialogbox(parent, elementid, filebtn , file) {
         e.stopPropagation()
         deleteFile(elementid)
     })
-     renamefolderelement.addEventListener("click" , (e)=>{
-                    e.stopPropagation()
-                    rendererrename(elementid , file.name)
-    
-        })
+    renamefolderelement.addEventListener("click", (e) => {
+        e.stopPropagation()
+        rendererrename(elementid, file.name)
+
+    })
     rightclickdiv.appendChild(deletefileelement)
 
     filebtn.addEventListener('contextmenu', (e) => {
@@ -102,6 +103,6 @@ export function createfiledialogbox(parent, elementid, filebtn , file) {
     })
     rightclickdiv.appendChild(copyname)
     rightclickdiv.appendChild(copypath)
-        rightclickdiv.appendChild(renamefolderelement)
+    rightclickdiv.appendChild(renamefolderelement)
 
 }
