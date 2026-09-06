@@ -23,6 +23,8 @@ async function rl(elementr, array, color , state) {
         elementr.appendChild(newmfe)
     });
 }
+/**@param {HTMLDocument} document  */
+
 export function setInVersionControl(document, eleme, json) {
 
     eleme.innerText = "";
