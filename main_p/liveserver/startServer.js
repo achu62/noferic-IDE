@@ -2,113 +2,73 @@
 import path from "node:path";
 import liveServer from "live-server";
 import { startWithInjection } from "./live-server-inject-script.js";
-
+import { recievemaindebug } from "../main.js";
 const collector = (req, res, next) => {
-    if (req.url === "/__incoming_logs__" && req.method === "POST") {
-        let body = "";
+	if (req.url === "/__incoming_logs__" && req.method === "POST") {
+		let body = "";
 
-        req.on("data", chunk => {
-            body += chunk;
-        });
+		req.on("data", chunk => {
+			body += chunk;
+		});
 
-        req.on("end", () => {
-            try {
-                const data = JSON.parse(body);
+		req.on("end", () => {
+			try {
+				const data = JSON.parse(body);
 
-                const type = data?.type ?? "unknown";
-                const message = data?.message ?? "";
-				console.log(JSON.stringify(data))
-               
+				const type = data?.type ?? "unknown";
+				const message = data?.message ?? "";
+				recievemaindebug(data)
 
-                if (data?.stack) {
-                    console.log(data.stack);
-                }
+				if (data?.stack) {
+					console.log(data.stack);
+				}
 
-                res.writeHead(200, {
-                    "Content-Type": "text/plain"
-                });
+				res.writeHead(200, {
+					"Content-Type": "text/plain"
+				});
 
-                res.end("Logged");
-            } catch (error) {
-                
+				res.end("Logged");
+			} catch (error) {
 
-                res.writeHead(400, {
-                    "Content-Type": "text/plain"
-                });
 
-                res.end("Invalid payload");
-            }
-        });
+				res.writeHead(400, {
+					"Content-Type": "text/plain"
+				});
 
-        return;
-    }
+				res.end("Invalid payload");
+			}
+		});
 
-    next();
+		return;
+	}
+
+	next();
 };
 
 export const start_server = async (e, obj, pathreal) => {
-    const opts = {
-        port: obj.port,
-        host: "127.0.0.1",
-        root: path.join(pathreal, obj.relativepath),
-        open: obj.toOpen,
-        wait: 100,
-        middleware: [collector]
-    };
+	const opts = {
+		port: obj.port,
+		host: "127.0.0.1",
+		root: path.join(pathreal, obj.relativepath),
+		open: obj.toOpen,
+		wait: 100,
+		middleware: [collector]
+	};
 
-    const myCustomScript = `
+	const myCustomScript = `
 <script>
 (() => {
     /*
      * Safely convert anything into something JSON can handle.
      */
-    function serialize(value, seen = new WeakSet()) {
-        if (value instanceof Error) {
-            return {
-                name: value.name,
-                message: value.message,
-                stack: value.stack
-            };
-        }
-
-        if (typeof value === "bigint") {
-            return value.toString() + "n";
-        }
-
-        if (typeof value === "function") {
-            return "[Function " + (value.name || "anonymous") + "]";
-        }
-
-        if (typeof value === "symbol") {
-            return value.toString();
-        }
-
-        if (value && typeof value === "object") {
-            if (seen.has(value)) {
-                return "[Circular]";
-            }
-
-            seen.add(value);
-
-            if (Array.isArray(value)) {
-                return value.map(item => serialize(item, seen));
-            }
-
-            const result = {};
-
-            for (const key of Object.keys(value)) {
-                try {
-                    result[key] = serialize(value[key], seen);
-                } catch {
-                    result[key] = "[Unserializable]";
-                }
-            }
-
-            return result;
-        }
-
-        return value;
+	
+   function serialize(value) {
+    try {
+        return String(value);
+    } catch {
+        return "[Unserializable]";
     }
+}
 
     /*
      * Send an event to the development server.
@@ -143,6 +103,19 @@ export const start_server = async (e, obj, pathreal) => {
         error: console.error,
         debug: console.debug
     };
+	window.addEventListener("error", event => {
+    originalConsole.error.call(
+        console,
+        event.error || event.message
+    );
+
+    send("exception", [event.message], {
+        filename: event.filename || null,
+        lineno: event.lineno || null,
+        colno: event.colno || null,
+        stack: event.error?.stack || null
+    });
+});
 
     /*
      * Replace console methods while preserving their
@@ -202,5 +175,5 @@ export const start_server = async (e, obj, pathreal) => {
 </script>
 `;
 
-    startWithInjection(opts, myCustomScript);
+	startWithInjection(opts, myCustomScript);
 };

@@ -620,7 +620,9 @@ window.onload = function () {
       globalfolderjson = message.fjson;
       openfolderfunction(globalfolderjson);
     }
-
+    else if(message.action === "data-debug"){
+      console.log(message.data)
+    }
     else if (JSON.parse(data).action == "handlefileargs") {
       setTimeout(() => {
         openfileoncilick(message.path, iframe);
