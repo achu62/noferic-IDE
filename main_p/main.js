@@ -704,3 +704,9 @@ ipcMain.handle("rename" , async(e , t , n)=>{
   
   await fs.promises.rename(t , n)
 })
+export function recievemaindebug(Jsone){
+ win.webContents.send("data" , JSON.stringify({
+  action:"data-debug",
+  data:JSON.stringify(Jsone)
+ }))
+}
