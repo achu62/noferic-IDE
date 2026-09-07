@@ -1,5 +1,5 @@
 //jai sri ram
-export const myCustomScript = `
+export const myCustomScript =`
 <script>
 (() => {
     /*
@@ -111,10 +111,7 @@ export const myCustomScript = `
         });
     });
 
-    originalConsole.log.call(
-        console,
-        "Noferic error logging system is  initiated \n Happy Debugging!"
-    );
+   
 })();
 </script>
 `;
