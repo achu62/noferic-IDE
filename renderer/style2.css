@@ -1884,3 +1884,17 @@ position: absolute;
   font-size: 12px;
   color:#ffffff
 }
+#nf-d{
+  
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 152.2px;
+  background-image: url("images/noferic-debug.svg");
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+  background-color: inherit;
+
+}
