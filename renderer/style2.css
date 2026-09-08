@@ -1366,7 +1366,7 @@ body {
 
 #versioncontrolelement {
   position: absolute;
-  top: 20px;
+  top: 50px;
   bottom: 0;
   right: 0;
   left: 0;
@@ -1897,4 +1897,41 @@ position: absolute;
   z-index: 5;
   background-color: inherit;
 
+}
+#nf-list
+{
+  
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: vertical;
+  background-color: #343434;
+  overflow-y: scroll;
+
+}
+.bubbles-for{
+  
+  all: unset;
+  color: var(--ffffff);
+  background-color: #333333;
+  position: relative;
+  right: 0;
+  left: 0%;
+  font-size: 11.9px;
+  font-weight: 350;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  padding-left: 10px !important;
+  border: 0.1px solid #4b4949;
+  opacity: 0.60;
 }

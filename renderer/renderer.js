@@ -10,8 +10,6 @@ import { resizeterminal } from "./resize/resizeterminal.js";
 import { setInVersionControl } from "./handlingversioncontrol/showinversion.js";
 import {
   isValidJSON,
-
-
   getfileiconbytype,
   DeleteOldWorkspace,
   findFolderById,
@@ -44,6 +42,7 @@ let globalleftmenustate = {
   isexploreropen: true,
   isterminalopen: false,
   isleftpanelopen: true,
+  isnfdpopen: false
 };
 let previousselection;
 export function ctil(pathcwd) {
@@ -92,24 +91,24 @@ export async function showdialog(path) {
       }
   })
 }
-export function rendererrename(path , fn){
+export function rendererrename(path, fn) {
   createDialog({
-    "heading":`rename ${path}`,
-    "items":[
+    "heading": `rename ${path}`,
+    "items": [
       {
-        "type":"input",
-        "label":"Rename to:"
+        "type": "input",
+        "label": "Rename to:"
       }
     ],
-    "affirmative":{
-      "name":"Rename",
-      callback:async(values)=>{
-        window.ipc.invoke("rename" , path , path.replace(fn , values[0]))
+    "affirmative": {
+      "name": "Rename",
+      callback: async (values) => {
+        window.ipc.invoke("rename", path, path.replace(fn, values[0]))
       }
     }
   })
 }
-export function showFolderDialog(path , fn) {
+export function showFolderDialog(path, fn) {
   createDialog({
     "heading": `create Folder in ${path}`, items: [
       { type: "input", label: "Directory" }], "affirmative": {
@@ -185,6 +184,8 @@ window.onload = function () {
   });
   handleShortCuts(document);
   document.getElementById("versioncontrolelement").style.display = "none";
+    document.getElementById("nf-debug").style.display = "none";
+
 
 
   document
@@ -193,9 +194,25 @@ window.onload = function () {
       if (!globalleftmenustate.isversioncontolopen) {
         document.getElementById("versioncontrolelement").style.display = "flex";
         document.getElementById("explorerelement").style.display = "none";
+        document.getElementById("nf-debug").style.display = "none";
+        globalleftmenustate.isnfdpopen = false;
         globalleftmenustate.isexploreropen = false;
         globalleftmenustate.isversioncontolopen = true;
-        document.getElementById("explotop").innerText = "version contol";
+        document.getElementById("explotop").innerText = "version-control";
+      }
+    });
+  document
+    .getElementById("nf-d")
+    .addEventListener("click", async () => {
+      if (!globalleftmenustate.isnfdpopen) {
+        document.getElementById("nf-debug").style.display = "flex";
+        document.getElementById("versioncontrolelement").style.display = "none";
+        document.getElementById("explorerelement").style.display = "none";
+        globalleftmenustate.isexploreropen = false;
+        globalleftmenustate.isversioncontolopen = false;
+        globalleftmenustate.isnfdpopen = true;
+
+        document.getElementById("explotop").innerText = "Debugging";
       }
     });
   document.getElementById("expl").addEventListener("click", async () => {
@@ -205,6 +222,8 @@ window.onload = function () {
       globalleftmenustate.isexploreropen = true;
       globalleftmenustate.isversioncontolopen = false;
       document.getElementById("explotop").innerText = "explorer";
+      document.getElementById("nf-debug").style.display = "none";
+      globalleftmenustate.isnfdpopen = false;
     }
   });
   let workspacepath = null;
@@ -620,8 +639,16 @@ window.onload = function () {
       globalfolderjson = message.fjson;
       openfolderfunction(globalfolderjson);
     }
-    else if(message.action === "data-debug"){
+    else if (message.action === "data-debug") {
       console.log(message.data)
+      const pe = document.createElement("button")
+      pe.classList.add("bubbles-for")
+      console.log( message.data["message"])
+      pe.innerText  = JSON.parse(message.data).message
+      const realdata = JSON.parse(message.data)
+      pe.style.backgroundColor = 
+      realdata.type == "error" || realdata.type  == "exception"? "#ee4435" :realdata.type == "warn" ? "#eec038"  : "#33333"
+      document.getElementById("nf-list").appendChild(pe)
     }
     else if (JSON.parse(data).action == "handlefileargs") {
       setTimeout(() => {
@@ -748,8 +775,8 @@ window.onload = function () {
     }
   });
 
- 
- 
+
+
   document.getElementById("cancelcommit").addEventListener("click", () => {
     document.getElementById("commitdialog").close();
   });
@@ -816,46 +843,49 @@ window.onload = function () {
       "items": [
         {
           "type": "input",
-          "label": "port"
+          "label": "port",
+          "value":5000
+          
         },
 
         {
           "type": "input",
           "label": "relpath"
         },
-      {
-        
-        "type":"check", 
-        "label":"Open in default browser"
-      
-      }],
-      "heading":"Start Live Server",
-      affirmative: {
-    name: "Start Live Server",
-    callback:async (values) => {
-      
-     
-      try {
-        const dec = await window.ipc.invoke("validate-details-liveserver", {
-          port: values[0],
-          relativepath: values[1] || "./",
-          toOpen: values[2],
-        });
-      } catch (e) {
-        alert(e);
-        return;
-      }
-      //@
-      window.ipc.invoke("start_server", {
-         port: values[0],
-          relativepath: values[1] || "./",
-          toOpen: values[2],
-      });
- 
+        {
 
-     
-    
-    }}
+          "type": "check",
+          "label": "Open in default browser"
+
+        }],
+      "heading": "Start Live Server",
+      affirmative: {
+        name: "Start Live Server",
+        callback: async (values) => {
+
+
+          try {
+            const dec = await window.ipc.invoke("validate-details-liveserver", {
+              port: values[0],
+              relativepath: values[1] || "./",
+              toOpen: values[2],
+            });
+          } catch (e) {
+            alert(e);
+            return;
+          }
+          //@
+          window.ipc.invoke("start_server", {
+            port: values[0],
+            relativepath: values[1] || "./",
+            toOpen: values[2],
+          });
+
+
+
+
+        }
+      }
 
     })
   });
@@ -891,14 +921,14 @@ window.onload = function () {
       runn();
     }
   });
- 
-  
+
+
   document.getElementById("inputforcommit").addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       document.getElementById("commitreal").click();
     }
   });
- 
+
   document.getElementById("push").addEventListener("click", async (e) => {
     const confirmation = confirm(
       `do you want  to push this repo to a remote brach`,
