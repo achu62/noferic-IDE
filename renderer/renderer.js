@@ -1,6 +1,8 @@
 //jai sri ram
 ///////////
 //jai sri ram
+console.warn("uidi")
+
 let countforterminal = 1;
 
 import { initiateterminal } from "./terminal/initialiseterminal.js";
@@ -640,12 +642,16 @@ window.onload = function () {
       openfolderfunction(globalfolderjson);
     }
     else if (message.action === "data-debug") {
-      console.log(message.data)
+            const realdata = JSON.parse(message.data)
+            console.log(realdata)
+            if(realdata.message[0] === "noferic-reset-secret-code=0990930393494494449"){
+              document.getElementById("nf-list").replaceChildren("")
+              return;
+            }
+
       const pe = document.createElement("button")
       pe.classList.add("bubbles-for")
-      console.log( message.data["message"])
       pe.innerText  = JSON.parse(message.data).message
-      const realdata = JSON.parse(message.data)
       pe.style.backgroundColor = 
       realdata.type == "error" || realdata.type  == "exception"? "#ee4435" :realdata.type == "warn" ? "#eec038"  : "#33333"
       document.getElementById("nf-list").appendChild(pe)
