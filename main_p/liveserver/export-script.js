@@ -1,6 +1,11 @@
 //jai sri ram
-export const myCustomScript =`
-<script>
+export const myCustomScript = `<script>
+ window.onbeforeunload = function () {
+    console.log("noferic-reset-secret-code=0990930393494494449");
+};
+   
+
+
 (() => {
     /*
      * Safely convert anything into something JSON can handle.
@@ -18,12 +23,23 @@ export const myCustomScript =`
      * Send an event to the development server.
      */
     function send(type, args, extra = {}) {
+        const values = Array.isArray(args) ? args : [args];
         const payload = {
             type,
             timestamp: new Date().toISOString(),
-            message: args.map(serialize),
+            message: values.map(serialize),
             ...extra
         };
+
+        if (type === "reset" && navigator.sendBeacon) {
+            navigator.sendBeacon(
+                "/__incoming_logs__",
+                new Blob([JSON.stringify(payload)], {
+                    type: "application/json"
+                })
+            );
+            return;
+        }
 
         fetch("/__incoming_logs__", {
             method: "POST",
@@ -93,7 +109,7 @@ export const myCustomScript =`
             stack: event.error?.stack ?? null
         });
     });
-
+    
     /*
      * Catch rejected Promises that nobody handled.
      */
@@ -110,8 +126,6 @@ export const myCustomScript =`
             stack: event.reason?.stack ?? null
         });
     });
-
    
 })();
-</script>
-`;
+</script>`;

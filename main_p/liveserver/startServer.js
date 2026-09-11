@@ -4,6 +4,7 @@ import liveServer from "live-server";
 import { startWithInjection } from "./live-server-inject-script.js";
 import { recievemaindebug } from "../main.js";
 import {myCustomScript} from "./export-script.js"
+console.log(myCustomScript)
 const collector = (req, res, next) => {
 	if (req.url === "/__incoming_logs__" && req.method === "POST") {
 		let body = "";
