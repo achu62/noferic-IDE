@@ -334,7 +334,7 @@ body {
   z-index: 4;
   height: 18px;
   width: 100vw;
-  background-color: #595959;
+  background-color:#1e1e1e;
   image-rendering: optimizeQuality;
   border-top: 0.2px solid var(--afaeaec9);
   display: flex;

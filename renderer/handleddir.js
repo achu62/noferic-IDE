@@ -20,6 +20,7 @@ export function handleDir() {
   statebtn.style.backgroundImage = "url(images/keyarrowdown.svg)";
   statebtn.style.backgroundRepeat = "no-repeat";
   statebtn.style.backgroundSize = "cover";
+  
   const icon = document.createElement("div");
   icon.id = `iconfor${decodeURIComponent(file.id)}`;
   icon.style.position = "absolute";

@@ -41,7 +41,7 @@ export const NofericTheme =  {
         { token: "invalid", foreground: "FFFFFF", background: "D32F2F" },
       ],
       colors: {
-        "editor.background": "#1e1e1e",
+        "editor.background": "#000000",
         "editor.foreground": "#E8E8E8",
         "editorLineNumber.foreground": "#777777",
         "editorCursor.foreground": "#FFFFFF",

@@ -85,6 +85,7 @@ function toNormalisedWindowsId(inputPath) {
 
 }
 function toNormalizedWindospath(inputPath) {
+  
   return path.win32.normalize(inputPath).replace(/\\/g, "/");
 }
 function toPathKey(inputPath) {
@@ -111,6 +112,7 @@ export function getEssentials() {
   };
 }
 export function Nullify() {
+
   changedpathsbyide = [];
 }
 
@@ -159,6 +161,7 @@ async function track(pathreal) {
     });
 
     watcher.on("add", (filePath) => {
+      
       filePath = toNormalizedWindospath(filePath);
       if (addedpathbyide) {
         addedpathbyide = addedpathbyide.filter((item) => toNormalizedWindospath(item) !== filePath);
