@@ -4,12 +4,13 @@
 //jai sri ram
 
 import { getLanguagebyExtension } from "./utils.js";
-import { runparser } from "./parser/dist/my-library.js";
 import { NofericTheme } from "./MyTheme.js"
 import { EditorConfig } from "./EditorConfig.js"
-import { getDeclarationName } from "./getDeclarationName.js"
 import { lspKindToMonaco } from "./lspToMonaco.js";
 import { format } from "./formatter/formatter.js";
+const worker_tree_sitter = new Worker("./parser/output/my-library.js", { "type": "module" });
+
+
 async function lspCompletionToMonaco(monaco, item) {
   return {
     label: item.label,
@@ -59,62 +60,104 @@ window.onload = () => {
     let recentmodeluri;
     let autosavelistener;
 
-    //async function track(editor) {
-    // if (!editor) return;
-      //editor.onDidChangeCursorPosition(async (e) => {
-        //window.parent.document.getElementById("lineandcolumn").innerText =
+    async function track(editor) {
+      if (!editor) return;
+      editor.onDidChangeCursorPosition(async (e) => {
+        window.parent.document.getElementById("lineandcolumn").innerText =
 
-          //`LN:${e.position.lineNumber}  COL:${e.position.column}`;
+          `LN:${e.position.lineNumber}  COL:${e.position.column}`;
 
         //const tree = await runparser(editor.getValue(), {
-          //row: e.position.lineNumber - 1,
-          //column: e.position.column - 1,
+        //row: e.position.lineNumber - 1,
+        //column: e.position.column - 1,
         //})
-        //const name = getDeclarationName(tree);
-       // window.parent.document.getElementById("breadcrupsfunc").innerText = `${name || ""}`
+        worker_tree_sitter.postMessage({
+          type: "get-the-named-des",
+          code: editor.getValue(),
+          pos: {
+            row: e.position.lineNumber - 1,
+            column: e.position.column - 1,
+          }
 
-        //window.renderer.SendRequesttomain("hell")
+        });
+        worker_tree_sitter.onmessage = (e) => {
+          if (e.data.type == "get-the-named-des") {
+            const mes = JSON.parse(e.data.response)
+            const breadcrumb = window.parent.document.getElementById("breadcrupsfunc");
+            const name = mes.name?.name || "";
+            const type = mes.name?.type || "";
+            let color = "#FFD166";
 
-      //});
+            if (type === "function") {
+              color = "#61AFEF";
+            } else if (type === "class") {
+              color = "#E5C07B";
+            } else if (type === "constant") {
+              color = "#98C379";
+            } else if (type === "variable") {
+              color = "#C678DD";
+            } else if (type === "method") {
+              color = "#56B6C2";
+            } else if (type === "property") {
+              color = "#D19A66";
+            }
+
+            breadcrumb.innerText = name
+              ? type === "function"
+                ? `() ${name}`
+                : type === "class"
+                  ? `{} ${name}`
+                  : type === "constant"
+                    ? `xy ${name}`
+                    : name
+              : "";
+            breadcrumb.style.color = color;
+
+          }
+        };
+
+
+      });
 
 
 
+    }
+    track(editor)
 
-//    }
     let autosaveTimer = null; // Stored globally/outer-scope to persist across keypresses
 
-async function autosave(editor) {
-  if (autosavelistener) {
-    autosavelistener.dispose();
-  }
+    async function autosave(editor) {
+      if (autosavelistener) {
+        autosavelistener.dispose();
+      }
 
-  autosavelistener = editor.onDidChangeModelContent(() => {
-    // 1. Cancel the previous scheduled save on every new keypress
-    if (autosaveTimer) {
-      clearTimeout(autosaveTimer);
-    }
+      autosavelistener = editor.onDidChangeModelContent(() => {
+        // 1. Cancel the previous scheduled save on every new keypress
+        if (autosaveTimer) {
+          clearTimeout(autosaveTimer);
+        }
 
-    // 2. Schedule a single save 1 second after typing pauses
-    autosaveTimer = setTimeout(async () => {
-      const model = editor.getModel();
-      if (!editor || !model || !URI) return;
+        // 2. Schedule a single save 1 second after typing pauses
+        autosaveTimer = setTimeout(async () => {
+          const model = editor.getModel();
+          if (!editor || !model || !URI) return;
 
-      const path =
-        navigator.platform === "Win32"
-          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
-          : decodeURIComponent(model.uri.toString().replace("id:", ""));
+          const path =
+            navigator.platform === "Win32"
+              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+              : decodeURIComponent(model.uri.toString().replace("id:", ""));
 
-      if (path.includes("inmemory://")) return;
+          if (path.includes("inmemory://")) return;
 
-      const code = editor.getValue();
-      
-      window.renderer.SendRequesttomain({
-        action: "autosave",
-        args: { code, path }
+          const code = editor.getValue();
+
+          window.renderer.SendRequesttomain({
+            action: "autosave",
+            args: { code, path }
+          });
+        }, 1000);
       });
-    }, 1000); 
-  });
-}
+    }
     monaco.editor.onDidChangeMarkers(([resource]) => {
       const modelae = editor.getModel();
 
@@ -139,7 +182,7 @@ async function autosave(editor) {
       }
     });
     monaco.languages.registerCompletionItemProvider("javascript", {
-      triggerCharacters: ["." , "<" , "/"],
+      triggerCharacters: [".", "<", "/"],
       async provideCompletionItems(model, position) {
         try {
           const offset = model.getOffsetAt(position);
@@ -251,7 +294,7 @@ async function autosave(editor) {
       })
 
 
-        autosave(editor);
+    autosave(editor);
 
 
 
@@ -295,7 +338,7 @@ async function autosave(editor) {
           }
         } else {
           if (message.isspecialchange) {
-           const pos =  editor.getPosition()
+            const pos = editor.getPosition()
             isexisting.setValue(message.content);
             editor.setPosition(pos)
           } else {
@@ -390,8 +433,8 @@ async function autosave(editor) {
               e.style.backgroundColor = "#1e1e1e";
             });
           });
-          if(topbarfor){
-          topbarfor.style.backgroundColor = "#404040";
+          if (topbarfor) {
+            topbarfor.style.backgroundColor = "#404040";
 
           }
           editor.setModel(newmodel);

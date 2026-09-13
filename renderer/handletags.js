@@ -2,6 +2,9 @@
 function ThisIsAfunction() {
   function istnew() {
     () => {
+      class newindoo{
+
+      }
       //jai
     };
   }
