@@ -14,7 +14,6 @@ export function createfiledialogbox(parent, elementid, filebtn, file) {
 
         }, 3000);
     }
-
     function resetTimer() {
         if (inactivityTimer) {
             clearTimeout(inactivityTimer); // Stop the current countdown

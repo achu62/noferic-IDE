@@ -1,7 +1,9 @@
 //jai sri ram
 ///////////
 //jai sri ram
-console.warn("uidi")
+
+console.log(["udn" , "cnf"])
+
 
 let countforterminal = 1;
 
@@ -1008,3 +1010,4 @@ window.onload = function () {
   });
 
 };
+
