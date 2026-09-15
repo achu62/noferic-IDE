@@ -101,7 +101,6 @@ self.onmessage=(e)=>{
   if(mes.type == "get-the-named-des"){
     (async()=>{
     const res = await runparser(mes.code)  
-
     const hid = getAtPosition(res , mes.pos , mes.code);
     console.log(hid)
   self.postMessage({type:"get-the-named-des", response: JSON.stringify(hid)})  })();
