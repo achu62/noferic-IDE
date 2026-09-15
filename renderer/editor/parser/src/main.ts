@@ -1,5 +1,9 @@
 import { Parser, Language } from "web-tree-sitter";
-
+interface parsed_code{
+    type:string,
+    name:number,
+    children:Array<any>
+}
 const runtimeWasm: string = new URL(
   "./web-tree-sitter.wasm",
   import.meta.url
