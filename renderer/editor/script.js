@@ -83,9 +83,10 @@ window.onload = () => {
         worker_tree_sitter.onmessage = (e) => {
           if (e.data.type == "get-the-named-des") {
             const mes = JSON.parse(e.data.response)
+            console.log(`recieved:${JSON.stringify(mes)}`)
             const breadcrumb = window.parent.document.getElementById("breadcrupsfunc");
-            const name = mes.name?.name || "";
-            const type = mes.name?.type || "";
+            const name = mes.name?.name || mes.name || "";
+            const type = mes.name?.type || mes.type || "";
             let color = "#FFD166";
 
             if (type === "function") {
@@ -102,15 +103,7 @@ window.onload = () => {
               color = "#D19A66";
             }
 
-            breadcrumb.innerText = name
-              ? type === "function"
-                ? `() ${name}`
-                : type === "class"
-                  ? `{} ${name}`
-                  : type === "constant"
-                    ? `xy ${name}`
-                    : name
-              : "";
+           breadcrumb.innerText = String(name)
             breadcrumb.style.color = color;
 
           }
