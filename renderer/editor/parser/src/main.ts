@@ -13,24 +13,27 @@ const languageWasm: string = new URL(
     "./tree-sitter-javascript.wasm",
     import.meta.url
 ).href;
-function nodeToJson(node: any) {
-    return {
-        type: node.type,
-        text: node.text,///maybe....burden....
-        startPosition: node.startPosition,//important
-        endPosition: node.endPosition,//important  
-        children: node.children.map(nodeToJson)
-        //node.children.map() does execute the loog
-    };
-}
-function getSymbolAtPosition(tree: any, row: any, column: any) {
-    let node = tree.rootNode.descendantForPosition({
-        row,
-        column
-    });
+function getSymbolAtPosition(tree: any, row: any, column: any , isaldreadyrootnode :boolean) {
+    let node;
+    if (!isaldreadyrootnode) {
+        node = tree.rootNode.descendantForPosition({
+            row,
+            column
+        });
+    }
+    else{
+        console.log(row, column)
+        node = tree.descendantForPosition({
+            row,
+            column
+        });
+    
+    }
+    
 
     while (node) {
         switch (node.type) {
+
             case "function_declaration": {
                 const name = node.childForFieldName("name");
 
@@ -73,6 +76,29 @@ function getSymbolAtPosition(tree: any, row: any, column: any) {
 
     return null;
 }
+/**
+ * Finds the component/variable name at a specific start and end position.
+ * @param {Object} rootNode - The root node of the Tree-sitter syntax tree.
+ * @param {Object} startPosition - { row: X, column: Y } (0-indexed)
+ * @param {Object} endPosition - { row: X, column: Y } (0-indexed)
+ * @returns {string|null} - The name of the component, or null if not found.
+ */
+/**
+ * Helper function to recursively find the first child node of a specific type.
+ */
+
+function nodeToJson(node: any) {
+    return {
+        type: node.type,
+        text: node.text,
+        name:getSymbolAtPosition(node ,node.startPosition.row , node.startPosition.column , true)?.name,///maybe....burden....
+        startPosition: node.startPosition,//important
+        endPosition: node.endPosition,//important  
+        children: node.children.map(nodeToJson)
+        //node.children.map() does execute the loog
+    };
+}
+
 async function runparser(code: string) {
     await Parser.init({
         locateFile() {
@@ -107,7 +133,7 @@ function getAtPosition(tree: any, pointer: any, code: string) {
     return {
         type: node?.type ?? null,
         text: node ? code.slice(node.startIndex, node.endIndex) : null,
-        name: getSymbolAtPosition(tree, pointer.row, pointer.column)?.name
+        name: getSymbolAtPosition(tree, pointer.row, pointer.column , false)?.name
     };
 }
 

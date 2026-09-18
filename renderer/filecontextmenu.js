@@ -12,6 +12,8 @@ export function createfiledialogbox(parent, elementid, filebtn, file) {
             rightclickdiv.style.display = "none";
 
 
+
+
         }, 3000);
     }
     function resetTimer() {
