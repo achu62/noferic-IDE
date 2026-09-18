@@ -2,7 +2,7 @@
 ///////////
 //jai sri ram
 
-console.log(["udn" , "cnf"])
+console.log(["udn", "cnf"])
 
 
 let countforterminal = 1;
@@ -46,7 +46,8 @@ let globalleftmenustate = {
   isexploreropen: true,
   isterminalopen: false,
   isleftpanelopen: true,
-  isnfdpopen: false
+  isnfdpopen: false,
+  isstopen: false
 };
 let previousselection;
 export function ctil(pathcwd) {
@@ -188,19 +189,26 @@ window.onload = function () {
   });
   handleShortCuts(document);
   document.getElementById("versioncontrolelement").style.display = "none";
+  document.getElementById("nf-debug").style.display = "none";
+
+  function resettheuiandstate() {
+    document.getElementById("versioncontrolelement").style.display = "none";
+    document.getElementById("explorerelement").style.display = "none";
     document.getElementById("nf-debug").style.display = "none";
+    document.getElementById("nf-0-o-list").style.display = "none";
 
-
+    globalleftmenustate.isnfdpopen = false;
+    globalleftmenustate.isexploreropen = false;
+    globalleftmenustate.isversioncontolopen = false;
+    globalleftmenustate.isstopen = false;
+  }
 
   document
     .getElementById("gitvercontmenu")
     .addEventListener("click", async () => {
       if (!globalleftmenustate.isversioncontolopen) {
+        resettheuiandstate()
         document.getElementById("versioncontrolelement").style.display = "flex";
-        document.getElementById("explorerelement").style.display = "none";
-        document.getElementById("nf-debug").style.display = "none";
-        globalleftmenustate.isnfdpopen = false;
-        globalleftmenustate.isexploreropen = false;
         globalleftmenustate.isversioncontolopen = true;
         document.getElementById("explotop").innerText = "version-control";
       }
@@ -209,11 +217,9 @@ window.onload = function () {
     .getElementById("nf-d")
     .addEventListener("click", async () => {
       if (!globalleftmenustate.isnfdpopen) {
+        resettheuiandstate()
         document.getElementById("nf-debug").style.display = "flex";
-        document.getElementById("versioncontrolelement").style.display = "none";
-        document.getElementById("explorerelement").style.display = "none";
-        globalleftmenustate.isexploreropen = false;
-        globalleftmenustate.isversioncontolopen = false;
+
         globalleftmenustate.isnfdpopen = true;
 
         document.getElementById("explotop").innerText = "Debugging";
@@ -221,13 +227,18 @@ window.onload = function () {
     });
   document.getElementById("expl").addEventListener("click", async () => {
     if (!globalleftmenustate.isexploreropen) {
+      resettheuiandstate()
       document.getElementById("explorerelement").style.display = "flex";
-      document.getElementById("versioncontrolelement").style.display = "none";
       globalleftmenustate.isexploreropen = true;
-      globalleftmenustate.isversioncontolopen = false;
       document.getElementById("explotop").innerText = "explorer";
-      document.getElementById("nf-debug").style.display = "none";
-      globalleftmenustate.isnfdpopen = false;
+    }
+  });
+  document.getElementById("nf-o").addEventListener("click", async () => {
+    if (!globalleftmenustate.isstopen) {
+      resettheuiandstate()
+      document.getElementById("nf-0-o-list").style.display = "flex";
+      globalleftmenustate.isstopen = true;
+      document.getElementById("explotop").innerText = "outline";
     }
   });
   let workspacepath = null;
@@ -644,18 +655,18 @@ window.onload = function () {
       openfolderfunction(globalfolderjson);
     }
     else if (message.action === "data-debug") {
-            const realdata = JSON.parse(message.data)
-            console.log(realdata)
-            if(realdata.message[0] === "noferic-reset-secret-code=0990930393494494449"){
-              document.getElementById("nf-list").replaceChildren("")
-              return;
-            }
+      const realdata = JSON.parse(message.data)
+      console.log(realdata)
+      if (realdata.message[0] === "noferic-reset-secret-code=0990930393494494449") {
+        document.getElementById("nf-list").replaceChildren("")
+        return;
+      }
 
       const pe = document.createElement("button")
       pe.classList.add("bubbles-for")
-      pe.innerText  = JSON.parse(message.data).message
-      pe.style.backgroundColor = 
-      realdata.type == "error" || realdata.type  == "exception"? "#ee4435" :realdata.type == "warn" ? "#eec038"  : "#33333"
+      pe.innerText = JSON.parse(message.data).message
+      pe.style.backgroundColor =
+        realdata.type == "error" || realdata.type == "exception" ? "#ee4435" : realdata.type == "warn" ? "#eec038" : "#33333"
       document.getElementById("nf-list").appendChild(pe)
     }
     else if (JSON.parse(data).action == "handlefileargs") {
@@ -852,8 +863,8 @@ window.onload = function () {
         {
           "type": "input",
           "label": "port",
-          "value":5000
-          
+          "value": 5000
+
         },
 
         {

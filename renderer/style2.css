@@ -1,8 +1,19 @@
 /*jai sri ram*/
 /* Swaps hardcoded hex colors on inline SVGs, fills, and text universally */
-[fill="#1e1e1e" i], [fill="#1E1E1E"] { fill: #FFFFFF !important; }
-[stroke="#1e1e1e" i], [stroke="#1E1E1E"] { stroke: #FFFFFF !important; }
-[color="#1e1e1e" i] { color: #FFFFFF !important; }
+[fill="#1e1e1e" i],
+[fill="#1E1E1E"] {
+  fill: #FFFFFF !important;
+}
+
+[stroke="#1e1e1e" i],
+[stroke="#1E1E1E"] {
+  stroke: #FFFFFF !important;
+}
+
+[color="#1e1e1e" i] {
+  color: #FFFFFF !important;
+}
+
 #theme-blanket-overlay {
   position: fixed;
   top: 0;
@@ -13,15 +24,19 @@
   mix-blend-mode: difference;
   filter: contrast(250%) grayscale(100%);
   pointer-events: none;
-  z-index: 999999;}
+  z-index: 999999;
+}
+
 /* Blanket background & text color overrides for HTML elements */
 * {
+
   /* Forces any element with hardcoded inline background colors to swap */
   &[style*="background-color: #1e1e1e" i],
   &[style*="background: #1e1e1e" i] {
     background-color: #FFFFFF !important;
   }
 }
+
 :root {
   --1c1364: #1c1364;
 }
@@ -58,9 +73,9 @@ body {
   margin-right: 0;
   margin-left: 0;
   background-color: #595959;
- /* filter: invert(1) hue-rotate(180deg) contrast(120%) brightness(105%);
+  /* filter: invert(1) hue-rotate(180deg) contrast(120%) brightness(105%);
   background-color: #000;*/
-  
+
 }
 
 #ide-notification-root {
@@ -173,6 +188,7 @@ body {
   background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
 }
+
 /*#theme-blanket-overlay {
   position: fixed;
   top: 0;
@@ -232,7 +248,7 @@ body {
   touch-action: manipulation;
   user-select: none;
   background-color: inherit;
-  height:20px;
+  height: 20px;
   /* prevents accidental text selection on tap */
 }
 
@@ -334,7 +350,7 @@ body {
   z-index: 4;
   height: 18px;
   width: 100vw;
-  background-color:#1e1e1e;
+  background-color: #1e1e1e;
   image-rendering: optimizeQuality;
   border-top: 0.2px solid var(--afaeaec9);
   display: flex;
@@ -1417,7 +1433,7 @@ body {
   border-radius: 12px;
   border-width: 0.2px;
   border-color: #eeeeee;
-  
+
 }
 
 #cancelcreatefolderdialog {
@@ -1757,33 +1773,35 @@ input {
   padding-right: 5px;
   width: fit-content;
 }
-#explorersearch{
+
+#explorersearch {
   position: absolute;
-    top: 25px;
-    left: 3px;
-    right: 3px;
-    z-index: 8;
-    height: 20px;
-    line-height: 20px;
-    text-align: left;
-    border-bottom: 0.2px solid var(--afaeaec9);
-    display: block;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    padding-left: 10px;
-    background-color: var(--404040);
-    border-radius: 3px;
-    color:#ffffff;
-    font-family: "Roboto slab";
+  top: 25px;
+  left: 3px;
+  right: 3px;
+  z-index: 8;
+  height: 20px;
+  line-height: 20px;
+  text-align: left;
+  border-bottom: 0.2px solid var(--afaeaec9);
+  display: block;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding-left: 10px;
+  background-color: var(--404040);
+  border-radius: 3px;
+  color: #ffffff;
+  font-family: "Roboto slab";
 }
-#searchresults{
-position: absolute;
+
+#searchresults {
+  position: absolute;
   top: 46px;
   left: 3px;
   right: 3px;
   z-index: 8;
-  height:fit-content;
+  height: fit-content;
   min-height: 0px;
-  max-height: 500px ;
+  max-height: 500px;
   line-height: 20px;
   text-align: left;
   border-bottom: 0.2px solid var(--afaeaec9);
@@ -1798,6 +1816,7 @@ position: absolute;
   flex-direction: column;
   overflow: auto;
 }
+
 #SettingsDialog {
   position: fixed;
   inset: 10%;
@@ -1836,8 +1855,9 @@ position: absolute;
 #SettingsDialog::backdrop {
   background-color: rgba(0, 0, 0, 0.55);
 }
-#settings-area{
-  
+
+#settings-area {
+
   position: absolute;
   top: 100px;
   bottom: 100px;
@@ -1852,7 +1872,8 @@ position: absolute;
   /*flex-wrap: wrap;*/
 
 }
-.settings{
+
+.settings {
   all: unset;
   color: var(--ffffff);
   background-color: #333333;
@@ -1874,18 +1895,20 @@ position: absolute;
   border: 0.1px solid #4b4949;
   /* prevents accidental text selection on tap */
 }
-#Theme{
-  position:absolute;
-  top:10px;
-  right:30px;
-  width:130px;
-  height:30px;
+
+#Theme {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  width: 130px;
+  height: 30px;
   background-color: #1e1e1e;
   font-size: 12px;
-  color:#ffffff
+  color: #ffffff
 }
-#nf-d{
-  
+
+#nf-d {
+
   all: unset;
   position: fixed;
   left: 0;
@@ -1898,9 +1921,24 @@ position: absolute;
   background-color: inherit;
 
 }
-#nf-list
-{
-  
+#nf-o{
+
+
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 159.2px;
+  background-image: url("images/tree-struct.svg");
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  z-index: 5;
+  background-color: inherit;
+
+
+}
+#nf-list {
+
   position: absolute;
   top: 50px;
   bottom: 0;
@@ -1914,8 +1952,27 @@ position: absolute;
   overflow-y: scroll;
 
 }
-.bubbles-for{
-  
+
+#nf-0-o-list {
+
+
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: vertical;
+  background-color: #343434;
+  overflow-y: scroll;
+
+
+}
+
+.bubbles-for {
+
   all: unset;
   color: var(--ffffff);
   background-color: #333333;
