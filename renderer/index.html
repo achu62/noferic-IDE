@@ -59,11 +59,11 @@
 <body>
 	<canvas id="canvas"></canvas>
 	<div id="theme-blanket-overlay"></div>
-	
 
-	
-	
-	
+
+
+
+
 	<dialog id="commitdialog" class="dialog">
 		<button id="commitreal">commit</button>
 		<button id="cancelcommit">Cancel</button>
@@ -100,8 +100,9 @@
 		<button class="common" id="expl" title="explorer (ctrl + shift+  E)"></button>
 		<button class="common" id="term" title="terminal   (ctrl + shift + t)"></button>
 		<button class="common" id="gitvercontmenu" title="git features(ctrl +G)"></button>
-				<button class="common" id="nf-d" title="debugging(ctrl + D + R)
+		<button class="common" id="nf-d" title="debugging(ctrl + D + R)
 				[Experimental:works only when using live-server in the IDE]"></button>
+		<button class="common" id="nf-o" title="ouutline"></button>
 
 		<button class="common" id="settings"></button>
 	</div>
@@ -135,37 +136,43 @@
 			<div id="prevtop" class="common bgcolor1e1e1e">YOUR AI AGENT</div>
 		</div>
 		<div id="explorer">
-			<div id="explotop" class="common bgcolor1e1e1e">explorer</div>
-			<input type="search" id="explorersearch" placeholder="Search for files...in this workspace">
-			<div id="searchresults"></div>
-			<div id="explorerelement"></div>
+			<div id="nf--o0">
+				<div id="nf-0-o-list"></div>
+			</div>
+				<div id="explotop" class="common bgcolor1e1e1e">explorer</div>
+				<input type="search" id="explorersearch" placeholder="Search for files...in this workspace">
+				<div id="searchresults"></div>
+				<div id="explorerelement"></div>
 
-			<div id="nf-debug">			<div id="nf-list">
+				<div id="nf-debug">
+					<div id="nf-list">
 
-			</div></div>
-
-			
-			<div id="versioncontrolelement">
-				<div id="explorervc">It seems like the repo is not initialised</div>
-
-
-				<button id="commitbtn">Commit in current branch</button>
-				<div id="moreactions">
-					<button id="push" class="gitotheractions">push(from current branch)</button>
-					<button id="switchbranches" class="gitotheractions">Switch Branch</button>
-					<button id="pull" class="gitotheractions">pull</button>
-					<button id="view_commits" class="gitotheractions">View commits(git log)</button>
-					<button id="changes" class="gitotheractions">changes > </button>
+					</div>
 
 				</div>
 
 
+				<div id="versioncontrolelement">
+					<div id="explorervc">It seems like the repo is not initialised</div>
 
+
+					<button id="commitbtn">Commit in current branch</button>
+					<div id="moreactions">
+						<button id="push" class="gitotheractions">push(from current branch)</button>
+						<button id="switchbranches" class="gitotheractions">Switch Branch</button>
+						<button id="pull" class="gitotheractions">pull</button>
+						<button id="view_commits" class="gitotheractions">View commits(git log)</button>
+						<button id="changes" class="gitotheractions">changes > </button>
+
+					</div>
+
+
+
+				</div>
+
+				<div id="link" style="opacity:0;"></div>
 			</div>
-
-			<div id="link" style="opacity:0;"></div>
 		</div>
-	</div>
 	</div>
 	</div>
 	<div id="viewon">
