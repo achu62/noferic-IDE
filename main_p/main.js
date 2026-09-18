@@ -19,8 +19,10 @@ import {
   ipcMain,
   
   Notification,
+  
 
 } from "electron";
+
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { initialisereposcan } from "./git/git.js";
