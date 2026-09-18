@@ -1,19 +1,29 @@
 import { Parser, Language } from "web-tree-sitter";
-interface parsed_code{
-    type:string,
-    name:number,
-    children:Array<any>
+interface parsed_code {
+    type: string,
+    name: number,
+    children: Array<any>
 }
 const runtimeWasm: string = new URL(
-  "./web-tree-sitter.wasm",
-  import.meta.url
+    "./web-tree-sitter.wasm",
+    import.meta.url
 ).href;
 
 const languageWasm: string = new URL(
-  "./tree-sitter-javascript.wasm",
-  import.meta.url
+    "./tree-sitter-javascript.wasm",
+    import.meta.url
 ).href;
-function getSymbolAtPosition(tree:any, row:any, column:any) {
+function nodeToJson(node: any) {
+    return {
+        type: node.type,
+        text: node.text,///maybe....burden....
+        startPosition: node.startPosition,//important
+        endPosition: node.endPosition,//important  
+        children: node.children.map(nodeToJson)
+        //node.children.map() does execute the loog
+    };
+}
+function getSymbolAtPosition(tree: any, row: any, column: any) {
     let node = tree.rootNode.descendantForPosition({
         row,
         column
@@ -63,26 +73,33 @@ function getSymbolAtPosition(tree:any, row:any, column:any) {
 
     return null;
 }
- async function runparser(code: string) {
-  await Parser.init({
-    locateFile() {
-      return runtimeWasm;
+async function runparser(code: string) {
+    await Parser.init({
+        locateFile() {
+            return runtimeWasm;
 
-      
-    },
-  });
 
-  const parser = new Parser();
+        },
+    });
 
-  const jsLanguage = await Language.load(languageWasm);
+    const parser = new Parser();
 
-  parser.setLanguage(jsLanguage);
+    const jsLanguage = await Language.load(languageWasm);
 
-  const tree:any = parser.parse(code);
-  return tree;
+    parser.setLanguage(jsLanguage);
+
+    const tree: any = parser.parse(code);
+    return tree;
 
 
 }
+function convert(tree: any) {
+    const jsonTree = nodeToJson(tree.rootNode);
+    return jsonTree;
+}
+
+
+// Generate the clean JSON tree
 
 function getAtPosition(tree: any, pointer: any, code: string) {
     const node = tree.rootNode.descendantForPosition(pointer);
@@ -90,22 +107,24 @@ function getAtPosition(tree: any, pointer: any, code: string) {
     return {
         type: node?.type ?? null,
         text: node ? code.slice(node.startIndex, node.endIndex) : null,
-        name: getSymbolAtPosition(tree , pointer.row , pointer.column)?.name
+        name: getSymbolAtPosition(tree, pointer.row, pointer.column)?.name
     };
 }
 
 
-self.onmessage=(e)=>{
-  const mes
-   = e.data;
-  if(mes.type == "get-the-named-des"){
-    (async()=>{
-    const res = await runparser(mes.code)  
-    const hid = getAtPosition(res , mes.pos , mes.code);
-    console.log(hid)
-  self.postMessage({type:"get-the-named-des", response: JSON.stringify(hid)})  })();
+self.onmessage = (e) => {
+    const mes
+        = e.data;
+    if (mes.type == "get-the-named-des") {
+        (async () => {
+            const res = await runparser(mes.code)
+            const hid = getAtPosition(res, mes.pos, mes.code);
+            self.postMessage({
+                type: "get-the-named-des", response: JSON.stringify(hid), code: convert(res)
+            })
+        })();
 
-  }
- 
+    }
+
 
 }

@@ -83,7 +83,7 @@ window.onload = () => {
         worker_tree_sitter.onmessage = (e) => {
           if (e.data.type == "get-the-named-des") {
             const mes = JSON.parse(e.data.response)
-            console.log(`recieved:${JSON.stringify(mes)}`)
+            console.log(e.data)
             const breadcrumb = window.parent.document.getElementById("breadcrupsfunc");
             const name = mes.name?.name || mes.name || "";
             const type = mes.name?.type || mes.type || "";

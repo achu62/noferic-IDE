@@ -1,6 +1,16 @@
 import { Parser, Language } from "web-tree-sitter";
 const runtimeWasm = new URL("./web-tree-sitter.wasm", import.meta.url).href;
 const languageWasm = new URL("./tree-sitter-javascript.wasm", import.meta.url).href;
+function nodeToJson(node) {
+    return {
+        type: node.type,
+        text: node.text, ///maybe....burden....
+        startPosition: node.startPosition, //important
+        endPosition: node.endPosition, //important  
+        children: node.children.map(nodeToJson)
+        //node.children.map() does execute the loog
+    };
+}
 function getSymbolAtPosition(tree, row, column) {
     let node = tree.rootNode.descendantForPosition({
         row,
@@ -53,6 +63,11 @@ async function runparser(code) {
     const tree = parser.parse(code);
     return tree;
 }
+function convert(tree) {
+    const jsonTree = nodeToJson(tree.rootNode);
+    return jsonTree;
+}
+// Generate the clean JSON tree
 function getAtPosition(tree, pointer, code) {
     const node = tree.rootNode.descendantForPosition(pointer);
     return {
@@ -67,8 +82,9 @@ self.onmessage = (e) => {
         (async () => {
             const res = await runparser(mes.code);
             const hid = getAtPosition(res, mes.pos, mes.code);
-            console.log(hid);
-            self.postMessage({ type: "get-the-named-des", response: JSON.stringify(hid) });
+            self.postMessage({
+                type: "get-the-named-des", response: JSON.stringify(hid), code: convert(res)
+            });
         })();
     }
 };
