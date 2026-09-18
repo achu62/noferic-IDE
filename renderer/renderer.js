@@ -6,7 +6,7 @@ console.log(["udn", "cnf"])
 
 
 let countforterminal = 1;
-
+import {symtree} from "./maintain-symbol.js"
 import { initiateterminal } from "./terminal/initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
@@ -16,6 +16,7 @@ import {
   isValidJSON,
   getfileiconbytype,
   DeleteOldWorkspace,
+  
   findFolderById,
 } from "./utils.js";
 import { createDialog } from "./Editor_Dialog_Components.js"
@@ -801,6 +802,10 @@ window.onload = function () {
   });
   window.addEventListener("message", (e) => {
     const message = e.data;
+    if(message.action == "parsed-code"){
+      document.getElementById("nf-0-o-list").replaceChildren()
+      symtree(document , e.data.code?.children)
+    }
     if (message.action === "lint") {
       async function runLint() {
         const result = await window.ipc.invoke("lint", {

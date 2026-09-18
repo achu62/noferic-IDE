@@ -1,2 +1,2 @@
-export {};
+"use strict";
 //jai sri ram

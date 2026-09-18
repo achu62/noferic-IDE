@@ -1836,43 +1836,47 @@ var Query = class {
 		return C._ts_query_is_pattern_guaranteed_at_step(this[0], e) === 1;
 	}
 }, runtimeWasm = new URL("./web-tree-sitter.wasm", "" + import.meta.url).href, languageWasm = new URL("./tree-sitter-javascript.wasm", "" + import.meta.url).href;
-function nodeToJson(e) {
-	return {
-		type: e.type,
-		text: e.text,
-		startPosition: e.startPosition,
-		endPosition: e.endPosition,
-		children: e.children.map(nodeToJson)
-	};
-}
-function getSymbolAtPosition(e, t, n) {
-	let r = e.rootNode.descendantForPosition({
+function getSymbolAtPosition(e, t, n, r) {
+	let a;
+	for (r ? (console.log(t, n), a = e.descendantForPosition({
 		row: t,
 		column: n
-	});
-	for (; r;) {
-		switch (r.type) {
-			case "function_declaration": return { name: r.childForFieldName("name")?.text };
+	})) : a = e.rootNode.descendantForPosition({
+		row: t,
+		column: n
+	}); a;) {
+		switch (a.type) {
+			case "function_declaration": return { name: a.childForFieldName("name")?.text };
 			case "class_declaration": return {
 				type: "class",
-				name: r.childForFieldName("name")?.text,
-				node: r
+				name: a.childForFieldName("name")?.text,
+				node: a
 			};
 			case "variable_declarator": {
-				let e = r.parent;
+				let e = a.parent;
 				if (e?.type === "lexical_declaration") {
-					let t = e.firstChild, n = r.childForFieldName("name");
+					let t = e.firstChild, n = a.childForFieldName("name");
 					return {
 						type: t?.text === "const" ? "constant" : "variable",
 						name: n?.text,
-						node: r
+						node: a
 					};
 				}
 			}
 		}
-		r = r.parent;
+		a = a.parent;
 	}
 	return null;
+}
+function nodeToJson(e) {
+	return {
+		type: e.type,
+		text: e.text,
+		name: getSymbolAtPosition(e, e.startPosition.row, e.startPosition.column, !0)?.name,
+		startPosition: e.startPosition,
+		endPosition: e.endPosition,
+		children: e.children.map(nodeToJson)
+	};
 }
 async function runparser(e) {
 	await Parser.init({ locateFile() {
@@ -1889,7 +1893,7 @@ function getAtPosition(e, t, n) {
 	return {
 		type: r?.type ?? null,
 		text: r ? n.slice(r.startIndex, r.endIndex) : null,
-		name: getSymbolAtPosition(e, t.row, t.column)?.name
+		name: getSymbolAtPosition(e, t.row, t.column, !1)?.name
 	};
 }
 self.onmessage = (e) => {

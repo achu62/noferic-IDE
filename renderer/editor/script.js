@@ -84,6 +84,13 @@ window.onload = () => {
           if (e.data.type == "get-the-named-des") {
             const mes = JSON.parse(e.data.response)
             console.log(e.data)
+            window.parent.postMessage(
+            {
+              action:"parsed-code",
+              code:e.data.code,
+            },
+            "*",
+          );
             const breadcrumb = window.parent.document.getElementById("breadcrupsfunc");
             const name = mes.name?.name || mes.name || "";
             const type = mes.name?.type || mes.type || "";
