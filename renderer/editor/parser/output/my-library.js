@@ -1836,6 +1836,15 @@ var Query = class {
 		return C._ts_query_is_pattern_guaranteed_at_step(this[0], e) === 1;
 	}
 }, runtimeWasm = new URL("./web-tree-sitter.wasm", "" + import.meta.url).href, languageWasm = new URL("./tree-sitter-javascript.wasm", "" + import.meta.url).href;
+function nodeToJson(e) {
+	return {
+		type: e.type,
+		text: e.text,
+		startPosition: e.startPosition,
+		endPosition: e.endPosition,
+		children: e.children.map(nodeToJson)
+	};
+}
 function getSymbolAtPosition(e, t, n) {
 	let r = e.rootNode.descendantForPosition({
 		row: t,
@@ -1872,6 +1881,9 @@ async function runparser(e) {
 	let t = new Parser(), n = await Language.load(languageWasm);
 	return t.setLanguage(n), t.parse(e);
 }
+function convert(e) {
+	return nodeToJson(e.rootNode);
+}
 function getAtPosition(e, t, n) {
 	let r = e.rootNode.descendantForPosition(t);
 	return {
@@ -1883,10 +1895,11 @@ function getAtPosition(e, t, n) {
 self.onmessage = (e) => {
 	let t = e.data;
 	t.type == "get-the-named-des" && (async () => {
-		let e = getAtPosition(await runparser(t.code), t.pos, t.code);
-		console.log(e), self.postMessage({
+		let e = await runparser(t.code), n = getAtPosition(e, t.pos, t.code);
+		self.postMessage({
 			type: "get-the-named-des",
-			response: JSON.stringify(e)
+			response: JSON.stringify(n),
+			code: convert(e)
 		});
 	})();
 };

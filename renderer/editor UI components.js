@@ -14,6 +14,7 @@ class IDEComponentApi {
 
     return root;
   }
+  
 
   static getIconMarkup(type = "normie") {
     const normalizedType = String(type ?? "normie").toLowerCase();
