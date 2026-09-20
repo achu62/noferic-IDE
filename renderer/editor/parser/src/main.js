@@ -10,7 +10,6 @@ function getSymbolAtPosition(tree, row, column, isaldreadyrootnode) {
         });
     }
     else {
-        console.log(row, column);
         node = tree.descendantForPosition({
             row,
             column

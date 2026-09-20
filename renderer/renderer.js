@@ -6,19 +6,23 @@ console.log(["udn", "cnf"])
 
 
 let countforterminal = 1;
-import {symtree} from "./maintain-symbol.js"
+import { symtree } from "./maintain-symbol.js"
 import { initiateterminal } from "./terminal/initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";
 import { setInVersionControl } from "./handlingversioncontrol/showinversion.js";
 import {
-  
-  
+
+
+
+
   isValidJSON,
+
+
   getfileiconbytype,
   DeleteOldWorkspace,
-  
+
   findFolderById,
 } from "./utils.js";
 import { createDialog } from "./Editor_Dialog_Components.js"
@@ -36,7 +40,14 @@ const file = document.getElementById(`file`);
 const exit = document.getElementById("exit");
 const iframe = document.querySelector("iframe#editor");
 const saveas = document.getElementById("save_as");
-
+export function cursortomonaco(line, column) {
+  iframe.contentWindow.postMessage({
+    action: "set-to-pos",
+    line: line,
+    column: column
+  }
+  )
+}
 let globalignoredfilesarray = [""];
 let globalgitstatusjson;
 let isopen = false;
@@ -804,9 +815,9 @@ window.onload = function () {
   });
   window.addEventListener("message", (e) => {
     const message = e.data;
-    if(message.action == "parsed-code"){
+    if (message.action == "parsed-code") {
       document.getElementById("nf-0-o-list").replaceChildren()
-      symtree(document , e.data.code?.children)
+      symtree(document, e.data.code?.children)
     }
     if (message.action === "lint") {
       async function runLint() {

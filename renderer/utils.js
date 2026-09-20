@@ -12,6 +12,11 @@ export function isValidJSON(json) {
 
 
 export const getfileiconbytype = {
+	"generator_function_declaration":"images/function.svg",
+	"class_declaration":"images/class_.svg",
+	"lexical_declaration":"images/var.svg",
+	"variable_declaration":"images/var.svg",
+	"function_declaration":"images/function.svg",
 	"folder": "images/folder.svg",
 	".code": "images/config_svg.svg",
 	".noferic-ide": "images/logo.ico",

@@ -13,7 +13,7 @@ const languageWasm: string = new URL(
     "./tree-sitter-javascript.wasm",
     import.meta.url
 ).href;
-function getSymbolAtPosition(tree: any, row: any, column: any , isaldreadyrootnode :boolean) {
+function getSymbolAtPosition(tree: any, row: any, column: any, isaldreadyrootnode: boolean) {
     let node;
     if (!isaldreadyrootnode) {
         node = tree.rootNode.descendantForPosition({
@@ -21,15 +21,14 @@ function getSymbolAtPosition(tree: any, row: any, column: any , isaldreadyrootno
             column
         });
     }
-    else{
-        console.log(row, column)
+    else {
         node = tree.descendantForPosition({
             row,
             column
         });
-    
+
     }
-    
+
 
     while (node) {
         switch (node.type) {
@@ -51,7 +50,6 @@ function getSymbolAtPosition(tree: any, row: any, column: any , isaldreadyrootno
                     node
                 };
             }
-
             case "variable_declarator": {
                 const declaration = node.parent;
 
@@ -91,7 +89,7 @@ function nodeToJson(node: any) {
     return {
         type: node.type,
         text: node.text,
-        name:getSymbolAtPosition(node ,node.startPosition.row , node.startPosition.column , true)?.name,///maybe....burden....
+        name: getSymbolAtPosition(node, node.startPosition.row, node.startPosition.column, true)?.name,///maybe....burden....
         startPosition: node.startPosition,//important
         endPosition: node.endPosition,//important  
         children: node.children.map(nodeToJson)
@@ -133,7 +131,7 @@ function getAtPosition(tree: any, pointer: any, code: string) {
     return {
         type: node?.type ?? null,
         text: node ? code.slice(node.startIndex, node.endIndex) : null,
-        name: getSymbolAtPosition(tree, pointer.row, pointer.column , false)?.name
+        name: getSymbolAtPosition(tree, pointer.row, pointer.column, false)?.name
     };
 }
 

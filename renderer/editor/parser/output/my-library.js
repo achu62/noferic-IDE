@@ -1838,10 +1838,10 @@ var Query = class {
 }, runtimeWasm = new URL("./web-tree-sitter.wasm", "" + import.meta.url).href, languageWasm = new URL("./tree-sitter-javascript.wasm", "" + import.meta.url).href;
 function getSymbolAtPosition(e, t, n, r) {
 	let a;
-	for (r ? (console.log(t, n), a = e.descendantForPosition({
+	for (a = r ? e.descendantForPosition({
 		row: t,
 		column: n
-	})) : a = e.rootNode.descendantForPosition({
+	}) : e.rootNode.descendantForPosition({
 		row: t,
 		column: n
 	}); a;) {
