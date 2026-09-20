@@ -31,7 +31,7 @@ export async function Styleicon(icon, file, depth, extension, id, ratio) {
     icon.style.height = ratio ? ratio.height : "16px";
     icon.style.width = ratio ? ratio.width : "16px";
 
-    icon.style.left = `${depth - 5}px`;
+    icon.style.left = `${depth  - 5}px`;
     icon.style.borderLeftColor = "#ffffff"
     icon.style.borderLeftWidth = `${1}px`;
 

@@ -304,7 +304,12 @@ window.onload = () => {
       const message = e.data;
 
       const action = message.action;
-
+      if(action ===  "set-to-pos"){
+        console.log(message)
+        editor.setPosition({lineNumber:message.line , column:message.column});
+        editor.revealPositionInCenter({lineNumber:message.line , column:message.column})
+        editor.focus();
+      }
       if (action === "set") {
         editor.layout();
         document.getElementById("iamg")?.remove()

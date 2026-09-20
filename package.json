@@ -29,7 +29,7 @@
   "type": "module",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --win"
+    "build": "electron-builder "
   },
   "build": {
     "appId": "com.charan.noferic",
@@ -38,6 +38,10 @@
     "win": {
       "target": "nsis",
       "icon": "logo2.ico"
+    },
+    "linux":{
+      "target":["AppImage"],
+      "icon":""
     },
     "nsis": {
       "oneClick": false,
