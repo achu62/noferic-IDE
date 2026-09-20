@@ -23,7 +23,7 @@
     "xterm-addon-fit": "^0.8.0"
   },
   "name": "newfoldernf",
-  "version": "1.9.5",
+  "version": "2.2.2",
   "description": "Noferic IDE is a integrated development environment for the built with web technologies.",
   "main": "main_p/main.js",
   "type": "module",
