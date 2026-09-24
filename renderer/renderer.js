@@ -236,7 +236,7 @@ window.onload = function () {
 
         globalleftmenustate.isnfdpopen = true;
 
-        document.getElementById("explotop").innerText = "Debugging";
+        document.getElementById("explotop").innerText = "noferic-debugging-tools";
       }
     });
   document.getElementById("expl").addEventListener("click", async () => {
