@@ -11,6 +11,8 @@ import ts from "typescript"
 export function getts(){
   return ts;
 }
+import { UpdateASt } from "./parse-main-handler.js";
+
 import { lint, initialiseLinter } from "./Linting-features/eslint.js"
 import {
   app,
@@ -217,6 +219,7 @@ async function track(pathreal) {
 
       changedpathsbyide = changedpathsbyide.filter((item) => toPathKey(item) !== toPathKey(filePath));
       UpdateVersion(filePath)
+      UpdateASt(filePath , fs.readFileSync(filePath , "utf-8"))
     });
 
     watcher.on("unlink", (filePath) => {
