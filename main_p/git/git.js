@@ -114,31 +114,67 @@ export async function handleCommit(message) {
 
 export async function SyncChanges() {
     try {
+        // 1. Get current branch and check status
         const status = await gitprocess.status();
+        const currentBranch = status.current;
 
-        if (!status.isClean()) {
-            alert("Please commit your changes before syncing!");
+        if (!currentBranch) {
+            const notification = new Notification({
+                 title: "noferic-IDE",
+                body: "You are not on any branch!"
+            });
+            notification.show()
+
             return;
         }
-        await gitprocess.pull()
-
-
-    }
-    catch (e) {
-
-    }
-    try {
-        const status = await gitprocess.status();
 
         if (!status.isClean()) {
-            alert("Please commit your changes before syncing!");
+            const notification = new Notification({
+                 title: "noferic-IDE",
+                body: "Please commit your changes before syncing!"
+            });
+            notification.show()
+
             return;
         }
-        await gitprocess.push()
 
-    }
-    catch (e) {
+        console.log(`Pulling updates for ${currentBranch}...`);
+        await gitprocess.pull('origin', currentBranch);
 
+        console.log(`Pushing updates for ${currentBranch}...`);
+        await gitprocess.push('origin', currentBranch);
+
+        const notification = new Notification({
+             title: "noferic-IDE",
+            body: "Sync completed successfully!"
+        });
+        notification.show()
+
+
+    } catch (error) {
+        console.error("Sync failed:", error);
+
+        if (error.message.includes('CONFLICT')) {
+            const notification = new Notification({
+                 title: "noferic-IDE",
+                body: "Sync paused: Merge conflicts detected! Please resolve conflicts manually."
+            });
+            notification.show()
+
+        } else if (error.message.includes('Authentication failed') || error.message.includes('Permission denied')) {
+            const notification = new Notification({
+                 title: "noferic-IDE",
+                body: "Sync failed: Authentication or login issue with the remote repository."
+            });
+            notification.show()
+
+        } else {
+            const notification = new Notification({
+                 title: "noferic-IDE",
+                body: "Sync failed due to a network or repository error. Check your console."
+            });
+            notification.show()
+        }
     }
 
 
