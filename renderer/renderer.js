@@ -965,21 +965,9 @@ window.onload = function () {
       document.getElementById("commitreal").click();
     }
   });
-
-  document.getElementById("push").addEventListener("click", async (e) => {
-    const confirmation = confirm(
-      `do you want  to push this repo to a remote brach`,
-    );
-    if (!confirmation) return;
-    await window.ipc.invoke("push");
-  });
-  document.getElementById("pull").addEventListener("click", async (e) => {
-    const confirmation = confirm(
-      `do you want  to pull this repo from a remote brach`,
-    );
-    if (!confirmation) return;
-    await window.ipc.invoke("pull");
-  });
+  document.getElementById("sync-changes").addEventListener((e)=>{
+    window.ipc.invoke("sync-changes")
+  })
   document.getElementById("changes").addEventListener("click", (e) => {
     e.stopPropagation();
     if (!ischangesopen) {
