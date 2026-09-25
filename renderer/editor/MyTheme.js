@@ -11,6 +11,7 @@ export const NofericTheme =  {
         { token: "number", foreground: "74C0FC" },
         { token: "type", foreground: "C77DFF" },
         { token: "class", foreground: "C77DFF" },
+        
         { token: "function", foreground: "FFD166" },
         { token: "constant", foreground: "4DABF7" },
         { token: "operator", foreground: "FF922B" },

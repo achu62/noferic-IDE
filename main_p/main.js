@@ -27,7 +27,7 @@ import {
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { initialisereposcan, SyncChanges } from "./git/git.js";
+import { initialisereposcan, SyncChanges, Updatestatus } from "./git/git.js";
 import fs from "node:fs";
 import { spawn } from "child_process";
 import chokidar from "chokidar";
@@ -148,6 +148,7 @@ const apppath = process.execPath;
 consolelog("apppath" + apppath);
 let watcher;
 /**@param {string} pathreal */
+async function trackgit(pathreal) { }
 async function track(pathreal) {
   if (!pathreal) return;
   pathreal = toNormalizedWindospath(pathreal);
@@ -161,6 +162,7 @@ async function track(pathreal) {
 
     watcher = chokidar.watch(pathreal, {
       ignoreInitial: true,
+
     });
 
     watcher.on("add", (filePath) => {
@@ -199,6 +201,7 @@ async function track(pathreal) {
         );
       }
       updateList(filePath)
+      Updatestatus(win)
     });
 
     watcher.on("change", async (filePath) => {
@@ -218,6 +221,8 @@ async function track(pathreal) {
       changedpathsbyide = changedpathsbyide.filter((item) => toPathKey(item) !== toPathKey(filePath));
       UpdateVersion(filePath)
       UpdateASt(filePath, fs.readFileSync(filePath, "utf-8"))
+      Updatestatus(win)
+
     });
 
     watcher.on("unlink", (filePath) => {
@@ -234,6 +239,8 @@ async function track(pathreal) {
           remove: toNormalizedWindospath(filePath),
         }),
       );
+      Updatestatus(win)
+
     });
     watcher.on("addDir", async (DirPath) => {
       DirPath = toNormalizedWindospath(DirPath);
@@ -320,6 +327,7 @@ async function handleappargs(args) {
       catch (e) { }
       try {
         track(path.resolve(args));
+        trackgit(path.resolve(args))
       }
       catch (e) {
       }
@@ -383,6 +391,7 @@ async function handleappargs(args) {
 
     } else {
       track(path.resolve(args));
+      trackgit(path.resolve(args))
       initialiseterminalmain(
         ptyProcess,
         path.dirname(path.resolve(args)),

@@ -1,5 +1,5 @@
 import { GetFilebaseName , showDiff } from "../renderer.js";
-
+let json ; 
 //jai sri ram
 async function rl(elementr, array, color , state) {
     array.forEach(async(element) => {
@@ -25,8 +25,9 @@ async function rl(elementr, array, color , state) {
 }
 /**@param {HTMLDocument} document  */
 
-export function setInVersionControl(document, eleme, json) {
-
+export function setInVersionControl(document, eleme, jason) {
+    console.log("chns")
+    json = jason
     eleme.innerText = "";
     /**@param {HTMLElement} element */
     const element = document.getElementById("changes")

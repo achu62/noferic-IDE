@@ -17,6 +17,8 @@ export class SortedList<T> {
   constructor(
     private readonly _getKey: (value: T) => number
   ) {
+
+    
   }
 
   public clear(): void {

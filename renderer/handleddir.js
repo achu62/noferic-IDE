@@ -29,6 +29,7 @@ export function handleDir() {
   
   icon.style.backgroundSize = "cover";
   icon.style.top = "0.5px";
+  
   icon.style.bottom = "0.5px";
 
   icon.style.height = "16px";
