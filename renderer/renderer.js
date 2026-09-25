@@ -965,7 +965,7 @@ window.onload = function () {
       document.getElementById("commitreal").click();
     }
   });
-  document.getElementById("sync-changes").addEventListener((e)=>{
+  document.getElementById("sync-changes").addEventListener("click",(e)=>{
     window.ipc.invoke("sync-changes")
   })
   document.getElementById("changes").addEventListener("click", (e) => {
