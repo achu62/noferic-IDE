@@ -152,7 +152,7 @@ export async function SyncChanges() {
 
 
     } catch (error) {
-        console.error("Sync failed:", error);
+        const not = new Notification({title:"sync-failed" , body:JSON.stringify(error)});
 
         if (error.message.includes('CONFLICT')) {
             const notification = new Notification({
