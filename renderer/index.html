@@ -75,7 +75,59 @@
 		<div id="logo"></div>
 		<button class="common bgcolor1e1e1e" id="file">File</button>
 		<button popovertarget="viewon" class="common bgcolor1e1e1e" id="view">View</button>
-		<button id="liveserverbtn" title="start live server(ctrl + shift + L)">📡Live server</button>
+		<button id="liveserverbtn" title="start live server(ctrl + shift + L)">Live server</button>
+		<div id="window-controls">
+  <!-- Minimize Button (Yellow) -->
+  <button 
+    id="minimize-btn" 
+    style="
+      width: 12px; 
+      height: 12px; 
+      border-radius: 50%; 
+      border: none; 
+      background-color: #ffbd2e; 
+      cursor: pointer; 
+      margin-right: 8px; 
+      transition: background-color 0.1s ease;
+    "
+    onmouseover="this.style.backgroundColor='#e0a828'"
+    onmouseout="this.style.backgroundColor='#ffbd2e'">
+  </button>
+
+  <!-- Maximize Button (Green) -->
+  <button 
+    id="maximize-btn" 
+    style="
+      width: 12px; 
+      height: 12px; 
+      border-radius: 50%; 
+      border: none; 
+      background-color: #27c93f; 
+      cursor: pointer; 
+      margin-right: 8px; 
+      transition: background-color 0.1s ease;
+    "
+    onmouseover="this.style.backgroundColor='#1fa332'"
+    onmouseout="this.style.backgroundColor='#27c93f'">
+  </button>
+
+  <!-- Close Button (Red) -->
+  <button 
+    id="close-btn" 
+    style="
+      width: 12px; 
+      height: 12px; 
+      border-radius: 50%; 
+      border: none; 
+      background-color: #ff5f56; 
+      cursor: pointer; 
+      transition: background-color 0.1s ease;
+    "
+    onmouseover="this.style.backgroundColor='#e04f47'"
+    onmouseout="this.style.backgroundColor='#ff5f56'">
+  </button>
+</div>
+
 
 	</div>
 	<div id="file_on" tabindex=0 class="common">
@@ -159,9 +211,7 @@
 					<button id="commitbtn">Commit in current branch</button>
 					<div id="moreactions">
 						<button id="push" class="gitotheractions">push(from current branch)</button>
-						<button id="switchbranches" class="gitotheractions">Switch Branch</button>
 						<button id="pull" class="gitotheractions">pull</button>
-						<button id="view_commits" class="gitotheractions">View commits(git log)</button>
 						<button id="changes" class="gitotheractions">changes > </button>
 
 					</div>

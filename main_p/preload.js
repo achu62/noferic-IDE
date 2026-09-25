@@ -14,4 +14,8 @@ contextBridge.exposeInMainWorld("ipc", {
   send: async function (channel, ...args) {
     ipcRenderer.send(channel, ...args);
   },
+  minimizeWindow: () => { ipcRenderer.send('window-minimize') },
+  maximizeWindow: () => ipcRenderer.send('window-maximize'),
+  closeWindow: () => ipcRenderer.send('window-close')
 });
+
