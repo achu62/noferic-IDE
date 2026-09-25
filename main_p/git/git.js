@@ -45,7 +45,7 @@ export async function initialisereposcan(repopath, win) {
         };
         gitprocess = simpleGit(options);
         const status = await gitprocess.status();
-        if(status  === oldstatus) return;
+        if (status === oldstatus) return;
         oldstatus = status;
         NotifyGitIntegration(win)
         //console.log("s" + JSON.stringify(status));
@@ -112,32 +112,38 @@ export async function handleCommit(message) {
     return commitPromise;
 }
 
-export async function handlePush(){
-    const promise = new Promise(async(res , rej)=>{
-        try{
-            const mess =await gitprocess.push()
-            res(JSON.stringify(mess))
+export async function SyncChanges() {
+    try {
+        const status = await gitprocess.status();
+
+        if (!status.isClean()) {
+            alert("Please commit your changes before syncing!");
+            return;
         }
-        catch(e){
-            rej(new Error(e))
+        await gitprocess.pull()
+
+
+    }
+    catch (e) {
+
+    }
+    try {
+        const status = await gitprocess.status();
+
+        if (!status.isClean()) {
+            alert("Please commit your changes before syncing!");
+            return;
         }
-    })
-    return promise;
+        await gitprocess.push()
+
+    }
+    catch (e) {
+
+    }
+
+
 }
-export async function handlePull() {
-    const promise = new Promise(async (res, rej) => {
-        try {
-            const mess = await gitprocess.pull()
-            res(JSON.stringify(mess))
-        }
-        catch (e) {
-            rej(new Error(e))
-        }
-    })
-    return promise;
-}
-export async function Updatestatus(win)
-{
+export async function Updatestatus(win) {
     const status = await gitprocess.status();
     if (JSON.stringify(status) === JSON.stringify(oldstatus)) return;
     oldstatus = status;
@@ -158,16 +164,16 @@ export async function Updatestatus(win)
         }),
     );
 }
-export async function GetDifftextMain(Filepath){
+export async function GetDifftextMain(Filepath) {
     try {
         //console.log(Filepath)
-        const old = await gitprocess.raw(["show" , `HEAD:${Filepath}`])
+        const old = await gitprocess.raw(["show", `HEAD:${Filepath}`])
         //console.log(`ist the old:${old}`)
-        const newFile =  await fs.readFileSync(path.join(repositorypath , Filepath))
+        const newFile = await fs.readFileSync(path.join(repositorypath, Filepath))
         //console.log(`ist the  new:${newFile}`)
-        return  [old , newFile]
+        return [old, newFile]
     }
-   catch(e){
-    //console.log(e)
-   }
+    catch (e) {
+        //console.log(e)
+    }
 }

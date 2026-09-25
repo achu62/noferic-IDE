@@ -3,12 +3,12 @@
 //jai sri ram
 //the main.js is changed
 //jai sri ram
- 
+
 import envPaths from "env-paths";
 import trash from "trash"
 //jai srir am
 import ts from "typescript"
-export function getts(){
+export function getts() {
   return ts;
 }
 import { UpdateASt } from "./parse-main-handler.js";
@@ -19,15 +19,15 @@ import {
   BrowserWindow,
   dialog,
   ipcMain,
-  
+
   Notification,
-  
+
 
 } from "electron";
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { initialisereposcan } from "./git/git.js";
+import { initialisereposcan, SyncChanges } from "./git/git.js";
 import fs from "node:fs";
 import { spawn } from "child_process";
 import chokidar from "chokidar";
@@ -41,8 +41,6 @@ import { readFilejs } from "./readfile.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
 import {
   handleCommit,
-  handlePush,
-  handlePull,
   GetDifftextMain,
 } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
@@ -90,7 +88,7 @@ function toNormalisedWindowsId(inputPath) {
 
 }
 function toNormalizedWindospath(inputPath) {
-  
+
   return path.win32.normalize(inputPath).replace(/\\/g, "/");
 }
 function toPathKey(inputPath) {
@@ -166,7 +164,7 @@ async function track(pathreal) {
     });
 
     watcher.on("add", (filePath) => {
-      
+
       filePath = toNormalizedWindospath(filePath);
       if (addedpathbyide) {
         addedpathbyide = addedpathbyide.filter((item) => toNormalizedWindospath(item) !== filePath);
@@ -219,7 +217,7 @@ async function track(pathreal) {
 
       changedpathsbyide = changedpathsbyide.filter((item) => toPathKey(item) !== toPathKey(filePath));
       UpdateVersion(filePath)
-      UpdateASt(filePath , fs.readFileSync(filePath , "utf-8"))
+      UpdateASt(filePath, fs.readFileSync(filePath, "utf-8"))
     });
 
     watcher.on("unlink", (filePath) => {
@@ -349,7 +347,7 @@ async function handleappargs(args) {
           app.quit();
         }
       }
-      if(!fs.existsSync(path.join(path.resolve(args) , ".noferic-ide")))   {    confirm(win);}
+      if (!fs.existsSync(path.join(path.resolve(args), ".noferic-ide"))) { confirm(win); }
 
       pathreal = path.resolve(args);
 
@@ -448,7 +446,7 @@ function createWindow() {
         win.removeAllListeners("close");
       }
     });
-    fs.writeFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "prev-dir-path")) , pathreal, {recursive:true})
+    fs.writeFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "prev-dir-path")), pathreal, { recursive: true })
   });
 }
 let ptyProcess = {};
@@ -527,7 +525,7 @@ ipcMain.handle("save", async (e) => {
   return result.filePath;
 });
 ipcMain.handle("append", async (e, fpath) => {
-  
+
   if (fs.existsSync(fpath)) {
     win.webContents.send(
       "data",
@@ -538,7 +536,7 @@ ipcMain.handle("append", async (e, fpath) => {
       }),
     );
   }
-  await fs.promises.appendFile(toNormalisedWindowsId(fpath) , "");
+  await fs.promises.appendFile(toNormalisedWindowsId(fpath), "");
 });
 ipcMain.handle("saveas", async (e) => {
   const result = await dialog.showSaveDialog({
@@ -596,13 +594,13 @@ ipcMain.handle("start_server", async (e, obj) => {
   return start_server(e, obj, pathreal);
 });
 ipcMain.handle("unlink", async (e, Dirpath) => {
-  if(fs.statSync(path.resolve(args)).isDirectory()){
-  await trash(toNormalisedWindowsId(Dirpath), {recursive:true})
+  if (fs.statSync(path.resolve(args)).isDirectory()) {
+    await trash(toNormalisedWindowsId(Dirpath), { recursive: true })
 
 
   }
-  else{
-      await trash(toNormalisedWindowsId(Dirpath))
+  else {
+    await trash(toNormalisedWindowsId(Dirpath))
 
   }
 });
@@ -613,9 +611,9 @@ ipcMain.handle("commit", async (e, message) => {
   const commitPromise = await handleCommit(message);
   return commitPromise;
 });
-ipcMain.handle("create_new_terminal", async (e, id , currentworkingdir) => {
+ipcMain.handle("create_new_terminal", async (e, id, currentworkingdir) => {
   //console.log("r r /t n");
-  initialiseterminalmain(ptyProcess, currentworkingdir|| pathreal, id, win);
+  initialiseterminalmain(ptyProcess, currentworkingdir || pathreal, id, win);
 });
 ipcMain.handle("join-path", async (e, arg1, arg2) => {
   console.log(arg1, arg2)
@@ -624,43 +622,19 @@ ipcMain.handle("join-path", async (e, arg1, arg2) => {
 ipcMain.handle("get-ext", async (e, fpath) => {
   return path.extname(fpath);
 });
-ipcMain.handle("get-base" , (e,f)=>{
+ipcMain.handle("get-base", (e, f) => {
   console.log(f)
   return path.basename(f)
 })
-
-ipcMain.handle("push", async () => {
+ipcMain.handle("sync-changes", async (e) => {
   try {
-    const message = await handlePush();
-    new Notification({
-      title: "git responded",
-      body: ` git responded with ${message}`,
-    }).show();
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
+    await SyncChanges()
 
-    new Notification({
-      title: "Push failed",
-      body: message,
-    }).show();
   }
-});
-ipcMain.handle("pull", async () => {
-  try {
-    const message = await handlePull();
-    new Notification({
-      title: `git responded:`,
-      body: `git responded with ${message}`,
-    }).show();
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
+  catch (e) {
 
-    new Notification({
-      title: "Pull failed",
-      body: message,
-    }).show();
   }
-});
+})
 
 ipcMain.handle("get-base-name", async (e, fpath) => {
   return path.basename(fpath);
@@ -699,23 +673,23 @@ ipcMain.handle("request-settings", async (e) => {
 ipcMain.handle("changesettings", async (e, property, value) => {
   let set = JSON.parse(fs.readFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")), "utf8"))
   set[property] = value;
-    fs.writeFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")),
-      JSON.stringify(
-       set
-      )
+  fs.writeFileSync(toNormalisedWindowsId(path.join(pathsforappdatas.config, "appsettings", "noferic-config.json")),
+    JSON.stringify(
+      set
     )
+  )
 
 })
-ipcMain.handle("get-auto-complete" , async(e , {filepath , offset})=>{
-  return await GetAutoComplete(offset , filepath);
+ipcMain.handle("get-auto-complete", async (e, { filepath, offset }) => {
+  return await GetAutoComplete(offset, filepath);
 })
-ipcMain.handle("rename" , async(e , t , n)=>{
-  
-  await fs.promises.rename(t , n)
+ipcMain.handle("rename", async (e, t, n) => {
+
+  await fs.promises.rename(t, n)
 })
-export function recievemaindebug(Jsone){
- win.webContents.send("data" , JSON.stringify({
-  action:"data-debug",
-  data:JSON.stringify(Jsone)
- }))
+export function recievemaindebug(Jsone) {
+  win.webContents.send("data", JSON.stringify({
+    action: "data-debug",
+    data: JSON.stringify(Jsone)
+  }))
 }
