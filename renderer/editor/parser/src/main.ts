@@ -134,20 +134,28 @@ function getAtPosition(tree: any, pointer: any, code: string) {
         name: getSymbolAtPosition(tree, pointer.row, pointer.column, false)?.name
     };
 }
-
-
+let is_avail = true;
+function setAvail(){
+    is_avail = false;
+    setTimeout(()=>{
+        is_avail = true;
+    } , 10000)
+}
 self.onmessage = (e) => {
     const mes
         = e.data;
     if (mes.type == "get-the-named-des") {
-        (async () => {
-            const res = await runparser(mes.code)
-            const hid = getAtPosition(res, mes.pos, mes.code);
-            self.postMessage({
-                type: "get-the-named-des", response: JSON.stringify(hid), code: convert(res)
-            })
-        })();
+        if (is_avail) {
 
+            (async () => {
+                const res = await runparser(mes.code)
+                const hid = getAtPosition(res, mes.pos, mes.code);
+                self.postMessage({
+                    type: "get-the-named-des", response: JSON.stringify(hid), code: convert(res)
+                })
+            })();
+            setAvail()
+        }
     }
 
 

@@ -2,7 +2,7 @@
 ///////////
 //jai sri ram
 
-console.log(["udn", "cnf"])
+console.log(["udn", "cnf" , "adding thins"])
 
 
 let countforterminal = 1;
@@ -1040,3 +1040,19 @@ window.onload = function () {
 
 };
 
+const minBtn = document.getElementById('minimize-btn');
+const maxBtn = document.getElementById('maximize-btn');
+const closeBtn = document.getElementById('close-btn');
+
+minBtn.addEventListener('click', () => {
+    window.ipc.minimizeWindow();
+});
+
+maxBtn.addEventListener('click', () => {
+    window.ipc.maximizeWindow();
+});
+
+closeBtn.addEventListener('click', () => {
+    
+    window.ipc.closeWindow();
+});
