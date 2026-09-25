@@ -13,6 +13,7 @@ read answer
 if [ "$answer" = "0" ]; then
     echo "quitting installation...."
     exit 0
+    
 elif [ "$answer" = "1" ]; then
     echo "continuing installation"
     echo "Installing Noferic IDE..."

@@ -5,6 +5,8 @@ import which from "which"
 import path from "path"
 import fs from "fs"
 let oldstatus;
+import chokidar from "chokidar"
+import { getEssentials } from "../main.js";
 async function CheckGit() {
     const IsGit = await which("git")
     //console.log(IsGit)
@@ -171,13 +173,11 @@ export async function SyncChanges() {
         } else {
             const notification = new Notification({
                  title: "noferic-IDE",
-                body: "Sync failed due to a network or repository error. Check your console."
+                body: "Sync failed due to a network or repository error."
             });
             notification.show()
         }
     }
-
-
 }
 export async function Updatestatus(win) {
     const status = await gitprocess.status();

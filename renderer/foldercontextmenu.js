@@ -14,6 +14,7 @@ export function createfolderdialogbox(parent, elementid, folderbtn, file) {
 
         }, 3000);
     }
+    
 
     function resetTimer() {
         if (inactivityTimer) {
