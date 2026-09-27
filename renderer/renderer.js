@@ -2,37 +2,29 @@
 ///////////
 //jai sri ram
 
-console.log(["udn", "cnf", "adding thins"])
-
+console.log(["udn", "cnf", "adding thins"]);
 
 let countforterminal = 1;
-import { symtree } from "./maintain-symbol.js"
+import { symtree } from "./maintain-symbol.js";
 import { initiateterminal } from "./terminal/initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";
 import { setInVersionControl } from "./handlingversioncontrol/showinversion.js";
 import {
-
-
-
-
   isValidJSON,
-
-
   getfileiconbytype,
   DeleteOldWorkspace,
-
   findFolderById,
 } from "./utils.js";
-import { createDialog } from "./Editor_Dialog_Components.js"
+import { createDialog } from "./Editor_Dialog_Components.js";
 import { createfolderdialogbox } from "./foldercontextmenu.js";
 import { Styleicon } from "./styleicon.js";
 import { handleShortCuts } from "./shortcuthandlers.js";
 import { createfiledialogbox } from "./filecontextmenu.js";
 import { StyleL } from "./stylel.js";
 import { openFileFromExplorer } from "./handlefileopening.js";
-import { IDEComponentApi } from "./editor UI components.js"
+import { IDEComponentApi } from "./editor UI components.js";
 let ischangesopen = false;
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
@@ -44,9 +36,8 @@ export function cursortomonaco(line, column) {
   iframe.contentWindow.postMessage({
     action: "set-to-pos",
     line: line,
-    column: column
-  }
-  )
+    column: column,
+  });
 }
 let globalignoredfilesarray = [""];
 let globalgitstatusjson;
@@ -61,11 +52,10 @@ let globalleftmenustate = {
   isterminalopen: false,
   isleftpanelopen: true,
   isnfdpopen: false,
-  isstopen: false
+  isstopen: false,
 };
 let previousselection;
 export function ctil(pathcwd) {
-
   window.ipc.invoke("create_new_terminal", countforterminal, pathcwd);
   initiateterminal(
     document.getElementById("terminal"),
@@ -73,11 +63,10 @@ export function ctil(pathcwd) {
     document,
   );
   if (!globalleftmenustate.isterminalopen) {
-    document.getElementById("term").click()
-    globalleftmenustate.isterminalopen = true
+    document.getElementById("term").click();
+    globalleftmenustate.isterminalopen = true;
   }
   countforterminal++;
-
 }
 export function getSelectionoffile() {
   return previousselection;
@@ -85,74 +74,77 @@ export function getSelectionoffile() {
 
 export async function showdialog(path) {
   createDialog({
-    "heading": `create File in ${path}`, items: [
-      { type: "input", label: "File name" }], "affirmative": {
-        "name": "create File",
-        callback: async (values) => {
+    heading: `create File in ${path}`,
+    items: [{ type: "input", label: "File name" }],
+    affirmative: {
+      name: "create File",
+      callback: async (values) => {
+        const filejoin = values[0];
 
-          const filejoin = values[0]
+        if (!filejoin) {
+          IDEComponentApi.ShowNotification("filenames cannot be empty", {
+            duration: 40000,
+            type: "warning",
+          });
+          return;
+        }
 
-          if (!filejoin) {
-            IDEComponentApi.ShowNotification("filenames cannot be empty", { duration: 40000, type: "warning" });
-            return;
-          }
-
-          window.ipc.invoke(
-            "append",
-            `${await window.ipc.invoke("join-path", path, filejoin)}`,
-          );
-          if (globalfileexplorerstatejson[`${path}`] === false) {
-            document.getElementById(path).click();
-          }
-
-        },
-
-      }
-  })
+        window.ipc.invoke(
+          "append",
+          `${await window.ipc.invoke("join-path", path, filejoin)}`,
+        );
+        if (globalfileexplorerstatejson[`${path}`] === false) {
+          document.getElementById(path).click();
+        }
+      },
+    },
+  });
 }
 export function rendererrename(path, fn) {
   createDialog({
-    "heading": `rename ${path}`,
-    "items": [
+    heading: `rename ${path}`,
+    items: [
       {
-        "type": "input",
-        "label": "Rename to:"
-      }
+        type: "input",
+        label: "Rename to:",
+      },
     ],
-    "affirmative": {
-      "name": "Rename",
+    affirmative: {
+      name: "Rename",
       callback: async (values) => {
-        window.ipc.invoke("rename", path, path.replace(fn, values[0]))
-      }
-    }
-  })
+        window.ipc.invoke("rename", path, path.replace(fn, values[0]));
+      },
+    },
+  });
 }
 export function showFolderDialog(path, fn) {
   createDialog({
-    "heading": `create Folder in ${path}`, items: [
-      { type: "input", label: "Directory" }], "affirmative": {
-        "name": "create File",
-        callback: async (values) => {
-          const filejoin = values[0]
+    heading: `create Folder in ${path}`,
+    items: [{ type: "input", label: "Directory" }],
+    affirmative: {
+      name: "create File",
+      callback: async (values) => {
+        const filejoin = values[0];
 
-          if (!filejoin) {
-            IDEComponentApi.ShowNotification("directory names cannot be empty", { duration: 40000, type: "warning" });
+        if (!filejoin) {
+          IDEComponentApi.ShowNotification("directory names cannot be empty", {
+            duration: 40000,
+            type: "warning",
+          });
 
-            return;
-          }
+          return;
+        }
 
-          window.ipc.invoke(
-            "mkdir",
-            `${await window.ipc.invoke("join-path", path, filejoin)}`,
-          );
-          if (globalfileexplorerstatejson[`${path}`] === false) {
-            document.getElementById(path).click();
-          }
-
-        },
-
-      }
-  })
+        window.ipc.invoke(
+          "mkdir",
+          `${await window.ipc.invoke("join-path", path, filejoin)}`,
+        );
+        if (globalfileexplorerstatejson[`${path}`] === false) {
+          document.getElementById(path).click();
+        }
+      },
+    },
+  });
 }
 export function deleteFolder(path) {
   const isUserok = confirm(
@@ -178,8 +170,7 @@ export async function showDiff(element) {
 }
 
 window.onload = function () {
-
-  window.ipc.invoke("request-settings")
+  window.ipc.invoke("request-settings");
 
   const editorEl = document.getElementById("editor");
   const terminalEl = document.getElementById("terminalelement");
@@ -190,7 +181,6 @@ window.onload = function () {
   document.getElementById("closeSettings").addEventListener("click", () => {
     document.getElementById("SettingsDialog").close();
   });
-
 
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
     window.ipc.invoke("create_new_terminal", countforterminal);
@@ -221,27 +211,25 @@ window.onload = function () {
     .getElementById("gitvercontmenu")
     .addEventListener("click", async () => {
       if (!globalleftmenustate.isversioncontolopen) {
-        resettheuiandstate()
+        resettheuiandstate();
         document.getElementById("versioncontrolelement").style.display = "flex";
         globalleftmenustate.isversioncontolopen = true;
         document.getElementById("explotop").innerText = "version-control";
       }
     });
-  document
-    .getElementById("nf-d")
-    .addEventListener("click", async () => {
-      if (!globalleftmenustate.isnfdpopen) {
-        resettheuiandstate()
-        document.getElementById("nf-debug").style.display = "flex";
+  document.getElementById("nf-d").addEventListener("click", async () => {
+    if (!globalleftmenustate.isnfdpopen) {
+      resettheuiandstate();
+      document.getElementById("nf-debug").style.display = "flex";
 
-        globalleftmenustate.isnfdpopen = true;
+      globalleftmenustate.isnfdpopen = true;
 
-        document.getElementById("explotop").innerText = "noferic-debugging-tools";
-      }
-    });
+      document.getElementById("explotop").innerText = "noferic-debugging-tools";
+    }
+  });
   document.getElementById("expl").addEventListener("click", async () => {
     if (!globalleftmenustate.isexploreropen) {
-      resettheuiandstate()
+      resettheuiandstate();
       document.getElementById("explorerelement").style.display = "flex";
       globalleftmenustate.isexploreropen = true;
       document.getElementById("explotop").innerText = "explorer";
@@ -249,7 +237,7 @@ window.onload = function () {
   });
   document.getElementById("nf-o").addEventListener("click", async () => {
     if (!globalleftmenustate.isstopen) {
-      resettheuiandstate()
+      resettheuiandstate();
       document.getElementById("nf-0-o-list").style.display = "flex";
       globalleftmenustate.isstopen = true;
       document.getElementById("explotop").innerText = "outline";
@@ -305,7 +293,12 @@ window.onload = function () {
       const action = e.action;
       const args = e.args;
 
-      const permittedactions = ["autosave", "lint", "hover", "get-auto-complete"];
+      const permittedactions = [
+        "autosave",
+        "lint",
+        "hover",
+        "get-auto-complete",
+      ];
       try {
         if (permittedactions.includes(action)) {
           const res = await window.ipc.invoke(action, args);
@@ -469,9 +462,14 @@ window.onload = function () {
         filebutton.appendChild(statebtn);
         let isopen = false;
         filebutton.addEventListener("click", (e) => {
-          filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
-          if (previousselection && document.getElementById(previousselection.path)) {
-            document.getElementById(previousselection.path).style.backgroundColor = "#333333"
+          filebutton.style.backgroundColor = "rgba(30,41,59,0.50)";
+          if (
+            previousselection &&
+            document.getElementById(previousselection.path)
+          ) {
+            document.getElementById(
+              previousselection.path,
+            ).style.backgroundColor = "#333333";
           }
           previousselection = { path: file.id, type: "Directory" };
           if (!isopen) {
@@ -504,7 +502,7 @@ window.onload = function () {
           document.body,
           decodeURIComponent(file.id),
           filebutton,
-          file
+          file,
         );
       } else {
         const filebutton = document.createElement("button");
@@ -525,14 +523,19 @@ window.onload = function () {
           document.body,
           decodeURIComponent(file.id),
           filebutton,
-          file
+          file,
         );
         filebutton.addEventListener("click", async (e) => {
           e.stopPropagation();
           e.stopImmediatePropagation();
-          filebutton.style.backgroundColor = "rgba(30,41,59,0.50)"
-          if (previousselection && document.getElementById(previousselection.path)) {
-            document.getElementById(previousselection.path).style.backgroundColor = "#333333"
+          filebutton.style.backgroundColor = "rgba(30,41,59,0.50)";
+          if (
+            previousselection &&
+            document.getElementById(previousselection.path)
+          ) {
+            document.getElementById(
+              previousselection.path,
+            ).style.backgroundColor = "#333333";
           }
           previousselection = { path: file.id, type: "file" };
           await openFileFromExplorer({ iframe, file });
@@ -667,23 +670,27 @@ window.onload = function () {
 
       globalfolderjson = message.fjson;
       openfolderfunction(globalfolderjson);
-    }
-    else if (message.action === "data-debug") {
-      const realdata = JSON.parse(message.data)
-      console.log(realdata)
-      if (realdata.message[0] === "noferic-reset-secret-code=0990930393494494449") {
-        document.getElementById("nf-list").replaceChildren("")
+    } else if (message.action === "data-debug") {
+      const realdata = JSON.parse(message.data);
+      console.log(realdata);
+      if (
+        realdata.message[0] === "noferic-reset-secret-code=0990930393494494449"
+      ) {
+        document.getElementById("nf-list").replaceChildren("");
         return;
       }
 
-      const pe = document.createElement("button")
-      pe.classList.add("bubbles-for")
-      pe.innerText = JSON.parse(message.data).message
+      const pe = document.createElement("button");
+      pe.classList.add("bubbles-for");
+      pe.innerText = JSON.parse(message.data).message;
       pe.style.backgroundColor =
-        realdata.type == "error" || realdata.type == "exception" ? "#ee4435" : realdata.type == "warn" ? "#eec038" : "#33333"
-      document.getElementById("nf-list").appendChild(pe)
-    }
-    else if (JSON.parse(data).action == "handlefileargs") {
+        realdata.type == "error" || realdata.type == "exception"
+          ? "#ee4435"
+          : realdata.type == "warn"
+            ? "#eec038"
+            : "#33333";
+      document.getElementById("nf-list").appendChild(pe);
+    } else if (JSON.parse(data).action == "handlefileargs") {
       setTimeout(() => {
         openfileoncilick(message.path, iframe);
       }, 2000);
@@ -692,20 +699,18 @@ window.onload = function () {
         `an error occured while ${JSON.stringify(message.errorlocation)} \n\n error message:${JSON.stringify(message.errormessage)}`,
         {
           duration: 30000,
-          type: "error"
-        }
+          type: "error",
+        },
       );
     } else if (message.action === "branch") {
       document.getElementById("currentBranch").innerText =
         `${message.branchname}`;
     } else if (message.action === "addelements") {
       globalfolderjson = message.newjson;
-      console.log(message)
+      console.log(message);
       if (!message.add) {
       }
-      if (
-        !globalfileexplorerstatejson[(message.add.parentid)]
-      ) {
+      if (!globalfileexplorerstatejson[message.add.parentid]) {
         return;
       }
       if (!document.getElementById(message.add.parentid)) {
@@ -731,7 +736,7 @@ window.onload = function () {
           .remove();
         IDEComponentApi.ShowNotification(`${message.remove} is deleted`, {
           duration: 40000,
-          type: "warning"
+          type: "warning",
         });
         iframe.contentWindow.postMessage({
           action: "deletemodelonclose",
@@ -779,16 +784,16 @@ window.onload = function () {
           "*",
         );
       }
-    }
-    else if (message.action == "appSettings") {
-      console.log(JSON.parse(message.settings))
-      document.getElementById('Theme').value = JSON.parse(message.settings).theme;
+    } else if (message.action == "appSettings") {
+      console.log(JSON.parse(message.settings));
+      document.getElementById("Theme").value = JSON.parse(
+        message.settings,
+      ).theme;
       if (JSON.parse(message.settings).theme !== "dark") {
-        document.getElementById("theme-blanket-overlay").style.display = "block"
-      }
-      else {
-        document.getElementById("theme-blanket-overlay").style.display = "none"
-
+        document.getElementById("theme-blanket-overlay").style.display =
+          "block";
+      } else {
+        document.getElementById("theme-blanket-overlay").style.display = "none";
       }
     }
     if (message.action === "getOpenTabs") {
@@ -808,14 +813,11 @@ window.onload = function () {
     }
   });
 
-
-
-
   window.addEventListener("message", (e) => {
     const message = e.data;
     if (message.action == "parsed-code") {
-      document.getElementById("nf-0-o-list").replaceChildren()
-      symtree(document, e.data.code?.children)
+      document.getElementById("nf-0-o-list").replaceChildren();
+      symtree(document, e.data.code?.children);
     }
     if (message.action === "lint") {
       async function runLint() {
@@ -875,30 +877,26 @@ window.onload = function () {
   });
   document.getElementById("liveserverbtn").addEventListener("click", (e) => {
     createDialog({
-      "items": [
+      items: [
         {
-          "type": "input",
-          "label": "port",
-          "value": 5000
-
+          type: "input",
+          label: "port",
+          value: 5000,
         },
 
         {
-          "type": "input",
-          "label": "relpath"
+          type: "input",
+          label: "relpath",
         },
         {
-
-          "type": "check",
-          "label": "Open in default browser"
-
-        }],
-      "heading": "Start Live Server",
+          type: "check",
+          label: "Open in default browser",
+        },
+      ],
+      heading: "Start Live Server",
       affirmative: {
         name: "Start Live Server",
         callback: async (values) => {
-
-
           try {
             const dec = await window.ipc.invoke("validate-details-liveserver", {
               port: values[0],
@@ -915,30 +913,23 @@ window.onload = function () {
             relativepath: values[1] || "./",
             toOpen: values[2],
           });
-
-
-
-
-        }
-      }
-
-    })
+        },
+      },
+    });
   });
-
 
   document.getElementById("commitbtn").addEventListener("click", (e) => {
     createDialog({
-      "heading": "commit on current branch",
-      "items": [
+      heading: "commit on current branch",
+      items: [
         {
-          "type": "input",
-          "label": 'commit message'
-        }
+          type: "input",
+          label: "commit message",
+        },
       ],
-      "affirmative": {
-        "name": "commit",
+      affirmative: {
+        name: "commit",
         callback: (values) => {
-
           if (!values[0]) {
             alert("commit messages cannot be empty");
             return;
@@ -949,10 +940,7 @@ window.onload = function () {
           if (isuserokforcommit) {
             async function runn() {
               try {
-                await window.ipc.invoke(
-                  "commit",
-                  values[0],
-                );
+                await window.ipc.invoke("commit", values[0]);
                 IDEComponentApi.ShowNotification("Comitted!", {
                   duration: 900,
                   type: "success",
@@ -964,13 +952,10 @@ window.onload = function () {
             }
             runn();
           }
-
-        }
-      }
-
-    })
+        },
+      },
+    });
   });
-
 
   document.getElementById("inputforcommit").addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
@@ -978,8 +963,8 @@ window.onload = function () {
     }
   });
   document.getElementById("sync-changes").addEventListener("click", (e) => {
-    window.ipc.invoke("sync-changes")
-  })
+    window.ipc.invoke("sync-changes");
+  });
   document.getElementById("changes").addEventListener("click", (e) => {
     e.stopPropagation();
     if (!ischangesopen) {
@@ -1031,28 +1016,26 @@ window.onload = function () {
       document.getElementById("searchresults").replaceChildren();
     }, 1000);
   });
-  const dropdownForTheme = document.getElementById('Theme');
+  const dropdownForTheme = document.getElementById("Theme");
 
-  dropdownForTheme.addEventListener('change', (event) => {
+  dropdownForTheme.addEventListener("change", (event) => {
     const selectedValue = event.target.value;
-    window.ipc.invoke("changesettings", "theme", selectedValue)
+    window.ipc.invoke("changesettings", "theme", selectedValue);
   });
-
 };
 
-const minBtn = document.getElementById('minimize-btn');
-const maxBtn = document.getElementById('maximize-btn');
-const closeBtn = document.getElementById('close-btn');
+const minBtn = document.getElementById("minimize-btn");
+const maxBtn = document.getElementById("maximize-btn");
+const closeBtn = document.getElementById("close-btn");
 
-minBtn.addEventListener('click', () => {
+minBtn.addEventListener("click", () => {
   window.ipc.minimizeWindow();
 });
 
-maxBtn.addEventListener('click', () => {
+maxBtn.addEventListener("click", () => {
   window.ipc.maximizeWindow();
 });
 
-closeBtn.addEventListener('click', () => {
-
+closeBtn.addEventListener("click", () => {
   window.ipc.closeWindow();
 });
