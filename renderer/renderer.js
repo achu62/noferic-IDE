@@ -2,7 +2,7 @@
 ///////////
 //jai sri ram
 
-console.log(["udn", "cnf" , "adding thins"])
+console.log(["udn", "cnf", "adding thins"])
 
 
 let countforterminal = 1;
@@ -810,9 +810,7 @@ window.onload = function () {
 
 
 
-  document.getElementById("cancelcommit").addEventListener("click", () => {
-    document.getElementById("commitdialog").close();
-  });
+
   window.addEventListener("message", (e) => {
     const message = e.data;
     if (message.action == "parsed-code") {
@@ -929,34 +927,48 @@ window.onload = function () {
 
 
   document.getElementById("commitbtn").addEventListener("click", (e) => {
-    document.getElementById("commitdialog").showModal();
-  });
-  document.getElementById("commitreal").addEventListener("click", (e) => {
-    if (!document.getElementById("inputforcommit").value) {
-      alert("commit messages cannot be empty");
-      return;
-    }
-    const isuserokforcommit = confirm(
-      `Do you want to commit with commit Message ${document.getElementById("inputforcommit").value}`,
-    );
-    if (isuserokforcommit) {
-      async function runn() {
-        try {
-          await window.ipc.invoke(
-            "commit",
-            document.getElementById("inputforcommit").value,
+    createDialog({
+      "heading": "commit on current branch",
+      "items": [
+        {
+          "type": "input",
+          "label": 'commit message'
+        }
+      ],
+      "affirmative": {
+        "name": "commit",
+        callback: (values) => {
+
+          if (!values[0]) {
+            alert("commit messages cannot be empty");
+            return;
+          }
+          const isuserokforcommit = confirm(
+            `Do you want to commit with commit Message ${values[0]}`,
           );
-          IDEComponentApi.ShowNotification("Comitted!", {
-            duration: 900,
-            type: "success",
-          });
-        } catch (e) {
-          alert(e);
-          return;
+          if (isuserokforcommit) {
+            async function runn() {
+              try {
+                await window.ipc.invoke(
+                  "commit",
+                  values[0],
+                );
+                IDEComponentApi.ShowNotification("Comitted!", {
+                  duration: 900,
+                  type: "success",
+                });
+              } catch (e) {
+                alert(e);
+                return;
+              }
+            }
+            runn();
+          }
+
         }
       }
-      runn();
-    }
+
+    })
   });
 
 
@@ -965,7 +977,7 @@ window.onload = function () {
       document.getElementById("commitreal").click();
     }
   });
-  document.getElementById("sync-changes").addEventListener("click",(e)=>{
+  document.getElementById("sync-changes").addEventListener("click", (e) => {
     window.ipc.invoke("sync-changes")
   })
   document.getElementById("changes").addEventListener("click", (e) => {
@@ -1033,14 +1045,14 @@ const maxBtn = document.getElementById('maximize-btn');
 const closeBtn = document.getElementById('close-btn');
 
 minBtn.addEventListener('click', () => {
-    window.ipc.minimizeWindow();
+  window.ipc.minimizeWindow();
 });
 
 maxBtn.addEventListener('click', () => {
-    window.ipc.maximizeWindow();
+  window.ipc.maximizeWindow();
 });
 
 closeBtn.addEventListener('click', () => {
-    
-    window.ipc.closeWindow();
+
+  window.ipc.closeWindow();
 });

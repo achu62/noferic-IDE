@@ -719,3 +719,4 @@ ipcMain.on('window-maximize', () => {
 ipcMain.on('window-close', () => {
   if (win) win.close();
 });
+
