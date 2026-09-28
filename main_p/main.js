@@ -616,8 +616,8 @@ ipcMain.handle("unlink", async (e, Dirpath) => {
 ipcMain.handle("validate-details-liveserver", async (e, d) => {
   return validate_details_liveserver(e, d, pathreal, consolelog);
 });
-ipcMain.handle("commit", async (e, message) => {
-  const commitPromise = await handleCommit(message);
+ipcMain.handle("commit", async (e, message , s) => {
+  const commitPromise = await handleCommit(message , s);
   return commitPromise;
 });
 ipcMain.handle("create_new_terminal", async (e, id, currentworkingdir) => {

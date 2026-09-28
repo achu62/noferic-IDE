@@ -129,4 +129,6 @@ export function setInVersionControl(document, eleme, jason) {
     rl(element, json.notadded, "#9e9e9e", "N");
     rl(element, json.renamed, "#ffffff", "R");
 }
-export function 
+export function getstaged(){
+    return staged;
+}

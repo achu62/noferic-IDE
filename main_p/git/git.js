@@ -92,7 +92,7 @@ export async function initialisereposcan(repopath, win) {
         // consolelog(e);
     }
 }
-export async function handleCommit(message) {
+export async function handleCommit(message , s) {
     const commitPromise = new Promise((re, rej) => {
         try {
             async function runn() {
@@ -101,7 +101,7 @@ export async function handleCommit(message) {
                 if (status.files.length === 0) {
                     rej("no changes to commit");
                 }
-                await gitprocess.add(".");
+                await gitprocess.add(s);
                 const commit = await gitprocess.commit(message);
                 //console.log(commit)
                 re("tr");
