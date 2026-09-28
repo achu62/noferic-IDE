@@ -10,7 +10,7 @@ import { initiateterminal } from "./terminal/initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";
-import { setInVersionControl } from "./handlingversioncontrol/showinversion.js";
+import { getstaged, setInVersionControl } from "./handlingversioncontrol/showinversion.js";
 import {
   isValidJSON,
   getfileiconbytype,
@@ -940,7 +940,7 @@ window.onload = function () {
           if (isuserokforcommit) {
             async function runn() {
               try {
-                await window.ipc.invoke("commit", values[0]);
+                await window.ipc.invoke("commit", values[0] , getstaged());
                 IDEComponentApi.ShowNotification("Comitted!", {
                   duration: 900,
                   type: "success",
