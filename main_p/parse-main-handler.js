@@ -32,7 +32,17 @@ export function UpdateASt(path, code) {
 export async function req_Diagnostic(path, code) {
     treemap[path] = await getParsedCode(code, path)
 }
-await req_Diagnostic("/main.js", "let a; const a = null;")
+await req_Diagnostic("/main.js", `const a = null; let b = 5; let c = 3; var n = 2; const na = 5 \n\n
+    function as(){
+        function bs(){
+        function cs() {
+        a = 3;
+        b = 4;
+        c=3;
+        n=4;
+        na = 3
+        }}
+    } `)
 console.log(JSON.stringify(treemap))
 
 
