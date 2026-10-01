@@ -61,10 +61,13 @@ function di(nodes) {
     })
 }
 parentPort.on("message" , (e)=>{
-    const mes  = e.data;
+    const mes  = e;
+
     if(mes.type==="provide_diagnostics")
     {
         di(mes.ast)
         parentPort.postMessage(diagnostics)
+        console.log(diagnostics)
+ 
     }
 })

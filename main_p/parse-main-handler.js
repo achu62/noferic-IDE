@@ -23,11 +23,18 @@ async function getParsedCode(code, path) {
     })
     return promise;
 }
-async function getDiagnostics(ast){
+async function getDiagnostics(ast) {
     Diagonostic_provider.postMessage({
-        type:"provide_diagnostics",
-        ast:ast
+        type: "provide_diagnostics",
+        ast: ast
     })
+    const promise = new Promise((res, rej) => {
+        Diagonostic_provider.on("message", (mes) => {
+            res(mes)
+        })
+    })
+    return promise;
+
 }
 export function UpdateASt(path, code) {
     if (treemap[path]) {
@@ -37,9 +44,12 @@ export function UpdateASt(path, code) {
 
 export async function req_Diagnostic(path, code) {
     treemap[path] = await getParsedCode(code, path)
+    const a = await getDiagnostics(treemap[path].children)
+    console.log(a)
+
 
 }
 
 console.log(JSON.stringify(treemap))
 
-
+req_Diagnostic("home/charan/main.ts", "const a =null \n\n\ let new= true \n\n a = 1 \n\n new = false ")
