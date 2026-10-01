@@ -3,6 +3,7 @@ let diagnostics = [];
 let importantcachediagnostics = [];
 importantcachediagnostics["constants"] = []
 let mapofconsts = {}
+import { parentPort } from "node:worker_threads";
 function getnodeBytype(nodes, type) {
     let name;
     let out = {}
@@ -48,8 +49,8 @@ function di(nodes) {
                             source: "Noferic-Intelligence",
                             message: `the constant ${targetName} has been re-assigned\nconstants can't be re-assigned`
                         })
-                        console.log(`the constant ${targetName} has been re-assigned\nconstants can't be re-assigned`
-                        )
+                        //console.log(`the constant ${targetName} has been re-assigned\nconstants can't be re-assigned`
+                        //)
                     }
                 }
             }
@@ -59,3 +60,11 @@ function di(nodes) {
         }
     })
 }
+parentPort.on("message" , (e)=>{
+    const mes  = e.data;
+    if(mes.type==="provide_diagnostics")
+    {
+        di(mes.ast)
+        parentPort.postMessage(diagnostics)
+    }
+})
