@@ -11,7 +11,7 @@ import ts from "typescript"
 export function getts() {
   return ts;
 }
-import { UpdateASt } from "./parse-main-handler.js";
+import { req_Diagnostic, UpdateASt } from "./parse-main-handler.js";
 
 import { lint, initialiseLinter } from "./Linting-features/eslint.js"
 import {
@@ -415,7 +415,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
-    frame:false,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
@@ -617,8 +617,8 @@ ipcMain.handle("unlink", async (e, Dirpath) => {
 ipcMain.handle("validate-details-liveserver", async (e, d) => {
   return validate_details_liveserver(e, d, pathreal, consolelog);
 });
-ipcMain.handle("commit", async (e, message , s) => {
-  const commitPromise = await handleCommit(message , s);
+ipcMain.handle("commit", async (e, message, s) => {
+  const commitPromise = await handleCommit(message, s);
   return commitPromise;
 });
 ipcMain.handle("create_new_terminal", async (e, id, currentworkingdir) => {
@@ -668,6 +668,14 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
       esd[0].messages.push(ydx)
 
     })
+    let nfd = await req_Diagnostic(filePath, code)
+
+    if (nfd) {
+      nfd.forEach((o) => {
+        console.log(o)
+        esd[0].messages.push(o)
+      })
+    }
     return esd;
   }
   catch (e) {
