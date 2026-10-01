@@ -488,6 +488,7 @@ window.onload = () => {
         const markers = [];
 
         if (result && result[0]) {
+          console.log(result)
           result[0].messages.forEach((d) => {
             markers.push({
               startLineNumber: d.line,

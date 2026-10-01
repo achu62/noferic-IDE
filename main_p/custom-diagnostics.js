@@ -46,11 +46,16 @@ function di(nodes) {
                     const targetName = identifierCheck.out.text;
                     if (importantcachediagnostics.constants.includes(targetName)) {
                         diagnostics.push({
-                            source: "Noferic-Intelligence",
-                            message: `the constant ${targetName} has been re-assigned\nconstants can't be re-assigned`
+                            message: `Noferic-Diagnostics: the constant ${targetName} has been re-assigned\nconstants can't be re-assigned`,
+                            severity: 1,
+                            line: identifierCheck.out.startPosition.row,
+                            column: identifierCheck.out.startPosition.column,
+                            endLine:identifierCheck.out.endPosition.row,
+                            endColumn:identifierCheck.out.endPosition.column,
+
+
                         })
-                        //console.log(`the constant ${targetName} has been re-assigned\nconstants can't be re-assigned`
-                        //)
+
                     }
                 }
             }
@@ -60,14 +65,13 @@ function di(nodes) {
         }
     })
 }
-parentPort.on("message" , (e)=>{
-    const mes  = e;
+parentPort.on("message", (e) => {
+    const mes = e;
 
-    if(mes.type==="provide_diagnostics")
-    {
+    if (mes.type === "provide_diagnostics") {
         di(mes.ast)
         parentPort.postMessage(diagnostics)
         console.log(diagnostics)
- 
+
     }
 })
