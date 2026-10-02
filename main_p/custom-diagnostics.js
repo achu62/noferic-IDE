@@ -32,7 +32,12 @@ function di(nodes) {
         mapofconsts[n_name] = n_pos;
       }
     }
+    //
+
     if (node.type == "expression_statement") {
+      if (getnodeBytype(node.children, "call_expression").exists) {
+        
+      }
       const assignment = getnodeBytype(node.children, "assignment_expression");
 
       if (assignment.exists) {
