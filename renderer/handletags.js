@@ -1,11 +1,6 @@
 //jai sri ram
-function ThisIsAfunction() {
-  function istnew() {
-    () => {
-      class newindoo{
-
-      }
-      //jai
-    };
-  }
+function as(o , p){
+  const b = null;
+  b = ""
 }
+as(o , p)
