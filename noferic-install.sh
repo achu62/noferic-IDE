@@ -5,7 +5,6 @@
 set -eu
 
 echo "Welcome to noferic-IDE installer"
-
 printf "Do you want to install Noferic-IDE  \n 0-do not install \n 1-Install \n Enter your choice: "
 read answer
 
