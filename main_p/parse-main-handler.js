@@ -45,11 +45,8 @@ export function UpdateASt(path, code) {
 export async function req_Diagnostic(path, code) {
     treemap[path] = await getParsedCode(code, path)
     const a = await getDiagnostics(treemap[path].children)
-    console.log(a)
-
+    return a;
 
 }
 
-console.log(JSON.stringify(treemap))
 
-req_Diagnostic("home/charan/main.ts", "const a =null \n\n\ let new= true \n\n a = 1 \n\n new = false ")
