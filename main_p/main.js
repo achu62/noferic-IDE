@@ -662,23 +662,39 @@ ipcMain.handle("get-search-results", async (e, input) => {
 ipcMain.handle("lint", async (e, { code, filePath }) => {
 
   try {
-    let esd = await lint(code, filePath);
-    let syd = await getSyntacticDiagnosticsfromts(toNormalisedWindowsId(filePath))
-    syd.forEach((ydx) => {
-      esd[0].messages.push(ydx)
+    let diagnostics = []
+    /**@param {Array} nfd  */
 
-    })
     let nfd = await req_Diagnostic(filePath, code)
+    let esd = await lint(code, filePath);
+    esd = esd[0].messages;
+    let syd = await getSyntacticDiagnosticsfromts(toNormalisedWindowsId(filePath))
+    if (esd) {
+      esd.forEach((ydx) => {
+        diagnostics.push(ydx)
+
+      })
+    }
+
+    if (syd) {
+      syd.forEach((ydx) => {
+        diagnostics.push(ydx)
+
+      })
+    }
+
 
     if (nfd) {
       nfd.forEach((o) => {
-        console.log(o)
-        esd[0].messages.push(o)
+        diagnostics.push(o)
       })
     }
-    return esd;
+
+    console.trace(diagnostics)
+    return diagnostics;
   }
   catch (e) {
+    console.log(e)
   }
 })
 ipcMain.handle("hover", async (e, { filepath, Offset }) => {

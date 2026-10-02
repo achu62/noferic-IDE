@@ -486,10 +486,10 @@ window.onload = () => {
       try {
         const result = await window.renderer.SendRequesttomain({ action: "lint", args: { code, filePath } });
         const markers = [];
-
-        if (result && result[0]) {
+        console.log(result)
+        if (result) {
           console.log(result)
-          result[0].messages.forEach((d) => {
+          result.forEach((d) => {
             markers.push({
               startLineNumber: d.line,
               startColumn: d.column,
@@ -497,7 +497,7 @@ window.onload = () => {
               endColumn: d.endColumn ?? d.column + 1,
               message: ` ${d.message}`,
               severity:
-                d.severity === 2
+                d.severity === 1
                   ? monaco.MarkerSeverity.Error
                   : monaco.MarkerSeverity.Warning,
             });
