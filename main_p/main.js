@@ -11,7 +11,7 @@ import ts from "typescript"
 export function getts() {
   return ts;
 }
-import { req_Diagnostic, UpdateASt } from "./parse-main-handler.js";
+import { req_Diagnostic } from "./parse-main-handler.js";
 
 import { lint, initialiseLinter } from "./Linting-features/eslint.js"
 import {
@@ -220,7 +220,6 @@ async function track(pathreal) {
 
       changedpathsbyide = changedpathsbyide.filter((item) => toPathKey(item) !== toPathKey(filePath));
       UpdateVersion(filePath)
-      UpdateASt(filePath, fs.readFileSync(filePath, "utf-8"))
       Updatestatus(win)
 
     });
