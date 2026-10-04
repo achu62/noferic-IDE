@@ -1,13 +1,15 @@
 //jai sri ram
 
 import { parentPort } from "worker_threads";
-import ts, { getModeForResolutionAtIndex } from "typescript";
+import ts from "typescript";
 import fs from "fs"
+
 let function_param_map = {}
 let list_consts = []
 
 async function getDiagnosticsnf(path, code) {
   const sourceFile = ts.createSourceFile(
+    path,
     code,
     ts.ScriptTarget.Latest,
     true,
@@ -46,11 +48,11 @@ async function getDiagnosticsnf(path, code) {
   walk(sourceFile);
 }
 getDiagnosticsnf("/home/charan/noferic-IDE/main_p/main.js", "let a = null; const b = 10;\n function as(b , c){()=>{ \n b=10 ; b=100; b=1099}()}\nas(1,2)\nas(1)\nas(12,23,34)\nas(a)")
-//parentPort.on("message", (e) => {
-//const mes = e;
+/*parentPort.on("message", (e) => {
+const mes = e;
 
-//if (mes.type === "provide_diagnostics") {
-//getDiagnosticsnf(mes.path, mes.code);
-//parentPort.postMessage(null);
-//}
-//});
+if (mes.type === "provide_diagnostics") {
+getDiagnosticsnf(mes.path, mes.code);
+parentPort.postMessage("");
+}
+});*/
