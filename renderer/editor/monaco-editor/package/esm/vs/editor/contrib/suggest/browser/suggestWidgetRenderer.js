@@ -7,7 +7,8 @@ import { createMatches } from '../../../../base/common/filters.js';
 import { DisposableStore } from '../../../../base/common/lifecycle.js';
 import { URI } from '../../../../base/common/uri.js';
 import { CompletionItemKinds } from '../../../common/languages.js';
-import { getIconClasses } from '../../../common/services/getIconClasses.js';
+import { getIconClasses } from '../../../common/services/getIconClasses.js';  width: 40%;
+
 import { IModelService } from '../../../common/services/model.js';
 import { ILanguageService } from '../../../common/languages/language.js';
 import { localize } from '../../../../nls.js';

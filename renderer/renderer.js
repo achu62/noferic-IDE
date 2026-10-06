@@ -204,23 +204,31 @@ window.onload = function () {
     }
 
   });
-  document.getElementById("explorersearch").addEventListener("keydown", (e) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      console.log(results)
+  function handlekeyoardmovementsinexplorer(element) {
+    const results = element.children;
 
-      selected = Math.min(selected + 1, results.length - 1);
-      results[selected]?.focus();
-    }
+    let selected = -1;
 
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
+    element.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
 
-      selected = Math.max(selected - 1, 0);
-      results[selected]?.focus();
-    }
+        selected = Math.min(selected + 1, results.length - 1);
+        console.log(results)
 
-  });
+        results[selected]?.focus();
+      }
+
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+
+        selected = Math.max(selected - 1, 0);
+        console.log(results)
+        results[selected]?.focus();
+      }
+
+    });
+  }
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
     window.ipc.invoke("create_new_terminal", countforterminal);
     initiateterminal(
@@ -466,6 +474,7 @@ window.onload = function () {
 
         const filebutton = document.createElement("button");
         filebutton.id = `${decodeURIComponent(file.id)}`;
+        handlekeyoardmovementsinexplorer(filebutton)
 
         filebutton.textContent = `${file.name}`;
         filebutton.classList.add("files");
@@ -1051,7 +1060,7 @@ window.onload = function () {
       });
     });
   document.getElementById("explorersearch").addEventListener("blur", (e) => {
-    
+
     setTimeout(() => {
       document.getElementById("searchresults").replaceChildren();
     }, 10000);
