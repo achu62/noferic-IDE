@@ -56,26 +56,73 @@
       height: auto;
       pointer-events: auto;
     }
-    #iamg{
-      
+
+    #iamg {
       position: fixed;
       inset: 0;
+
       width: 100%;
       height: 100%;
-      pointer-events: auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      box-sizing: border-box;
+
+      background: #1e1e1e;
+      color: #d4d4d4;
+
+      font-family: "JetBrains Mono", monospace;
+
+      z-index: 12;
+    }
+
+    .noferic-empty {
       text-align: center;
-      font-family:"JetBrains Mono";
-      color:#FFFFFF;
-      z-index:12;
-      background-image: url("./screenshot-2026-10-04_14-38-20 (1).png");
+    }
+
+    .noferic-ascii {
+      margin: 0 0 24px;
+
+      font-family: "JetBrains Mono", monospace;
+      font-size: 14px;
+      line-height: 1.15;
+
+      color: #d4d4d4;
+
+      white-space: pre;
+      user-select: none;
+    }
+
+    .noferic-message {
+      font-size: 13px;
+      color: #808080;
     }
   </style>
 </head>
 
 <body>
   <div id="editor"></div>
+
+
   <div id="iamg">
-   
+    <div class="noferic-empty">
+
+      <pre class="noferic-ascii">
+███╗   ██╗ ██████╗ ███████╗███████╗██████╗ ██╗ ██████╗
+████╗  ██║██╔═══██╗██╔════╝██╔════╝██╔══██╗██║██╔═════╝
+██╔██╗ ██║██║   ██║█████╗  █████╗  ██████╔╝██║██║     
+██║╚██╗██║██║   ██║██╔══╝  ██╔══╝  ██╔══██╗██║██║     
+██║ ╚████║╚██████╔╝██║     ███████╗██║  ██║██║╚██████╗
+╚═╝  ╚═══╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝ ╚═════╝
+</pre>
+
+      <div class="noferic-message">
+        Open a file and start editing.
+      </div>
+
+    </div>
   </div>
   <script src="monaco-editor/package/min/vs/loader.js"></script>
   <script src="script.js" type="module">
