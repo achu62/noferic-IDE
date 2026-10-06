@@ -14,6 +14,7 @@ export class OscParser implements IOscParser {
   private _state = OscState.START;
   private _active = EMPTY_HANDLERS;
   private _id = -1;
+  
   private _handlers: IHandlerCollection<IOscHandler> = Object.create(null);
   private _handlerFb: OscFallbackHandlerType = () => { };
   private _stack: ISubParserStackState = {

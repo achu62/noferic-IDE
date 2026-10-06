@@ -15,7 +15,7 @@ import {
   isValidJSON,
   getfileiconbytype,
   DeleteOldWorkspace,
-  
+
   findFolderById,
 } from "./utils.js";
 import { createDialog } from "./Editor_Dialog_Components.js";
@@ -182,7 +182,45 @@ window.onload = function () {
   document.getElementById("closeSettings").addEventListener("click", () => {
     document.getElementById("SettingsDialog").close();
   });
+  const results = document.querySelector("#searchresults").children;
+  let selected = -1;
 
+  document.getElementById("searchresults").addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+
+      selected = Math.min(selected + 1, results.length - 1);
+      console.log(results)
+
+      results[selected]?.focus();
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+
+      selected = Math.max(selected - 1, 0);
+      console.log(results)
+      results[selected]?.focus();
+    }
+
+  });
+  document.getElementById("explorersearch").addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      console.log(results)
+
+      selected = Math.min(selected + 1, results.length - 1);
+      results[selected]?.focus();
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+
+      selected = Math.max(selected - 1, 0);
+      results[selected]?.focus();
+    }
+
+  });
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
     window.ipc.invoke("create_new_terminal", countforterminal);
     initiateterminal(
@@ -941,7 +979,7 @@ window.onload = function () {
           if (isuserokforcommit) {
             async function runn() {
               try {
-                await window.ipc.invoke("commit", values[0] , getstaged());
+                await window.ipc.invoke("commit", values[0], getstaged());
                 IDEComponentApi.ShowNotification("Comitted!", {
                   duration: 900,
                   type: "success",
@@ -1013,9 +1051,10 @@ window.onload = function () {
       });
     });
   document.getElementById("explorersearch").addEventListener("blur", (e) => {
+    
     setTimeout(() => {
       document.getElementById("searchresults").replaceChildren();
-    }, 1000);
+    }, 10000);
   });
   const dropdownForTheme = document.getElementById("Theme");
 

@@ -906,7 +906,7 @@ body {
 
 #explorerelement {
   position: absolute;
-  top: 50px;
+  top: 20px;
   bottom: 0;
   right: 0;
   left: 0;
@@ -943,6 +943,30 @@ body {
 }
 
 .files:hover {
+
+  color: var(--ffffff);
+  background-color: #404040;
+  min-height: 17px;
+  position: relative;
+  right: 0;
+  left: 0%;
+  font-size: 13.5px;
+  font-weight: 350;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  padding-left: 25px;
+  z-index: 1000303030;
+  /* prevents accidental text selection on tap */
+
+}
+
+.files:focus {
   color: var(--ffffff);
   background-color: #404040;
   min-height: 17px;
@@ -1456,7 +1480,8 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-#window-controls{
+
+#window-controls {
 
   all: unset;
   position: absolute;
@@ -1472,6 +1497,7 @@ body {
   padding-left: 10px;
 
 }
+
 #liveserverbtn:hover {
 
   background-color: #1e1e1e;
@@ -1778,10 +1804,9 @@ input {
 
 #explorersearch {
   position: absolute;
-  top: 25px;
-  left: 3px;
-  right: 3px;
-  z-index: 8;
+  top: 0px;
+  left: 30%;
+  z-index: 20209390;
   height: 20px;
   line-height: 20px;
   text-align: left;
@@ -1797,10 +1822,9 @@ input {
 
 #searchresults {
   position: absolute;
-  top: 46px;
-  left: 3px;
-  right: 3px;
-  z-index: 8;
+  top: 20px;
+  left: 30%;
+  z-index: 10100909;
   height: fit-content;
   min-height: 0px;
   max-height: 500px;
