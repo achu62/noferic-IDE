@@ -1,6 +1,6 @@
 //jai sri ram
 
-import { parentPort } from "worker_threads";
+import { parentPort, Worker } from "worker_threads";
 import ts from "typescript";
 import fs from "fs"
 
@@ -37,8 +37,8 @@ async function getDiagnosticsnf(path, code) {
     if (ts.isCallExpression(node)) {
       const funcName = node.expression.getText(sourceFile);
       const passedCount = node.arguments.length;
-      if(function_param_map[funcName] && function_param_map[funcName] !== passedCount){
-        console.log(`errror , the function expects ${function_param_map[funcName] } params but given ${passedCount}`)
+      if (function_param_map[funcName] && function_param_map[funcName] !== passedCount) {
+        console.log(`errror , the function expects ${function_param_map[funcName]} params but given ${passedCount}`)
       }
     }
 
@@ -47,12 +47,11 @@ async function getDiagnosticsnf(path, code) {
 
   walk(sourceFile);
 }
-getDiagnosticsnf("/home/charan/noferic-IDE/main_p/main.js", "let a = null; const b = 10;\n function as(b , c){()=>{ \n b=10 ; b=100; b=1099}()}\nas(1,2)\nas(1)\nas(12,23,34)\nas(a)")
-/*parentPort.on("message", (e) => {
-const mes = e;
+parentPort.on("message", async (e) => {
+  const mes = e;
 
-if (mes.type === "provide_diagnostics") {
-getDiagnosticsnf(mes.path, mes.code);
-parentPort.postMessage("");
-}
-});*/
+  if (mes.type === "provide_diagnostics") {
+    await getDiagnosticsnf(mes.path, mes.code)
+    
+  }
+});
