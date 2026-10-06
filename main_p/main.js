@@ -469,6 +469,36 @@ app.whenReady().then(() => {
     args = process.argv[2];
   }
   createWindow();
+  win.hide();
+
+  const splash = new BrowserWindow({
+    width: 620,
+    height: 380,
+
+    frame: false,
+    resizable: false,
+    movable: false,
+
+    show: true,
+
+    backgroundColor: "#1e1e1e",
+
+    webPreferences: {
+      contextIsolation: true
+    }
+  });
+
+  splash.loadFile(
+    path.join(__dirname, "splash.html")
+  );
+
+  win.webContents.once("did-finish-load", () => {
+    if (!splash.isDestroyed()) {
+      splash.close();
+    }
+
+    win.show();
+  });
   win.webContents.once("did-finish-load", async () => {
     let startupPath = args;
     if (!startupPath) {
