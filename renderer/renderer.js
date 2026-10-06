@@ -56,6 +56,69 @@ let globalleftmenustate = {
   isstopen: false,
 };
 let previousselection;
+
+function handlekeyoardmovementsinexplorer() {
+  const explorer = document.getElementById("explorerelement");
+
+  explorer.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+
+    const items = Array.from(explorer.querySelectorAll(".files")).filter(
+      (item) => item.getClientRects().length > 0 && !item.disabled,
+    );
+
+    if (items.length === 0) return;
+
+    let selectedElement = null;
+    if (previousselection?.path) {
+      let selectedPath = previousselection.path;
+      try {
+        selectedPath = decodeURIComponent(selectedPath);
+      } catch {
+        // Keep the original path if it is not URI-encoded.
+      }
+      selectedElement = document.getElementById(selectedPath);
+    }
+
+    if (!items.includes(selectedElement)) {
+      selectedElement = items.includes(document.activeElement)
+        ? document.activeElement
+        : null;
+    }
+
+    const currentIndex = items.indexOf(selectedElement);
+    const nextIndex =
+      currentIndex === -1
+        ? e.key === "ArrowDown"
+          ? 0
+          : items.length - 1
+        : Math.max(
+            0,
+            Math.min(
+              currentIndex + (e.key === "ArrowDown" ? 1 : -1),
+              items.length - 1,
+            ),
+          );
+
+    e.preventDefault();
+
+    const nextElement = items[nextIndex];
+
+    if (selectedElement && selectedElement !== nextElement) {
+      selectedElement.style.backgroundColor = "#333333";
+    }
+
+    nextElement.style.backgroundColor = "rgba(30,41,59,0.50)";
+    nextElement.focus();
+
+    previousselection = {
+      path: nextElement.id,
+      type: nextElement.classList.contains("folder") ? "Directory" : "file",
+    };
+  });
+}
+
+handlekeyoardmovementsinexplorer()
 export function ctil(pathcwd) {
   window.ipc.invoke("create_new_terminal", countforterminal, pathcwd);
   initiateterminal(
@@ -204,31 +267,7 @@ window.onload = function () {
     }
 
   });
-  function handlekeyoardmovementsinexplorer(element) {
-    const results = element.children;
 
-    let selected = -1;
-
-    element.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-
-        selected = Math.min(selected + 1, results.length - 1);
-        console.log(results)
-
-        results[selected]?.focus();
-      }
-
-      if (e.key === "ArrowUp") {
-        e.preventDefault();
-
-        selected = Math.max(selected - 1, 0);
-        console.log(results)
-        results[selected]?.focus();
-      }
-
-    });
-  }
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
     window.ipc.invoke("create_new_terminal", countforterminal);
     initiateterminal(
@@ -474,7 +513,6 @@ window.onload = function () {
 
         const filebutton = document.createElement("button");
         filebutton.id = `${decodeURIComponent(file.id)}`;
-        handlekeyoardmovementsinexplorer(filebutton)
 
         filebutton.textContent = `${file.name}`;
         filebutton.classList.add("files");
