@@ -19,3 +19,4 @@ contextBridge.exposeInMainWorld("ipc", {
   closeWindow: () => ipcRenderer.send('window-close')
 });
 
+

@@ -508,6 +508,8 @@ window.onload = function () {
 
     depth = depth + 2;
     for (const file of filearray) {
+      setTimeout(()=>{
+
       if (file.isdirectory) {
         //jai sri ram
 
@@ -635,6 +637,8 @@ window.onload = function () {
         StyleL(handle, file, depth, "folder");
         filebutton.appendChild(handle);
       }
+    
+      } ,10)
     }
   }
   async function openfolderfunction(folderjsoninput) {

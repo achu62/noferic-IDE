@@ -139,7 +139,7 @@ function setAvail(){
     is_avail = false;
     setTimeout(()=>{
         is_avail = true;
-    } , 10000)
+    } , 100000)
 }
 self.onmessage = (e) => {
     const mes
