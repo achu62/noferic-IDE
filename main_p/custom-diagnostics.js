@@ -3,7 +3,6 @@
 import { parentPort, Worker } from "worker_threads";
 import ts from "typescript";
 import fs from "fs"
-
 let function_param_map = {}
 let list_consts = []
 
