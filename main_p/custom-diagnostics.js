@@ -1,24 +1,28 @@
 //jai sri ram
 
 import { parentPort, Worker } from "worker_threads";
+import { Project } from "ts-morph"
 import ts from "typescript";
 import fs from "fs"
 let function_param_map = {}
 let list_consts = []
+/** @type {import("ts-morph").Project} */
+let project;
 
+function awakeInitialisation() {
+  project = new Project({
+    useInMemoryFileSystem: true
+  });
+}
+awakeInitialisation()
 async function getDiagnosticsnf(path, code) {
-  const sourceFile = ts.createSourceFile(
-    path,
-    code,
-    ts.ScriptTarget.Latest,
-    true,
-    ts.ScriptKind.JS
-  );
+
   /**
  * @param {import("typescript").Node} node
  */
-
-
+  const sourceFile = project.createSourceFile("any.ts", code).compilerNode
+  const typeChecker = project.getTypeChecker();
+  console.log(typeChecker)
   function walk(node) {
     if (ts.isVariableDeclaration(node) && ts.isVariableDeclarationList && (node.parent.flags & ts.NodeFlags.Const)) {
       console.log(node.name.text, "is a const")
@@ -46,11 +50,12 @@ async function getDiagnosticsnf(path, code) {
 
   walk(sourceFile);
 }
-parentPort.on("message", async (e) => {
-  const mes = e;
+//parentPort.on("message", async (e) => {
+//const mes = e;
 
-  if (mes.type === "provide_diagnostics") {
-    await getDiagnosticsnf(mes.path, mes.code)
-    
-  }
-});
+//if (mes.type === "provide_diagnostics") {
+//await getDiagnosticsnf(mes.path, mes.code)
+
+//}
+//});
+await getDiagnosticsnf("", "function app(n , p ,o ){const b = null ; \n b = false; }\n\napp(1)  \n app(2,3,4,4,5)")
