@@ -11,7 +11,13 @@ let project;
 
 function awakeInitialisation() {
   project = new Project({
-    useInMemoryFileSystem: true
+    useInMemoryFileSystem: true,
+    compilerOptions: {
+      target: ts.ScriptTarget.Latest,
+      module: ts.ModuleKind.ESNext,
+      allowJs: true,
+      checkJs: true
+    }
   });
 }
 awakeInitialisation()
@@ -20,17 +26,18 @@ async function getDiagnosticsnf(path, code) {
   /**
  * @param {import("typescript").Node} node
  */
-  const sourceFile = project.createSourceFile("any.ts", code).compilerNode
-  const typeChecker = project.getTypeChecker();
-  console.log(typeChecker)
+  //await getDiagnosticsnf(mes.path, mes.code)
+  const sourceFile = project.createSourceFile("any.ts", code, { overwrite: true }).compilerNode
+  const typeChecker = project.getTypeChecker().compilerObject;
+  // console.log(typeChecker)
   function walk(node) {
-    if (ts.isVariableDeclaration(node) && ts.isVariableDeclarationList && (node.parent.flags & ts.NodeFlags.Const)) {
-      console.log(node.name.text, "is a const")
-      list_consts.push(node.name.text)
-    }
     if (ts.isBinaryExpression(node) && node.operatorToken.kind == ts.SyntaxKind.EqualsToken && ts.isIdentifier(node.left)) {
-      if (list_consts.includes(node.left.text)) {
-        console.log(`what are you even doing.....${node.left.text} WHAT!!`)
+      const symbol = typeChecker.getSymbolAtLocation(node.left);
+      //console.log(symbol)
+      if (symbol) {
+        if(ts.isVariableDeclaration(symbol.valueDeclaration) && ts.isVariableDeclarationList && (symbol.valueDeclaration.parent.flags & ts.NodeFlags.Const)){
+          console.log("YALLERT")
+        }
       }
     }
     if (ts.isFunctionDeclaration(node) && node.name) {
@@ -58,4 +65,24 @@ async function getDiagnosticsnf(path, code) {
 
 //}
 //});
-await getDiagnosticsnf("", "function app(n , p ,o ){const b = null ; \n b = false; }\n\napp(1)  \n app(2,3,4,4,5)")
+await getDiagnosticsnf("", `const b = 1;
+b = 2;  
+b=3;
+b=4;
+function a() {
+  let b = 0;
+  b=909099
+  b = 2;  
+  b=2;
+  b=3;
+  b=4;  
+
+
+  function d() {
+    const b = 0;
+
+    b = 3;      
+  }
+}
+
+        `)
