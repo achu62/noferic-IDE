@@ -1,5 +1,5 @@
 //jai sri ram
-
+import fs from "fs"
 function irritate(Math, x) {
   let value = NaN;
 
@@ -18,11 +18,16 @@ function irritate(Math, x) {
     
     grass: 2
   };
+  
 
   // no-duplicate-case
   switch (x) {
+    
+    
     case 1:
       break;
+
+      
     case 1:
       console.log("Duplicate case!");
       break;
@@ -91,3 +96,4 @@ function newfr(){
   return e;
   console.log("ss")
 }
+console.log(fs.readFileSync())

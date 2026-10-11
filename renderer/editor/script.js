@@ -67,10 +67,7 @@ window.onload = () => {
 
           `LN:${e.position.lineNumber}  COL:${e.position.column}`;
 
-        //const tree = await runparser(editor.getValue(), {
-        //row: e.position.lineNumber - 1,
-        //column: e.position.column - 1,
-        //})
+
         worker_tree_sitter.postMessage({
           type: "get-the-named-des",
           code: editor.getValue(),
@@ -85,12 +82,12 @@ window.onload = () => {
             const mes = JSON.parse(e.data.response)
             console.log(e.data)
             window.parent.postMessage(
-            {
-              action:"parsed-code",
-              code:e.data.code,
-            },
-            "*",
-          );
+              {
+                action: "parsed-code",
+                code: e.data.code,
+              },
+              "*",
+            );
             const breadcrumb = window.parent.document.getElementById("breadcrupsfunc");
             const name = mes.name?.name || mes.name || "";
             const type = mes.name?.type || mes.type || "";
@@ -110,7 +107,7 @@ window.onload = () => {
               color = "#D19A66";
             }
 
-           breadcrumb.innerText = String(name)
+            breadcrumb.innerText = String(name)
             breadcrumb.style.color = color;
 
           }
@@ -304,11 +301,37 @@ window.onload = () => {
       const message = e.data;
 
       const action = message.action;
-      if(action ===  "set-to-pos"){
+      if (action === "set-to-pos") {
         console.log(message)
-        editor.setPosition({lineNumber:message.line , column:message.column});
-        editor.revealPositionInCenter({lineNumber:message.line , column:message.column})
+        editor.setPosition({ lineNumber: message.line, column: message.column });
+        editor.revealPositionInCenter({ lineNumber: message.line, column: message.column })
         editor.focus();
+      }
+      if (action == "lint") {
+        const result = message.data
+        const markers = [];
+        const model = editor.getModel();
+
+        console.log(result)
+        if (result) {
+          console.log(result)
+          result.forEach((d) => {
+            markers.push({
+              startLineNumber: d.line,
+              startColumn: d.column,
+              endLineNumber: d.endLine ?? d.line,
+              endColumn: d.endColumn ?? d.column + 1,
+              message: ` ${d.message}`,
+              severity:
+                d.severity === 1
+                  ? monaco.MarkerSeverity.Error
+                  : monaco.MarkerSeverity.Warning,
+            });
+          });
+          monaco.editor.setModelMarkers(model, "biome", markers);
+        }
+
+
       }
       if (action === "set") {
         editor.layout();
@@ -466,11 +489,9 @@ window.onload = () => {
     let debouncerforlinting;
     const debouncedLint = () => {
       clearTimeout(debouncerforlinting);
-      debouncerforlinting = setTimeout(lint, 2500);
+      debouncerforlinting = setTimeout(sendTrigger, 2500);
     };
-
-    async function lint() {
-      //console.log("linting")
+    async function sendTrigger() {
       const code = editor.getValue();
       const model = editor.getModel();
       if (!model) return;
@@ -482,32 +503,10 @@ window.onload = () => {
       if (filePath.includes(`inmemory://`)) {
         return;
       }
+      const result = window.renderer.SendRequesttomain({ action: "lint", args: { code, filePath } });
 
-      try {
-        const result = await window.renderer.SendRequesttomain({ action: "lint", args: { code, filePath } });
-        const markers = [];
-        console.log(result)
-        if (result) {
-          console.log(result)
-          result.forEach((d) => {
-            markers.push({
-              startLineNumber: d.line,
-              startColumn: d.column,
-              endLineNumber: d.endLine ?? d.line,
-              endColumn: d.endColumn ?? d.column + 1,
-              message: ` ${d.message}`,
-              severity:
-                d.severity === 1
-                  ? monaco.MarkerSeverity.Error
-                  : monaco.MarkerSeverity.Warning,
-            });
-          });
-          monaco.editor.setModelMarkers(model, "biome", markers);
-        }
-      } catch (error) {
-        console.error("Linting error:", error);
-      }
     }
+    async function lint() { }
 
     if (lintlistener) {
       lintlistener.dispose();

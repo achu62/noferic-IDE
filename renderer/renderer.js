@@ -809,7 +809,10 @@ window.onload = function () {
   });
   window.ipc.onDataframeIPC(async (data) => {
     const message = JSON.parse(data);
-
+    if(JSON.parse(data).action == "lint"){
+      console.log(message)
+      iframe.contentWindow.postMessage(message)
+    }
     if (JSON.parse(data).action == "handlingargsopenfolder") {
       IDEComponentApi.ShowNotification(`Opened Folder ${message.fjson[0].id}`, {
         duration: 9000,
