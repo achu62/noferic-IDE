@@ -278,6 +278,64 @@ window.onload = function () {
     countforterminal++;
   });
   handleShortCuts(document);
+  const helpMenuButton = document.getElementById("help-menu-button");
+  const helpMenu = document.getElementById("help-menu");
+  const learnShortcutsButton = document.getElementById("learn-shortcuts");
+  const shortcutsDialog = document.getElementById("shortcuts-dialog");
+  const shortcutsList = document.getElementById("shortcuts-list");
+  const shortcuts = [
+    ["Toggle terminal", "Ctrl + Shift + T"],
+    ["Exit", "Ctrl + W"],
+    ["Toggle explorer", "Ctrl + Shift + E"],
+    ["Git features", "Ctrl + G"],
+    ["Start live server", "Ctrl + Shift + L"],
+    ["Focus file search", "Ctrl + Shift + P"],
+    ["Open settings", "Ctrl + Shift + J"],
+    ["Open folder", "Ctrl + Shift + O"],
+    ["Open file", "Ctrl + O"],
+    ["Create file in selected folder", "Ctrl + N"],
+    ["Create folder in selected folder", "Ctrl + Shift + N"],
+  ];
+
+  for (const [command, shortcut] of shortcuts) {
+    const row = document.createElement("tr");
+    const commandCell = document.createElement("td");
+    const shortcutCell = document.createElement("td");
+    const key = document.createElement("kbd");
+    commandCell.textContent = command;
+    key.textContent = shortcut;
+    shortcutCell.appendChild(key);
+    row.append(commandCell, shortcutCell);
+    shortcutsList.appendChild(row);
+  }
+
+  helpMenuButton.addEventListener("click", () => {
+    const isExpanded = helpMenuButton.getAttribute("aria-expanded") === "true";
+    helpMenu.hidden = isExpanded;
+    helpMenuButton.setAttribute("aria-expanded", String(!isExpanded));
+  });
+
+  learnShortcutsButton.addEventListener("click", () => {
+    helpMenu.hidden = true;
+    helpMenuButton.setAttribute("aria-expanded", "false");
+    shortcutsDialog.showModal();
+  });
+
+  document.getElementById("close-shortcuts").addEventListener("click", () => {
+    shortcutsDialog.close();
+  });
+
+  shortcutsDialog.addEventListener("click", (event) => {
+    if (event.target === shortcutsDialog) shortcutsDialog.close();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!helpMenu.contains(event.target) && event.target !== helpMenuButton) {
+      helpMenu.hidden = true;
+      helpMenuButton.setAttribute("aria-expanded", "false");
+    }
+  });
+
   document.getElementById("versioncontrolelement").style.display = "none";
   document.getElementById("nf-debug").style.display = "none";
 
