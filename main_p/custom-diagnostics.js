@@ -4,11 +4,9 @@ import { parentPort, Worker } from "worker_threads";
 import { Project } from "ts-morph"
 import ts from "typescript";
 import fs from "fs"
-let function_param_map = {}
-let list_consts = []
+let diagnostics = []
 /** @type {import("ts-morph").Project} */
 let project;
-
 function awakeInitialisation() {
   project = new Project({
     useInMemoryFileSystem: true,
@@ -35,54 +33,36 @@ async function getDiagnosticsnf(path, code) {
       const symbol = typeChecker.getSymbolAtLocation(node.left);
       //console.log(symbol)
       if (symbol) {
-        if(ts.isVariableDeclaration(symbol.valueDeclaration) && ts.isVariableDeclarationList && (symbol.valueDeclaration.parent.flags & ts.NodeFlags.Const)){
-          console.log("YALLERT")
+        if (ts.isVariableDeclaration(symbol.valueDeclaration) && ts.isVariableDeclarationList && (symbol.valueDeclaration.parent.flags & ts.NodeFlags.Const)) {
+          const line = sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile)).line + 1;
+          const column = sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile)).character + 1;
+          console.log(line, column)
+          diagnostics.push({
+            message: `source:noferic-intelligence\nconstants cannot be reassigned`,
+            line: sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile)).line + 1,
+            column: sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile)).character + 1,
+            endLine: sourceFile.getLineAndCharacterOfPosition(node.getEnd(sourceFile)).line + 1,
+            endColumn: sourceFile.getLineAndCharacterOfPosition(node.getEnd(sourceFile)).line + 1,
+            severity: 1
+
+
+          })
         }
       }
     }
-    if (ts.isFunctionDeclaration(node) && node.name) {
-      function_param_map[node.name.text] = node.parameters.length;
-    }
 
-    if (ts.isCallExpression(node)) {
-      const funcName = node.expression.getText(sourceFile);
-      const passedCount = node.arguments.length;
-      if (function_param_map[funcName] && function_param_map[funcName] !== passedCount) {
-        console.log(`errror , the function expects ${function_param_map[funcName]} params but given ${passedCount}`)
-      }
-    }
+
 
     ts.forEachChild(node, walk);
   }
 
   walk(sourceFile);
 }
-//parentPort.on("message", async (e) => {
-//const mes = e;
+parentPort.on("message", async (e) => {
+const mes = e;
 
-//if (mes.type === "provide_diagnostics") {
-//await getDiagnosticsnf(mes.path, mes.code)
-
-//}
-//});
-await getDiagnosticsnf("", `const b = 1;
-b = 2;  
-b=3;
-b=4;
-function a() {
-  let b = 0;
-  b=909099
-  b = 2;  
-  b=2;
-  b=3;
-  b=4;  
-
-
-  function d() {
-    const b = 0;
-
-    b = 3;      
-  }
+if (mes.type === "provide_diagnostics") {
+await getDiagnosticsnf(mes.path, mes.code)
+parentPort.postMessage(diagnostics)
 }
-
-        `)
+});

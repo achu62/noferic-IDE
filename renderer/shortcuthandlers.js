@@ -1,7 +1,7 @@
 //jai sri ram
 /**@param {HTMLDocument} document  */
 import { IDEComponentApi } from "./editor UI components.js";
-import { showdialog, getSelectionoffile , showFolderDialog} from "./renderer.js";
+import { showdialog, getSelectionoffile, showFolderDialog } from "./renderer.js";
 export function handleShortCuts(document) {
 
     /**@param {HTMLIFrameElement} iframe */
@@ -9,10 +9,7 @@ export function handleShortCuts(document) {
 
 
     document.addEventListener("keydown", (e) => {
-        if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
-            e.preventDefault();
-            document.getElementById("format").click();
-        } else if (e.ctrlKey && e.key.toLowerCase() === "s") {
+         if (e.ctrlKey && e.key.toLowerCase() === "s") {
             e.preventDefault();
             document.getElementById("save").click();
         } else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "t") {
@@ -54,15 +51,15 @@ export function handleShortCuts(document) {
             e.preventDefault()
             document.getElementById("open_file").click()
         }
-        else if (e.ctrlKey && !e.shiftKey && e.key.toLowerCase() == "n" ) {
+        else if (e.ctrlKey && !e.shiftKey && e.key.toLowerCase() == "n") {
             e.preventDefault()
 
             const getpath = getSelectionoffile()
             console.log(getpath)
             if (!getpath || getpath.type.toLowerCase() !== "directory") {
-                IDEComponentApi.ShowNotification("no folder is selected,to create a file , select a folder" , {
-                    duration:30000,
-                    type:"error"
+                IDEComponentApi.ShowNotification("no folder is selected,to create a file , select a folder", {
+                    duration: 30000,
+                    type: "error"
                 })
                 return;
             }
@@ -75,9 +72,9 @@ export function handleShortCuts(document) {
             const getpath = getSelectionoffile()
             console.log(getpath)
             if (!getpath || getpath.type.toLowerCase() !== "directory") {
-                IDEComponentApi.ShowNotification("no folder is selected,to create a folder , select a folder" , {
-                    duration:30000,
-                    type:"error"
+                IDEComponentApi.ShowNotification("no folder is selected,to create a folder , select a folder", {
+                    duration: 30000,
+                    type: "error"
                 })
                 return;
             }
