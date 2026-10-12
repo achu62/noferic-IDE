@@ -4,12 +4,13 @@
 //jai sri ram
 
 import { getLanguagebyExtension } from "./utils.js";
-import { NofericTheme } from "./MyTheme.js"
-import { EditorConfig } from "./EditorConfig.js"
+import { NofericTheme } from "./MyTheme.js";
+import { EditorConfig } from "./EditorConfig.js";
 import { lspKindToMonaco } from "./lspToMonaco.js";
 import { format } from "./formatter/formatter.js";
-const worker_tree_sitter = new Worker("./parser/output/my-library.js", { "type": "module" });
-
+const worker_tree_sitter = new Worker("./parser/output/my-library.js", {
+  type: "module",
+});
 
 async function lspCompletionToMonaco(monaco, item) {
   return {
@@ -32,7 +33,6 @@ async function lspCompletionToMonaco(monaco, item) {
   };
 }
 
-
 export async function convertCompletionList(monaco, completionList) {
   const items = Array.isArray(completionList)
     ? completionList
@@ -52,7 +52,10 @@ window.onload = () => {
   require(["vs/editor/editor.main"], () => {
     monaco.editor.defineTheme("NofericIDETheme", NofericTheme);
 
-    editor = monaco.editor.create(document.getElementById("editor"), EditorConfig);
+    editor = monaco.editor.create(
+      document.getElementById("editor"),
+      EditorConfig,
+    );
     document.fonts.ready.then(() => monaco.editor.remeasureFonts());
     let URI = null;
     let ismodel = false;
@@ -64,9 +67,7 @@ window.onload = () => {
       if (!editor) return;
       editor.onDidChangeCursorPosition(async (e) => {
         window.parent.document.getElementById("lineandcolumn").innerText =
-
           `LN:${e.position.lineNumber}  COL:${e.position.column}`;
-
 
         worker_tree_sitter.postMessage({
           type: "get-the-named-des",
@@ -74,13 +75,12 @@ window.onload = () => {
           pos: {
             row: e.position.lineNumber - 1,
             column: e.position.column - 1,
-          }
-
+          },
         });
         worker_tree_sitter.onmessage = (e) => {
           if (e.data.type == "get-the-named-des") {
-            const mes = JSON.parse(e.data.response)
-            console.log(e.data)
+            const mes = JSON.parse(e.data.response);
+            console.log(e.data);
             window.parent.postMessage(
               {
                 action: "parsed-code",
@@ -88,7 +88,8 @@ window.onload = () => {
               },
               "*",
             );
-            const breadcrumb = window.parent.document.getElementById("breadcrupsfunc");
+            const breadcrumb =
+              window.parent.document.getElementById("breadcrupsfunc");
             const name = mes.name?.name || mes.name || "";
             const type = mes.name?.type || mes.type || "";
             let color = "#FFD166";
@@ -107,19 +108,13 @@ window.onload = () => {
               color = "#D19A66";
             }
 
-            breadcrumb.innerText = String(name)
+            breadcrumb.innerText = String(name);
             breadcrumb.style.color = color;
-
           }
         };
-
-
       });
-
-
-
     }
-    track(editor)
+    track(editor);
 
     let autosaveTimer = null; // Stored globally/outer-scope to persist across keypresses
 
@@ -150,7 +145,7 @@ window.onload = () => {
 
           window.renderer.SendRequesttomain({
             action: "autosave",
-            args: { code, path }
+            args: { code, path },
           });
         }, 1000);
       });
@@ -193,108 +188,107 @@ window.onload = () => {
             action: "get-auto-complete",
             args: {
               filepath,
-              offset
-            }
+              offset,
+            },
           });
           //console.log(result)
 
           return {
-            suggestions: result?.suggestions || []
+            suggestions: result?.suggestions || [],
           };
         } catch (error) {
           console.error("Autocomplete error:", error);
 
           return {
-            suggestions: []
+            suggestions: [],
           };
         }
-      }
+      },
     });
-    monaco.languages.registerHoverProvider(
-      "javascript",
-      {
-        provideHover: async (model, position) => {
-          const filepath =
-            navigator.platform === "Win32"
-              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
-              : decodeURIComponent(model.uri.toString().replace("id:", ""));
-          const Offset = model.getOffsetAt(position)
+    monaco.languages.registerHoverProvider("javascript", {
+      provideHover: async (model, position) => {
+        const filepath =
+          navigator.platform === "Win32"
+            ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+            : decodeURIComponent(model.uri.toString().replace("id:", ""));
+        const Offset = model.getOffsetAt(position);
 
-          const result =
-            await window.renderer.SendRequesttomain({ action: "hover", args: { filepath, Offset } });
-          if (!result) {
-            return null;
-          }
+        const result = await window.renderer.SendRequesttomain({
+          action: "hover",
+          args: { filepath, Offset },
+        });
+        if (!result) {
+          return null;
+        }
 
-          return {
-            contents: result.contents
-          };
-        }
-      }
-    );
-    monaco.languages.registerDocumentFormattingEditProvider("javascript",
-      {
-        async provideDocumentFormattingEdits(model, options, token) {
-          const formattedCode = await format(model.getValue())
-          //console.log(formattedCode)
-          return [{
+        return {
+          contents: result.contents,
+        };
+      },
+    });
+    monaco.languages.registerDocumentFormattingEditProvider("javascript", {
+      async provideDocumentFormattingEdits(model, options, token) {
+        const formattedCode = await format(model.getValue());
+        //console.log(formattedCode)
+        return [
+          {
             range: model.getFullModelRange(),
-            text: formattedCode
-          }]
-        }
-      })
+            text: formattedCode,
+          },
+        ];
+      },
+    });
 
-
-    monaco.languages.registerDocumentFormattingEditProvider("typescript",
-      {
-        async provideDocumentFormattingEdits(model, options, token) {
-          const formattedCode = await format(model.getValue())
-          //console.log(formattedCode)
-          return [{
+    monaco.languages.registerDocumentFormattingEditProvider("typescript", {
+      async provideDocumentFormattingEdits(model, options, token) {
+        const formattedCode = await format(model.getValue());
+        //console.log(formattedCode)
+        return [
+          {
             range: model.getFullModelRange(),
-            text: formattedCode
-          }]
-        }
-      })
-    monaco.languages.registerDocumentFormattingEditProvider("json",
-      {
-        async provideDocumentFormattingEdits(model, options, token) {
-          const formattedCode = await format(model.getValue())
-          //console.log(formattedCode)
-          return [{
+            text: formattedCode,
+          },
+        ];
+      },
+    });
+    monaco.languages.registerDocumentFormattingEditProvider("json", {
+      async provideDocumentFormattingEdits(model, options, token) {
+        const formattedCode = await format(model.getValue());
+        //console.log(formattedCode)
+        return [
+          {
             range: model.getFullModelRange(),
-            text: formattedCode
-          }]
-        }
-      })
-    monaco.languages.registerDocumentFormattingEditProvider("html",
-      {
-        async provideDocumentFormattingEdits(model, options, token) {
-          const formattedCode = await format(model.getValue())
-          //console.log(formattedCode)
-          return [{
+            text: formattedCode,
+          },
+        ];
+      },
+    });
+    monaco.languages.registerDocumentFormattingEditProvider("html", {
+      async provideDocumentFormattingEdits(model, options, token) {
+        const formattedCode = await format(model.getValue());
+        //console.log(formattedCode)
+        return [
+          {
             range: model.getFullModelRange(),
-            text: formattedCode
-          }]
-        }
-      })
-    monaco.languages.registerDocumentFormattingEditProvider("css",
-      {
-        async provideDocumentFormattingEdits(model, options, token) {
-          const formattedCode = await format(model.getValue())
-          //console.log(formattedCode)
-          return [{
+            text: formattedCode,
+          },
+        ];
+      },
+    });
+    monaco.languages.registerDocumentFormattingEditProvider("css", {
+      async provideDocumentFormattingEdits(model, options, token) {
+        const formattedCode = await format(model.getValue());
+        //console.log(formattedCode)
+        return [
+          {
             range: model.getFullModelRange(),
-            text: formattedCode
-          }]
-        }
-      })
-
+            text: formattedCode,
+          },
+        ];
+      },
+    });
 
     autosave(editor);
-
-
-
 
     //iam asking u
     window.addEventListener("message", (e) => {
@@ -302,19 +296,25 @@ window.onload = () => {
 
       const action = message.action;
       if (action === "set-to-pos") {
-        console.log(message)
-        editor.setPosition({ lineNumber: message.line, column: message.column });
-        editor.revealPositionInCenter({ lineNumber: message.line, column: message.column })
+        console.log(message);
+        editor.setPosition({
+          lineNumber: message.line,
+          column: message.column,
+        });
+        editor.revealPositionInCenter({
+          lineNumber: message.line,
+          column: message.column,
+        });
         editor.focus();
       }
       if (action == "lint") {
-        const result = message.data
+        const result = message.data;
         const markers = [];
         const model = editor.getModel();
 
-        console.log(result)
+        console.log(result);
         if (result) {
-          console.log(result)
+          console.log(result);
           result.forEach((d) => {
             markers.push({
               startLineNumber: d.line,
@@ -330,12 +330,10 @@ window.onload = () => {
           });
           monaco.editor.setModelMarkers(model, "biome", markers);
         }
-
-
       }
       if (action === "set") {
         editor.layout();
-        document.getElementById("iamg")?.remove()
+        document.getElementById("iamg")?.remove();
         const content = message.content;
         ismodel = message.isdir;
         URI = message.path;
@@ -366,9 +364,9 @@ window.onload = () => {
           }
         } else {
           if (message.isspecialchange) {
-            const pos = editor.getPosition()
+            const pos = editor.getPosition();
             isexisting.setValue(message.content);
-            editor.setPosition(pos)
+            editor.setPosition(pos);
           } else {
             editor.setModel(isexisting);
           }
@@ -446,11 +444,11 @@ window.onload = () => {
 
         let newmodel = monaco.editor.getModel(monaco.Uri.parse(recentmodeluri));
         if (!newmodel) {
-
           newmodel = monaco.editor.getModels()[0];
-          const topbarfor = window.parent.document.getElementById(
-            `topbarelementfor${newmodel?.uri?.toString().replace("id://", "")}`,
-          ) || "null"
+          const topbarfor =
+            window.parent.document.getElementById(
+              `topbarelementfor${newmodel?.uri?.toString().replace("id://", "")}`,
+            ) || "null";
 
           const parent =
             window.parent.document.getElementById("topbarforeditor");
@@ -463,7 +461,6 @@ window.onload = () => {
           });
           if (topbarfor) {
             topbarfor.style.backgroundColor = "#404040";
-
           }
           editor.setModel(newmodel);
         } else {
@@ -484,7 +481,8 @@ window.onload = () => {
         monaco.editor.getModels().forEach((model) => {
           model.dispose();
         });
-      } else if (action === "setMarkers") { }
+      } else if (action === "setMarkers") {
+      }
     });
     let debouncerforlinting;
     const debouncedLint = () => {
@@ -496,17 +494,19 @@ window.onload = () => {
       const model = editor.getModel();
       if (!model) return;
 
-      const filePath = navigator.platform === "Win32"
-        ? decodeURIComponent(model.uri.toString().replace("id://", ""))
-        : decodeURIComponent(model.uri.toString().replace("id:", ""));
+      const filePath =
+        navigator.platform === "Win32"
+          ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+          : decodeURIComponent(model.uri.toString().replace("id:", ""));
 
       if (filePath.includes(`inmemory://`)) {
         return;
       }
-      const result = window.renderer.SendRequesttomain({ action: "lint", args: { code, filePath } });
-
+      const result = window.renderer.SendRequesttomain({
+        action: "lint",
+        args: { code, filePath },
+      });
     }
-    async function lint() { }
 
     if (lintlistener) {
       lintlistener.dispose();

@@ -188,7 +188,7 @@ const apppath = process.execPath;
 consolelog("apppath" + apppath);
 let watcher;
 /**@param {string} pathreal */
-async function trackgit(pathreal) {}
+async function trackgit(pathreal) { }
 async function track(pathreal) {
   if (!pathreal) return;
   pathreal = toNormalizedWindospath(pathreal);
@@ -361,26 +361,26 @@ async function handleappargs(args) {
     if (fs.statSync(path.resolve(args)).isDirectory()) {
       try {
         initialisetds(toNormalisedWindowsId(path.resolve(args)));
-      } catch (e) {}
+      } catch (e) { }
       try {
         initialiseterminalmain(ptyProcess, path.resolve(args), "def", win);
-      } catch (e) {}
+      } catch (e) { }
       try {
         getTags(toNormalisedWindowsId(path.resolve(args)));
-      } catch (e) {}
+      } catch (e) { }
       try {
         track(path.resolve(args));
         trackgit(path.resolve(args));
-      } catch (e) {}
+      } catch (e) { }
       try {
         initialisereposcan(path.resolve(args), win);
-      } catch (e) {}
+      } catch (e) { }
       try {
         UpdateorCreatefilelist(path.resolve(args));
-      } catch (e) {}
+      } catch (e) { }
       try {
         initialiseLinter(path.resolve(args));
-      } catch (e) {}
+      } catch (e) { }
       async function confirm(win) {
         const result = await dialog.showMessageBox(win, {
           type: "question",
@@ -703,7 +703,7 @@ ipcMain.handle("get-base", (e, f) => {
 ipcMain.handle("sync-changes", async (e) => {
   try {
     await SyncChanges();
-  } catch (e) {}
+  } catch (e) { }
 });
 
 ipcMain.handle("get-base-name", async (e, fpath) => {
@@ -752,8 +752,14 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
         diagnostics.push(o);
       });
     }
-
-    return diagnostics;
+    console.log(diagnostics)
+    win.webContents.send(
+      "data",
+      JSON.stringify({
+        action: "lint",
+        data: diagnostics,
+      }),
+    );
   } catch (e) {
     console.log(e);
   }
