@@ -1,5 +1,6 @@
 //jai sri ram
 ///////////
+//jai sri ram
 
 console.log(["udn", "cnf", "adding thins"]);
 
@@ -92,12 +93,12 @@ function handlekeyoardmovementsinexplorer() {
           ? 0
           : items.length - 1
         : Math.max(
-          0,
-          Math.min(
-            currentIndex + (e.key === "ArrowDown" ? 1 : -1),
-            items.length - 1,
-          ),
-        );
+            0,
+            Math.min(
+              currentIndex + (e.key === "ArrowDown" ? 1 : -1),
+              items.length - 1,
+            ),
+          );
 
     e.preventDefault();
 
@@ -119,7 +120,7 @@ function handlekeyoardmovementsinexplorer() {
 
 handlekeyoardmovementsinexplorer()
 export function ctil(pathcwd) {
-  ipc.invoke("create_new_terminal", countforterminal, pathcwd);
+  window.ipc.invoke("create_new_terminal", countforterminal, pathcwd);
   initiateterminal(
     document.getElementById("terminal"),
     countforterminal,
@@ -152,9 +153,9 @@ export async function showdialog(path) {
           return;
         }
 
-        ipc.invoke(
+        window.ipc.invoke(
           "append",
-          `${await ipc.invoke("join-path", path, filejoin)}`,
+          `${await window.ipc.invoke("join-path", path, filejoin)}`,
         );
         if (globalfileexplorerstatejson[`${path}`] === false) {
           document.getElementById(path).click();
@@ -175,7 +176,7 @@ export function rendererrename(path, fn) {
     affirmative: {
       name: "Rename",
       callback: async (values) => {
-        ipc.invoke("rename", path, path.replace(fn, values[0]));
+        window.ipc.invoke("rename", path, path.replace(fn, values[0]));
       },
     },
   });
@@ -198,9 +199,9 @@ export function showFolderDialog(path, fn) {
           return;
         }
 
-        ipc.invoke(
+        window.ipc.invoke(
           "mkdir",
-          `${await ipc.invoke("join-path", path, filejoin)}`,
+          `${await window.ipc.invoke("join-path", path, filejoin)}`,
         );
         if (globalfileexplorerstatejson[`${path}`] === false) {
           document.getElementById(path).click();
@@ -214,7 +215,7 @@ export function deleteFolder(path) {
     `Do you want to Move Directory ${path}  to trash \n\n The Directory can be recovered from trash`,
   );
   if (isUserok) {
-    ipc.invoke("unlink", `${path}`);
+    window.ipc.invoke("unlink", `${path}`);
   }
 }
 export function deleteFile(path) {
@@ -222,18 +223,18 @@ export function deleteFile(path) {
     `Do you want to Move file ${path}  to trash \n\n The File can be recovered from trash`,
   );
   if (isUserok) {
-    ipc.invoke("unlink", `${path}`);
+    window.ipc.invoke("unlink", `${path}`);
   }
 }
 export async function GetFilebaseName(pathr) {
-  return await ipc.invoke("get-base-name", pathr);
+  return await window.ipc.invoke("get-base-name", pathr);
 }
 export async function showDiff(element) {
-  const diffText = await ipc.invoke("get-diff-texts", element);
+  const diffText = await window.ipc.invoke("get-diff-texts", element);
 }
 
 window.onload = function () {
-  ipc.invoke("request-settings");
+  window.ipc.invoke("request-settings");
 
   const editorEl = document.getElementById("editor");
   const terminalEl = document.getElementById("terminalelement");
@@ -268,7 +269,7 @@ window.onload = function () {
   });
 
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
-    ipc.invoke("create_new_terminal", countforterminal);
+    window.ipc.invoke("create_new_terminal", countforterminal);
     initiateterminal(
       document.getElementById("terminal"),
       countforterminal,
@@ -400,13 +401,13 @@ window.onload = function () {
   async function openfileoncilick(path, iframe) {
     //const extension = path.split(`/`).pop().split(`.`).pop()
     // ;
-    const ext = await ipc.invoke("get-ext", path);
+    const ext = await window.ipc.invoke("get-ext", path);
     const extension = ext.replace(".", "");
 
     if (!path) {
       return;
     } else {
-      const filecontent = await ipc.invoke("read", path);
+      const filecontent = await window.ipc.invoke("read", path);
       iframe.contentWindow.postMessage(
         {
           action: "set",
@@ -444,7 +445,7 @@ window.onload = function () {
       ];
       try {
         if (permittedactions.includes(action)) {
-          const res = await ipc.invoke(action, args);
+          const res = await window.ipc.invoke(action, args);
           return res;
         }
       } catch (e) {
@@ -460,7 +461,7 @@ window.onload = function () {
   openfile.addEventListener(
     "click",
     async () => {
-      path = await ipc.invoke("openfile");
+      path = await window.ipc.invoke("openfile");
       if (!path) {
         return;
       }
@@ -488,18 +489,18 @@ window.onload = function () {
         if (!isgettingfolderfile) {
           if (!path) {
             (async () => {
-              path = await ipc.invoke("save");
-              await ipc.invoke("append", path);
-              await ipc.invoke("write", path, message.content);
+              path = await window.ipc.invoke("save");
+              await window.ipc.invoke("append", path);
+              await window.ipc.invoke("write", path, message.content);
             })();
           } else {
             (async () => {
-              await ipc.invoke("write", path, message.content);
+              await window.ipc.invoke("write", path, message.content);
             })();
           }
         } else {
           (async () => {
-            await ipc.invoke("write", message.path, message.content);
+            await window.ipc.invoke("write", message.path, message.content);
           })();
         }
         document.getElementById("file_on").style.display = "none";
@@ -519,15 +520,15 @@ window.onload = function () {
       async (e) => {
         const contenttosave = e.data.content;
 
-        const pathtosaveas = await ipc.invoke("saveas");
-        await ipc.invoke("append", pathtosaveas);
-        await ipc.invoke("write", pathtosaveas, contenttosave);
+        const pathtosaveas = await window.ipc.invoke("saveas");
+        await window.ipc.invoke("append", pathtosaveas);
+        await window.ipc.invoke("write", pathtosaveas, contenttosave);
         document.getElementById("file_on").style.display = "none";
       },
       { once: true },
     );
   });
-  //initiateterminal(document.getElementById("terminal"), "def", document);
+  initiateterminal(document.getElementById("terminal"), "def", document);
   resizeterminal(
     document.getElementById("terminalelement"),
     document.getElementById("editor"),
@@ -565,137 +566,137 @@ window.onload = function () {
 
     depth = depth + 2;
     for (const file of filearray) {
-      setTimeout(() => {
+      setTimeout(()=>{
 
-        if (file.isdirectory) {
-          //jai sri ram
+      if (file.isdirectory) {
+        //jai sri ram
 
-          const filebutton = document.createElement("button");
-          filebutton.id = `${decodeURIComponent(file.id)}`;
+        const filebutton = document.createElement("button");
+        filebutton.id = `${decodeURIComponent(file.id)}`;
 
-          filebutton.textContent = `${file.name}`;
-          filebutton.classList.add("files");
-          filebutton.classList.add("folder");
-          filebutton.style.paddingLeft = depth + "px";
-          filebutton.title = `${decodeURIComponent(file.id)}`;
+        filebutton.textContent = `${file.name}`;
+        filebutton.classList.add("files");
+        filebutton.classList.add("folder");
+        filebutton.style.paddingLeft = depth + "px";
+        filebutton.title = `${decodeURIComponent(file.id)}`;
 
-          if (globalignoredfilesarray.includes(decodeURIComponent(file.id))) {
-            filebutton.style.color = "#999290";
-            filebutton.title += "Untracked";
-          }
-
-          const statebtn = document.createElement("div");
-          statebtn.id = `statebuttonfor${decodeURIComponent(file.id)}`;
-          statebtn.style.position = "absolute";
-          statebtn.style.top = "0.5px";
-          statebtn.style.right = "0.5px";
-          statebtn.style.bottom = "0.5px";
-          statebtn.style.height = "16px";
-          statebtn.style.width = `16px`;
-          statebtn.style.backgroundImage = "url(images/keyarrowdown.svg)";
-          statebtn.style.backgroundRepeat = "no-repeat";
-          statebtn.style.backgroundSize = "cover";
-          const icon = document.createElement("div");
-          const handle = document.createElement("div");
-          StyleL(handle, file, depth, "folder");
-          Styleicon(icon, file, depth, "folder");
-
-          filebutton.appendChild(icon);
-          filebutton.appendChild(handle);
-
-          globalfileexplorerstatejson[`${decodeURIComponent(file.id)}`] = false;
-          filebutton.appendChild(statebtn);
-          let isopen = false;
-          filebutton.addEventListener("click", (e) => {
-            filebutton.style.backgroundColor = "rgba(30,41,59,0.50)";
-            if (
-              previousselection &&
-              document.getElementById(previousselection.path)
-            ) {
-              document.getElementById(
-                previousselection.path,
-              ).style.backgroundColor = "#333333";
-            }
-            previousselection = { path: file.id, type: "Directory" };
-            if (!isopen) {
-              if (filebutton.classList.contains("folder")) {
-                recursiveloop(
-                  findFolderById(globalfolderjson, decodeURIComponent(file.id))
-                    .children,
-
-                  document.getElementById(`${decodeURIComponent(file.id)}`),
-                );
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                isopen = true;
-                globalfileexplorerstatejson[`${decodeURIComponent(file.id)}`] =
-                  true;
-              } else {
-                return;
-              }
-            } else {
-              filebutton.replaceChildren(`${file.name}`, statebtn, icon, handle);
-              isopen = false;
-              globalfileexplorerstatejson[`${decodeURIComponent(file.id)}`] =
-                false;
-
-              e.stopPropagation();
-            }
-          });
-          space.appendChild(filebutton);
-          createfolderdialogbox(
-            document.body,
-            decodeURIComponent(file.id),
-            filebutton,
-            file,
-          );
-        } else {
-          const filebutton = document.createElement("button");
-          filebutton.id = `${decodeURIComponent(file.id)}`;
-          const extension = file.name.split(".").pop();
-
-          filebutton.textContent = `${file.name}`;
-          filebutton.classList.add("files");
-          filebutton.style.paddingLeft = depth + "px";
-          if (globalignoredfilesarray.includes(decodeURIComponent(file.id))) {
-            filebutton.style.color = "#999290";
-            filebutton.title += "Untracked ";
-          }
-          filebutton.title = `${decodeURIComponent(file.id)}`;
-
-          space.appendChild(filebutton);
-          createfiledialogbox(
-            document.body,
-            decodeURIComponent(file.id),
-            filebutton,
-            file,
-          );
-          filebutton.addEventListener("click", async (e) => {
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            filebutton.style.backgroundColor = "rgba(30,41,59,0.50)";
-            if (
-              previousselection &&
-              document.getElementById(previousselection.path)
-            ) {
-              document.getElementById(
-                previousselection.path,
-              ).style.backgroundColor = "#333333";
-            }
-            previousselection = { path: file.id, type: "file" };
-            await openFileFromExplorer({ iframe, file });
-          });
-
-          const icon = document.createElement("div");
-
-          Styleicon(icon, file, depth, extension);
-          filebutton.appendChild(icon);
-          const handle = document.createElement("div");
-          StyleL(handle, file, depth, "folder");
-          filebutton.appendChild(handle);
+        if (globalignoredfilesarray.includes(decodeURIComponent(file.id))) {
+          filebutton.style.color = "#999290";
+          filebutton.title += "Untracked";
         }
 
-      }, 10)
+        const statebtn = document.createElement("div");
+        statebtn.id = `statebuttonfor${decodeURIComponent(file.id)}`;
+        statebtn.style.position = "absolute";
+        statebtn.style.top = "0.5px";
+        statebtn.style.right = "0.5px";
+        statebtn.style.bottom = "0.5px";
+        statebtn.style.height = "16px";
+        statebtn.style.width = `16px`;
+        statebtn.style.backgroundImage = "url(images/keyarrowdown.svg)";
+        statebtn.style.backgroundRepeat = "no-repeat";
+        statebtn.style.backgroundSize = "cover";
+        const icon = document.createElement("div");
+        const handle = document.createElement("div");
+        StyleL(handle, file, depth, "folder");
+        Styleicon(icon, file, depth, "folder");
+
+        filebutton.appendChild(icon);
+        filebutton.appendChild(handle);
+
+        globalfileexplorerstatejson[`${decodeURIComponent(file.id)}`] = false;
+        filebutton.appendChild(statebtn);
+        let isopen = false;
+        filebutton.addEventListener("click", (e) => {
+          filebutton.style.backgroundColor = "rgba(30,41,59,0.50)";
+          if (
+            previousselection &&
+            document.getElementById(previousselection.path)
+          ) {
+            document.getElementById(
+              previousselection.path,
+            ).style.backgroundColor = "#333333";
+          }
+          previousselection = { path: file.id, type: "Directory" };
+          if (!isopen) {
+            if (filebutton.classList.contains("folder")) {
+              recursiveloop(
+                findFolderById(globalfolderjson, decodeURIComponent(file.id))
+                  .children,
+
+                document.getElementById(`${decodeURIComponent(file.id)}`),
+              );
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+              isopen = true;
+              globalfileexplorerstatejson[`${decodeURIComponent(file.id)}`] =
+                true;
+            } else {
+              return;
+            }
+          } else {
+            filebutton.replaceChildren(`${file.name}`, statebtn, icon, handle);
+            isopen = false;
+            globalfileexplorerstatejson[`${decodeURIComponent(file.id)}`] =
+              false;
+
+            e.stopPropagation();
+          }
+        });
+        space.appendChild(filebutton);
+        createfolderdialogbox(
+          document.body,
+          decodeURIComponent(file.id),
+          filebutton,
+          file,
+        );
+      } else {
+        const filebutton = document.createElement("button");
+        filebutton.id = `${decodeURIComponent(file.id)}`;
+        const extension = file.name.split(".").pop();
+
+        filebutton.textContent = `${file.name}`;
+        filebutton.classList.add("files");
+        filebutton.style.paddingLeft = depth + "px";
+        if (globalignoredfilesarray.includes(decodeURIComponent(file.id))) {
+          filebutton.style.color = "#999290";
+          filebutton.title += "Untracked ";
+        }
+        filebutton.title = `${decodeURIComponent(file.id)}`;
+
+        space.appendChild(filebutton);
+        createfiledialogbox(
+          document.body,
+          decodeURIComponent(file.id),
+          filebutton,
+          file,
+        );
+        filebutton.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          filebutton.style.backgroundColor = "rgba(30,41,59,0.50)";
+          if (
+            previousselection &&
+            document.getElementById(previousselection.path)
+          ) {
+            document.getElementById(
+              previousselection.path,
+            ).style.backgroundColor = "#333333";
+          }
+          previousselection = { path: file.id, type: "file" };
+          await openFileFromExplorer({ iframe, file });
+        });
+
+        const icon = document.createElement("div");
+
+        Styleicon(icon, file, depth, extension);
+        filebutton.appendChild(icon);
+        const handle = document.createElement("div");
+        StyleL(handle, file, depth, "folder");
+        filebutton.appendChild(handle);
+      }
+    
+      } ,10)
     }
   }
   async function openfolderfunction(folderjsoninput) {
@@ -703,7 +704,7 @@ window.onload = function () {
   }
   document.getElementById("open_folder").addEventListener("click", async () => {
     document.getElementById("file_on").style.display = "none";
-    const folderjson = await ipc.invoke("openfolder");
+    const folderjson = await window.ipc.invoke("openfolder");
     openfolderfunction(JSON.parse(JSON.stringify(folderjson)));
   });
   let isviewopen = false;
@@ -787,7 +788,7 @@ window.onload = function () {
       async (e) => {
         let object = e.data;
 
-        const formattedcode = await ipc.invoke("format", object);
+        const formattedcode = await window.ipc.invoke("format", object);
         iframe.contentWindow.postMessage(
           {
             action: "formatset",
@@ -803,12 +804,12 @@ window.onload = function () {
   window.addEventListener("message", async (e) => {
     const message = e.data;
     if (message.action === "autosave") {
-      await ipc.invoke("autosave", message.code, message.path);
+      await window.ipc.invoke("autosave", message.code, message.path);
     }
   });
-  ipc.onDataframeIPC(async (data) => {
+  window.ipc.onDataframeIPC(async (data) => {
     const message = JSON.parse(data);
-    if (JSON.parse(data).action == "lint") {
+    if(JSON.parse(data).action == "lint"){
       console.log(message)
       iframe.contentWindow.postMessage(message)
     }
@@ -920,7 +921,7 @@ window.onload = function () {
           `topbarelementfor${decodeURIComponent(message.path)}`,
         )
       ) {
-        const ext = await ipc.invoke("get-ext", message.path);
+        const ext = await window.ipc.invoke("get-ext", message.path);
         const extension = ext.replace(".", "");
         iframe.contentWindow.postMessage(
           {
@@ -950,7 +951,7 @@ window.onload = function () {
       const parent = document.getElementById("topbarforeditor");
 
       const ids = Array.from(parent.children).map((child) => child.id);
-      ipc.send(
+      window.ipc.send(
         "data",
         JSON.stringify({
           action: "tabsopen",
@@ -971,7 +972,7 @@ window.onload = function () {
     }
     if (message.action === "lint") {
       async function runLint() {
-        const result = await ipc.invoke("lint", {
+        const result = await window.ipc.invoke("lint", {
           code: message.code,
           extension: message.extension,
           language: message.language,
@@ -1002,7 +1003,7 @@ window.onload = function () {
     }
     if (message.action === "getGoTodefintion") {
       async function runDef() {
-        const res = await ipc.invoke("GotoDef", message.position);
+        const res = await window.ipc.invoke("GotoDef", message.position);
         iframe.contentWindow.postMessage({
           action: "tsgtd",
           data: res,
@@ -1012,7 +1013,7 @@ window.onload = function () {
     }
     if (message.action === "getHover") {
       async function run() {
-        const res = await ipc.invoke(
+        const res = await window.ipc.invoke(
           "Hover",
           decodeURIComponent(message.path),
           message.position,
@@ -1048,7 +1049,7 @@ window.onload = function () {
         name: "Start Live Server",
         callback: async (values) => {
           try {
-            const dec = await ipc.invoke("validate-details-liveserver", {
+            const dec = await window.ipc.invoke("validate-details-liveserver", {
               port: values[0],
               relativepath: values[1] || "./",
               toOpen: values[2],
@@ -1058,7 +1059,7 @@ window.onload = function () {
             return;
           }
           //@
-          ipc.invoke("start_server", {
+          window.ipc.invoke("start_server", {
             port: values[0],
             relativepath: values[1] || "./",
             toOpen: values[2],
@@ -1090,7 +1091,7 @@ window.onload = function () {
           if (isuserokforcommit) {
             async function runn() {
               try {
-                await ipc.invoke("commit", values[0], getstaged());
+                await window.ipc.invoke("commit", values[0], getstaged());
                 IDEComponentApi.ShowNotification("Comitted!", {
                   duration: 900,
                   type: "success",
@@ -1113,7 +1114,7 @@ window.onload = function () {
     }
   });
   document.getElementById("sync-changes").addEventListener("click", (e) => {
-    ipc.invoke("sync-changes");
+    window.ipc.invoke("sync-changes");
   });
   document.getElementById("changes").addEventListener("click", (e) => {
     e.stopPropagation();
@@ -1133,7 +1134,7 @@ window.onload = function () {
     .getElementById("explorersearch")
     .addEventListener("input", async (e) => {
       document.getElementById("searchresults").replaceChildren();
-      const results = await ipc.invoke(
+      const results = await window.ipc.invoke(
         "get-search-results",
         document.getElementById("explorersearch").value,
       );
@@ -1171,7 +1172,7 @@ window.onload = function () {
 
   dropdownForTheme.addEventListener("change", (event) => {
     const selectedValue = event.target.value;
-    ipc.invoke("changesettings", "theme", selectedValue);
+    window.ipc.invoke("changesettings", "theme", selectedValue);
   });
 };
 
@@ -1180,13 +1181,13 @@ const maxBtn = document.getElementById("maximize-btn");
 const closeBtn = document.getElementById("close-btn");
 
 minBtn.addEventListener("click", () => {
-  ipc.minimizeWindow();
+  window.ipc.minimizeWindow();
 });
 
 maxBtn.addEventListener("click", () => {
-  ipc.maximizeWindow();
+  window.ipc.maximizeWindow();
 });
 
 closeBtn.addEventListener("click", () => {
-  ipc.closeWindow();
+  window.ipc.closeWindow();
 });

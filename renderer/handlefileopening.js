@@ -57,8 +57,8 @@ function createTopbarTab({
 
 export async function openFileFromExplorer({ iframe, file }) {
 	const filePath = file.id;
-	const content = await ipc.invoke("read", filePath);
-	const extension = (await ipc.invoke("get-ext", filePath)).replace(
+	const content = await window.ipc.invoke("read", filePath);
+	const extension = (await window.ipc.invoke("get-ext", filePath)).replace(
 		".",
 		"",
 	);

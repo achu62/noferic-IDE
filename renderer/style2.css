@@ -15,7 +15,16 @@
 }
 
 #theme-blanket-overlay {
-  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  mix-blend-mode: difference;
+  filter: contrast(250%) grayscale(100%);
+  pointer-events: none;
+  z-index: 999999;
 }
 
 /* Blanket background & text color overrides for HTML elements */

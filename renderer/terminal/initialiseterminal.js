@@ -65,7 +65,7 @@ export function initiateterminal(e, id, document) {
 	document.getElementById("terminaltabmanager").appendChild(tab);
 
 	terminal.onData((data) =>
-		ipc.send(
+		window.ipc.send(
 			"data",
 			JSON.stringify({
 				action: "tdata",
@@ -76,7 +76,7 @@ export function initiateterminal(e, id, document) {
 	);
 	async function runresizeevent() {
 		setInterval(() => {
-			ipc.send(
+			window.ipc.send(
 				"data",
 				JSON.stringify({
 					action: "tdata",
@@ -90,7 +90,7 @@ export function initiateterminal(e, id, document) {
 		}, 10000);
 	}
 	runresizeevent();
-	ipc.onDataframeIPC((dataraw) => {
+	window.ipc.onDataframeIPC((dataraw) => {
 		const data = JSON.parse(dataraw);
 		
 		if (data.action !== "terminaldata" || data.id !== id) {
