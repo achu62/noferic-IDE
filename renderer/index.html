@@ -5,7 +5,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>NOFERIC IDE</title>
+	<script src="./script-override-colors.js"></script>
 	<link rel="stylesheet" href="style2.css" />
+	<link rel="stylesheet" href="./xterm/css/xterm.css" />
 
 
 
@@ -71,13 +73,12 @@
 	</dialog>
 	<input type="search" id="explorersearch" placeholder="Search for files...in this workspace">
 	<div id="searchresults"></div>
-	<div class="common bgcolor1e1e1e" id="top-menu" data-tauri-drag-region>
+	<div class="common bgcolor1e1e1e" id="top-menu">
 
 		<div id="logo"></div>
 		<button class="common bgcolor1e1e1e" id="file">File</button>
 		<button popovertarget="viewon" class="common bgcolor1e1e1e" id="view">View</button>
-		<button class="common bgcolor1e1e1e" id="help-menu-button" aria-haspopup="true"
-			aria-expanded="false">Help</button>
+		<button class="common bgcolor1e1e1e" id="help-menu-button" aria-haspopup="true" aria-expanded="false">Help</button>
 		<button id="liveserverbtn" title="start live server(ctrl + shift + L)">Live server</button>
 		<div id="window-controls">
 			<!-- Minimize Button (Yellow) -->
@@ -130,16 +131,11 @@
 			<button id="close-shortcuts" type="button" aria-label="Close shortcuts">&times;</button>
 		</div>
 		<table class="shortcuts-table">
-			<thead>
-				<tr>
-					<th scope="col">Command</th>
-					<th scope="col">Shortcut</th>
-				</tr>
-			</thead>
+			<thead><tr><th scope="col">Command</th><th scope="col">Shortcut</th></tr></thead>
 			<tbody id="shortcuts-list"></tbody>
 		</table>
 	</dialog>
-	<div id="file_on" tabindex=0 class="common" hidden>
+	<div id="file_on" tabindex=0 class="common">
 		<button id="open_file" class="common">Open file</button>
 		<button id="open_folder" class="common">Open Folder</button>
 		<button id="save" class="common">Save</button>
@@ -233,7 +229,7 @@
 	</div>
 	</div>
 	</div>
-	<div id="viewon" popover="auto">
+	<div id="viewon">
 
 		<div id="terminaltick">
 			<label>
@@ -249,7 +245,8 @@
 		</div>
 	</div>
 </body>
-<script src="xterm/lib/xterm.js"></script>
-<script src="renderer.js" type="module"></script>
+<script type="module" src="./editor UI components.js"></script>
+<script src="./renderer.js" type="module"></script>
+<script src="./xterm/lib/xterm.js"></script>
 
 </html>
