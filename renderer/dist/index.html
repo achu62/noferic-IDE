@@ -1,0 +1,249 @@
+<!---jai sri ram-->
+<!DOCTYPE html>
+<html class="dark">
+
+<head>
+	<meta charset="UTF-8">
+	<title>NOFERIC IDE</title>
+
+
+
+	<style>
+		@font-face {
+			font-family: 'NotoEmoji';
+			src: url('./editor/fonts/Noto_Color_Emoji (1)/NotoColorEmoji-Regular.ttf') format('truetype');
+		}
+
+		@font-face {
+			font-family: "JetBrains Mono";
+			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
+			font-weight: 400;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: "JetBrains Mono";
+			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Italic.woff2") format("woff2");
+			font-weight: 400;
+			font-style: italic;
+
+		}
+
+		@font-face {
+			font-family: "JetBrains Mono";
+			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Bold.woff2") format("woff2");
+			font-weight: 700;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: "JetBrains Mono";
+			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-BoldItalic.woff2") format("woff2");
+			font-weight: 700;
+			font-style: italic;
+		}
+
+		@font-face {
+			font-family: "Roboto slab";
+			src: url("./editor/fonts/Roboto_Slab/RobotoSlab-Regular (1).ttf") format("truetype");
+			font-weight: 400;
+			font-style: normal;
+
+		}
+	</style>
+  <script type="module" crossorigin src="./assets/main-BvKNBxkc.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="./assets/main-BjCbUwK0.css">
+</head>
+
+<body>
+	<canvas id="canvas"></canvas>
+	<div id="theme-blanket-overlay"></div>
+
+
+
+
+
+	<dialog id="commitdialog" class="dialog">
+		<button id="commitreal">commit</button>
+		<button id="cancelcommit">Cancel</button>
+
+		<input id="inputforcommit" type="text" placeholder="message for commit.." spellcheck="false"></textarea>
+
+	</dialog>
+	<input type="search" id="explorersearch" placeholder="Search for files...in this workspace">
+	<div id="searchresults"></div>
+	<div class="common bgcolor1e1e1e" id="top-menu">
+
+		<div id="logo"></div>
+		<button class="common bgcolor1e1e1e" id="file">File</button>
+		<button popovertarget="viewon" class="common bgcolor1e1e1e" id="view">View</button>
+		<button class="common bgcolor1e1e1e" id="help-menu-button" aria-haspopup="true" aria-expanded="false">Help</button>
+		<button id="liveserverbtn" title="start live server(ctrl + shift + L)">Live server</button>
+		<div id="window-controls">
+			<!-- Minimize Button (Yellow) -->
+			<button id="minimize-btn" style="
+      width: 12px; 
+      height: 12px; 
+      border-radius: 50%; 
+      border: none; 
+      background-color: #ffbd2e; 
+      cursor: pointer; 
+      margin-right: 8px; 
+      transition: background-color 0.1s ease;
+    " onmouseover="this.style.backgroundColor='#e0a828'" onmouseout="this.style.backgroundColor='#ffbd2e'">
+			</button>
+
+			<!-- Maximize Button (Green) -->
+			<button id="maximize-btn" style="
+      width: 12px; 
+      height: 12px; 
+      border-radius: 50%; 
+      border: none; 
+      background-color: #27c93f; 
+      cursor: pointer; 
+      margin-right: 8px; 
+      transition: background-color 0.1s ease;
+    " onmouseover="this.style.backgroundColor='#1fa332'" onmouseout="this.style.backgroundColor='#27c93f'">
+			</button>
+
+			<!-- Close Button (Red) -->
+			<button id="close-btn" style="
+      width: 12px; 
+      height: 12px; 
+      border-radius: 50%; 
+      border: none; 
+      background-color: #ff5f56; 
+      cursor: pointer; 
+      transition: background-color 0.1s ease;
+    " onmouseover="this.style.backgroundColor='#e04f47'" onmouseout="this.style.backgroundColor='#ff5f56'">
+			</button>
+		</div>
+
+
+	</div>
+	<div id="help-menu" role="menu" hidden>
+		<button id="learn-shortcuts" role="menuitem">Learn shortcuts</button>
+	</div>
+	<dialog id="shortcuts-dialog" aria-labelledby="shortcuts-heading">
+		<div class="shortcuts-dialog__header">
+			<h2 id="shortcuts-heading">Keyboard shortcuts</h2>
+			<button id="close-shortcuts" type="button" aria-label="Close shortcuts">&times;</button>
+		</div>
+		<table class="shortcuts-table">
+			<thead><tr><th scope="col">Command</th><th scope="col">Shortcut</th></tr></thead>
+			<tbody id="shortcuts-list"></tbody>
+		</table>
+	</dialog>
+	<div id="file_on" tabindex=0 class="common">
+		<button id="open_file" class="common">Open file</button>
+		<button id="open_folder" class="common">Open Folder</button>
+		<button id="save" class="common">Save</button>
+		<button id="save_as" class="common">Save As</button>
+		<button id="format" class="common">format</button>
+		<button id="exit" class="common">Exit</button>
+	</div>
+	<div class="common bgcolor1e1e1e" id="btmenu">
+		<div id="lineandcolumn">
+
+		</div>
+
+		<div id="language"></div>
+		<div id="errors"></div>
+		<div id="currentBranch"></div>
+		<div id="breadcrupsfunc"></div>
+	</div>
+	<div class="common bgcolor1e1e1e" id="ltmenu">
+		<button class="common" id="expl" title="explorer (ctrl + shift+  E)"></button>
+		<button class="common" id="term" title="terminal   (ctrl + shift + t)"></button>
+		<button class="common" id="gitvercontmenu" title="git features(ctrl +G)"></button>
+		<button class="common" id="nf-d" title="noferic-debugging-tools
+				[Experimental:works only when using live-server in the IDE]"></button>
+		<button class="common" id="nf-o" title="ouutline"></button>
+
+		<button class="common" id="settings"></button>
+	</div>
+	<dialog id="SettingsDialog">
+		<h2>Settings</h2>
+		<button id="closeSettings">Close</button>
+		<div id="settings-area">
+			<div id="settings-theme" class="settings">Theme
+				<select id="Theme">
+					<option value="dark" selected>Dark
+					</option>
+					<option value="light">Light</option>
+				</select>
+			</div>
+		</div>
+	</dialog>
+	<div id="workspace">
+
+		<div id="middleeditor">
+			<div id="topbarforeditor"></div>
+			<iframe src="./editor/index.html" id="editor" class="bgcolor1e1e1e"></iframe>
+			<div id="terminalelement">
+				<div id="terminaltopbar" class="common bgcolor1e1e1e">Terminal
+					<button id="addtermbtn" title=" Create terminal process">+</button>
+				</div>
+				<div id="terminal" class="common bgcolor1e1e1e"></div>
+				<div id="terminaltabmanager"></div>
+			</div>
+		</div>
+		<div id="preview">
+			<div id="prevtop" class="common bgcolor1e1e1e">YOUR AI AGENT</div>
+		</div>
+		<div id="explorer">
+			<div id="nf--o0">
+				<div id="nf-0-o-list"></div>
+			</div>
+			<div id="explotop" class="common bgcolor1e1e1e">explorer</div>
+
+			<div id="explorerelement"></div>
+
+			<div id="nf-debug">
+				<div id="nf-list">
+
+				</div>
+
+			</div>
+
+
+			<div id="versioncontrolelement">
+				<div id="explorervc"></div>
+
+
+				<button id="commitbtn">Commit in current branch</button>
+				<div id="moreactions">
+					<button id="sync-changes" class="gitotheractions">Sync Changes</button>
+
+					<button id="changes" class="gitotheractions">changes > </button>
+
+				</div>
+
+
+
+			</div>
+
+			<div id="link" style="opacity:0;"></div>
+		</div>
+	</div>
+	</div>
+	</div>
+	<div id="viewon" popover="auto">
+
+		<div id="terminaltick">
+			<label>
+				<input type="checkbox" id="terminalcheck">
+				Terminal Visibility
+			</label>
+		</div>
+		<div id="explorertick">
+			<label>
+				<input type="checkbox" checked="true" id="explorercheck">
+				Leftpanel Visibility
+			</label>
+		</div>
+	</div>
+</body>
+
+</html>
