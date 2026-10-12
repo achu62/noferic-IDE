@@ -12,12 +12,23 @@ function irritate(Math, x) {
 
   }
 
+
+
+
+
+
+
+
+
+
+
   // no-dupe-keys
   const object = {
     grass: 1,
     
     grass: 2
   };
+  
 
   // no-duplicate-case
   switch (x) {
@@ -78,6 +89,7 @@ function irritate(Math, x) {
     throw new Error("grass");
   } catch (error) {
     error = null;
+
   }
 }
 
@@ -87,7 +99,7 @@ const meme = "6-7";
 
 meme = "go and touch some grass"
 
-function newfr(){
+export function newfr(){
   return e;
   console.log("ss")
 }

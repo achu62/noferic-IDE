@@ -1,6 +1,5 @@
 //jai sri ram
 //jai sri ram
-import { Notification } from "electron"
 import { ESLint, Linter } from "eslint"
 const linter = new Linter()
 const systemConfig = {
