@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:ns1="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:ns2="http://www.inkscape.org/namespaces/inkscape" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-type-vue" version="1.1" id="svg16" ns1:docname="svelte.svg" ns2:version="1.1.2 (0a00cf5339, 2022-02-04)">
+  <defs id="defs20" />
+  <ns1:namedview id="namedview18" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" ns2:pageshadow="2" ns2:pageopacity="0.0" ns2:pagecheckerboard="0" showgrid="false" ns2:zoom="4.1986485" ns2:cx="95.62601" ns2:cy="11.074992" ns2:window-width="1316" ns2:window-height="704" ns2:window-x="0" ns2:window-y="0" ns2:window-maximized="1" ns2:current-layer="svg16" />
+  <path d="M14 3v4a1 1 0 0 0 1 1h4" id="path4" style="fill:#00ff00" />
+  <path d="M 6.0539314,11.438823 V 4.4388231 a 2,2 0 0 1 2,-2 h 6.9999996 l 5,5 v 3.9999999" id="path6" style="fill:#ff6600" />
+  <text xml:space="preserve" style="font-style:normal;font-weight:normal;font-size:7.70506px;line-height:1.25;font-family:sans-serif;fill:#803300;fill-opacity:1;stroke:none;stroke-width:0.385253;paint-order:markers stroke fill" x="5.7734408" y="13.279001" id="text5932" transform="scale(0.754656,1.3251071)"><tspan ns1:role="line" id="tspan5930" x="5.7734408" y="13.279001" style="fill:#803300;stroke-width:0.385253;paint-order:markers stroke fill">svelte</tspan></text>
+</svg>
