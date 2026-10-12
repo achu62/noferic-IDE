@@ -1,20 +1,11 @@
 //jai sri ram
 ///////////
-//jai sri ram
-const ipc = {
-  invoke:()=>{
-    return null;
-  }
-  ,
-  onDataframeIPC:(e)=>{
-    
-  }
-}
+
 console.log(["udn", "cnf", "adding thins"]);
 
 let countforterminal = 1;
 import { symtree } from "./maintain-symbol.js";
-//import { initiateterminal } from "./terminal/initialiseterminal.js";
+import { initiateterminal } from "./terminal/initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
 import { syncEditorBottom } from "./syncEditorbottom.js";
 import { resizeterminal } from "./resize/resizeterminal.js";
