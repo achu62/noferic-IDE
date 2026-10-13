@@ -328,7 +328,7 @@ window.onload = () => {
                   : monaco.MarkerSeverity.Warning,
             });
           });
-          monaco.editor.setModelMarkers(model, "biome", markers);
+          monaco.editor.setModelMarkers(model, "diagnostics", markers);
         }
       }
       if (action === "set") {

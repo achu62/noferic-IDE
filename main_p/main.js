@@ -12,7 +12,7 @@ export function getts() {
   return ts;
 }
 import { req_Diagnostic } from "./parse-main-handler.js";
-
+import { runIdeAudit } from "./dependency-cruiser/dependency-cruiser.js"
 import { lint, initialiseLinter } from "./Linting-features/eslint.js";
 import { lint_sys } from "./Linting-features/es-sys.js";
 import { app, BrowserWindow, dialog, ipcMain, Notification } from "electron";
@@ -153,6 +153,7 @@ export function getEssentials() {
     path: app.isPackaged ? process.resourcesPath : app.getAppPath(),
     appPath: app.getAppPath(),
     appRoot: app.getAppPath(),
+    dirname: __dirname
   };
 }
 export function Nullify() {
@@ -176,7 +177,6 @@ const isWindows = process.platform === "win32";
 consolelog(app.getPath("userData"));
 const cfpath = app.getPath("userData");
 
-//console.log(fs.readFileSync(path.join(cfpath, "biome", "biome.json"), "utf8"));
 
 consolelog(process.resourcesPath);
 consolelog(isWindows);
@@ -362,6 +362,7 @@ async function handleappargs(args) {
       try {
         initialisetds(toNormalisedWindowsId(path.resolve(args)));
       } catch (e) { }
+      
       try {
         initialiseterminalmain(ptyProcess, path.resolve(args), "def", win);
       } catch (e) { }

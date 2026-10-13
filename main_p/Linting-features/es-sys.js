@@ -13,7 +13,7 @@ const systemConfig = {
     "no-loss-of-precision": "error",
     "constructor-super": "error",
     "no-this-before-super": "error",
-
+    
     // Warnings: potentially problematic code
     "no-unreachable": "warn",
     "no-dupe-keys": "warn",
