@@ -6,18 +6,7 @@
     "licenseFile": "/home/charan/noferic-IDE/node_modules/7zip-bin/LICENSE.txt"
   },
   
-  "@biomejs/biome@1.9.4": {
-    "licenses": "MIT OR Apache-2.0",
-    "repository": "https://github.com/biomejs/biome",
-    "publisher": "Emanuele Stoppa",
-    "path": "/home/charan/noferic-IDE/node_modules/@biomejs/biome",
-    "licenseFile": "/home/charan/noferic-IDE/node_modules/@biomejs/biome/LICENSE-APACHE"
-  },
-  "@biomejs/cli-linux-x64@1.9.4": {
-    "licenses": "MIT OR Apache-2.0",
-    "repository": "https://github.com/biomejs/biome",
-    "path": "/home/charan/noferic-IDE/node_modules/@biomejs/cli-linux-x64"
-  },
+  
   "@develar/schema-utils@2.6.5": {
     "licenses": "MIT",
     "repository": "https://github.com/webpack/schema-utils",

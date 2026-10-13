@@ -1,5 +1,5 @@
 //jai sri ram
-/**@param {ts.LanguageServiceHost} hostforpresentfile */
+/** @type {import('typescript').LanguageServiceHost} */
 /**@param  {string} DirPath */
 /**@param {Array} list*/
 /**@param {Array} details*/
@@ -279,7 +279,6 @@ export async function initialisetds(projectRoot) {
 
 
 
-
 export async function getSyntacticDiagnosticsfromts(fileName) {
     if (!fileName || typeof fileName !== "string") {
         return [];
@@ -415,7 +414,7 @@ export async function GetHover(filePath, position) {
     return quickInfoToMonaco(hostforpresentfile.getQuickInfoAtPosition(toNormalisedWindowsId(filePath), position), ts)
 }
 export async function GetAutoComplete(c, fpath) {
-  
+
     try {
         const result = hostforpresentfile.getCompletionsAtPosition(
             fpath,
@@ -462,18 +461,17 @@ export async function GetAutoComplete(c, fpath) {
 }
 
 export async function updateList(filePath) {
-    if(IncludedExtensions.includes(path.extname(path.basename(filePath)))){
- const normalizedFilePath = toNormalisedWindowsId(filePath);
-    state.files.push(normalizedFilePath)
+    if (IncludedExtensions.includes(path.extname(path.basename(filePath)))) {
+        const normalizedFilePath = toNormalisedWindowsId(filePath);
+        state.files.push(normalizedFilePath)
         state.version = state.version + 1
 
     }
-   
+
 }
-export async function UpdateVersion(filePath){
-    if(IncludedExtensions.includes(path.extname(path.basename(filePath))))
-    {
-    state.version = state.version + 1
+export async function UpdateVersion(filePath) {
+    if (IncludedExtensions.includes(path.extname(path.basename(filePath)))) {
+        state.version = state.version + 1
 
     }
 }

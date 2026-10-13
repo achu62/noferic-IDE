@@ -1,5 +1,5 @@
 //jai sri ram
-import { Notification } from "electron"
+//import { Notification } from "electron"
 import { ESLint } from "eslint"
 let eslinter;
 export function initialiseLinter(Dirpath) {
@@ -15,10 +15,10 @@ export async function lint(code, FILEPATH) {
     }
     catch (e) {
         if (!eshown) {
-            new Notification({
-                title: "ESLINT",
-                body: ` eslint responded with ${JSON.stringify(e)}`,
-            }).show();
+           // new Notification({
+             //   title: "ESLINT",
+               // body: ` eslint responded with ${JSON.stringify(e)}`,
+            //}).show();
             eshown = true;
         }
         return [{messages:[]}]
