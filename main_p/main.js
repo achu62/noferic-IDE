@@ -362,7 +362,7 @@ async function handleappargs(args) {
       try {
         initialisetds(toNormalisedWindowsId(path.resolve(args)));
       } catch (e) { }
-      
+
       try {
         initialiseterminalmain(ptyProcess, path.resolve(args), "def", win);
       } catch (e) { }
@@ -724,6 +724,22 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
   try {
     let diagnostics = [];
     /**@param {Array} nfd  */
+    /*const { output } = await runIdeAudit(filePath)
+    const modules = output.modules.filter(
+      module =>
+        !/(^|\/)(node_modules|dist|\.git|\.noferic-IDE)(\/|$)/.test(
+          module.source,
+        ),
+    );
+
+    const graph = modules.map(module => ({
+      file: module.source,
+      dependencies: module.dependencies
+        .filter(dep => dep.resolved && modules.some(m => m.source === dep.resolved))
+        .map(dep => dep.resolved),
+    }));
+
+    console.log(graph);*/
     let es_sys = await lint_sys(code);
     let nfd = await req_Diagnostic(filePath, code);
     let esd = await lint(code, filePath);
