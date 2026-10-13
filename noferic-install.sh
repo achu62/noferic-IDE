@@ -3,7 +3,12 @@
 #jai sri ram
 
 set -eu
-
+echo "███╗   ██╗ ██████╗ ███████╗███████╗██████╗ ██╗ ██████╗
+████╗  ██║██╔═══██╗██╔════╝██╔════╝██╔══██╗██║██╔═════╝
+██╔██╗ ██║██║   ██║█████╗  █████╗  ██████╔╝██║██║     
+██║╚██╗██║██║   ██║██╔══╝  ██╔══╝  ██╔══██╗██║██║     
+██║ ╚████║╚██████╔╝██║     ███████╗██║  ██║██║╚██████╗
+╚═╝  ╚═══╝ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝ ╚═════╝"
 echo "Welcome to noferic-IDE installer"
 printf "Do you want to install Noferic-IDE  \n 0-do not install \n 1-Install \n Enter your choice: "
 read answer
@@ -19,7 +24,7 @@ elif [ "$answer" = "1" ]; then
 
     mkdir -p "$HOME/.local/bin"
 
-    curl -fL "https://github.com/achu62/noferic-IDE/releases/download/v2.2.2/Noferic.IDE-2.2.2.AppImage" \
+    curl -fL "https://github.com/achu62/noferic-IDE/releases/download/v2.2.5/Noferic.IDE-2.2.5.AppImage" \
     -o "$HOME/.local/bin/noferic"
 
     chmod +x "$HOME/.local/bin/noferic"
