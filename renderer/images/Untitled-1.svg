@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+	<title id="title">Noferic network mark</title>
+	<desc id="description">Four connected nodes forming a branching network.</desc>
+	<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+		<g stroke="#ffffff" stroke-width="30">
+			<path d="M111 360 318 365" />
+			<path d="m223 153 95 212" />
+			<path d="m223 153 187-12" />
+		</g>
+		<g stroke="#ffffff" stroke-width="13">
+			<path d="M111 360 318 365" />
+			<path d="m223 153 95 212" />
+			<path d="m223 153 187-12" />
+		</g>
+	</g>
+	<g fill="#ffffff" stroke="#ffffff" stroke-width="9">
+		<circle cx="111" cy="360" r="39" />
+		<circle cx="223" cy="153" r="39" />
+		<circle cx="318" cy="365" r="39" />
+		<circle cx="410" cy="141" r="39" />
+	</g>
+	<g fill="#ffffff">
+		<circle cx="111" cy="360" r="11" />
+		<circle cx="223" cy="153" r="11" />
+		<circle cx="318" cy="365" r="11" />
+		<circle cx="410" cy="141" r="11" />
+	</g>
+</svg>

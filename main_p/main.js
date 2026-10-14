@@ -724,22 +724,7 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
   try {
     let diagnostics = [];
     /**@param {Array} nfd  */
-    /*const { output } = await runIdeAudit(filePath)
-    const modules = output.modules.filter(
-      module =>
-        !/(^|\/)(node_modules|dist|\.git|\.noferic-IDE)(\/|$)/.test(
-          module.source,
-        ),
-    );
-
-    const graph = modules.map(module => ({
-      file: module.source,
-      dependencies: module.dependencies
-        .filter(dep => dep.resolved && modules.some(m => m.source === dep.resolved))
-        .map(dep => dep.resolved),
-    }));
-
-    console.log(graph);*/
+   
     let es_sys = await lint_sys(code);
     let nfd = await req_Diagnostic(filePath, code);
     let esd = await lint(code, filePath);
@@ -841,3 +826,22 @@ ipcMain.on("window-maximize", () => {
 ipcMain.on("window-close", () => {
   if (win) win.close();
 });
+ipcMain.handle("give-graph" , async(e , filePath)=>{
+  
+   const { output } = await runIdeAudit(filePath)
+    const modules = output.modules.filter(
+      module =>
+        !/(^|\/)(node_modules|dist|\.git|\.noferic-IDE)(\/|$)/.test(
+          module.source,
+        ),
+    );
+
+    const graph = modules.map(module => ({
+      file: module.source,
+      dependencies: module.dependencies
+        .filter(dep => dep.resolved && modules.some(m => m.source === dep.resolved))
+        .map(dep => dep.resolved),
+    }));
+
+    console.log(graph);
+})
