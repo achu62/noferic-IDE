@@ -10,6 +10,7 @@
     "@eslint/js": "^10.0.1",
     "@lydell/node-pty": "^1.1.0",
     "chokidar": "^5.0.0",
+    "cytoscape": "^3.34.3",
     "detect-port": "^2.1.0",
     "eslint": "^10.8.1",
     "fuzzysort": "^4.0.2",
