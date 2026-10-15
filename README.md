@@ -2,7 +2,11 @@
 
  Noferic IDE is a integrated development environment for the built with web technologies.
 
-
+![NOFERIC_IDE](./screenshot-2026-10-15_17-24-13.png)
+![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Electron](https://img.shields.io/badge/Electron-47848F?style=for-the-badge&logo=electron&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Web Development](https://img.shields.io/badge/Web_Development-00599C?style=for-the-badge&logo=html5&logoColor=white)
 
 ## Build from source
 

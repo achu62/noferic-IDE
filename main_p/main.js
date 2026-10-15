@@ -843,5 +843,5 @@ ipcMain.handle("give-graph" , async(e , filePath)=>{
         .map(dep => dep.resolved),
     }));
 
-    console.log(graph);
+    return graph;
 })

@@ -205,6 +205,134 @@ window.onload = () => {
         }
       },
     });
+    monaco.languages.registerCompletionItemProvider("javascriptreact", {
+      triggerCharacters: [".", "<", "/"],
+      async provideCompletionItems(model, position) {
+        try {
+          const offset = model.getOffsetAt(position);
+          //console.log(offset)
+          const filepath =
+            navigator.platform === "Win32"
+              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+              : decodeURIComponent(model.uri.toString().replace("id:", ""));
+
+          const result = await window.renderer.SendRequesttomain({
+            action: "get-auto-complete",
+            args: {
+              filepath,
+              offset,
+            },
+          });
+          //console.log(result)
+
+          return {
+            suggestions: result?.suggestions || [],
+          };
+        } catch (error) {
+          console.error("Autocomplete error:", error);
+
+          return {
+            suggestions: [],
+          };
+        }
+      },
+    });
+    monaco.languages.registerCompletionItemProvider("typescript", {
+      triggerCharacters: [".", "<", "/"],
+      async provideCompletionItems(model, position) {
+        try {
+          const offset = model.getOffsetAt(position);
+          //console.log(offset)
+          const filepath =
+            navigator.platform === "Win32"
+              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+              : decodeURIComponent(model.uri.toString().replace("id:", ""));
+
+          const result = await window.renderer.SendRequesttomain({
+            action: "get-auto-complete",
+            args: {
+              filepath,
+              offset,
+            },
+          });
+          //console.log(result)
+
+          return {
+            suggestions: result?.suggestions || [],
+          };
+        } catch (error) {
+          console.error("Autocomplete error:", error);
+
+          return {
+            suggestions: [],
+          };
+        }
+      },
+    });
+    monaco.languages.registerCompletionItemProvider("javascriptreact", {
+      triggerCharacters: [".", "<", "/"],
+      async provideCompletionItems(model, position) {
+        try {
+          const offset = model.getOffsetAt(position);
+          //console.log(offset)
+          const filepath =
+            navigator.platform === "Win32"
+              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+              : decodeURIComponent(model.uri.toString().replace("id:", ""));
+
+          const result = await window.renderer.SendRequesttomain({
+            action: "get-auto-complete",
+            args: {
+              filepath,
+              offset,
+            },
+          });
+          //console.log(result)
+
+          return {
+            suggestions: result?.suggestions || [],
+          };
+        } catch (error) {
+          console.error("Autocomplete error:", error);
+
+          return {
+            suggestions: [],
+          };
+        }
+      },
+    });
+    monaco.languages.registerCompletionItemProvider("typescriptreact", {
+      triggerCharacters: [".", "<", "/"],
+      async provideCompletionItems(model, position) {
+        try {
+          const offset = model.getOffsetAt(position);
+          //console.log(offset)
+          const filepath =
+            navigator.platform === "Win32"
+              ? decodeURIComponent(model.uri.toString().replace("id://", ""))
+              : decodeURIComponent(model.uri.toString().replace("id:", ""));
+
+          const result = await window.renderer.SendRequesttomain({
+            action: "get-auto-complete",
+            args: {
+              filepath,
+              offset,
+            },
+          });
+          //console.log(result)
+
+          return {
+            suggestions: result?.suggestions || [],
+          };
+        } catch (error) {
+          console.error("Autocomplete error:", error);
+
+          return {
+            suggestions: [],
+          };
+        }
+      },
+    });
     monaco.languages.registerHoverProvider("javascript", {
       provideHover: async (model, position) => {
         const filepath =
@@ -481,7 +609,6 @@ window.onload = () => {
         monaco.editor.getModels().forEach((model) => {
           model.dispose();
         });
-      } else if (action === "setMarkers") {
       }
     });
     let debouncerforlinting;
@@ -518,6 +645,9 @@ window.onload = () => {
       enableSchemaRequest: true,
       schemas: [],
     });
+    window.getCurrentFileURI = function (){
+      return URI;
+    }
   });
 };
 
