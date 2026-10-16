@@ -28,7 +28,6 @@ function installWindowStyles() {
 			overflow: auto;
 			transform: translate(-50%, -50%);
 			border: 1px solid #4c5963;
-			border-radius: 7px;
 			background: #1e2329;
 			color: #edf2f7;
 			box-shadow: 0 18px 50px rgba(0, 0, 0, 0.42);
@@ -59,7 +58,6 @@ function installWindowStyles() {
 		}
 		.noferic-window__control {
 			border: 1px solid #48535e;
-			border-radius: 4px;
 			background: #303941;
 			color: #e6edf3;
 			font: inherit;

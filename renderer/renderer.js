@@ -107,10 +107,10 @@ function handlekeyoardmovementsinexplorer() {
     const nextElement = items[nextIndex];
 
     if (selectedElement && selectedElement !== nextElement) {
-      selectedElement.style.backgroundColor = "#333333";
+      selectedElement.style.backgroundColor = "#2e333d";
     }
 
-    nextElement.style.backgroundColor = "rgba(30,41,59,0.50)";
+    nextElement.style.backgroundColor = "#373d46";
     nextElement.focus();
 
     previousselection = {
@@ -698,7 +698,7 @@ window.onload = function () {
             ) {
               document.getElementById(
                 previousselection.path,
-              ).style.backgroundColor = "#333333";
+              ).style.backgroundColor = "#2e333d";
             }
             previousselection = { path: file.id, type: "file" };
             await openFileFromExplorer({ iframe, file });
