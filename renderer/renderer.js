@@ -5,6 +5,7 @@
 console.log(["udn", "cnf", "adding thins"]);
 
 let countforterminal = 1;
+import { giveOptionMenu } from "./option_d.js"
 import { newTerminalinsseperateWindow } from "./terminal/open-in-win.js"
 import { symtree } from "./maintain-symbol.js";
 import { initiateterminal } from "./terminal/initialiseterminal.js";
@@ -275,18 +276,36 @@ window.onload = function () {
   });
 
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
-    window.ipc.invoke("create_new_terminal", countforterminal);
-    initiateterminal(
-      document.getElementById("terminal"),
-      countforterminal,
-      document,
-    );
-    countforterminal++;
-  });
-  document.getElementById("addtermbtnnw").addEventListener("click", (e) => {
-    window.ipc.invoke("create_new_terminal", countforterminal);
-    newTerminalinsseperateWindow(document, countforterminal)
-    countforterminal++;
+    giveOptionMenu({
+      "heading": "choose where", options: [
+        {
+          "text": "in the existing terminal",
+          "type": "text",
+          "close":true,
+          callback: () => {
+            window.ipc.invoke("create_new_terminal", countforterminal);
+            initiateterminal(
+              document.getElementById("terminal"),
+              countforterminal,
+              document,
+            );
+            countforterminal++;
+          },
+
+        },
+        {
+          "text": "in a new dialog",
+          "close":true,
+          "type": "text",
+          callback: () => {
+            window.ipc.invoke("create_new_terminal", countforterminal);
+            newTerminalinsseperateWindow(document, countforterminal)
+            countforterminal++;
+          }
+        }
+      ]
+    })
+
   });
   handleShortCuts(document);
   const helpMenuButton = document.getElementById("help-menu-button");
