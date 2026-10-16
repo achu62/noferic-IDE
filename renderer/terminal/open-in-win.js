@@ -9,6 +9,9 @@ export function newTerminalinsseperateWindow(document, id) {
         "heading": "terminal_tab",
         "div": win
     })
+    win.style.width = `${100}%`
+    win.style.height = `${100}%`
+
     const terminal = new Terminal({
         fontSize: 12,
         fontWeight: 400,
