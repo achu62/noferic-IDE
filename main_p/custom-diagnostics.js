@@ -59,10 +59,11 @@ async function getDiagnosticsnf(path, code) {
   walk(sourceFile);
 }
 parentPort.on("message", async (e) => {
-const mes = e;
+  const mes = e;
 
-if (mes.type === "provide_diagnostics") {
-await getDiagnosticsnf(mes.path, mes.code)
-parentPort.postMessage(diagnostics)
-}
+  if (mes.type === "provide_diagnostics") {
+    await getDiagnosticsnf(mes.path, mes.code)
+    console.log()
+    parentPort.postMessage(diagnostics)
+  }
 });

@@ -5,6 +5,7 @@
 console.log(["udn", "cnf", "adding thins"]);
 
 let countforterminal = 1;
+import { newTerminalinsseperateWindow } from "./terminal/open-in-win.js"
 import { symtree } from "./maintain-symbol.js";
 import { initiateterminal } from "./terminal/initialiseterminal.js";
 import { resizeexplorer } from "./resize/resizeexplorer.js";
@@ -26,7 +27,7 @@ import { createfiledialogbox } from "./filecontextmenu.js";
 import { StyleL } from "./stylel.js";
 import { openFileFromExplorer } from "./handlefileopening.js";
 import { IDEComponentApi } from "./editor UI components.js";
-import { createWindowinNoferic } from "./window creator.js";
+import { createWindowinNoferic } from "./window_creator.js";
 let ischangesopen = false;
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
@@ -134,6 +135,7 @@ export function ctil(pathcwd) {
   }
   countforterminal++;
 }
+
 export function getSelectionoffile() {
   return previousselection;
 }
@@ -279,6 +281,11 @@ window.onload = function () {
       countforterminal,
       document,
     );
+    countforterminal++;
+  });
+  document.getElementById("addtermbtnnw").addEventListener("click", (e) => {
+    window.ipc.invoke("create_new_terminal", countforterminal);
+    newTerminalinsseperateWindow(document, countforterminal)
     countforterminal++;
   });
   handleShortCuts(document);
