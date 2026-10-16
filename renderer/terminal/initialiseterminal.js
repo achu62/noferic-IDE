@@ -50,7 +50,7 @@ export function initiateterminal(e, id, document) {
 		document.querySelectorAll(".cl_terminal_tab").forEach((terminaltab) => {
 			terminaltab.style.backgroundColor = "inherit";
 		});
-		tab.style.backgroundColor = " #333333";
+		tab.style.backgroundColor = "#3b414d";
 		element.style.display = "block";
 		element.style.pointerEvents = "auto";
 		terminal.focus();
@@ -92,7 +92,7 @@ export function initiateterminal(e, id, document) {
 	runresizeevent();
 	window.ipc.onDataframeIPC((dataraw) => {
 		const data = JSON.parse(dataraw);
-		
+
 		if (data.action !== "terminaldata" || data.id !== id) {
 			return;
 		}
