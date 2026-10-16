@@ -73,7 +73,7 @@ body {
   margin-right: 0;
   margin-left: 0;
   background-color: #3b414d;
-  font-size:11px !important;
+  font-size: 11px !important;
   /* filter: invert(1) hue-rotate(180deg) contrast(120%) brightness(105%);
   background-color: #000;*/
 
@@ -483,7 +483,7 @@ body {
   z-index: 4;
   height: 18px;
   width: 100vw;
-  background-color: #1e1e1e;
+  background-color: #3b414d;
   image-rendering: optimizeQuality;
   border-top: 0.2px solid var(--afaeaec9);
   display: flex;
@@ -591,7 +591,7 @@ body {
   box-sizing: border-box;
   background-color: #333333;
   border: 0.2px solid var(--afaeaec9);
-  border-radius: 15px;
+
 }
 
 #middleeditor {
@@ -604,7 +604,6 @@ body {
   box-sizing: border-box;
   border-left: 0.2px solid var(--afaeaec9);
   border-right: 0.2px solid var(--afaeaec9);
-  border-radius: 15px;
   overflow: hidden;
 }
 
@@ -652,11 +651,9 @@ body {
   height: 20px;
   line-height: 20px;
   text-align: left;
-  border-bottom: 0.2px solid var(--afaeaec9);
   display: block;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   padding-left: 10px;
-  background-color:#2e333d
+  background-color: #2e333d
 }
 
 
@@ -1056,7 +1053,7 @@ body {
   flex-direction: column;
   gap: 0px;
   align-items: vertical;
-  background-color:#2e333d;
+  background-color: #2e333d;
   overflow-y: scroll;
   /*flex-wrap: wrap;*/
 }
