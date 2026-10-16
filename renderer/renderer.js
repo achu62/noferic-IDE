@@ -625,14 +625,14 @@ window.onload = function () {
           filebutton.appendChild(statebtn);
           let isopen = false;
           filebutton.addEventListener("click", (e) => {
-            filebutton.style.backgroundColor = "rgba(30,41,59,0.50)";
+            filebutton.style.backgroundColor = "#373d46";
             if (
               previousselection &&
               document.getElementById(previousselection.path)
             ) {
               document.getElementById(
                 previousselection.path,
-              ).style.backgroundColor = "#333333";
+              ).style.backgroundColor = "#2e333d";
             }
             previousselection = { path: file.id, type: "Directory" };
             if (!isopen) {
@@ -1210,228 +1210,228 @@ closeBtn.addEventListener("click", () => {
 });
 document.getElementById("showgraph").addEventListener("click", async (e) => {
   const g = await window.ipc.invoke("give-graph", iframe.contentWindow.getCurrentFileURI())
-  
-    async function createDependencyGraph(graph) {
 
-      const paletteColor = index =>
-        `hsl(${(index * 137.508) % 360}, 70%, 68%)`;
+  async function createDependencyGraph(graph) {
 
-      const normalize = file => file.replace(/\\/g, "/");
+    const paletteColor = index =>
+      `hsl(${(index * 137.508) % 360}, 70%, 68%)`;
 
-      const getFileName = file =>
-        normalize(file).split("/").pop();
+    const normalize = file => file.replace(/\\/g, "/");
 
-      const getRelativePath = file => normalize(file);
+    const getFileName = file =>
+      normalize(file).split("/").pop();
 
-      const files = graph.map(module => normalize(module.file));
-      const fileIndex = new Map(
-        files.map((file, index) => [file, index])
-      );
+    const getRelativePath = file => normalize(file);
 
-      const colors = new Map(
-        files.map((file, index) => [file, paletteColor(index)])
-      );
+    const files = graph.map(module => normalize(module.file));
+    const fileIndex = new Map(
+      files.map((file, index) => [file, index])
+    );
 
-      const elements = [
-        ...graph.map(module => ({
+    const colors = new Map(
+      files.map((file, index) => [file, paletteColor(index)])
+    );
+
+    const elements = [
+      ...graph.map(module => ({
+        data: {
+          id: normalize(module.file),
+          label: getFileName(module.file),
+          path: getRelativePath(module.file)
+        }
+      })),
+
+      ...graph.flatMap(module =>
+        module.dependencies.map(dependency => ({
           data: {
-            id: normalize(module.file),
-            label: getFileName(module.file),
-            path: getRelativePath(module.file)
+            id: `${normalize(module.file)}->${normalize(dependency)}`,
+            source: normalize(module.file),
+            target: normalize(dependency),
+            color: colors.get(normalize(module.file))
           }
-        })),
+        }))
+      )
+    ];
 
-        ...graph.flatMap(module =>
-          module.dependencies.map(dependency => ({
-            data: {
-              id: `${normalize(module.file)}->${normalize(dependency)}`,
-              source: normalize(module.file),
-              target: normalize(dependency),
-              color: colors.get(normalize(module.file))
+    // Wrapper for the graph and its controls.
+    const wrapper = document.createElement("div");
+    Object.assign(wrapper.style, {
+      width: "100%",
+      height: "100%",
+      minHeight: "300px",
+      position: "relative",
+      overflow: "hidden",
+      background: "#0b0d12"
+    });
+
+    const canvas = document.createElement("div");
+    Object.assign(canvas.style, {
+      position: "absolute",
+      inset: "0"
+    });
+
+    const toolbar = document.createElement("div");
+    Object.assign(toolbar.style, {
+      position: "absolute",
+      top: "10px",
+      right: "10px",
+      zIndex: "10",
+      display: "flex",
+      gap: "5px",
+      padding: "5px",
+      background: "#111722",
+      border: "1px solid #303b4b",
+      borderRadius: "6px"
+    });
+
+    wrapper.append(canvas, toolbar);
+
+    createWindowinNoferic({
+      heading: "Dependencies",
+      div: wrapper
+    });
+
+    const makeButton = (label, title, action) => {
+      const button = document.createElement("button");
+      button.textContent = label;
+      button.title = title;
+
+      Object.assign(button.style, {
+        minWidth: "30px",
+        height: "28px",
+        padding: "0 8px",
+        color: "#dbeafe",
+        background: "#1b2432",
+        border: "1px solid #39465a",
+        borderRadius: "4px",
+        cursor: "pointer",
+        fontSize: "14px"
+      });
+
+      button.addEventListener("click", action);
+      toolbar.appendChild(button);
+      return button;
+    };
+
+    // Wait until the window manager attaches the graph.
+    requestAnimationFrame(() => {
+      const cy = cytoscape({
+        container: canvas,
+        elements,
+
+        style: [
+          {
+            selector: "node",
+            style: {
+              shape: "round-rectangle",
+              width: "label",
+              height: 32,
+              padding: "9px",
+              label: "data(label)",
+              color: "#e2e8f0",
+              "font-family": "monospace",
+              "font-size": 13,
+              "text-valign": "center",
+              "text-halign": "center",
+              "background-color": "#141a24",
+              "border-width": 1.5,
+              "border-color": ele =>
+                colors.get(ele.id()) || "#64748b"
             }
-          }))
-        )
-      ];
-
-      // Wrapper for the graph and its controls.
-      const wrapper = document.createElement("div");
-      Object.assign(wrapper.style, {
-        width: "100%",
-        height: "100%",
-        minHeight: "300px",
-        position: "relative",
-        overflow: "hidden",
-        background: "#0b0d12"
-      });
-
-      const canvas = document.createElement("div");
-      Object.assign(canvas.style, {
-        position: "absolute",
-        inset: "0"
-      });
-
-      const toolbar = document.createElement("div");
-      Object.assign(toolbar.style, {
-        position: "absolute",
-        top: "10px",
-        right: "10px",
-        zIndex: "10",
-        display: "flex",
-        gap: "5px",
-        padding: "5px",
-        background: "#111722",
-        border: "1px solid #303b4b",
-        borderRadius: "6px"
-      });
-
-      wrapper.append(canvas, toolbar);
-
-      createWindowinNoferic({
-        heading: "Dependencies",
-        div: wrapper
-      });
-
-      const makeButton = (label, title, action) => {
-        const button = document.createElement("button");
-        button.textContent = label;
-        button.title = title;
-
-        Object.assign(button.style, {
-          minWidth: "30px",
-          height: "28px",
-          padding: "0 8px",
-          color: "#dbeafe",
-          background: "#1b2432",
-          border: "1px solid #39465a",
-          borderRadius: "4px",
-          cursor: "pointer",
-          fontSize: "14px"
-        });
-
-        button.addEventListener("click", action);
-        toolbar.appendChild(button);
-        return button;
-      };
-
-      // Wait until the window manager attaches the graph.
-      requestAnimationFrame(() => {
-        const cy = cytoscape({
-          container: canvas,
-          elements,
-
-          style: [
-            {
-              selector: "node",
-              style: {
-                shape: "round-rectangle",
-                width: "label",
-                height: 32,
-                padding: "9px",
-                label: "data(label)",
-                color: "#e2e8f0",
-                "font-family": "monospace",
-                "font-size": 13,
-                "text-valign": "center",
-                "text-halign": "center",
-                "background-color": "#141a24",
-                "border-width": 1.5,
-                "border-color": ele =>
-                  colors.get(ele.id()) || "#64748b"
-              }
-            },
-            {
-              selector: "edge",
-              style: {
-                width: 1.5,
-                "line-color": "data(color)",
-                "target-arrow-shape": "triangle",
-                "target-arrow-color": "data(color)",
-                "arrow-scale": 0.8,
-                "curve-style": "bezier",
-                opacity: 0.8
-              }
-            },
-            {
-              selector: "node:selected",
-              style: {
-                "border-width": 3,
-                color: "#ffffff"
-              }
-            }
-          ],
-
-          layout: {
-            name: "cose",
-            animate: true,
-            animationDuration: 500,
-            animationEasing: "ease-out",
-            nodeRepulsion: 5000,
-            idealEdgeLength: 85,
-            gravity: 0.3,
-            padding: 35
           },
-
-          minZoom: 0.15,
-          maxZoom: 4,
-          userZoomingEnabled: true,
-          userPanningEnabled: true
-        });
-
-        let fontSize = 13;
-
-        makeButton("+", "Zoom in", () => {
-          cy.zoom({
-            level: Math.min(cy.zoom() * 1.25, cy.maxZoom()),
-            renderedPosition: {
-              x: canvas.clientWidth / 2,
-              y: canvas.clientHeight / 2
+          {
+            selector: "edge",
+            style: {
+              width: 1.5,
+              "line-color": "data(color)",
+              "target-arrow-shape": "triangle",
+              "target-arrow-color": "data(color)",
+              "arrow-scale": 0.8,
+              "curve-style": "bezier",
+              opacity: 0.8
             }
-          });
-        });
-
-        makeButton("−", "Zoom out", () => {
-          cy.zoom({
-            level: Math.max(cy.zoom() / 1.25, cy.minZoom()),
-            renderedPosition: {
-              x: canvas.clientWidth / 2,
-              y: canvas.clientHeight / 2
+          },
+          {
+            selector: "node:selected",
+            style: {
+              "border-width": 3,
+              color: "#ffffff"
             }
-          });
-        });
+          }
+        ],
 
-        makeButton("Fit", "Fit graph to window", () => {
-          cy.animate({
-            fit: {
-              eles: cy.elements(),
-              padding: 45
-            },
-            duration: 250
-          });
-        });
+        layout: {
+          name: "cose",
+          animate: true,
+          animationDuration: 500,
+          animationEasing: "ease-out",
+          nodeRepulsion: 5000,
+          idealEdgeLength: 85,
+          gravity: 0.3,
+          padding: 35
+        },
 
-        makeButton("A+", "Increase text size", () => {
-          fontSize = Math.min(fontSize + 2, 28);
-          cy.nodes().style("font-size", fontSize);
-        });
+        minZoom: 0.15,
+        maxZoom: 4,
+        userZoomingEnabled: true,
+        userPanningEnabled: true
+      });
 
-        makeButton("A−", "Decrease text size", () => {
-          fontSize = Math.max(fontSize - 2, 8);
-          cy.nodes().style("font-size", fontSize);
-        });
+      let fontSize = 13;
 
-        // Resize without resetting the user's zoom and pan.
-        const observer = new ResizeObserver(() => {
-          cy.resize();
-        });
-
-        observer.observe(wrapper);
-
-        // Double-click a file to inspect its path.
-        cy.on("dbltap", "node", event => {
-          console.log("Selected file:", event.target.data("path"));
+      makeButton("+", "Zoom in", () => {
+        cy.zoom({
+          level: Math.min(cy.zoom() * 1.25, cy.maxZoom()),
+          renderedPosition: {
+            x: canvas.clientWidth / 2,
+            y: canvas.clientHeight / 2
+          }
         });
       });
-    }
-  
+
+      makeButton("−", "Zoom out", () => {
+        cy.zoom({
+          level: Math.max(cy.zoom() / 1.25, cy.minZoom()),
+          renderedPosition: {
+            x: canvas.clientWidth / 2,
+            y: canvas.clientHeight / 2
+          }
+        });
+      });
+
+      makeButton("Fit", "Fit graph to window", () => {
+        cy.animate({
+          fit: {
+            eles: cy.elements(),
+            padding: 45
+          },
+          duration: 250
+        });
+      });
+
+      makeButton("A+", "Increase text size", () => {
+        fontSize = Math.min(fontSize + 2, 28);
+        cy.nodes().style("font-size", fontSize);
+      });
+
+      makeButton("A−", "Decrease text size", () => {
+        fontSize = Math.max(fontSize - 2, 8);
+        cy.nodes().style("font-size", fontSize);
+      });
+
+      // Resize without resetting the user's zoom and pan.
+      const observer = new ResizeObserver(() => {
+        cy.resize();
+      });
+
+      observer.observe(wrapper);
+
+      // Double-click a file to inspect its path.
+      cy.on("dbltap", "node", event => {
+        console.log("Selected file:", event.target.data("path"));
+      });
+    });
+  }
+
   await createDependencyGraph(g)
 })

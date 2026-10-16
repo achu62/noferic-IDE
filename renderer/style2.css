@@ -72,7 +72,8 @@ body {
   margin-top: 0;
   margin-right: 0;
   margin-left: 0;
-  background-color: #595959;
+  background-color: #3b414d;
+  font-size:11px !important;
   /* filter: invert(1) hue-rotate(180deg) contrast(120%) brightness(105%);
   background-color: #000;*/
 
@@ -220,12 +221,12 @@ body {
   transform: none;
   border: none;
   box-sizing: border-box;
-  background-color: #595959;
+  background-color: #3b414d;
   overflow: hidden;
 }
 
 #top-menu>* {
-  background-color: #1e1e1e;
+  background-color: #3b414d;
 }
 
 
@@ -499,7 +500,7 @@ body {
   top: 30.2px;
   bottom: 19px;
   z-index: 4;
-  background-color: #595959;
+  background-color: #3b414d;
   display: block;
   image-rendering: optimizeQuality;
   height: calc(100vh - 50px);
@@ -655,7 +656,7 @@ body {
   display: block;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   padding-left: 10px;
-  background-color: var(--404040);
+  background-color:#2e333d
 }
 
 
@@ -1055,7 +1056,7 @@ body {
   flex-direction: column;
   gap: 0px;
   align-items: vertical;
-  background-color: #333333;
+  background-color:#2e333d;
   overflow-y: scroll;
   /*flex-wrap: wrap;*/
 }
@@ -1063,7 +1064,7 @@ body {
 .files {
   all: unset;
   color: var(--ffffff);
-  background-color: #333333;
+  background-color: #2e333d;
   min-height: 17px;
   position: relative;
   right: 0;
@@ -1079,14 +1080,13 @@ body {
   touch-action: manipulation;
   user-select: none;
   padding-left: 30px !important;
-  border: 0.01px solid #4b4949;
   /* prevents accidental text selection on tap */
 }
 
 .files:hover {
 
   color: var(--ffffff);
-  background-color: #404040;
+  background-color: #373d46;
   min-height: 17px;
   position: relative;
   right: 0;
