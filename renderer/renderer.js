@@ -5,6 +5,7 @@
 console.log(["udn", "cnf", "adding thins"]);
 
 let countforterminal = 1;
+import {createAiAgent} from "./ai-frontend/main.js"
 import { giveOptionMenu } from "./option_d.js"
 import { newTerminalinsseperateWindow } from "./terminal/open-in-win.js"
 import { symtree } from "./maintain-symbol.js";
@@ -1461,3 +1462,4 @@ document.getElementById("showgraph").addEventListener("click", async (e) => {
 
   await createDependencyGraph(g)
 })
+createAiAgent(document , "1")
