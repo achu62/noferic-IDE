@@ -28,20 +28,21 @@ function installWindowStyles() {
 			overflow: auto;
 			transform: translate(-50%, -50%);
 			border: 1px solid #4c5963;
-			background: #1e2329;
+			border-radius: 8px;
+			background: #1e1e2e;
 			color: #edf2f7;
 			box-shadow: 0 18px 50px rgba(0, 0, 0, 0.42);
 			font: 13px/1.45 system-ui, sans-serif;
 		}
 		.noferic-window[hidden] { display: none; }
 		.noferic-window__titlebar {
-			flex: 0 0 38px;
+			flex: 0 0 24px;
 			display: flex;
 			align-items: center;
-			gap: 12px;
-			padding: 0 10px 0 14px;
+			gap: 4px;
+			padding: 0 6px;
 			border-bottom: 1px solid #353d45;
-			background: #282f36;
+			background: #1e1e2e;
 			cursor: grab;
 			touch-action: none;
 			user-select: none;
@@ -64,10 +65,10 @@ function installWindowStyles() {
 			cursor: pointer;
 		}
 		.noferic-window__control {
-			width: 28px;
-			height: 26px;
+			width: 18px;
+			height: 18px;
 			padding: 0;
-			font-size: 17px;
+			font-size: 12px;
 			line-height: 1;
 		}
 		.noferic-window__control:hover { background: #3a4650; }
@@ -76,7 +77,7 @@ function installWindowStyles() {
 			min-width: 0;
 			min-height: 0;
 			overflow: auto;
-			padding: 12px;
+			padding: 4px;
 		}
 		.noferic-window-manager__item { text-align: left; }
 	`;
