@@ -466,10 +466,12 @@ function createWindow() {
       devTools: true,
     },
   });
-  win.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
   if (isproduction) {
     win.removeMenu();
+
   }
+  win.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
+
   win.webContents.on("did-finish-load", () => {
     win.webContents.insertCSS(`
       [fill="#1e1e1e" i] { fill: #FFFFFF !important; }
@@ -724,7 +726,7 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
   try {
     let diagnostics = [];
     /**@param {Array} nfd  */
-   
+
     let es_sys = await lint_sys(code);
     let nfd = await req_Diagnostic(filePath, code);
     let esd = await lint(code, filePath);
@@ -826,22 +828,22 @@ ipcMain.on("window-maximize", () => {
 ipcMain.on("window-close", () => {
   if (win) win.close();
 });
-ipcMain.handle("give-graph" , async(e , filePath)=>{
-  
-   const { output } = await runIdeAudit(filePath)
-    const modules = output.modules.filter(
-      module =>
-        !/(^|\/)(node_modules|dist|\.git|\.noferic-IDE)(\/|$)/.test(
-          module.source,
-        ),
-    );
+ipcMain.handle("give-graph", async (e, filePath) => {
 
-    const graph = modules.map(module => ({
-      file: module.source,
-      dependencies: module.dependencies
-        .filter(dep => dep.resolved && modules.some(m => m.source === dep.resolved))
-        .map(dep => dep.resolved),
-    }));
+  const { output } = await runIdeAudit(filePath)
+  const modules = output.modules.filter(
+    module =>
+      !/(^|\/)(node_modules|dist|\.git|\.noferic-IDE)(\/|$)/.test(
+        module.source,
+      ),
+  );
 
-    return graph;
+  const graph = modules.map(module => ({
+    file: module.source,
+    dependencies: module.dependencies
+      .filter(dep => dep.resolved && modules.some(m => m.source === dep.resolved))
+      .map(dep => dep.resolved),
+  }));
+
+  return graph;
 })
