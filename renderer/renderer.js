@@ -1471,26 +1471,4 @@ document.getElementById("showgraph").addEventListener("click", async (e) => {
 })
 //createAiAgent(document , "1")
 
-const oldText = `const name = "Charan";
-console.log(name);`;
 
-const newText = `const name = "Noferic";
-console.log(name);
-console.log("Hello");`;
-
-const patch = Diff.createTwoFilesPatch(
-  "index.js",
-  "index.js",
-  oldText,
-  newText
-);
-
-const html = Diff2Html.html(patch, {
-  outputFormat: "side-by-side",
-  drawFileList: false,
-  colorScheme: "dark"
-});
-
-const div = document.createElement("div")
-createWindowinNoferic({ heading: "diff", div: div })
-div.innerHTML = html
