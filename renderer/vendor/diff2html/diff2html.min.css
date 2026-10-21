@@ -177,7 +177,7 @@
 
 .d2h-file-side-diff {
     display: inline-block;
-    overflow-x: scroll;
+    overflow-x: hidden;
     overflow-y: hidden;
     width: 50%
 }

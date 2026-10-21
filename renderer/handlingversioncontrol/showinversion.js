@@ -29,13 +29,13 @@ async function rl(elementr, array, color, state) {
                 );
 
                 const html = Diff2Html.html(patch, {
-                    outputFormat: "side-by-side",
+                    outputFormat: "line-by-line",
                     drawFileList: false,
                     colorScheme: "dark"
                 });
 
                 const div = document.createElement("div")
-                div.style.overflow="hidden"
+                div.style.overflow="auto"
                 createWindowinNoferic({ heading: "diff", div: div })
                 div.innerHTML = html
             }
