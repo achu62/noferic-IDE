@@ -5,7 +5,7 @@
 console.log(["udn", "cnf", "adding thins"]);
 
 let countforterminal = 1;
-import {createAiAgent} from "./ai-frontend/main.js"
+import { createAiAgent } from "./ai-frontend/main.js"
 import { giveOptionMenu } from "./option_d.js"
 import { newTerminalinsseperateWindow } from "./terminal/open-in-win.js"
 import { symtree } from "./maintain-symbol.js";
@@ -282,7 +282,7 @@ window.onload = function () {
         {
           "text": "in the existing terminal",
           "type": "text",
-          "close":true,
+          "close": true,
           callback: () => {
             window.ipc.invoke("create_new_terminal", countforterminal);
             initiateterminal(
@@ -296,7 +296,7 @@ window.onload = function () {
         },
         {
           "text": "in a new dialog",
-          "close":true,
+          "close": true,
           "type": "text",
           callback: () => {
             window.ipc.invoke("create_new_terminal", countforterminal);
@@ -1136,10 +1136,10 @@ window.onload = function () {
             async function runn() {
               try {
                 const s = getstaged()
-                if(!s){
-                  IDEComponentApi.ShowNotification("no changes to commit,not commited" , {
-                    "duration":1000,
-                    type:"warn"
+                if (!s) {
+                  IDEComponentApi.ShowNotification("no changes to commit,not commited", {
+                    "duration": 1000,
+                    type: "warn"
                   })
                 }
                 await window.ipc.invoke("commit", values[0], s);
@@ -1470,3 +1470,27 @@ document.getElementById("showgraph").addEventListener("click", async (e) => {
   await createDependencyGraph(g)
 })
 //createAiAgent(document , "1")
+
+const oldText = `const name = "Charan";
+console.log(name);`;
+
+const newText = `const name = "Noferic";
+console.log(name);
+console.log("Hello");`;
+
+const patch = Diff.createTwoFilesPatch(
+  "index.js",
+  "index.js",
+  oldText,
+  newText
+);
+
+const html = Diff2Html.html(patch, {
+  outputFormat: "side-by-side",
+  drawFileList: false,
+  colorScheme: "dark"
+});
+
+const div = document.createElement("div")
+createWindowinNoferic({ heading: "diff", div: div })
+div.innerHTML = html
