@@ -8,51 +8,48 @@
 	<script src="./script-override-colors.js"></script>
 	<link rel="stylesheet" href="style2.css" />
 	<link rel="stylesheet" href="./xterm/css/xterm.css" />
+	<link rel="stylesheet" href="./vendor/diff2html/diff2html.min.css" <style>
+	@font-face {
+	font-family: 'NotoEmoji';
+	src: url('./editor/fonts/Noto_Color_Emoji\ \(1\)/NotoColorEmoji-Regular.ttf') format('truetype');
+	}
 
+	@font-face {
+	font-family: "JetBrains Mono";
+	src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	}
 
+	@font-face {
+	font-family: "JetBrains Mono";
+	src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Italic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: italic;
 
-	<style>
-		@font-face {
-			font-family: 'NotoEmoji';
-			src: url('./editor/fonts/Noto_Color_Emoji\ \(1\)/NotoColorEmoji-Regular.ttf') format('truetype');
-		}
+	}
 
-		@font-face {
-			font-family: "JetBrains Mono";
-			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2") format("woff2");
-			font-weight: 400;
-			font-style: normal;
-		}
+	@font-face {
+	font-family: "JetBrains Mono";
+	src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	}
 
-		@font-face {
-			font-family: "JetBrains Mono";
-			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Italic.woff2") format("woff2");
-			font-weight: 400;
-			font-style: italic;
+	@font-face {
+	font-family: "JetBrains Mono";
+	src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-BoldItalic.woff2") format("woff2");
+	font-weight: 700;
+	font-style: italic;
+	}
 
-		}
+	@font-face {
+	font-family: "Roboto slab";
+	src: url("./editor/fonts/Roboto_Slab/RobotoSlab-Regular\ \(1\).ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
 
-		@font-face {
-			font-family: "JetBrains Mono";
-			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Bold.woff2") format("woff2");
-			font-weight: 700;
-			font-style: normal;
-		}
-
-		@font-face {
-			font-family: "JetBrains Mono";
-			src: url("editor/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-BoldItalic.woff2") format("woff2");
-			font-weight: 700;
-			font-style: italic;
-		}
-
-		@font-face {
-			font-family: "Roboto slab";
-			src: url("./editor/fonts/Roboto_Slab/RobotoSlab-Regular\ \(1\).ttf") format("truetype");
-			font-weight: 400;
-			font-style: normal;
-
-		}
+	}
 	</style>
 </head>
 
@@ -193,7 +190,7 @@
 			<div id="terminalelement">
 				<div id="terminaltopbar" class="common bgcolor1e1e1e">Terminal
 					<button id="addtermbtn" title=" Create terminal process">+</button>
-						dialog</button>
+					dialog</button>
 
 				</div>
 				<div id="terminal"></div>
@@ -263,5 +260,7 @@
 <script src="./renderer.js" type="module"></script>
 <script src="./xterm/lib/xterm.js"></script>
 <script src="./cytoscape/dist/cytoscape.min.js"></script>
+<script src="./vendor/diff2html/diff.min.js"></script>
+<script src="./vendor/diff2html/diff2html.min.js"></script>
 
 </html>
