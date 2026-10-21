@@ -2134,6 +2134,25 @@ input {
 
 }
 
+#ai-agent {
+
+
+
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 239.2px;
+  background-image: url("images/ai-agent.svg");
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  z-index: 5;
+  background-color: inherit;
+
+
+
+}
+
 #nf-list {
 
   position: absolute;
