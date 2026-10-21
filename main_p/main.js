@@ -685,8 +685,8 @@ ipcMain.handle("validate-details-liveserver", async (e, d) => {
   return validate_details_liveserver(e, d, pathreal, consolelog);
 });
 ipcMain.handle("commit", async (e, message, s) => {
-  const commitPromise = await handleCommit(message, s);
-  return commitPromise;
+  await handleCommit(message, s);
+
 });
 ipcMain.handle("create_new_terminal", async (e, id, currentworkingdir) => {
   //console.log("r r /t n");
