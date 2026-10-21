@@ -1135,7 +1135,14 @@ window.onload = function () {
           if (isuserokforcommit) {
             async function runn() {
               try {
-                await window.ipc.invoke("commit", values[0], getstaged());
+                const s = getstaged()
+                if(!s){
+                  IDEComponentApi.ShowNotification("no changes to commit,not commited" , {
+                    "duration":1000,
+                    type:"warn"
+                  })
+                }
+                await window.ipc.invoke("commit", values[0], s);
                 IDEComponentApi.ShowNotification("Comitted!", {
                   duration: 900,
                   type: "success",

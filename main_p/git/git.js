@@ -92,26 +92,16 @@ export async function initialisereposcan(repopath, win) {
         // consolelog(e);
     }
 }
-export async function handleCommit(message , s) {
-    const commitPromise = new Promise((re, rej) => {
-        try {
-            async function runn() {
-                const status = await gitprocess.status();
-                //console.log("m" + status.files.length);
-                if (status.files.length === 0) {
-                    rej("no changes to commit");
-                }
-                await gitprocess.add(s);
-                const commit = await gitprocess.commit(message);
-                //console.log(commit)
-                re("tr");
-            }
-            runn();
-        } catch (e) {
-            rej(new Error(e));
-        }
-    });
-    return commitPromise;
+export async function handleCommit(message, s) {
+
+    try {
+        await gitprocess.add(s);
+        const commit = await gitprocess.commit(message);
+
+    } catch (e) {
+        new Error(e)
+    }
+
 }
 
 export async function SyncChanges() {
@@ -122,7 +112,7 @@ export async function SyncChanges() {
 
         if (!currentBranch) {
             const notification = new Notification({
-                 title: "noferic-IDE",
+                title: "noferic-IDE",
                 body: "You are not on any branch!"
             });
             notification.show()
@@ -132,7 +122,7 @@ export async function SyncChanges() {
 
         if (!status.isClean()) {
             const notification = new Notification({
-                 title: "noferic-IDE",
+                title: "noferic-IDE",
                 body: "Please commit your changes before syncing!"
             });
             notification.show()
@@ -147,32 +137,32 @@ export async function SyncChanges() {
         await gitprocess.push('origin', currentBranch);
 
         const notification = new Notification({
-             title: "noferic-IDE",
+            title: "noferic-IDE",
             body: "Sync completed successfully!"
         });
         notification.show()
 
 
     } catch (error) {
-        const not = new Notification({title:"sync-failed" , body:JSON.stringify(error)});
+        const not = new Notification({ title: "sync-failed", body: JSON.stringify(error) });
 
         if (error.message.includes('CONFLICT')) {
             const notification = new Notification({
-                 title: "noferic-IDE",
+                title: "noferic-IDE",
                 body: "Sync paused: Merge conflicts detected! Please resolve conflicts manually."
             });
             notification.show()
 
         } else if (error.message.includes('Authentication failed') || error.message.includes('Permission denied')) {
             const notification = new Notification({
-                 title: "noferic-IDE",
+                title: "noferic-IDE",
                 body: "Sync failed: Authentication or login issue with the remote repository."
             });
             notification.show()
 
         } else {
             const notification = new Notification({
-                 title: "noferic-IDE",
+                title: "noferic-IDE",
                 body: "Sync failed due to a network or repository error."
             });
             notification.show()
