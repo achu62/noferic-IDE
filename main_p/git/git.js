@@ -195,7 +195,7 @@ export async function GetDifftextMain(Filepath) {
         //console.log(Filepath)
         const old = await gitprocess.raw(["show", `HEAD:${Filepath}`])
         //console.log(`ist the old:${old}`)
-        const newFile = await fs.readFileSync(path.join(repositorypath, Filepath))
+        const newFile = fs.readFileSync(path.join(repositorypath, Filepath) , "utf8")
         //console.log(`ist the  new:${newFile}`)
         return [old, newFile]
     }

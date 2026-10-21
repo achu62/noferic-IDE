@@ -1,4 +1,5 @@
 import { GetFilebaseName, showDiff } from "../renderer.js";
+import { createWindowinNoferic } from "../window_creator.js";
 let json;
 let staged = [];
 //jai sri ram
@@ -14,6 +15,31 @@ async function rl(elementr, array, color, state) {
         newmfe.style.color = color;
         newmfe.style.width = "100%";
         newmfe.style.boxSizing = "border-box";
+        newmfe.addEventListener("click", async (e) => {
+            if (state == "M") {
+                const res = await window.ipc.invoke("get-diff-texts", element)
+                console.log(res)
+                const oldText = res[0]
+                const newText = res[1]
+                const patch = Diff.createTwoFilesPatch(
+                    "index.js",
+                    "index.js",
+                    oldText,
+                    newText
+                );
+
+                const html = Diff2Html.html(patch, {
+                    outputFormat: "side-by-side",
+                    drawFileList: false,
+                    colorScheme: "dark"
+                });
+
+                const div = document.createElement("div")
+                div.style.overflow="hidden"
+                createWindowinNoferic({ heading: "diff", div: div })
+                div.innerHTML = html
+            }
+        })
         const itext = document.createElement("div");
         itext.style.left = 0;
         itext.style.top = 0;
@@ -61,12 +87,6 @@ async function rl(elementr, array, color, state) {
             staged = staged.filter((el) => el !== element);
             itext.innerText = itext.innerText.replace("(staged)", "");
             console.log(staged);
-        });
-        newmfe.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (state === "M") {
-                showDiff(element);
-            }
         });
         newmfe.appendChild(itext);
         newmfe.appendChild(stagebtn);
@@ -129,6 +149,6 @@ export function setInVersionControl(document, eleme, jason) {
     rl(element, json.notadded, "#9e9e9e", "N");
     rl(element, json.renamed, "#ffffff", "R");
 }
-export function getstaged(){
+export function getstaged() {
     return staged;
 }
