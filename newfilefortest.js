@@ -23,6 +23,7 @@ function irritate(Math, x) {
 
 
 
+
   // no-dupe-keys
   const object = {
     grass: 1,
