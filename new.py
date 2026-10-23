@@ -1,4 +1,5 @@
 #jai sri ram
+import tkinter as TK
 import turtle
 screen = turtle.Screen()
 screen.bgcolor("white")

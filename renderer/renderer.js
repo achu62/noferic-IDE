@@ -5,7 +5,6 @@
 console.log(["udn", "cnf", "adding thins"]);
 
 let countforterminal = 1;
-import {createDiff} from "./custom_diff.js"
 import { createAiAgent } from "./ai-frontend/main.js"
 import { giveOptionMenu } from "./option_d.js"
 import { newTerminalinsseperateWindow } from "./terminal/open-in-win.js"

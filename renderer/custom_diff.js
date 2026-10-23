@@ -2,19 +2,19 @@
 /**
  * diff_creator.js
  * 
- * Creates a clean, table-free, flexbox-based line-by-line visual diff.
+ * Creates a clean, table-free, flexbox-based line-by-line visual diff with a dark theme.
  * 
  * @param {string} oldText - The original text (non-null string)
  * @param {string} newText - The new/modified text (non-null string)
  * @param {HTMLElement} div - The parent element to render the diff inside
  */
-function createDiff(oldText, newText, div) {
+export function createDiff(oldText, newText, div) {
   if (typeof oldText !== 'string' || typeof newText !== 'string' || !div) {
     console.error("Invalid arguments provided to createDiff. Expected (string, string, HTMLElement)");
     return;
   }
 
-  // Inject standard styling if not already present on page
+  // Inject dark theme styling if not already present on page
   injectDiffStyles();
 
   // Step 1: Compute Line-by-Line Diff Data
@@ -113,7 +113,7 @@ function renderDiffUI(diffLines, parentElement) {
 }
 
 /**
- * Helper to auto-inject light CSS stylesheet into document head
+ * Helper to auto-inject dark theme CSS stylesheet into document head
  */
 function injectDiffStyles() {
   if (document.getElementById('diff-creator-styles')) return;
@@ -125,11 +125,11 @@ function injectDiffStyles() {
       font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
       font-size: 13px;
       line-height: 1.5;
-      border: 1px solid #d0d7de;
+      border: 1px solid #30363d;
       border-radius: 6px;
       overflow-x: auto;
-      background-color: #ffffff;
-      color: #1f2328;
+      background-color: #0d1117;
+      color: #c9d1d9;
     }
     
     .diff-row {
@@ -141,21 +141,21 @@ function injectDiffStyles() {
     }
     
     .diff-row.added {
-      background-color: #e6ffec;
+      background-color: rgba(46, 160, 67, 0.15);
     }
     
     .diff-row.removed {
-      background-color: #ffebe9;
+      background-color: rgba(248, 81, 73, 0.15);
     }
     
     .diff-row:hover {
-      background-color: #f3f4f6;
+      background-color: rgba(177, 186, 196, 0.08);
     }
     .diff-row.added:hover {
-      background-color: #ccffd8;
+      background-color: rgba(46, 160, 67, 0.25);
     }
     .diff-row.removed:hover {
-      background-color: #ffd7d5;
+      background-color: rgba(248, 81, 73, 0.25);
     }
 
     .diff-num {
@@ -163,11 +163,11 @@ function injectDiffStyles() {
       min-width: 45px;
       padding: 0 8px;
       text-align: right;
-      color: #6e7781;
+      color: #8b949e;
       user-select: none;
       box-sizing: border-box;
-      border-right: 1px solid #e1e4e8;
-      background-color: rgba(246, 248, 250, 0.6);
+      border-right: 1px solid #30363d;
+      background-color: #161b22;
     }
 
     .diff-prefix {
@@ -177,8 +177,8 @@ function injectDiffStyles() {
       user-select: none;
       font-weight: bold;
     }
-    .diff-row.added .diff-prefix { color: #1a7f37; }
-    .diff-row.removed .diff-prefix { color: #cf222e; }
+    .diff-row.added .diff-prefix { color: #3fb950; }
+    .diff-row.removed .diff-prefix { color: #f85149; }
 
     .diff-content {
       flex: 1;
