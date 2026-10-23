@@ -728,7 +728,7 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
     /**@param {Array} nfd  */
 
     let es_sys = await lint_sys(code);
-    let nfd = await req_Diagnostic(filePath, code);
+   // let nfd = await req_Diagnostic(filePath, code);
     let esd = await lint(code, filePath);
     esd = esd[0].messages;
     let syd = await getSyntacticDiagnosticsfromts(
@@ -751,11 +751,11 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
       });
     }
 
-    if (nfd) {
+    /*if (nfd) {
       nfd.forEach((o) => {
         diagnostics.push(o);
       });
-    }
+    }*/
     console.log(diagnostics)
     win.webContents.send(
       "data",
