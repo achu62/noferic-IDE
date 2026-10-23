@@ -1,5 +1,7 @@
 import { GetFilebaseName, showDiff } from "../renderer.js";
 import { createWindowinNoferic } from "../window_creator.js";
+import { createDiff } from "../custom_diff.js"
+
 let json;
 let staged = [];
 //jai sri ram
@@ -21,23 +23,10 @@ async function rl(elementr, array, color, state) {
                 console.log(res)
                 const oldText = res[0]
                 const newText = res[1]
-                const patch = Diff.createTwoFilesPatch(
-                    "index.js",
-                    "index.js",
-                    oldText,
-                    newText
-                );
-
-                const html = Diff2Html.html(patch, {
-                    outputFormat: "line-by-line",
-                    drawFileList: false,
-                    colorScheme: "dark"
-                });
-
                 const div = document.createElement("div")
-                div.style.overflow="auto"
+                div.style.overflow = "auto"
                 createWindowinNoferic({ heading: "diff", div: div })
-                div.innerHTML = html
+                createDiff(oldText , newText , div)
             }
         })
         const itext = document.createElement("div");
