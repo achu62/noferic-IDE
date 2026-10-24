@@ -1,0 +1,3014 @@
+{
+  "@cacheable/memory@2.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/cacheable",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/@cacheable/memory",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@cacheable/memory/LICENSE"
+  },
+  "@cacheable/utils@2.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/cacheable",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/@cacheable/utils",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@cacheable/utils/LICENSE"
+  },
+  "@eslint-community/eslint-utils@4.10.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/eslint-community/eslint-utils",
+    "publisher": "Toru Nagashima",
+    "path": "/home/charan/noferic-IDE/node_modules/@eslint-community/eslint-utils",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@eslint-community/eslint-utils/LICENSE"
+  },
+  "@eslint-community/regexpp@4.12.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/eslint-community/regexpp",
+    "publisher": "Toru Nagashima",
+    "path": "/home/charan/noferic-IDE/node_modules/@eslint-community/regexpp",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@eslint-community/regexpp/LICENSE"
+  },
+  "@eslint/config-array@0.23.5": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/eslint/rewrite",
+    "publisher": "Nicholas C. Zakas",
+    "path": "/home/charan/noferic-IDE/node_modules/@eslint/config-array",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@eslint/config-array/LICENSE"
+  },
+  "@eslint/config-helpers@0.7.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/eslint/rewrite",
+    "path": "/home/charan/noferic-IDE/node_modules/@eslint/config-helpers",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@eslint/config-helpers/LICENSE"
+  },
+  "@eslint/core@1.2.1": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/eslint/rewrite",
+    "publisher": "Nicholas C. Zakas",
+    "path": "/home/charan/noferic-IDE/node_modules/@eslint/core",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@eslint/core/LICENSE"
+  },
+  "@eslint/js@10.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/eslint/eslint",
+    "path": "/home/charan/noferic-IDE/node_modules/@eslint/js",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@eslint/js/LICENSE"
+  },
+  "@eslint/object-schema@3.0.5": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/eslint/rewrite",
+    "publisher": "Nicholas C. Zakas",
+    "path": "/home/charan/noferic-IDE/node_modules/@eslint/object-schema",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@eslint/object-schema/LICENSE"
+  },
+  "@eslint/plugin-kit@0.7.3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/eslint/rewrite",
+    "publisher": "Nicholas C. Zakas",
+    "path": "/home/charan/noferic-IDE/node_modules/@eslint/plugin-kit",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@eslint/plugin-kit/LICENSE"
+  },
+  "@humanfs/core@0.19.2": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/humanwhocodes/humanfs",
+    "publisher": "Nicholas C. Zakas",
+    "path": "/home/charan/noferic-IDE/node_modules/@humanfs/core",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@humanfs/core/LICENSE"
+  },
+  "@humanfs/node@0.16.8": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/humanwhocodes/humanfs",
+    "publisher": "Nicholas C. Zakas",
+    "path": "/home/charan/noferic-IDE/node_modules/@humanfs/node",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@humanfs/node/LICENSE"
+  },
+  "@humanfs/types@0.15.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/humanwhocodes/humanfs",
+    "publisher": "Nicholas C. Zakas",
+    "path": "/home/charan/noferic-IDE/node_modules/@humanfs/types",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@humanfs/types/README.md"
+  },
+  "@humanwhocodes/module-importer@1.0.1": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/humanwhocodes/module-importer",
+    "publisher": "Nicholas C. Zaks",
+    "path": "/home/charan/noferic-IDE/node_modules/@humanwhocodes/module-importer",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@humanwhocodes/module-importer/LICENSE"
+  },
+  "@humanwhocodes/retry@0.4.3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/humanwhocodes/retry",
+    "publisher": "Nicholas C. Zaks",
+    "path": "/home/charan/noferic-IDE/node_modules/@humanwhocodes/retry",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@humanwhocodes/retry/LICENSE"
+  },
+  "@isaacs/fs-minipass@4.0.1": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/fs-minipass",
+    "publisher": "Isaac Z. Schlueter",
+    "path": "/home/charan/noferic-IDE/node_modules/@isaacs/fs-minipass",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@isaacs/fs-minipass/LICENSE"
+  },
+  "@keyv/bigmap@1.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/keyv",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "url": "http://jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/@keyv/bigmap",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@keyv/bigmap/LICENSE"
+  },
+  "@keyv/serialize@1.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/keyv",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "url": "https://jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/@keyv/serialize",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@keyv/serialize/LICENSE"
+  },
+  "@kwsites/file-exists@1.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kwsites/file-exists",
+    "publisher": "Steve King",
+    "email": "steve@mydev.co",
+    "path": "/home/charan/noferic-IDE/node_modules/@kwsites/file-exists",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@kwsites/file-exists/LICENSE"
+  },
+  "@kwsites/promise-deferred@1.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kwsites/promise-deferred",
+    "publisher": "Steve King",
+    "email": "steve@mydev.co",
+    "path": "/home/charan/noferic-IDE/node_modules/@kwsites/promise-deferred",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@kwsites/promise-deferred/LICENSE"
+  },
+  "@lydell/node-pty-linux-x64@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lydell/node-pty",
+    "path": "/home/charan/noferic-IDE/node_modules/@lydell/node-pty-linux-x64",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@lydell/node-pty-linux-x64/README.md"
+  },
+  "@lydell/node-pty@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lydell/node-pty",
+    "publisher": "Simon Lydell",
+    "path": "/home/charan/noferic-IDE/node_modules/@lydell/node-pty",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@lydell/node-pty/LICENSE"
+  },
+  "@nodelib/fs.scandir@2.1.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.scandir",
+    "path": "/home/charan/noferic-IDE/node_modules/@nodelib/fs.scandir",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@nodelib/fs.scandir/LICENSE"
+  },
+  "@nodelib/fs.stat@2.0.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.stat",
+    "path": "/home/charan/noferic-IDE/node_modules/@nodelib/fs.stat",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@nodelib/fs.stat/LICENSE"
+  },
+  "@nodelib/fs.walk@1.2.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.walk",
+    "path": "/home/charan/noferic-IDE/node_modules/@nodelib/fs.walk",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@nodelib/fs.walk/LICENSE"
+  },
+  "@simple-git/args-pathspec@1.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/steveukx/git-js",
+    "path": "/home/charan/noferic-IDE/node_modules/@simple-git/args-pathspec",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@simple-git/args-pathspec/LICENSE"
+  },
+  "@simple-git/argv-parser@1.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/steveukx/git-js",
+    "path": "/home/charan/noferic-IDE/node_modules/@simple-git/argv-parser"
+  },
+  "@sindresorhus/df@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/df",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/mount-point/node_modules/@sindresorhus/df",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/mount-point/node_modules/@sindresorhus/df/license"
+  },
+  "@sindresorhus/df@3.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/df",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/@sindresorhus/df",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@sindresorhus/df/license"
+  },
+  "@sindresorhus/merge-streams@2.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/merge-streams",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/@sindresorhus/merge-streams",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@sindresorhus/merge-streams/license"
+  },
+  "@stroncium/procfs@1.2.1": {
+    "licenses": "CC0-1.0",
+    "repository": "https://github.com/stroncium/nodejs-procfs",
+    "publisher": "Yanis Benson",
+    "email": "yanis.benson+project.nodejs.procfs@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/@stroncium/procfs",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@stroncium/procfs/LICENSE"
+  },
+  "@ts-morph/common@0.29.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dsherret/ts-morph",
+    "publisher": "David Sherret",
+    "path": "/home/charan/noferic-IDE/node_modules/@ts-morph/common",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@ts-morph/common/LICENSE"
+  },
+  "@types/esrecurse@4.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+    "path": "/home/charan/noferic-IDE/node_modules/@types/esrecurse",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@types/esrecurse/LICENSE"
+  },
+  "@types/estree@1.0.9": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+    "path": "/home/charan/noferic-IDE/node_modules/@types/estree",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@types/estree/LICENSE"
+  },
+  "@types/json-schema@7.0.15": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+    "path": "/home/charan/noferic-IDE/node_modules/@types/json-schema",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@types/json-schema/LICENSE"
+  },
+  "abbrev@5.0.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/abbrev-js",
+    "publisher": "GitHub Inc.",
+    "path": "/home/charan/noferic-IDE/node_modules/abbrev",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/abbrev/LICENSE"
+  },
+  "accepts@1.3.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/accepts",
+    "path": "/home/charan/noferic-IDE/node_modules/accepts",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/accepts/LICENSE"
+  },
+  "acorn-jsx-walk@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sderosiaux/acorn-jsx-walk",
+    "publisher": "Julian Lloyd",
+    "email": "me@jlmak.es",
+    "path": "/home/charan/noferic-IDE/node_modules/acorn-jsx-walk",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/acorn-jsx-walk/LICENSE"
+  },
+  "acorn-jsx@5.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/acornjs/acorn-jsx",
+    "path": "/home/charan/noferic-IDE/node_modules/acorn-jsx",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/acorn-jsx/LICENSE"
+  },
+  "acorn-loose@8.5.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/acornjs/acorn",
+    "path": "/home/charan/noferic-IDE/node_modules/acorn-loose",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/acorn-loose/LICENSE"
+  },
+  "acorn-walk@8.3.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/acornjs/acorn",
+    "path": "/home/charan/noferic-IDE/node_modules/acorn-walk",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/acorn-walk/LICENSE"
+  },
+  "acorn@8.19.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/acornjs/acorn",
+    "path": "/home/charan/noferic-IDE/node_modules/acorn",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/acorn/LICENSE"
+  },
+  "address@2.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/node-modules/address",
+    "publisher": "fengmk2",
+    "email": "fengmk2@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/address",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/address/LICENSE.txt"
+  },
+  "ajv@6.15.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ajv-validator/ajv",
+    "publisher": "Evgeny Poberezkin",
+    "path": "/home/charan/noferic-IDE/node_modules/eslint/node_modules/ajv",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/eslint/node_modules/ajv/LICENSE"
+  },
+  "ansi-styles@4.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/ansi-styles",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/ansi-styles",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/ansi-styles/license"
+  },
+  "anymatch@2.0.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/micromatch/anymatch",
+    "publisher": "Elan Shanker",
+    "url": "http://github.com/es128",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/LICENSE"
+  },
+  "apache-crypt@1.2.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/gevorg/apache-crypt",
+    "publisher": "Gevorg Harutyunyan",
+    "url": "http://github.com/gevorg",
+    "path": "/home/charan/noferic-IDE/node_modules/apache-crypt",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/apache-crypt/LICENSE"
+  },
+  "apache-md5@1.1.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/gevorg/apache-md5",
+    "publisher": "Gevorg Harutyunyan",
+    "url": "http://github.com/gevorg",
+    "path": "/home/charan/noferic-IDE/node_modules/apache-md5",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/apache-md5/LICENSE"
+  },
+  "arr-diff@4.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/arr-diff",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/arr-diff",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/arr-diff/LICENSE"
+  },
+  "arr-flatten@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/arr-flatten",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/arr-flatten",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/arr-flatten/LICENSE"
+  },
+  "arr-union@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/arr-union",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/arr-union",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/arr-union/LICENSE"
+  },
+  "array-unique@0.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/array-unique",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/array-unique",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/array-unique/LICENSE"
+  },
+  "assign-symbols@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/assign-symbols",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/assign-symbols",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/assign-symbols/LICENSE"
+  },
+  "async-each@1.0.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/paulmillr/async-each",
+    "publisher": "Paul Miller",
+    "url": "https://paulmillr.com/",
+    "path": "/home/charan/noferic-IDE/node_modules/async-each",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/async-each/LICENSE"
+  },
+  "atob@2.1.2": {
+    "licenses": "(MIT OR Apache-2.0)",
+    "repository": "git://git.coolaj86.com/coolaj86/atob.js",
+    "publisher": "AJ ONeal",
+    "email": "coolaj86@gmail.com",
+    "url": "https://coolaj86.com",
+    "path": "/home/charan/noferic-IDE/node_modules/atob",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/atob/LICENSE"
+  },
+  "balanced-match@4.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/juliangruber/balanced-match",
+    "path": "/home/charan/noferic-IDE/node_modules/balanced-match",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/balanced-match/LICENSE.md"
+  },
+  "base@0.11.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/node-base/base",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/base",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/base/LICENSE"
+  },
+  "basic-auth@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/basic-auth",
+    "path": "/home/charan/noferic-IDE/node_modules/basic-auth",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/basic-auth/LICENSE"
+  },
+  "batch@0.6.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/visionmedia/batch",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "path": "/home/charan/noferic-IDE/node_modules/batch",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/batch/LICENSE"
+  },
+  "bcryptjs@2.4.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dcodeIO/bcrypt.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode@dcode.io",
+    "path": "/home/charan/noferic-IDE/node_modules/bcryptjs",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/bcryptjs/LICENSE"
+  },
+  "binary-extensions@1.13.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/binary-extensions",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/binary-extensions",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/binary-extensions/license"
+  },
+  "brace-expansion@5.0.12": {
+    "licenses": "MIT",
+    "repository": "https://github.com/juliangruber/brace-expansion",
+    "path": "/home/charan/noferic-IDE/node_modules/brace-expansion",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/brace-expansion/LICENSE"
+  },
+  "braces@2.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/braces",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/braces",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/braces/LICENSE"
+  },
+  "braces@3.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/braces",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/braces",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/braces/LICENSE"
+  },
+  "cache-base@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/cache-base",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/cache-base",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/cache-base/LICENSE"
+  },
+  "cacheable@2.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/cacheable",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/cacheable",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/cacheable/LICENSE"
+  },
+  "chalk@4.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/chalk",
+    "path": "/home/charan/noferic-IDE/node_modules/chalk",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/chalk/license"
+  },
+  "chokidar@2.1.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/paulmillr/chokidar",
+    "publisher": "Paul Miller",
+    "url": "https://paulmillr.com",
+    "path": "/home/charan/noferic-IDE/node_modules/live-server/node_modules/chokidar",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/live-server/node_modules/chokidar/README.md"
+  },
+  "chokidar@5.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/paulmillr/chokidar",
+    "publisher": "Paul Miller",
+    "url": "https://paulmillr.com",
+    "path": "/home/charan/noferic-IDE/node_modules/chokidar",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/chokidar/LICENSE"
+  },
+  "chownr@3.0.0": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/chownr",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/charan/noferic-IDE/node_modules/chownr",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/chownr/LICENSE.md"
+  },
+  "chunkify@5.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/chunkify",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/chunkify",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/chunkify/license"
+  },
+  "class-utils@0.3.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/class-utils",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/class-utils",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/class-utils/LICENSE"
+  },
+  "code-block-writer@13.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dsherret/code-block-writer",
+    "publisher": "David Sherret",
+    "path": "/home/charan/noferic-IDE/node_modules/code-block-writer",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/code-block-writer/LICENSE"
+  },
+  "collection-visit@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/collection-visit",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/collection-visit",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/collection-visit/LICENSE"
+  },
+  "color-convert@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Qix-/color-convert",
+    "publisher": "Heather Arthur",
+    "email": "fayearthur@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/color-convert",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/color-convert/LICENSE"
+  },
+  "color-name@1.1.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/colorjs/color-name",
+    "publisher": "DY",
+    "email": "dfcreative@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/color-name",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/color-name/LICENSE"
+  },
+  "colors@1.4.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Marak/colors.js",
+    "publisher": "Marak Squires",
+    "path": "/home/charan/noferic-IDE/node_modules/colors",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/colors/LICENSE"
+  },
+  "commander@15.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/tj/commander.js",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "path": "/home/charan/noferic-IDE/node_modules/dependency-cruiser/node_modules/commander",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/dependency-cruiser/node_modules/commander/LICENSE"
+  },
+  "component-emitter@1.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/component-emitter",
+    "path": "/home/charan/noferic-IDE/node_modules/component-emitter",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/component-emitter/LICENSE"
+  },
+  "connect@3.7.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/senchalabs/connect",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "url": "http://tjholowaychuk.com",
+    "path": "/home/charan/noferic-IDE/node_modules/connect",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/connect/LICENSE"
+  },
+  "copy-descriptor@0.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/copy-descriptor",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/copy-descriptor",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/copy-descriptor/LICENSE"
+  },
+  "core-util-is@1.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/isaacs/core-util-is",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/charan/noferic-IDE/node_modules/core-util-is",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/core-util-is/LICENSE"
+  },
+  "cors@2.8.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expressjs/cors",
+    "publisher": "Troy Goode",
+    "email": "troygoode@gmail.com",
+    "url": "https://github.com/troygoode/",
+    "path": "/home/charan/noferic-IDE/node_modules/cors",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/cors/LICENSE"
+  },
+  "cross-spawn@7.0.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/moxystudio/node-cross-spawn",
+    "publisher": "André Cruz",
+    "email": "andre@moxy.studio",
+    "path": "/home/charan/noferic-IDE/node_modules/cross-spawn",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/cross-spawn/LICENSE"
+  },
+  "cytoscape@3.34.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/cytoscape/cytoscape.js",
+    "path": "/home/charan/noferic-IDE/node_modules/cytoscape",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/cytoscape/LICENSE"
+  },
+  "debug@2.6.9": {
+    "licenses": "MIT",
+    "repository": "https://github.com/visionmedia/debug",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "path": "/home/charan/noferic-IDE/node_modules/snapdragon/node_modules/debug",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/snapdragon/node_modules/debug/LICENSE"
+  },
+  "debug@4.4.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/debug-js/debug",
+    "publisher": "Josh Junon",
+    "url": "https://github.com/qix-",
+    "path": "/home/charan/noferic-IDE/node_modules/debug",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/debug/LICENSE"
+  },
+  "decode-uri-component@0.2.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/SamVerschueren/decode-uri-component",
+    "publisher": "Sam Verschueren",
+    "email": "sam.verschueren@gmail.com",
+    "url": "github.com/SamVerschueren",
+    "path": "/home/charan/noferic-IDE/node_modules/decode-uri-component",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/decode-uri-component/license"
+  },
+  "deep-is@0.1.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/thlorenz/deep-is",
+    "publisher": "Thorsten Lorenz",
+    "email": "thlorenz@gmx.de",
+    "url": "http://thlorenz.com",
+    "path": "/home/charan/noferic-IDE/node_modules/deep-is",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/deep-is/LICENSE"
+  },
+  "define-property@0.2.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/define-property",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/class-utils/node_modules/define-property",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/class-utils/node_modules/define-property/LICENSE"
+  },
+  "define-property@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/define-property",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/base/node_modules/define-property",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/base/node_modules/define-property/LICENSE"
+  },
+  "define-property@2.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/define-property",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/define-property",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/define-property/LICENSE"
+  },
+  "depd@1.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dougwilson/nodejs-depd",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/charan/noferic-IDE/node_modules/serve-index/node_modules/depd",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/serve-index/node_modules/depd/LICENSE"
+  },
+  "depd@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dougwilson/nodejs-depd",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/charan/noferic-IDE/node_modules/depd",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/depd/LICENSE"
+  },
+  "dependency-cruiser@18.6.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sverweij/dependency-cruiser",
+    "publisher": "Sander Verweij",
+    "url": "https://sverweij.github.io",
+    "path": "/home/charan/noferic-IDE/node_modules/dependency-cruiser",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/dependency-cruiser/LICENSE"
+  },
+  "detect-port@2.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/node-modules/detect-port",
+    "path": "/home/charan/noferic-IDE/node_modules/detect-port",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/detect-port/LICENSE"
+  },
+  "duplexer@0.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Raynos/duplexer",
+    "publisher": "Raynos",
+    "email": "raynos2@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/duplexer",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/duplexer/LICENCE"
+  },
+  "ee-first@1.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonathanong/ee-first",
+    "publisher": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "path": "/home/charan/noferic-IDE/node_modules/ee-first",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/ee-first/LICENSE"
+  },
+  "encodeurl@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/encodeurl",
+    "path": "/home/charan/noferic-IDE/node_modules/encodeurl",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/encodeurl/LICENSE"
+  },
+  "encodeurl@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/encodeurl",
+    "path": "/home/charan/noferic-IDE/node_modules/send/node_modules/encodeurl",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/send/node_modules/encodeurl/LICENSE"
+  },
+  "end-of-stream@1.4.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mafintosh/end-of-stream",
+    "publisher": "Mathias Buus",
+    "email": "mathiasbuus@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/end-of-stream",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/end-of-stream/LICENSE"
+  },
+  "enhanced-resolve@5.26.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/webpack/enhanced-resolve",
+    "publisher": "Tobias Koppers @sokra",
+    "path": "/home/charan/noferic-IDE/node_modules/enhanced-resolve",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/enhanced-resolve/LICENSE"
+  },
+  "env-paths@2.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/env-paths",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/node-gyp/node_modules/env-paths",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/node-gyp/node_modules/env-paths/license"
+  },
+  "es-errors@1.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/es-errors",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/es-errors",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/es-errors/LICENSE"
+  },
+  "escape-html@1.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/component/escape-html",
+    "path": "/home/charan/noferic-IDE/node_modules/escape-html",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/escape-html/LICENSE"
+  },
+  "escape-string-regexp@4.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/escape-string-regexp",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/escape-string-regexp",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/escape-string-regexp/license"
+  },
+  "eslint-scope@9.1.2": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/eslint/js",
+    "path": "/home/charan/noferic-IDE/node_modules/eslint-scope",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/eslint-scope/LICENSE"
+  },
+  "eslint-visitor-keys@3.4.3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/eslint/eslint-visitor-keys",
+    "publisher": "Toru Nagashima",
+    "url": "https://github.com/mysticatea",
+    "path": "/home/charan/noferic-IDE/node_modules/@eslint-community/eslint-utils/node_modules/eslint-visitor-keys",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/@eslint-community/eslint-utils/node_modules/eslint-visitor-keys/LICENSE"
+  },
+  "eslint-visitor-keys@5.0.1": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/eslint/js",
+    "publisher": "Toru Nagashima",
+    "url": "https://github.com/mysticatea",
+    "path": "/home/charan/noferic-IDE/node_modules/eslint-visitor-keys",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/eslint-visitor-keys/LICENSE"
+  },
+  "eslint@10.11.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/eslint/eslint",
+    "publisher": "Nicholas C. Zakas",
+    "email": "nicholas+npm@nczconsulting.com",
+    "path": "/home/charan/noferic-IDE/node_modules/eslint",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/eslint/LICENSE"
+  },
+  "espree@11.2.0": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/eslint/js",
+    "publisher": "Nicholas C. Zakas",
+    "email": "nicholas+npm@nczconsulting.com",
+    "path": "/home/charan/noferic-IDE/node_modules/espree",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/espree/LICENSE"
+  },
+  "esquery@1.7.0": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/estools/esquery",
+    "publisher": "Joel Feenstra",
+    "email": "jrfeenst+esquery@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/esquery",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/esquery/license.txt"
+  },
+  "esrecurse@4.3.0": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/estools/esrecurse",
+    "path": "/home/charan/noferic-IDE/node_modules/esrecurse",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/esrecurse/README.md"
+  },
+  "estraverse@5.3.0": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/estools/estraverse",
+    "path": "/home/charan/noferic-IDE/node_modules/estraverse",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/estraverse/LICENSE.BSD"
+  },
+  "esutils@2.0.3": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/estools/esutils",
+    "path": "/home/charan/noferic-IDE/node_modules/esutils",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/esutils/LICENSE.BSD"
+  },
+  "etag@1.8.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/etag",
+    "path": "/home/charan/noferic-IDE/node_modules/etag",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/etag/LICENSE"
+  },
+  "event-stream@3.3.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dominictarr/event-stream",
+    "publisher": "Dominic Tarr",
+    "email": "dominic.tarr@gmail.com",
+    "url": "http://bit.ly/dominictarr",
+    "path": "/home/charan/noferic-IDE/node_modules/event-stream",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/event-stream/LICENCE"
+  },
+  "execa@2.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/execa",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/execa",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/execa/license"
+  },
+  "expand-brackets@2.1.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/expand-brackets",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/expand-brackets",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/expand-brackets/LICENSE"
+  },
+  "exponential-backoff@3.1.3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/coveooss/exponential-backoff",
+    "publisher": "Sami Sayegh",
+    "path": "/home/charan/noferic-IDE/node_modules/exponential-backoff",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/exponential-backoff/LICENSE"
+  },
+  "extend-shallow@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/extend-shallow",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/braces/node_modules/extend-shallow",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/braces/node_modules/extend-shallow/LICENSE"
+  },
+  "extend-shallow@3.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/extend-shallow",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/extend-shallow",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/extend-shallow/LICENSE"
+  },
+  "extglob@2.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/extglob",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/extglob",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/extglob/LICENSE"
+  },
+  "fast-deep-equal@3.1.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/epoberezkin/fast-deep-equal",
+    "publisher": "Evgeny Poberezkin",
+    "path": "/home/charan/noferic-IDE/node_modules/fast-deep-equal",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fast-deep-equal/LICENSE"
+  },
+  "fast-glob@3.3.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mrmlnc/fast-glob",
+    "publisher": "Denis Malinochkin",
+    "url": "https://mrmlnc.com",
+    "path": "/home/charan/noferic-IDE/node_modules/fast-glob",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fast-glob/LICENSE"
+  },
+  "fast-json-stable-stringify@2.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/epoberezkin/fast-json-stable-stringify",
+    "publisher": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net",
+    "path": "/home/charan/noferic-IDE/node_modules/fast-json-stable-stringify",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fast-json-stable-stringify/LICENSE"
+  },
+  "fast-levenshtein@2.0.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/hiddentao/fast-levenshtein",
+    "publisher": "Ramesh Nair",
+    "email": "ram@hiddentao.com",
+    "url": "http://www.hiddentao.com/",
+    "path": "/home/charan/noferic-IDE/node_modules/fast-levenshtein",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fast-levenshtein/LICENSE.md"
+  },
+  "fastq@1.20.3": {
+    "licenses": "ISC",
+    "repository": "https://github.com/mcollina/fastq",
+    "publisher": "Matteo Collina",
+    "email": "hello@matteocollina.com",
+    "path": "/home/charan/noferic-IDE/node_modules/fastq",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fastq/LICENSE"
+  },
+  "faye-websocket@0.11.4": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/faye/faye-websocket-node",
+    "publisher": "James Coglan",
+    "email": "jcoglan@gmail.com",
+    "url": "http://jcoglan.com/",
+    "path": "/home/charan/noferic-IDE/node_modules/faye-websocket",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/faye-websocket/LICENSE.md"
+  },
+  "fdir@6.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/thecodrr/fdir",
+    "publisher": "thecodrr",
+    "email": "thecodrr@protonmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/fdir",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fdir/LICENSE"
+  },
+  "file-entry-cache@11.1.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/cacheable",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/file-entry-cache",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/file-entry-cache/LICENSE"
+  },
+  "fill-range@4.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/fill-range",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/fill-range",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/fill-range/LICENSE"
+  },
+  "fill-range@7.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/fill-range",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/fill-range",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fill-range/LICENSE"
+  },
+  "finalhandler@1.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/finalhandler",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/charan/noferic-IDE/node_modules/finalhandler",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/finalhandler/LICENSE"
+  },
+  "find-up@5.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/find-up",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/find-up",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/find-up/license"
+  },
+  "flat-cache@6.1.23": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/cacheable",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/flat-cache",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/flat-cache/LICENSE"
+  },
+  "flatted@3.4.4": {
+    "licenses": "ISC",
+    "repository": "https://github.com/WebReflection/flatted",
+    "publisher": "Andrea Giammarchi",
+    "path": "/home/charan/noferic-IDE/node_modules/flatted",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/flatted/LICENSE"
+  },
+  "for-in@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/for-in",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/for-in",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/for-in/LICENSE"
+  },
+  "fragment-cache@0.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/fragment-cache",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/fragment-cache",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fragment-cache/LICENSE"
+  },
+  "fresh@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/fresh",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "url": "http://tjholowaychuk.com",
+    "path": "/home/charan/noferic-IDE/node_modules/fresh",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fresh/LICENSE"
+  },
+  "from@0.1.7": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dominictarr/from",
+    "publisher": "Dominic Tarr",
+    "email": "dominic.tarr@gmail.com",
+    "url": "dominictarr.com",
+    "path": "/home/charan/noferic-IDE/node_modules/from",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/from/LICENSE.APACHE2"
+  },
+  "function-bind@1.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Raynos/function-bind",
+    "publisher": "Raynos",
+    "email": "raynos2@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/function-bind",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/function-bind/LICENSE"
+  },
+  "fuzzysort@4.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/farzher/fuzzysort",
+    "publisher": "farzher",
+    "path": "/home/charan/noferic-IDE/node_modules/fuzzysort",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fuzzysort/LICENSE"
+  },
+  "get-stream@5.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/get-stream",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/get-stream",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/get-stream/license"
+  },
+  "get-value@2.0.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/get-value",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/get-value",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/get-value/LICENSE"
+  },
+  "glob-parent@3.1.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/es128/glob-parent",
+    "publisher": "Elan Shanker",
+    "url": "https://github.com/es128",
+    "path": "/home/charan/noferic-IDE/node_modules/live-server/node_modules/glob-parent",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/live-server/node_modules/glob-parent/LICENSE"
+  },
+  "glob-parent@5.1.2": {
+    "licenses": "ISC",
+    "repository": "https://github.com/gulpjs/glob-parent",
+    "publisher": "Gulp Team",
+    "email": "team@gulpjs.com",
+    "url": "https://gulpjs.com/",
+    "path": "/home/charan/noferic-IDE/node_modules/fast-glob/node_modules/glob-parent",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/fast-glob/node_modules/glob-parent/LICENSE"
+  },
+  "glob-parent@6.0.2": {
+    "licenses": "ISC",
+    "repository": "https://github.com/gulpjs/glob-parent",
+    "publisher": "Gulp Team",
+    "email": "team@gulpjs.com",
+    "url": "https://gulpjs.com/",
+    "path": "/home/charan/noferic-IDE/node_modules/glob-parent",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/glob-parent/LICENSE"
+  },
+  "global-directory@4.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/global-directory",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/global-directory",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/global-directory/license"
+  },
+  "globby@14.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/globby",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/globby",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/globby/license"
+  },
+  "graceful-fs@4.2.11": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/node-graceful-fs",
+    "path": "/home/charan/noferic-IDE/node_modules/graceful-fs",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/graceful-fs/LICENSE"
+  },
+  "has-flag@4.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/has-flag",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/has-flag",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/has-flag/license"
+  },
+  "has-value@0.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/has-value",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/unset-value/node_modules/has-value",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/unset-value/node_modules/has-value/LICENSE"
+  },
+  "has-value@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/has-value",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/has-value",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/has-value/LICENSE"
+  },
+  "has-values@0.1.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/has-values",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/unset-value/node_modules/has-values",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/unset-value/node_modules/has-values/LICENSE"
+  },
+  "has-values@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/has-values",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/has-values",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/has-values/LICENSE"
+  },
+  "hashery@1.5.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/hashery",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/hashery",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/hashery/LICENSE"
+  },
+  "hasown@2.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/hasOwn",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/hasown",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/hasown/LICENSE"
+  },
+  "hookified@1.15.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/hookified",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/hookified",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/hookified/LICENSE"
+  },
+  "hookified@2.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/hookified",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/qified/node_modules/hookified",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/qified/node_modules/hookified/LICENSE"
+  },
+  "http-auth@3.1.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/http-auth/http-auth",
+    "publisher": "Gevorg Harutyunyan",
+    "url": "http://github.com/gevorg",
+    "path": "/home/charan/noferic-IDE/node_modules/http-auth",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/http-auth/LICENSE"
+  },
+  "http-errors@1.8.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/http-errors",
+    "publisher": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "path": "/home/charan/noferic-IDE/node_modules/serve-index/node_modules/http-errors",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/serve-index/node_modules/http-errors/LICENSE"
+  },
+  "http-errors@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/http-errors",
+    "publisher": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "path": "/home/charan/noferic-IDE/node_modules/http-errors",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/http-errors/LICENSE"
+  },
+  "http-parser-js@0.5.10": {
+    "licenses": "MIT",
+    "repository": "https://github.com/creationix/http-parser-js",
+    "publisher": "Tim Caswell",
+    "url": "https://github.com/creationix",
+    "path": "/home/charan/noferic-IDE/node_modules/http-parser-js",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/http-parser-js/LICENSE.md"
+  },
+  "ignore@5.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kaelzhang/node-ignore",
+    "publisher": "kael",
+    "path": "/home/charan/noferic-IDE/node_modules/ignore",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/ignore/LICENSE-MIT"
+  },
+  "ignore@7.0.11": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kaelzhang/node-ignore",
+    "publisher": "kael",
+    "path": "/home/charan/noferic-IDE/node_modules/globby/node_modules/ignore",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/globby/node_modules/ignore/LICENSE-MIT"
+  },
+  "ignore@7.0.12": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kaelzhang/node-ignore",
+    "publisher": "kael",
+    "path": "/home/charan/noferic-IDE/node_modules/dependency-cruiser/node_modules/ignore",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/dependency-cruiser/node_modules/ignore/LICENSE-MIT"
+  },
+  "imurmurhash@0.1.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jensyt/imurmurhash-js",
+    "publisher": "Jens Taylor",
+    "email": "jensyt@gmail.com",
+    "url": "https://github.com/homebrewing",
+    "path": "/home/charan/noferic-IDE/node_modules/imurmurhash",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/imurmurhash/README.md"
+  },
+  "inherits@2.0.4": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/inherits",
+    "path": "/home/charan/noferic-IDE/node_modules/inherits",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/inherits/LICENSE"
+  },
+  "ini@4.1.1": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/ini",
+    "publisher": "GitHub Inc.",
+    "path": "/home/charan/noferic-IDE/node_modules/ini",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/ini/LICENSE"
+  },
+  "interpret@3.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/gulpjs/interpret",
+    "publisher": "Gulp Team",
+    "email": "team@gulpjs.com",
+    "url": "https://gulpjs.com/",
+    "path": "/home/charan/noferic-IDE/node_modules/interpret",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/interpret/LICENSE"
+  },
+  "is-accessor-descriptor@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/is-accessor-descriptor",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/is-accessor-descriptor",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-accessor-descriptor/LICENSE"
+  },
+  "is-binary-path@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-binary-path",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/is-binary-path",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-binary-path/license"
+  },
+  "is-buffer@1.1.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/feross/is-buffer",
+    "publisher": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "url": "http://feross.org/",
+    "path": "/home/charan/noferic-IDE/node_modules/is-buffer",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-buffer/LICENSE"
+  },
+  "is-core-module@2.17.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/is-core-module",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/is-core-module",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-core-module/LICENSE"
+  },
+  "is-data-descriptor@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/is-data-descriptor",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/is-data-descriptor",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-data-descriptor/LICENSE"
+  },
+  "is-descriptor@0.1.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/is-descriptor",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/class-utils/node_modules/is-descriptor",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/class-utils/node_modules/is-descriptor/LICENSE"
+  },
+  "is-descriptor@1.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/is-descriptor",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/is-descriptor",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-descriptor/LICENSE"
+  },
+  "is-docker@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-docker",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/is-docker",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-docker/license"
+  },
+  "is-extendable@0.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/is-extendable",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/is-extendable",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/is-extendable/LICENSE"
+  },
+  "is-extendable@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/is-extendable",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/is-extendable",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-extendable/LICENSE"
+  },
+  "is-extglob@2.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/is-extglob",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/is-extglob",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-extglob/LICENSE"
+  },
+  "is-glob@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/is-glob",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/live-server/node_modules/glob-parent/node_modules/is-glob",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/live-server/node_modules/glob-parent/node_modules/is-glob/LICENSE"
+  },
+  "is-glob@4.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/is-glob",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/is-glob",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-glob/LICENSE"
+  },
+  "is-inside-container@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-inside-container",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/is-inside-container",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-inside-container/license"
+  },
+  "is-installed-globally@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-installed-globally",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/is-installed-globally",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-installed-globally/license"
+  },
+  "is-number@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/is-number",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/is-number",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/is-number/LICENSE"
+  },
+  "is-number@7.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/is-number",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/is-number",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-number/LICENSE"
+  },
+  "is-path-inside@4.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-path-inside",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/is-path-inside",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-path-inside/license"
+  },
+  "is-plain-object@2.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/is-plain-object",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/is-plain-object",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-plain-object/LICENSE"
+  },
+  "is-stream@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-stream",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/is-stream",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-stream/license"
+  },
+  "is-windows@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/is-windows",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/is-windows",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-windows/LICENSE"
+  },
+  "is-wsl@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-wsl",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/is-wsl",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/is-wsl/license"
+  },
+  "is-wsl@3.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-wsl",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/wsl-utils/node_modules/is-wsl",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/wsl-utils/node_modules/is-wsl/license"
+  },
+  "isarray@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/juliangruber/isarray",
+    "publisher": "Julian Gruber",
+    "email": "mail@juliangruber.com",
+    "url": "http://juliangruber.com",
+    "path": "/home/charan/noferic-IDE/node_modules/isarray",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/isarray/README.md"
+  },
+  "isexe@2.0.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/isexe",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/charan/noferic-IDE/node_modules/cross-spawn/node_modules/isexe",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/cross-spawn/node_modules/isexe/LICENSE"
+  },
+  "isexe@4.0.0": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/isexe",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/charan/noferic-IDE/node_modules/isexe",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/isexe/LICENSE.md"
+  },
+  "isobject@2.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/isobject",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/unset-value/node_modules/has-value/node_modules/isobject",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/unset-value/node_modules/has-value/node_modules/isobject/LICENSE"
+  },
+  "isobject@3.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/isobject",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/isobject",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/isobject/LICENSE"
+  },
+  "jiti@2.7.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/unjs/jiti",
+    "path": "/home/charan/noferic-IDE/node_modules/jiti",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/jiti/LICENSE"
+  },
+  "json-schema-traverse@0.4.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/epoberezkin/json-schema-traverse",
+    "publisher": "Evgeny Poberezkin",
+    "path": "/home/charan/noferic-IDE/node_modules/eslint/node_modules/json-schema-traverse",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/eslint/node_modules/json-schema-traverse/LICENSE"
+  },
+  "json-stable-stringify-without-jsonify@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/samn/json-stable-stringify",
+    "publisher": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net",
+    "path": "/home/charan/noferic-IDE/node_modules/json-stable-stringify-without-jsonify",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/json-stable-stringify-without-jsonify/LICENSE"
+  },
+  "json5@2.2.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/json5/json5",
+    "publisher": "Aseem Kishore",
+    "email": "aseem.kishore@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/json5",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/json5/LICENSE.md"
+  },
+  "keyv@5.6.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/keyv",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "url": "http://jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/keyv",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/keyv/LICENSE"
+  },
+  "kind-of@3.2.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/kind-of",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/is-number/node_modules/kind-of",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/is-number/node_modules/kind-of/LICENSE"
+  },
+  "kind-of@4.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/kind-of",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/has-values/node_modules/kind-of",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/has-values/node_modules/kind-of/LICENSE"
+  },
+  "kind-of@6.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/kind-of",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/kind-of",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/kind-of/LICENSE"
+  },
+  "kleur@3.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lukeed/kleur",
+    "publisher": "Luke Edwards",
+    "email": "luke.edwards05@gmail.com",
+    "url": "lukeed.com",
+    "path": "/home/charan/noferic-IDE/node_modules/kleur",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/kleur/license"
+  },
+  "levn@0.4.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/gkz/levn",
+    "publisher": "George Zahariev",
+    "email": "z@georgezahariev.com",
+    "path": "/home/charan/noferic-IDE/node_modules/levn",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/levn/LICENSE"
+  },
+  "live-server@1.2.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/tapio/live-server",
+    "publisher": "Tapio Vierros",
+    "path": "/home/charan/noferic-IDE/node_modules/live-server",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/live-server/README.md"
+  },
+  "locate-path@6.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/locate-path",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/locate-path",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/locate-path/license"
+  },
+  "map-cache@0.2.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/map-cache",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/map-cache",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/map-cache/LICENSE"
+  },
+  "map-stream@0.1.0": {
+    "licenses": "Custom: https://github.com/dominictarr/event-stream",
+    "repository": "https://github.com/dominictarr/map-stream",
+    "publisher": "Dominic Tarr",
+    "email": "dominic.tarr@gmail.com",
+    "url": "http://dominictarr.com",
+    "path": "/home/charan/noferic-IDE/node_modules/map-stream",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/map-stream/LICENCE"
+  },
+  "map-visit@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/map-visit",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/map-visit",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/map-visit/LICENSE"
+  },
+  "merge-stream@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/grncdr/merge-stream",
+    "publisher": "Stephen Sugden",
+    "email": "me@stephensugden.com",
+    "path": "/home/charan/noferic-IDE/node_modules/merge-stream",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/merge-stream/LICENSE"
+  },
+  "merge2@1.4.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/teambition/merge2",
+    "path": "/home/charan/noferic-IDE/node_modules/merge2",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/merge2/LICENSE"
+  },
+  "micromatch@3.1.10": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/micromatch",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/micromatch",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/micromatch/LICENSE"
+  },
+  "micromatch@4.0.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/micromatch",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/micromatch",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/micromatch/LICENSE"
+  },
+  "mime-db@1.52.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/mime-db",
+    "path": "/home/charan/noferic-IDE/node_modules/mime-db",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/mime-db/LICENSE"
+  },
+  "mime-db@1.54.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/mime-db",
+    "path": "/home/charan/noferic-IDE/node_modules/send/node_modules/mime-db",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/send/node_modules/mime-db/LICENSE"
+  },
+  "mime-types@2.1.35": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/mime-types",
+    "path": "/home/charan/noferic-IDE/node_modules/mime-types",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/mime-types/LICENSE"
+  },
+  "mime-types@3.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/mime-types",
+    "path": "/home/charan/noferic-IDE/node_modules/send/node_modules/mime-types",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/send/node_modules/mime-types/LICENSE"
+  },
+  "mimic-fn@2.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/mimic-fn",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/mimic-fn",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/mimic-fn/license"
+  },
+  "minimatch@10.2.6": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/minimatch",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me",
+    "path": "/home/charan/noferic-IDE/node_modules/minimatch",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/minimatch/LICENSE.md"
+  },
+  "minimist@1.2.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/minimistjs/minimist",
+    "publisher": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net",
+    "path": "/home/charan/noferic-IDE/node_modules/minimist",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/minimist/LICENSE"
+  },
+  "minipass@7.1.3": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/minipass",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/charan/noferic-IDE/node_modules/minipass",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/minipass/LICENSE.md"
+  },
+  "minizlib@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/isaacs/minizlib",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/charan/noferic-IDE/node_modules/minizlib",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/minizlib/LICENSE"
+  },
+  "mixin-deep@1.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/mixin-deep",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/mixin-deep",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/mixin-deep/LICENSE"
+  },
+  "morgan@1.12.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expressjs/morgan",
+    "path": "/home/charan/noferic-IDE/node_modules/morgan",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/morgan/LICENSE"
+  },
+  "mount-point@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kevva/mount-point",
+    "publisher": "Kevin Mårtensson",
+    "email": "kevinmartensson@gmail.com",
+    "url": "https://github.com/kevva",
+    "path": "/home/charan/noferic-IDE/node_modules/mount-point",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/mount-point/license"
+  },
+  "move-file@4.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/move-file",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/move-file",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/move-file/license"
+  },
+  "ms@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/zeit/ms",
+    "path": "/home/charan/noferic-IDE/node_modules/snapdragon/node_modules/ms",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/snapdragon/node_modules/ms/license.md"
+  },
+  "ms@2.1.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/vercel/ms",
+    "path": "/home/charan/noferic-IDE/node_modules/ms",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/ms/license.md"
+  },
+  "nanomatch@1.2.13": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/nanomatch",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/nanomatch",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/nanomatch/LICENSE"
+  },
+  "natural-compare@1.4.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/litejs/natural-compare-lite",
+    "publisher": "Lauri Rooden",
+    "url": "https://github.com/litejs/natural-compare-lite",
+    "path": "/home/charan/noferic-IDE/node_modules/natural-compare",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/natural-compare/README.md"
+  },
+  "negotiator@0.6.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/negotiator",
+    "path": "/home/charan/noferic-IDE/node_modules/negotiator",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/negotiator/LICENSE"
+  },
+  "newfoldernf@2.2.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/achu62/noferic-IDE",
+    "publisher": "Charan",
+    "path": "/home/charan/noferic-IDE",
+    "licenseFile": "/home/charan/noferic-IDE/LICENSE.txt"
+  },
+  "node-addon-api@8.9.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodejs/node-addon-api",
+    "path": "/home/charan/noferic-IDE/node_modules/node-addon-api",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/node-addon-api/LICENSE.md"
+  },
+  "node-gyp-build@4.8.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/prebuild/node-gyp-build",
+    "publisher": "Mathias Buus",
+    "url": "@mafintosh",
+    "path": "/home/charan/noferic-IDE/node_modules/node-gyp-build",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/node-gyp-build/LICENSE"
+  },
+  "node-gyp@13.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodejs/node-gyp",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://tootallnate.net",
+    "path": "/home/charan/noferic-IDE/node_modules/node-gyp",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/node-gyp/LICENSE"
+  },
+  "nopt@10.0.1": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/nopt",
+    "publisher": "GitHub Inc.",
+    "path": "/home/charan/noferic-IDE/node_modules/nopt",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/nopt/LICENSE"
+  },
+  "normalize-path@2.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/normalize-path",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/normalize-path",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/normalize-path/LICENSE"
+  },
+  "normalize-path@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/normalize-path",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/normalize-path",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/normalize-path/LICENSE"
+  },
+  "npm-run-path@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/npm-run-path",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/npm-run-path",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/npm-run-path/license"
+  },
+  "object-assign@4.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/object-assign",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/object-assign",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/object-assign/license"
+  },
+  "object-copy@0.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/object-copy",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/object-copy",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/object-copy/LICENSE"
+  },
+  "object-visit@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/object-visit",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/object-visit",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/object-visit/LICENSE"
+  },
+  "object.pick@1.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/object.pick",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/object.pick",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/object.pick/LICENSE"
+  },
+  "on-finished@2.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/on-finished",
+    "path": "/home/charan/noferic-IDE/node_modules/on-finished",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/on-finished/LICENSE"
+  },
+  "on-finished@2.4.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/on-finished",
+    "path": "/home/charan/noferic-IDE/node_modules/morgan/node_modules/on-finished",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/morgan/node_modules/on-finished/LICENSE"
+  },
+  "on-headers@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/on-headers",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/charan/noferic-IDE/node_modules/on-headers",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/on-headers/LICENSE"
+  },
+  "once@1.4.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/once",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/charan/noferic-IDE/node_modules/once",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/once/LICENSE"
+  },
+  "onetime@5.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/onetime",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/onetime",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/onetime/license"
+  },
+  "opn@6.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/open",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/opn",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/opn/license"
+  },
+  "optionator@0.9.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/gkz/optionator",
+    "publisher": "George Zahariev",
+    "email": "z@georgezahariev.com",
+    "path": "/home/charan/noferic-IDE/node_modules/optionator",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/optionator/LICENSE"
+  },
+  "os-homedir@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/os-homedir",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/os-homedir",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/os-homedir/license"
+  },
+  "p-finally@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/p-finally",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/p-finally",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/p-finally/license"
+  },
+  "p-limit@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/p-limit",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/p-limit",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/p-limit/license"
+  },
+  "p-locate@5.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/p-locate",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/p-locate",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/p-locate/license"
+  },
+  "p-map@7.0.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/p-map",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/p-map",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/p-map/license"
+  },
+  "parseurl@1.3.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/parseurl",
+    "path": "/home/charan/noferic-IDE/node_modules/parseurl",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/parseurl/LICENSE"
+  },
+  "pascalcase@0.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/pascalcase",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/pascalcase",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/pascalcase/LICENSE"
+  },
+  "path-browserify@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/browserify/path-browserify",
+    "publisher": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net",
+    "path": "/home/charan/noferic-IDE/node_modules/path-browserify",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/path-browserify/LICENSE"
+  },
+  "path-dirname@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/es128/path-dirname",
+    "publisher": "Elan Shanker",
+    "path": "/home/charan/noferic-IDE/node_modules/path-dirname",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/path-dirname/license"
+  },
+  "path-exists@4.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/path-exists",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/path-exists",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/path-exists/license"
+  },
+  "path-is-absolute@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/path-is-absolute",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/path-is-absolute",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/path-is-absolute/license"
+  },
+  "path-key@3.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/path-key",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/path-key",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/path-key/license"
+  },
+  "path-parse@1.0.7": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jbgutierrez/path-parse",
+    "publisher": "Javier Blanco",
+    "email": "http://jbgutierrez.info",
+    "path": "/home/charan/noferic-IDE/node_modules/path-parse",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/path-parse/LICENSE"
+  },
+  "path-type@6.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/path-type",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/path-type",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/path-type/license"
+  },
+  "pause-stream@0.0.11": {
+    "licenses": [
+      "MIT",
+      "Apache2"
+    ],
+    "repository": "https://github.com/dominictarr/pause-stream",
+    "publisher": "Dominic Tarr",
+    "email": "dominic.tarr@gmail.com",
+    "url": "dominictarr.com",
+    "path": "/home/charan/noferic-IDE/node_modules/pause-stream",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/pause-stream/LICENSE"
+  },
+  "picomatch@2.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/picomatch",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/micromatch/node_modules/picomatch",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/micromatch/node_modules/picomatch/LICENSE"
+  },
+  "picomatch@4.0.7": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/picomatch",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/picomatch",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/picomatch/LICENSE"
+  },
+  "pify@2.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/pify",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/pify",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/pify/license"
+  },
+  "pinkie-promise@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/floatdrop/pinkie-promise",
+    "publisher": "Vsevolod Strukchinsky",
+    "email": "floatdrop@gmail.com",
+    "url": "github.com/floatdrop",
+    "path": "/home/charan/noferic-IDE/node_modules/pinkie-promise",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/pinkie-promise/license"
+  },
+  "pinkie@2.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/floatdrop/pinkie",
+    "publisher": "Vsevolod Strukchinsky",
+    "email": "floatdrop@gmail.com",
+    "url": "github.com/floatdrop",
+    "path": "/home/charan/noferic-IDE/node_modules/pinkie",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/pinkie/license"
+  },
+  "posix-character-classes@0.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/posix-character-classes",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/posix-character-classes",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/posix-character-classes/LICENSE"
+  },
+  "powershell-utils@0.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/powershell-utils",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/wsl-utils/node_modules/powershell-utils",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/wsl-utils/node_modules/powershell-utils/license"
+  },
+  "powershell-utils@0.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/powershell-utils",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/powershell-utils",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/powershell-utils/license"
+  },
+  "prelude-ls@1.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/gkz/prelude-ls",
+    "publisher": "George Zahariev",
+    "email": "z@georgezahariev.com",
+    "path": "/home/charan/noferic-IDE/node_modules/prelude-ls",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/prelude-ls/LICENSE"
+  },
+  "proc-log@7.0.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/proc-log",
+    "publisher": "GitHub Inc.",
+    "path": "/home/charan/noferic-IDE/node_modules/proc-log",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/proc-log/LICENSE"
+  },
+  "process-nextick-args@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/calvinmetcalf/process-nextick-args",
+    "path": "/home/charan/noferic-IDE/node_modules/process-nextick-args",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/process-nextick-args/license.md"
+  },
+  "prompts@2.4.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/terkelg/prompts",
+    "publisher": "Terkel Gjervig",
+    "email": "terkel@terkel.com",
+    "url": "https://terkel.com",
+    "path": "/home/charan/noferic-IDE/node_modules/prompts",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/prompts/license"
+  },
+  "proxy-middleware@0.15.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/andrewrk/connect-proxy",
+    "publisher": "Andrew Kelley",
+    "path": "/home/charan/noferic-IDE/node_modules/proxy-middleware",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/proxy-middleware/LICENSE"
+  },
+  "pump@3.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mafintosh/pump",
+    "publisher": "Mathias Buus Madsen",
+    "email": "mathiasbuus@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/pump",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/pump/LICENSE"
+  },
+  "punycode@2.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mathiasbynens/punycode.js",
+    "publisher": "Mathias Bynens",
+    "url": "https://mathiasbynens.be/",
+    "path": "/home/charan/noferic-IDE/node_modules/punycode",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/punycode/LICENSE-MIT.txt"
+  },
+  "qified@0.10.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredwray/qified",
+    "publisher": "Jared Wray",
+    "email": "me@jaredwray.com",
+    "path": "/home/charan/noferic-IDE/node_modules/qified",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/qified/LICENSE"
+  },
+  "queue-microtask@1.2.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/feross/queue-microtask",
+    "publisher": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "url": "https://feross.org",
+    "path": "/home/charan/noferic-IDE/node_modules/queue-microtask",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/queue-microtask/LICENSE"
+  },
+  "range-parser@1.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/range-parser",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "url": "http://tjholowaychuk.com",
+    "path": "/home/charan/noferic-IDE/node_modules/range-parser",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/range-parser/LICENSE"
+  },
+  "readable-stream@2.3.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodejs/readable-stream",
+    "path": "/home/charan/noferic-IDE/node_modules/readable-stream",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/readable-stream/LICENSE"
+  },
+  "readdirp@2.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/paulmillr/readdirp",
+    "publisher": "Thorsten Lorenz",
+    "email": "thlorenz@gmx.de",
+    "url": "thlorenz.com",
+    "path": "/home/charan/noferic-IDE/node_modules/live-server/node_modules/readdirp",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/live-server/node_modules/readdirp/LICENSE"
+  },
+  "readdirp@5.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/paulmillr/readdirp",
+    "publisher": "Thorsten Lorenz",
+    "email": "thlorenz@gmx.de",
+    "url": "thlorenz.com",
+    "path": "/home/charan/noferic-IDE/node_modules/readdirp",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/readdirp/LICENSE"
+  },
+  "rechoir@0.8.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/gulpjs/rechoir",
+    "publisher": "Gulp Team",
+    "email": "team@gulpjs.com",
+    "url": "http://gulpjs.com/",
+    "path": "/home/charan/noferic-IDE/node_modules/rechoir",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/rechoir/LICENSE"
+  },
+  "regex-not@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/regex-not",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/regex-not",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/regex-not/LICENSE"
+  },
+  "regexp-tree@0.1.27": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DmitrySoshnikov/regexp-tree",
+    "publisher": "Dmitry Soshnikov",
+    "path": "/home/charan/noferic-IDE/node_modules/regexp-tree",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/regexp-tree/LICENSE"
+  },
+  "remove-trailing-separator@1.1.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/darsain/remove-trailing-separator",
+    "publisher": "darsain",
+    "path": "/home/charan/noferic-IDE/node_modules/remove-trailing-separator",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/remove-trailing-separator/license"
+  },
+  "repeat-element@1.1.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/repeat-element",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/repeat-element",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/repeat-element/LICENSE"
+  },
+  "repeat-string@1.6.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/repeat-string",
+    "publisher": "Jon Schlinkert",
+    "url": "http://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/repeat-string",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/repeat-string/LICENSE"
+  },
+  "resolve-url@0.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lydell/resolve-url",
+    "publisher": "Simon Lydell",
+    "path": "/home/charan/noferic-IDE/node_modules/resolve-url",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/resolve-url/LICENSE"
+  },
+  "resolve@1.22.13": {
+    "licenses": "MIT",
+    "repository": "https://github.com/browserify/resolve",
+    "publisher": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net",
+    "path": "/home/charan/noferic-IDE/node_modules/resolve",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/resolve/LICENSE"
+  },
+  "ret@0.1.15": {
+    "licenses": "MIT",
+    "repository": "https://github.com/fent/ret.js",
+    "publisher": "Roly Fentanes",
+    "url": "https://github.com/fent",
+    "path": "/home/charan/noferic-IDE/node_modules/ret",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/ret/LICENSE"
+  },
+  "reusify@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mcollina/reusify",
+    "publisher": "Matteo Collina",
+    "email": "hello@matteocollina.com",
+    "path": "/home/charan/noferic-IDE/node_modules/reusify",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/reusify/LICENSE"
+  },
+  "run-parallel@1.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/feross/run-parallel",
+    "publisher": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "url": "https://feross.org",
+    "path": "/home/charan/noferic-IDE/node_modules/run-parallel",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/run-parallel/LICENSE"
+  },
+  "safe-buffer@5.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/feross/safe-buffer",
+    "publisher": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "url": "http://feross.org",
+    "path": "/home/charan/noferic-IDE/node_modules/safe-buffer",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/safe-buffer/LICENSE"
+  },
+  "safe-regex@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/substack/safe-regex",
+    "publisher": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net",
+    "path": "/home/charan/noferic-IDE/node_modules/safe-regex",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/safe-regex/LICENSE"
+  },
+  "safe-regex@2.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/davisjam/safe-regex",
+    "publisher": "James C.",
+    "email": "davisjam@vt.edu",
+    "url": "Jamie",
+    "path": "/home/charan/noferic-IDE/node_modules/dependency-cruiser/node_modules/safe-regex",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/dependency-cruiser/node_modules/safe-regex/LICENSE"
+  },
+  "semver@7.8.5": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/node-semver",
+    "publisher": "GitHub Inc.",
+    "path": "/home/charan/noferic-IDE/node_modules/semver",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/semver/LICENSE"
+  },
+  "send@1.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/send",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "path": "/home/charan/noferic-IDE/node_modules/send",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/send/LICENSE"
+  },
+  "serve-index@1.9.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expressjs/serve-index",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/charan/noferic-IDE/node_modules/serve-index",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/serve-index/LICENSE"
+  },
+  "set-value@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/set-value",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/set-value",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/set-value/LICENSE"
+  },
+  "setprototypeof@1.2.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/wesleytodd/setprototypeof",
+    "publisher": "Wes Todd",
+    "path": "/home/charan/noferic-IDE/node_modules/setprototypeof",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/setprototypeof/LICENSE"
+  },
+  "shebang-command@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kevva/shebang-command",
+    "publisher": "Kevin Mårtensson",
+    "email": "kevinmartensson@gmail.com",
+    "url": "github.com/kevva",
+    "path": "/home/charan/noferic-IDE/node_modules/shebang-command",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/shebang-command/license"
+  },
+  "shebang-regex@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/shebang-regex",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/shebang-regex",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/shebang-regex/license"
+  },
+  "signal-exit@3.0.7": {
+    "licenses": "ISC",
+    "repository": "https://github.com/tapjs/signal-exit",
+    "publisher": "Ben Coe",
+    "email": "ben@npmjs.com",
+    "path": "/home/charan/noferic-IDE/node_modules/signal-exit",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/signal-exit/LICENSE.txt"
+  },
+  "simple-git@3.36.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/steveukx/git-js",
+    "publisher": "Steve King",
+    "email": "steve@mydev.co",
+    "path": "/home/charan/noferic-IDE/node_modules/simple-git",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/simple-git/readme.md"
+  },
+  "sisteransi@1.0.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/terkelg/sisteransi",
+    "publisher": "Terkel Gjervig",
+    "email": "terkel@terkel.com",
+    "url": "https://terkel.com",
+    "path": "/home/charan/noferic-IDE/node_modules/sisteransi",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/sisteransi/license"
+  },
+  "slash@5.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/slash",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/slash",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/slash/license"
+  },
+  "snapdragon-node@2.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/snapdragon-node",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/snapdragon-node",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/snapdragon-node/LICENSE"
+  },
+  "snapdragon-util@3.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/snapdragon-util",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/snapdragon-util",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/snapdragon-util/LICENSE"
+  },
+  "snapdragon@0.8.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/snapdragon",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/snapdragon",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/snapdragon/LICENSE"
+  },
+  "source-map-resolve@0.5.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lydell/source-map-resolve",
+    "publisher": "Simon Lydell",
+    "path": "/home/charan/noferic-IDE/node_modules/source-map-resolve",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/source-map-resolve/LICENSE"
+  },
+  "source-map-url@0.4.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lydell/source-map-url",
+    "publisher": "Simon Lydell",
+    "path": "/home/charan/noferic-IDE/node_modules/source-map-url",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/source-map-url/LICENSE"
+  },
+  "source-map@0.5.7": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/mozilla/source-map",
+    "publisher": "Nick Fitzgerald",
+    "email": "nfitzgerald@mozilla.com",
+    "path": "/home/charan/noferic-IDE/node_modules/snapdragon/node_modules/source-map",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/snapdragon/node_modules/source-map/LICENSE"
+  },
+  "split-string@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/split-string",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/split-string",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/split-string/LICENSE"
+  },
+  "split@0.3.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dominictarr/split",
+    "publisher": "Dominic Tarr",
+    "email": "dominic.tarr@gmail.com",
+    "url": "http://bit.ly/dominictarr",
+    "path": "/home/charan/noferic-IDE/node_modules/split",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/split/LICENCE"
+  },
+  "static-extend@0.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/static-extend",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/static-extend",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/static-extend/LICENSE"
+  },
+  "statuses@1.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/statuses",
+    "path": "/home/charan/noferic-IDE/node_modules/statuses",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/statuses/LICENSE"
+  },
+  "statuses@2.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/statuses",
+    "path": "/home/charan/noferic-IDE/node_modules/http-errors/node_modules/statuses",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/http-errors/node_modules/statuses/LICENSE"
+  },
+  "stream-combiner@0.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dominictarr/stream-combiner",
+    "publisher": "'Dominic Tarr'",
+    "email": "dominic.tarr@gmail.com",
+    "url": "http://dominictarr.com",
+    "path": "/home/charan/noferic-IDE/node_modules/stream-combiner",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/stream-combiner/LICENSE"
+  },
+  "string_decoder@1.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodejs/string_decoder",
+    "path": "/home/charan/noferic-IDE/node_modules/string_decoder",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/string_decoder/LICENSE"
+  },
+  "strip-bom@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/strip-bom",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/strip-bom",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/strip-bom/license"
+  },
+  "strip-final-newline@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/strip-final-newline",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/strip-final-newline",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/strip-final-newline/license"
+  },
+  "supports-color@7.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/supports-color",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/supports-color",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/supports-color/license"
+  },
+  "supports-preserve-symlinks-flag@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/node-supports-preserve-symlinks-flag",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/supports-preserve-symlinks-flag",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/supports-preserve-symlinks-flag/LICENSE"
+  },
+  "tapable@2.3.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/webpack/tapable",
+    "publisher": "Tobias Koppers @sokra",
+    "path": "/home/charan/noferic-IDE/node_modules/tapable",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/tapable/LICENSE"
+  },
+  "tar@7.5.22": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/node-tar",
+    "publisher": "Isaac Z. Schlueter",
+    "path": "/home/charan/noferic-IDE/node_modules/tar",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/tar/LICENSE.md"
+  },
+  "through@2.3.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dominictarr/through",
+    "publisher": "Dominic Tarr",
+    "email": "dominic.tarr@gmail.com",
+    "url": "dominictarr.com",
+    "path": "/home/charan/noferic-IDE/node_modules/through",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/through/LICENSE.APACHE2"
+  },
+  "tinyglobby@0.2.17": {
+    "licenses": "MIT",
+    "repository": "https://github.com/SuperchupuDev/tinyglobby",
+    "publisher": "Superchupu",
+    "path": "/home/charan/noferic-IDE/node_modules/tinyglobby",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/tinyglobby/LICENSE"
+  },
+  "to-object-path@0.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/to-object-path",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/to-object-path",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/to-object-path/LICENSE"
+  },
+  "to-regex-range@2.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/to-regex-range",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/to-regex-range",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/anymatch/node_modules/to-regex-range/LICENSE"
+  },
+  "to-regex-range@5.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/micromatch/to-regex-range",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/to-regex-range",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/to-regex-range/LICENSE"
+  },
+  "to-regex@3.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/to-regex",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/to-regex",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/to-regex/LICENSE"
+  },
+  "toidentifier@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/component/toidentifier",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/charan/noferic-IDE/node_modules/toidentifier",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/toidentifier/LICENSE"
+  },
+  "trash@10.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/trash",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/trash",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/trash/license"
+  },
+  "tree-sitter-javascript@0.25.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/tree-sitter/tree-sitter-javascript",
+    "publisher": "Max Brunsfeld",
+    "email": "maxbrunsfeld@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/tree-sitter-javascript",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/tree-sitter-javascript/LICENSE"
+  },
+  "tree-sitter@0.25.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/tree-sitter/node-tree-sitter",
+    "publisher": "Max Brunsfeld",
+    "email": "maxbrunsfeld@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/tree-sitter",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/tree-sitter/LICENSE"
+  },
+  "ts-morph@28.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dsherret/ts-morph",
+    "publisher": "David Sherret",
+    "path": "/home/charan/noferic-IDE/node_modules/ts-morph",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/ts-morph/LICENSE"
+  },
+  "tsconfig-paths-webpack-plugin@4.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dividab/tsconfig-paths-webpack-plugin",
+    "publisher": "Jonas Kello",
+    "path": "/home/charan/noferic-IDE/node_modules/tsconfig-paths-webpack-plugin",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/tsconfig-paths-webpack-plugin/LICENSE"
+  },
+  "tsconfig-paths@4.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dividab/tsconfig-paths",
+    "publisher": "Jonas Kello",
+    "path": "/home/charan/noferic-IDE/node_modules/tsconfig-paths",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/tsconfig-paths/LICENSE"
+  },
+  "type-check@0.4.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/gkz/type-check",
+    "publisher": "George Zahariev",
+    "email": "z@georgezahariev.com",
+    "path": "/home/charan/noferic-IDE/node_modules/type-check",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/type-check/LICENSE"
+  },
+  "typescript@5.9.2": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/microsoft/TypeScript",
+    "publisher": "Microsoft Corp.",
+    "path": "/home/charan/noferic-IDE/node_modules/typescript",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/typescript/LICENSE.txt"
+  },
+  "undici@8.11.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodejs/undici",
+    "path": "/home/charan/noferic-IDE/node_modules/node-gyp/node_modules/undici",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/node-gyp/node_modules/undici/LICENSE"
+  },
+  "unicorn-magic@0.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/unicorn-magic",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/unicorn-magic",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/unicorn-magic/license"
+  },
+  "union-value@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/union-value",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/union-value",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/union-value/LICENSE"
+  },
+  "unix-crypt-td-js@1.1.4": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/TimDumol/unix-crypt-td-js",
+    "publisher": "Tim Dumol",
+    "email": "tim@timdumol.com",
+    "path": "/home/charan/noferic-IDE/node_modules/unix-crypt-td-js",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/unix-crypt-td-js/README.markdown"
+  },
+  "unpipe@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/stream-utils/unpipe",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/charan/noferic-IDE/node_modules/unpipe",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/unpipe/LICENSE"
+  },
+  "unset-value@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/unset-value",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/unset-value",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/unset-value/LICENSE"
+  },
+  "upath@1.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/anodynos/upath",
+    "publisher": "Angelos Pikoulas",
+    "email": "agelos.pikoulas@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/upath",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/upath/LICENSE"
+  },
+  "uri-js@4.4.1": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/garycourt/uri-js",
+    "publisher": "Gary Court",
+    "email": "gary.court@gmail.com",
+    "path": "/home/charan/noferic-IDE/node_modules/uri-js",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/uri-js/LICENSE"
+  },
+  "urix@0.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lydell/urix",
+    "publisher": "Simon Lydell",
+    "path": "/home/charan/noferic-IDE/node_modules/urix",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/urix/LICENSE"
+  },
+  "use@3.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/use",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/use",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/use/LICENSE"
+  },
+  "user-home@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/user-home",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/user-home",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/user-home/license"
+  },
+  "util-deprecate@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TooTallNate/util-deprecate",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/",
+    "path": "/home/charan/noferic-IDE/node_modules/util-deprecate",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/util-deprecate/LICENSE"
+  },
+  "utils-merge@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredhanson/utils-merge",
+    "publisher": "Jared Hanson",
+    "email": "jaredhanson@gmail.com",
+    "url": "http://www.jaredhanson.net/",
+    "path": "/home/charan/noferic-IDE/node_modules/utils-merge",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/utils-merge/LICENSE"
+  },
+  "uuid@3.4.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/uuidjs/uuid",
+    "path": "/home/charan/noferic-IDE/node_modules/uuid",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/uuid/LICENSE.md"
+  },
+  "vary@1.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/vary",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/charan/noferic-IDE/node_modules/vary",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/vary/LICENSE"
+  },
+  "vscode-jsonrpc@9.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Microsoft/vscode-languageserver-node",
+    "publisher": "Microsoft Corporation",
+    "path": "/home/charan/noferic-IDE/node_modules/vscode-jsonrpc",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/vscode-jsonrpc/License.txt"
+  },
+  "vscode-languageserver-protocol@3.18.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Microsoft/vscode-languageserver-node",
+    "publisher": "Microsoft Corporation",
+    "path": "/home/charan/noferic-IDE/node_modules/vscode-languageserver-protocol",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/vscode-languageserver-protocol/License.txt"
+  },
+  "vscode-languageserver-types@3.18.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Microsoft/vscode-languageserver-node",
+    "publisher": "Microsoft Corporation",
+    "path": "/home/charan/noferic-IDE/node_modules/vscode-languageserver-types",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/vscode-languageserver-types/License.txt"
+  },
+  "watskeburt@6.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sverweij/watskeburt",
+    "publisher": "Sander Verweij",
+    "url": "https://sverweij.github.io",
+    "path": "/home/charan/noferic-IDE/node_modules/watskeburt",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/watskeburt/LICENSE"
+  },
+  "websocket-driver@0.7.5": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/faye/websocket-driver-node",
+    "publisher": "James Coglan",
+    "email": "jcoglan@gmail.com",
+    "url": "http://jcoglan.com/",
+    "path": "/home/charan/noferic-IDE/node_modules/websocket-driver",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/websocket-driver/LICENSE.md"
+  },
+  "websocket-extensions@0.1.4": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/faye/websocket-extensions-node",
+    "publisher": "James Coglan",
+    "email": "jcoglan@gmail.com",
+    "url": "http://jcoglan.com/",
+    "path": "/home/charan/noferic-IDE/node_modules/websocket-extensions",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/websocket-extensions/LICENSE.md"
+  },
+  "which@2.0.2": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/node-which",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me",
+    "path": "/home/charan/noferic-IDE/node_modules/cross-spawn/node_modules/which",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/cross-spawn/node_modules/which/LICENSE"
+  },
+  "which@7.0.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/node-which",
+    "publisher": "GitHub Inc.",
+    "path": "/home/charan/noferic-IDE/node_modules/which",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/which/LICENSE"
+  },
+  "word-wrap@1.2.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonschlinkert/word-wrap",
+    "publisher": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert",
+    "path": "/home/charan/noferic-IDE/node_modules/word-wrap",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/word-wrap/LICENSE"
+  },
+  "wrappy@1.0.2": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/wrappy",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/charan/noferic-IDE/node_modules/wrappy",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/wrappy/LICENSE"
+  },
+  "wsl-utils@0.4.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/wsl-utils",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/wsl-utils",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/wsl-utils/license"
+  },
+  "xdg-basedir@4.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/xdg-basedir",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/xdg-basedir",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/xdg-basedir/license"
+  },
+  "xdg-trashdir@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kevva/xdg-trashdir",
+    "publisher": "Kevin Mårtensson",
+    "email": "kevinmartensson@gmail.com",
+    "url": "https://github.com/kevva",
+    "path": "/home/charan/noferic-IDE/node_modules/xdg-trashdir",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/xdg-trashdir/license"
+  },
+  "xterm-addon-fit@0.8.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/xtermjs/xterm.js",
+    "publisher": "The xterm.js authors",
+    "url": "https://xtermjs.org/",
+    "path": "/home/charan/noferic-IDE/node_modules/xterm-addon-fit",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/xterm-addon-fit/LICENSE"
+  },
+  "xterm@5.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/xtermjs/xterm.js",
+    "path": "/home/charan/noferic-IDE/node_modules/xterm",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/xterm/LICENSE"
+  },
+  "yallist@5.0.0": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/yallist",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/charan/noferic-IDE/node_modules/tar/node_modules/yallist",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/tar/node_modules/yallist/LICENSE.md"
+  },
+  "yocto-queue@0.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/yocto-queue",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/charan/noferic-IDE/node_modules/yocto-queue",
+    "licenseFile": "/home/charan/noferic-IDE/node_modules/yocto-queue/license"
+  }
+}
