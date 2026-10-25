@@ -350,7 +350,13 @@ async function track(pathreal) {
     consolelog(e);
   }
 }
-
+async function notifyrendererabouttheworkspace(p) {
+  if (fs.existsSync(path.join(p, ".noferic-ide"))) {
+    win.webContents.send("data", JSON.stringify({
+      action: "create-workspace"
+    }))
+  }
+}
 async function handleappargs(args) {
   if (!args) {
     return;
@@ -359,6 +365,7 @@ async function handleappargs(args) {
     return;
   } else {
     if (fs.statSync(path.resolve(args)).isDirectory()) {
+      notifyrendererabouttheworkspace(path.resolve(args))
       try {
         initialisetds(toNormalisedWindowsId(path.resolve(args)));
       } catch (e) { }
@@ -728,7 +735,7 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
     /**@param {Array} nfd  */
 
     let es_sys = await lint_sys(code);
-   // let nfd = await req_Diagnostic(filePath, code);
+    // let nfd = await req_Diagnostic(filePath, code);
     let esd = await lint(code, filePath);
     esd = esd[0].messages;
     let syd = await getSyntacticDiagnosticsfromts(

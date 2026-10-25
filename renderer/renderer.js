@@ -853,6 +853,9 @@ window.onload = function () {
   });
   window.ipc.onDataframeIPC(async (data) => {
     const message = JSON.parse(data);
+    if(message.action=="create-workspace"){
+      console.log("pd")
+    }
     if (JSON.parse(data).action == "lint") {
       console.log(message)
       iframe.contentWindow.postMessage(message)
