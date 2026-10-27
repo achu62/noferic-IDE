@@ -1,5 +1,5 @@
 //jai sri ram
-import { createWindowinNoferic } from "../window_creator.js"
+import { createWindowinNoferic } from "../editor UI components.js"
 /**@param {HTMLDocument} document  */
 export function createAiAgent(document, id) {
     const div = document.createElement("div");

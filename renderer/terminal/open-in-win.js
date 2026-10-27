@@ -1,7 +1,7 @@
 //jai sri ram
 import { FitAddon } from "../xterm-addon-fit/src/FitAddon.js";
 
-import { createWindowinNoferic } from "../window_creator.js"
+import { createWindowinNoferic } from "../editor UI components.js"
 /**@param {HTMLElement} document */
 export function newTerminalinsseperateWindow(document, id) {
     const win = document.createElement("div")

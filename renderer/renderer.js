@@ -6,7 +6,7 @@ console.log(["udn", "cnf", "adding thins"]);
 
 let countforterminal = 1;
 import { createAiAgent } from "./ai-frontend/main.js"
-import { giveOptionMenu } from "./option_d.js"
+import editorUIComponents, { createOptionPicker, createDialog, createWindowinNoferic, IDEComponentApi } from "./editor UI components.js";
 import { newTerminalinsseperateWindow } from "./terminal/open-in-win.js"
 import { symtree } from "./maintain-symbol.js";
 import { initiateterminal } from "./terminal/initialiseterminal.js";
@@ -21,15 +21,12 @@ import {
 
   findFolderById,
 } from "./utils.js";
-import { createDialog } from "./Editor_Dialog_Components.js";
 import { createfolderdialogbox } from "./foldercontextmenu.js";
 import { Styleicon } from "./styleicon.js";
 import { handleShortCuts } from "./shortcuthandlers.js";
 import { createfiledialogbox } from "./filecontextmenu.js";
 import { StyleL } from "./stylel.js";
 import { openFileFromExplorer } from "./handlefileopening.js";
-import { IDEComponentApi } from "./editor UI components.js";
-import { createWindowinNoferic } from "./window_creator.js";
 let ischangesopen = false;
 const save = document.getElementById("save");
 const openfile = document.getElementById("open_file");
@@ -277,13 +274,14 @@ window.onload = function () {
   });
 
   document.getElementById("addtermbtn").addEventListener("click", (e) => {
-    giveOptionMenu({
-      "heading": "choose where", options: [
+    createOptionPicker({
+      heading: "choose where",
+      showCloseButton: true,
+      closeOnSelect: true,
+      options: [
         {
-          "text": "in the existing terminal",
-          "type": "text",
-          "close": true,
-          callback: () => {
+          label: "in the existing terminal",
+          onSelect: () => {
             window.ipc.invoke("create_new_terminal", countforterminal);
             initiateterminal(
               document.getElementById("terminal"),
@@ -292,21 +290,17 @@ window.onload = function () {
             );
             countforterminal++;
           },
-
         },
         {
-          "text": "in a new dialog",
-          "close": true,
-          "type": "text",
-          callback: () => {
+          label: "in a new dialog",
+          onSelect: () => {
             window.ipc.invoke("create_new_terminal", countforterminal);
-            newTerminalinsseperateWindow(document, countforterminal)
+            newTerminalinsseperateWindow(document, countforterminal);
             countforterminal++;
-          }
-        }
-      ]
-    })
-
+          },
+        },
+      ],
+    });
   });
   handleShortCuts(document);
   const helpMenuButton = document.getElementById("help-menu-button");
@@ -853,8 +847,118 @@ window.onload = function () {
   });
   window.ipc.onDataframeIPC(async (data) => {
     const message = JSON.parse(data);
-    if(message.action=="create-workspace"){
-      console.log("pd")
+    if (message.action == "create-workspace") {
+      let config = {}
+      await editorUIComponents.blockingAlertDialog({
+        "heading": "create-workspace",
+        "buttonText": "go",
+        "message": "The workspace had not been created.(since all the workspace files are in .noferic-ide this message might also appear if .noferic-ide is deleted) \n Just a few steps and create the worspace"
+      })
+
+      await editorUIComponents.blockingOptionPicker({
+        "heading": "choose language",
+        "closeOnSelect": true,
+        "showCloseButton": false,
+        "options": [{
+          label: "javascript",
+          onSelect: () => {
+            config["language"] = "javascript"
+          },
+        },
+        {
+          label: "typescript",
+          onSelect: () => {
+            config["language"] = "typescript"
+          },
+        }
+        ]
+      })
+      await editorUIComponents.blockingOptionPicker({
+        "heading": "choose framework",
+        "closeOnSelect": true,
+        "showCloseButton": false,
+        "options": [{
+          label: "vanilla",
+          onSelect: () => {
+            config['framework'] = "Vanilla"
+          },
+        },
+        {
+          label: "react",
+          onSelect: () => {
+            config['framework'] = "react"
+          },
+        },
+        {
+
+          label: "angular",
+          onSelect: () => {
+            config['framework'] = "angular"
+          },
+
+        },
+        {
+
+          label: "svelte",
+          onSelect: () => {
+            config['framework'] = "svelte"
+          },
+
+        },
+        {
+          label: "Nextjs",
+          onSelect: () => {
+            config['framework'] = "Nextjs"
+          },
+        },
+        {
+
+          label: "vue",
+          onSelect: () => {
+            config['framework'] = "vue"
+          },
+
+        },
+        {
+
+
+          label: "other",
+          onSelect: () => {
+            config['framework'] = "other"
+          },
+
+
+        }
+        ]
+
+      })
+      await editorUIComponents.blockingOptionPicker({
+        "heading": "does this project use:",
+        "closeOnSelect": true,
+        "showCloseButton": false,
+        "options": [{
+          label: "node",
+          onSelect: () => {
+            config["runtime"] = "node"
+          },
+        },
+        {
+          label: "bun",
+          onSelect: () => {
+            config["runtime"] = "bun"
+          },
+        },
+        {
+
+          label: "none",
+          onSelect: () => {
+            config["runtime"] = "other"
+          },
+
+        }
+        ]
+      })
+      window.ipc.invoke("write-config", JSON.stringify(config))
     }
     if (JSON.parse(data).action == "lint") {
       console.log(message)

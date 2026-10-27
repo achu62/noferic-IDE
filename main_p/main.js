@@ -351,12 +351,13 @@ async function track(pathreal) {
   }
 }
 async function notifyrendererabouttheworkspace(p) {
-  if (fs.existsSync(path.join(p, ".noferic-ide"))) {
+  if (fs.existsSync(path.join(p, ".noferic-ide", "workspace-intellisense-config.json")) == false) {
     win.webContents.send("data", JSON.stringify({
       action: "create-workspace"
     }))
   }
 }
+
 async function handleappargs(args) {
   if (!args) {
     return;
@@ -853,4 +854,7 @@ ipcMain.handle("give-graph", async (e, filePath) => {
   }));
 
   return graph;
+})
+ipcMain.handle("write-config" , (e , content)=>{
+  fs.writeFileSync(path.join(pathreal , ".noferic-ide" , "workspace-intellisense-config.json") , content)
 })

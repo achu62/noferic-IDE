@@ -1,5 +1,5 @@
 import { GetFilebaseName, showDiff } from "../renderer.js";
-import { createWindowinNoferic } from "../window_creator.js";
+import { createWindowinNoferic } from "../editor UI components.js";
 import { createDiff } from "../custom_diff.js"
 
 let json;
