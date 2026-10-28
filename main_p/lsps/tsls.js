@@ -124,6 +124,7 @@ export async function createTsProject(nodebinpath, tslspath, projectpathraw) {
         },
         provideautocomplete: async (filepath, position) => {
             console.log("got req")
+            console.log(URI.file(filepath).toString())
             try {
                 const result = await connection.sendRequest(
                     "textDocument/completion",
