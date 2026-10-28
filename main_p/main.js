@@ -18,6 +18,7 @@ import { lint, initialiseLinter } from "./Linting-features/eslint.js";
 import { lint_sys } from "./Linting-features/es-sys.js";
 import { app, BrowserWindow, dialog, ipcMain, Notification } from "electron";
 
+
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { initialisereposcan, SyncChanges, Updatestatus } from "./git/git.js";
@@ -371,7 +372,7 @@ async function handleappargs(args) {
     if (fs.statSync(path.resolve(args)).isDirectory()) {
       notifyrendererabouttheworkspace(path.resolve(args))
       try {
-        initialisetds(toNormalisedWindowsId(path.resolve(args)));
+        //initialisetds(toNormalisedWindowsId(path.resolve(args)));
         project = await createTsProject("./external_bin/node-bins/node-v24.21.0-linux-x64/bin/node", "./external_bin/tsls/lib/cli.mjs", toNormalisedWindowsId(path.resolve(args)))
 
       } catch (e) { }
@@ -811,6 +812,7 @@ ipcMain.handle("changesettings", async (e, property, value) => {
 });
 
 ipcMain.handle("get-auto-complete", async (e, { filepath, offset }) => {
+  console.log(project)
   await project.openfile(filepath, fs.readFileSync(filepath, "utf-8"))
   return await project.provideautocomplete(filepath, offset)
 });

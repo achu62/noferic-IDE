@@ -10,6 +10,35 @@ import * as rpc from "vscode-jsonrpc/node"
 function toNormalisedWindowsId(inputPath) {
     return path.win32.normalize(inputPath).replace(/\\/g, "/");
 }
+function toMonacoCompletions(result, position) {
+    const items = Array.isArray(result)
+        ? result
+        : result?.items ?? [];
+
+    return {
+        suggestions: items.map((item) => ({
+            label: item.label,
+            kind: item.kind ?? 1,
+            detail: item.detail,
+            documentation:
+                typeof item.documentation === "string"
+                    ? item.documentation
+                    : item.documentation?.value,
+            insertText: item.insertText ?? item.label,
+            insertTextRules:
+                item.insertTextFormat === 2 ? 4 : undefined,
+            range: {
+                startLineNumber: position.lineNumber,
+                endLineNumber: position.lineNumber,
+                startColumn: position.column,
+                endColumn: position.column,
+            },
+            sortText: item.sortText,
+            filterText: item.filterText,
+            preselect: item.preselect,
+        })),
+    };
+}
 const ll = {
     ".ts": "typescript",
     ".tsx": "typescriptreact",
@@ -37,6 +66,12 @@ export async function createTsProject(nodebinpath, tslspath, projectpathraw) {
         cwd: projectpath,
         stdio: ["pipe", "pipe", "pipe"]
     });
+    lspprocess.stderr.on("data", (data) => {
+        fs.writeFileSync(path.join("./tslogs", `${Date.now()}.txt`), data.toString())
+    })
+    lspprocess.stdout.on("data", (data) => {
+        fs.writeFileSync(path.join("./tslogs", `${Date.now()}.txt`), data.toString())
+    })
     const connection = rpc.createMessageConnection(
         new rpc.StreamMessageReader(lspprocess.stdout),
         new rpc.StreamMessageWriter(lspprocess.stdin)
@@ -45,11 +80,15 @@ export async function createTsProject(nodebinpath, tslspath, projectpathraw) {
 
     console.log("LSP PID:", lspprocess.pid, connection);
     await initialisets(connection, projectpath)
-    connection.sendNotification("initialized")
+    connection.sendNotification("initialized", {})
+    connection.onRequest("workspace/configuration", (params) => {
+        return params.items.map(() => ({}));
+    });
     const tools = {
         openfile: async (filepath, content) => {
             const promise = new Promise((res, rej) => {
                 const langid = ll[path.extname(toNormalisedWindowsId(filepath))]
+                console.log(langid)
                 if (!langid) {
                     rej()
                 }
@@ -102,7 +141,7 @@ export async function createTsProject(nodebinpath, tslspath, projectpathraw) {
                     }
                 );
                 console.log(`${result} is the result`)
-                return result;
+                return toMonacoCompletions(result, position);
             }
             catch (e) {
                 console.error(e)

@@ -15,6 +15,7 @@ let checks =
 ]
 import path from "path"
 import fs from "fs"
+path.rela
 export async function getTags(dirpath)
 {
     
