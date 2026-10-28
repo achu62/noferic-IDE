@@ -177,8 +177,8 @@ window.onload = () => {
       triggerCharacters: [".", "<", "/"],
       async provideCompletionItems(model, position) {
         try {
-          const offset = model.getOffsetAt(position);
-          //console.log(offset)
+
+          const offset = position
           const filepath =
             navigator.platform === "Win32"
               ? decodeURIComponent(model.uri.toString().replace("id://", ""))
@@ -645,7 +645,7 @@ window.onload = () => {
       enableSchemaRequest: true,
       schemas: [],
     });
-    window.getCurrentFileURI = function (){
+    window.getCurrentFileURI = function () {
       return URI;
     }
   });

@@ -27,7 +27,7 @@ let list = {
 
 }
 
-export function createTsProject(nodebinpath, tslspath, projectpathraw) {
+export async function createTsProject(nodebinpath, tslspath, projectpathraw) {
     const baseDir = getEssentials().dirname;
     const projectpath = toNormalisedWindowsId(projectpathraw)
     const nodebin = path.resolve(baseDir, "lsps", nodebinpath);
@@ -44,7 +44,7 @@ export function createTsProject(nodebinpath, tslspath, projectpathraw) {
     connection.listen()
 
     console.log("LSP PID:", lspprocess.pid, connection);
-    initialisets(connection, projectpath)
+    await initialisets(connection, projectpath)
     connection.sendNotification("initialized")
     const tools = {
         openfile: async (filepath, content) => {
@@ -84,6 +84,7 @@ export function createTsProject(nodebinpath, tslspath, projectpathraw) {
 
         },
         provideautocomplete: async (filepath, position) => {
+            console.log("got req")
             try {
                 const result = await connection.sendRequest(
                     "textDocument/completion",
@@ -104,7 +105,7 @@ export function createTsProject(nodebinpath, tslspath, projectpathraw) {
                 return result;
             }
             catch (e) {
-
+                console.error(e)
             }
         }
     }

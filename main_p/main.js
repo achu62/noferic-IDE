@@ -188,7 +188,7 @@ process.on("uncaughtException", (err) => {
 });
 
 const apppath = process.execPath;
-consolelog("apppath" + apppath);
+console.log("apppath" + apppath);
 let watcher;
 /**@param {string} pathreal */
 async function trackgit(pathreal) { }
@@ -372,7 +372,7 @@ async function handleappargs(args) {
       notifyrendererabouttheworkspace(path.resolve(args))
       try {
         initialisetds(toNormalisedWindowsId(path.resolve(args)));
-        project = createTsProject("./external_bin/node-bins/node-v24.21.0-linux-x64/bin/node", "./external_bin/tsls/lib/cli.mjs", toNormalisedWindowsId(path.resolve(args)))
+        project = await createTsProject("./external_bin/node-bins/node-v24.21.0-linux-x64/bin/node", "./external_bin/tsls/lib/cli.mjs", toNormalisedWindowsId(path.resolve(args)))
 
       } catch (e) { }
 
