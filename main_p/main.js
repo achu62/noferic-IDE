@@ -11,6 +11,7 @@ import ts from "typescript";
 export function getts() {
   return ts;
 }
+import { createTsProject } from "./lsps/tsls.js";
 import { req_Diagnostic } from "./parse-main-handler.js";
 import { runIdeAudit } from "./dependency-cruiser/dependency-cruiser.js"
 import { lint, initialiseLinter } from "./Linting-features/eslint.js";
@@ -359,6 +360,7 @@ async function notifyrendererabouttheworkspace(p) {
 }
 
 async function handleappargs(args) {
+  
   if (!args) {
     return;
   }
@@ -855,6 +857,8 @@ ipcMain.handle("give-graph", async (e, filePath) => {
 
   return graph;
 })
-ipcMain.handle("write-config" , (e , content)=>{
-  fs.writeFileSync(path.join(pathreal , ".noferic-ide" , "workspace-intellisense-config.json") , content)
+ipcMain.handle("write-config", (e, content) => {
+  fs.writeFileSync(path.join(pathreal, ".noferic-ide", "workspace-intellisense-config.json"), content)
 })
+//const project = createTsProject("./external_bin/node-bins/node-v24.21.0-linux-x64/bin/node", "./external_bin/tsls/lib/cli.mjs" , "/home/charan/noferic-IDE/main_p")
+//project.openfile()

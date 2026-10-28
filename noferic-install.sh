@@ -25,7 +25,7 @@ elif [ "$answer" = "1" ]; then
 
     mkdir -p "$HOME/.local/bin"
 
-    curl -fL "https://github.com/achu62/noferic-IDE/releases/download/v2.2.5/Noferic.IDE-2.2.5.AppImage" \
+    curl -fL "https://github.com/achu62/noferic-IDE/releases/download/v2.2.7/Noferic.IDE-2.2.7.AppImage" \
     -o "$HOME/.local/bin/noferic"
 
     chmod +x "$HOME/.local/bin/noferic"
