@@ -83,7 +83,7 @@ export function createTsProject(nodebinpath, tslspath, projectpathraw) {
             return promise;
 
         },
-        provideautocomplete: async (filepath, line, char) => {
+        provideautocomplete: async (filepath, position) => {
             try {
                 const result = await connection.sendRequest(
                     "textDocument/completion",
@@ -92,16 +92,16 @@ export function createTsProject(nodebinpath, tslspath, projectpathraw) {
                             uri: URI.file(filepath).toString()
                         },
                         position: {
-                            line: line,
-                            character: char
+                            line: position.lineNumber - 1,
+                            character: position.column - 1
                         },
                         context: {
                             triggerKind: 1
                         }
                     }
                 );
-
-                console.log(result);
+                console.log(`${result} is the result`)
+                return result;
             }
             catch (e) {
 

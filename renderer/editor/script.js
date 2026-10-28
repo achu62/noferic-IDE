@@ -191,7 +191,7 @@ window.onload = () => {
               offset,
             },
           });
-          //console.log(result)
+          console.log(result)
 
           return {
             suggestions: result?.suggestions || [],

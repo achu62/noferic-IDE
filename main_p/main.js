@@ -24,7 +24,9 @@ import { initialisereposcan, SyncChanges, Updatestatus } from "./git/git.js";
 import fs from "node:fs";
 import { spawn } from "child_process";
 import chokidar from "chokidar";
+/**@type {import("./lsps/tsls.js").createTsProject} project */
 
+let project;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import { deleteNodeById, injectChildrenByPath } from "./utils.js";
@@ -200,9 +202,9 @@ async function track(pathreal) {
 
   try {
     if (watcher) watcher.close();
-
     watcher = chokidar.watch(pathreal, {
       ignoreInitial: true,
+      ignored: "**/.git/",
     });
 
     watcher.on("add", (filePath) => {
@@ -252,7 +254,6 @@ async function track(pathreal) {
     watcher.on("change", async (filePath) => {
       filePath = toNormalizedWindospath(filePath);
       if (!changedpathsbyide.map(toPathKey).includes(toPathKey(filePath))) {
-        console.log("changed");
         win.webContents.send(
           "data",
           JSON.stringify({
@@ -360,7 +361,7 @@ async function notifyrendererabouttheworkspace(p) {
 }
 
 async function handleappargs(args) {
-  
+
   if (!args) {
     return;
   }
@@ -371,6 +372,8 @@ async function handleappargs(args) {
       notifyrendererabouttheworkspace(path.resolve(args))
       try {
         initialisetds(toNormalisedWindowsId(path.resolve(args)));
+        project = createTsProject("./external_bin/node-bins/node-v24.21.0-linux-x64/bin/node", "./external_bin/tsls/lib/cli.mjs", toNormalisedWindowsId(path.resolve(args)))
+
       } catch (e) { }
 
       try {
@@ -806,8 +809,10 @@ ipcMain.handle("changesettings", async (e, property, value) => {
     JSON.stringify(set),
   );
 });
+
 ipcMain.handle("get-auto-complete", async (e, { filepath, offset }) => {
-  return await GetAutoComplete(offset, filepath);
+  await project.openfile(filepath, fs.readFileSync(filepath, "utf-8"))
+  return await project.provideautocomplete(filepath, offset)
 });
 ipcMain.handle("rename", async (e, t, n) => {
   await fs.promises.rename(t, n);
@@ -860,5 +865,3 @@ ipcMain.handle("give-graph", async (e, filePath) => {
 ipcMain.handle("write-config", (e, content) => {
   fs.writeFileSync(path.join(pathreal, ".noferic-ide", "workspace-intellisense-config.json"), content)
 })
-//const project = createTsProject("./external_bin/node-bins/node-v24.21.0-linux-x64/bin/node", "./external_bin/tsls/lib/cli.mjs" , "/home/charan/noferic-IDE/main_p")
-//project.openfile()
