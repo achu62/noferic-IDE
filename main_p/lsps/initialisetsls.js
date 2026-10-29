@@ -63,8 +63,7 @@ export async function initialisets(connection, path) {
         const res = await connection.sendRequest("initialize", initparams)
 
         console.log(res)
-        const symbols = await connection.sendRequest("workspace/symbol", { query: "" });
-        console.log(symbols)
+      
     }
     catch (e) {
         console.log(e)

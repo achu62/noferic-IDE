@@ -56,16 +56,18 @@ let list = {
 
 }
 
-export async function createTsProject(nodebinpath, tslspath, projectpathraw) {
+export async function createTsProject(tslspath, projectpathraw) {
     const baseDir = getEssentials().dirname;
     const projectpath = toNormalisedWindowsId(projectpathraw)
-    const nodebin = path.resolve(baseDir, "lsps", nodebinpath);
+
     const tsls = path.resolve(baseDir, "lsps", tslspath);
 
-    const lspprocess = spawn(nodebin, [tsls, "--stdio"], {
+
+    const lspprocess = spawn(tsls , ['--lsp', '--stdio'], {
         cwd: projectpath,
-        stdio: ["pipe", "pipe", "pipe"]
+        stdio: ['pipe', 'pipe', 'pipe'],
     });
+
     const connection = rpc.createMessageConnection(
         new rpc.StreamMessageReader(lspprocess.stdout),
         new rpc.StreamMessageWriter(lspprocess.stdin)

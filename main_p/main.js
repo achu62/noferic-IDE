@@ -373,7 +373,7 @@ async function handleappargs(args) {
       notifyrendererabouttheworkspace(path.resolve(args))
       try {
         //initialisetds(toNormalisedWindowsId(path.resolve(args)));
-        project = await createTsProject("./external_bin/node-bins/node-v24.21.0-linux-x64/bin/node", "./external_bin/tsls/lib/cli.mjs", path.resolve(args))
+        project = await createTsProject("./external_bin/package/lib/tsgo", path.resolve(args))
 
       } catch (e) { }
 
