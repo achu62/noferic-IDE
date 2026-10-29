@@ -1,4 +1,5 @@
 //jai sri ram
+import fs from "fs"
 
 function irritate(Math, x) {
   let value = NaN;
@@ -16,6 +17,7 @@ function irritate(Math, x) {
 
 
 
+{}
 
 
 

@@ -255,6 +255,7 @@ async function track(pathreal) {
     watcher.on("change", async (filePath) => {
       filePath = toNormalizedWindospath(filePath);
       if (!changedpathsbyide.map(toPathKey).includes(toPathKey(filePath))) {
+        if (path.basename(filePath) == "index.lock") return
         win.webContents.send(
           "data",
           JSON.stringify({
@@ -279,7 +280,6 @@ async function track(pathreal) {
       filePath = toNormalizedWindospath(filePath);
       const filepathonly = path.basename(toNormalizedWindospath(filePath));
       const foldepath = path.dirname(toNormalizedWindospath(filePath));
-      console.log(toNormalizedWindospath(filePath));
       deleteNodeById(globalfolderjson, toNormalizedWindospath(filePath));
       win.webContents.send(
         "data",
@@ -373,7 +373,7 @@ async function handleappargs(args) {
       notifyrendererabouttheworkspace(path.resolve(args))
       try {
         //initialisetds(toNormalisedWindowsId(path.resolve(args)));
-        project = await createTsProject("./external_bin/node-bins/node-v24.21.0-linux-x64/bin/node", "./external_bin/tsls/lib/cli.mjs", toNormalisedWindowsId(path.resolve(args)))
+        project = await createTsProject("./external_bin/node-bins/node-v24.21.0-linux-x64/bin/node", "./external_bin/tsls/lib/cli.mjs", path.resolve(args))
 
       } catch (e) { }
 
@@ -810,10 +810,15 @@ ipcMain.handle("changesettings", async (e, property, value) => {
     JSON.stringify(set),
   );
 });
-
+let prevpath = null;
 ipcMain.handle("get-auto-complete", async (e, { filepath, offset }) => {
-  console.log(project)
-  await project.openfile(filepath, fs.readFileSync(filepath, "utf-8"))
+  if (!prevpath || prevpath == filepath) {
+    await project.changefile(filepath, fs.readFileSync(filepath, "utf-8"))
+  }
+  else {
+    await project.openfile(filepath, fs.readFileSync(filepath, "utf-8"))
+    prevpath = filepath;
+  }
   return await project.provideautocomplete(filepath, offset)
 });
 ipcMain.handle("rename", async (e, t, n) => {

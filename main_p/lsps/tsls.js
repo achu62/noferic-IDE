@@ -66,24 +66,49 @@ export async function createTsProject(nodebinpath, tslspath, projectpathraw) {
         cwd: projectpath,
         stdio: ["pipe", "pipe", "pipe"]
     });
-    lspprocess.stderr.on("data", (data) => {
-        fs.writeFileSync(path.join("./tslogs", `${Date.now()}.txt`), data.toString())
-    })
-    lspprocess.stdout.on("data", (data) => {
-        fs.writeFileSync(path.join("./tslogs", `${Date.now()}.txt`), data.toString())
-    })
     const connection = rpc.createMessageConnection(
         new rpc.StreamMessageReader(lspprocess.stdout),
         new rpc.StreamMessageWriter(lspprocess.stdin)
     )
     connection.listen()
-
+    console.log({
+        projectpath,
+        cwd: lspprocess.spawnargs,
+        tsls,
+        tsconfigExists: fs.existsSync(
+            path.join(projectpath, "tsconfig.json")
+        ),
+        packageJsonExists: fs.existsSync(
+            path.join(projectpath, "package.json")
+        )
+    });
     console.log("LSP PID:", lspprocess.pid, connection);
     await initialisets(connection, projectpath)
-    connection.sendNotification("initialized", {})
     connection.onRequest("workspace/configuration", (params) => {
-        return params.items.map(() => ({}));
+        return params.items.map((item) => {
+            return {
+                typescript: {
+                    inlayHints: {
+                        includeInlayParameterNameHints: "all",
+                        includeInlayFunctionLikeReturnTypeHints: true
+                    }
+                },
+                compilerOptions: {
+                    allowJs: true,
+                    checkJs: true,
+                    noEmit: true,
+                    module: "CommonJS",
+                    moduleResolution: "node",
+                    target: "ES2022",
+                    allowSyntheticDefaultImports: true,
+                    esModuleInterop: true,
+                    skipLibCheck: false
+                }
+            };
+        });
     });
+    connection.sendNotification("initialized", {})
+
     const tools = {
         openfile: async (filepath, content) => {
             const promise = new Promise((res, rej) => {
@@ -125,6 +150,8 @@ export async function createTsProject(nodebinpath, tslspath, projectpathraw) {
         provideautocomplete: async (filepath, position) => {
             console.log("got req")
             console.log(URI.file(filepath).toString())
+            const symbols = await connection.sendRequest("workspace/symbol", { query: "" });
+            console.log(symbols)
             try {
                 const result = await connection.sendRequest(
                     "textDocument/completion",

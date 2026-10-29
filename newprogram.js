@@ -1,5 +1,6 @@
 //jai sri ram
 import {newfr} from "./newfilefortest"
+{}
 function jaisriram(){
     const any_a = null;
 
