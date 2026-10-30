@@ -1,6 +1,8 @@
 //jai sri ram
-import {newfr} from "./newfilefortest"
-{}
+import {jaisriram} from "./newfilefortest.js"
+import {Cruise} from "dependency-cruiser"
+import fs from "fs"
+fs.
 function jaisriram(){
     const any_a = null;
 

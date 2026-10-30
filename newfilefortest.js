@@ -1,6 +1,7 @@
 //jai sri ram
 import fs from "fs"
-
+import trash from "trash";
+import {lintsys} from "./main_p/Linting-features/es-sys.js"
 function irritate(Math, x) {
   let value = NaN;
 
@@ -17,7 +18,7 @@ function irritate(Math, x) {
 
 
 
-{}
+
 
 
 

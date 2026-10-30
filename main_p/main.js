@@ -6,11 +6,12 @@
 
 import envPaths from "env-paths";
 import trash from "trash";
-//jai srir am
+//jai sri ram
 import ts from "typescript";
 export function getts() {
   return ts;
 }
+
 import { createTsProject } from "./lsps/tsls.js";
 import { req_Diagnostic } from "./parse-main-handler.js";
 import { runIdeAudit } from "./dependency-cruiser/dependency-cruiser.js"
@@ -372,10 +373,17 @@ async function handleappargs(args) {
     if (fs.statSync(path.resolve(args)).isDirectory()) {
       notifyrendererabouttheworkspace(path.resolve(args))
       try {
-        //initialisetds(toNormalisedWindowsId(path.resolve(args)));
+        await initialisetds(toNormalisedWindowsId(path.resolve(args)));
+      } catch (e) {
+        console.error("Failed to initialize TypeScript language service:", e);
+      }
+
+      try {
         project = await createTsProject("./external_bin/package/lib/tsgo", path.resolve(args))
 
-      } catch (e) { }
+      } catch (e) {
+        console.error("Failed to initialize tsgo:", e);
+      }
 
       try {
         initialiseterminalmain(ptyProcess, path.resolve(args), "def", win);
@@ -810,15 +818,10 @@ ipcMain.handle("changesettings", async (e, property, value) => {
     JSON.stringify(set),
   );
 });
-let prevpath = null;
 ipcMain.handle("get-auto-complete", async (e, { filepath, offset }) => {
-  if (!prevpath || prevpath == filepath) {
-    await project.changefile(filepath, fs.readFileSync(filepath, "utf-8"))
-  }
-  else {
-    await project.openfile(filepath, fs.readFileSync(filepath, "utf-8"))
-    prevpath = filepath;
-  }
+  console.log("got req")
+  await project.changefile(filepath, fs.readFileSync(filepath, "utf-8"));
+  console.log( await project.provideautocomplete(filepath, offset))
   return await project.provideautocomplete(filepath, offset)
 });
 ipcMain.handle("rename", async (e, t, n) => {

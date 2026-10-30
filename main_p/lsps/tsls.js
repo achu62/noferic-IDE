@@ -52,18 +52,15 @@ const ll = {
     ".d.mts": "typescript",
     ".d.cts": "typescript"
 }
-let list = {
-
-}
-
 export async function createTsProject(tslspath, projectpathraw) {
     const baseDir = getEssentials().dirname;
     const projectpath = toNormalisedWindowsId(projectpathraw)
+    const list = Object.create(null);
 
     const tsls = path.resolve(baseDir, "lsps", tslspath);
 
 
-    const lspprocess = spawn(tsls , ['--lsp', '--stdio'], {
+    const lspprocess = spawn(tsls, ['--lsp', '--stdio'], {
         cwd: projectpath,
         stdio: ['pipe', 'pipe', 'pipe'],
     });
@@ -135,25 +132,40 @@ export async function createTsProject(tslspath, projectpathraw) {
             return promise;
         },
         changefile: async (filepath, content) => {
+            const langid = ll[path.extname(toNormalisedWindowsId(filepath))];
+            if (!langid) {
+                throw new Error(`Unsupported file type: ${filepath}`);
+            }
 
-            const promise = new Promise((res, rej) => {
-
-                const DidChangeNotification = new rpc.NotificationType('textDocument/didChange');
-                connection.sendNotification(DidChangeNotification, {
-                    textDocument: { uri: URI.file(filepath).toString(), version: list[filepath] + 1 },
-                    contentChanges: [{ text: content }]
+            const uri = URI.file(filepath).toString();
+            const version = list[filepath];
+            if (version === undefined) {
+                connection.sendNotification("textDocument/didOpen", {
+                    textDocument: {
+                        uri,
+                        languageId: langid,
+                        version: 1,
+                        text: content
+                    }
                 });
-                list[filepath] += 1;
-                res()
-            })
-            return promise;
+                list[filepath] = 1;
+                return;
+            }
 
+            const nextVersion = version + 1;
+            connection.sendNotification("textDocument/didChange", {
+                textDocument: { uri, version: nextVersion },
+                contentChanges: [{ text: content }]
+            });
+            list[filepath] = nextVersion;
         },
         provideautocomplete: async (filepath, position) => {
-            console.log("got req")
-            console.log(URI.file(filepath).toString())
-            const symbols = await connection.sendRequest("workspace/symbol", { query: "" });
-            console.log(symbols)
+            console.log(" i got req")
+            const symbols = await connection.sendRequest("workspace/symbol", {
+                query: ""
+            });
+
+            console.log(symbols);
             try {
                 const result = await connection.sendRequest(
                     "textDocument/completion",
@@ -170,6 +182,7 @@ export async function createTsProject(tslspath, projectpathraw) {
                         }
                     }
                 );
+                console.log("got resul ,", JSON.stringify(result))
                 console.log(`${result} is the result`)
                 return toMonacoCompletions(result, position);
             }

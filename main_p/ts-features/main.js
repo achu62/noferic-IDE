@@ -411,6 +411,10 @@ export async function getSyntacticDiagnosticsfromts(fileName) {
     };
 }
 export async function GetHover(filePath, position) {
+    if (!hostforpresentfile) {
+        console.warn("Language service host not initialized");
+        return null;
+    }
     return quickInfoToMonaco(hostforpresentfile.getQuickInfoAtPosition(toNormalisedWindowsId(filePath), position), ts)
 }
 export async function GetAutoComplete(c, fpath) {
