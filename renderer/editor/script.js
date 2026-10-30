@@ -174,7 +174,7 @@ window.onload = () => {
       }
     });
     monaco.languages.registerCompletionItemProvider("javascript", {
-      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "("],
+      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "(" , "a" , "b" , "c" , "d" , "e" , "f" , "g" , "h" , "i" , "j" , "k" , "l" , "m" , "n" , "o" , "p" , "q" , "r" , "s" , "t" , "u"],
       async provideCompletionItems(model, position) {
         try {
 
@@ -206,7 +206,7 @@ window.onload = () => {
       },
     });
     monaco.languages.registerCompletionItemProvider("javascriptreact", {
-      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "("],
+      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "(" , "a" , "b" , "c" , "d" , "e" , "f" , "g" , "h" , "i" , "j" , "k" , "l" , "m" , "n" , "o" , "p" , "q" , "r" , "s" , "t" , "u"],
       async provideCompletionItems(model, position) {
         try {
           const offset = model.getOffsetAt(position);
@@ -238,7 +238,7 @@ window.onload = () => {
       },
     });
     monaco.languages.registerCompletionItemProvider("typescript", {
-      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "("],
+      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "(" , "a" , "b" , "c" , "d" , "e" , "f" , "g" , "h" , "i" , "j" , "k" , "l" , "m" , "n" , "o" , "p" , "q" , "r" , "s" , "t" , "u"],
       async provideCompletionItems(model, position) {
         try {
           const offset = model.getOffsetAt(position);
@@ -270,7 +270,7 @@ window.onload = () => {
       },
     });
     monaco.languages.registerCompletionItemProvider("javascriptreact", {
-      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "("],
+      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "(" , "a" , "b" , "c" , "d" , "e" , "f" , "g" , "h" , "i" , "j" , "k" , "l" , "m" , "n" , "o" , "p" , "q" , "r" , "s" , "t" , "u"],
       async provideCompletionItems(model, position) {
         try {
           const offset = model.getOffsetAt(position);
@@ -302,7 +302,7 @@ window.onload = () => {
       },
     });
     monaco.languages.registerCompletionItemProvider("typescriptreact", {
-      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "("],
+      triggerCharacters: [".", "<", "/" , "[" , `"` , `'` , "'" , "{" , "(" , "a" , "b" , "c" , "d" , "e" , "f" , "g" , "h" , "i" , "j" , "k" , "l" , "m" , "n" , "o" , "p" , "q" , "r" , "s" , "t" , "u"],
       async provideCompletionItems(model, position) {
         try {
           const offset = model.getOffsetAt(position);

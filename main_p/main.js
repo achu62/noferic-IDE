@@ -13,12 +13,12 @@ export function getts() {
 }
 
 import { createTsProject } from "./lsps/tsls.js";
-import { req_Diagnostic } from "./parse-main-handler.js";
+//import { req_Diagnostic } from "./parse-main-handler.js";
 import { runIdeAudit } from "./dependency-cruiser/dependency-cruiser.js"
 import { lint, initialiseLinter } from "./Linting-features/eslint.js";
 import { lint_sys } from "./Linting-features/es-sys.js";
 import { app, BrowserWindow, dialog, ipcMain, Notification } from "electron";
-
+ipcMain.setMaxListeners(0);
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -821,7 +821,7 @@ ipcMain.handle("changesettings", async (e, property, value) => {
 ipcMain.handle("get-auto-complete", async (e, { filepath, offset }) => {
   console.log("got req")
   await project.changefile(filepath, fs.readFileSync(filepath, "utf-8"));
-  console.log( await project.provideautocomplete(filepath, offset))
+  console.log(await project.provideautocomplete(filepath, offset))
   return await project.provideautocomplete(filepath, offset)
 });
 ipcMain.handle("rename", async (e, t, n) => {

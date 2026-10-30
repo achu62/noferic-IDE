@@ -2,6 +2,7 @@
 import fs from "fs"
 import trash from "trash";
 import {lintsys} from "./main_p/Linting-features/es-sys.js"
+trash()
 function irritate(Math, x) {
   let value = NaN;
 
