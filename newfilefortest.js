@@ -1,8 +1,13 @@
 //jai sri ram
 import fs from "fs"
 import trash from "trash";
+import env from "env-paths"
 import {lintsys} from "./main_p/Linting-features/es-sys.js"
+
 trash()
+fs.chmod()
+fs.StatsFs()
+
 function irritate(Math, x) {
   let value = NaN;
 

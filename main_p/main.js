@@ -11,9 +11,10 @@ import ts from "typescript";
 export function getts() {
   return ts;
 }
+let openedfiles = []
+
 
 import { createTsProject } from "./lsps/tsls.js";
-//import { req_Diagnostic } from "./parse-main-handler.js";
 import { runIdeAudit } from "./dependency-cruiser/dependency-cruiser.js"
 import { lint, initialiseLinter } from "./Linting-features/eslint.js";
 import { lint_sys } from "./Linting-features/es-sys.js";
@@ -21,6 +22,7 @@ import { app, BrowserWindow, dialog, ipcMain, Notification } from "electron";
 ipcMain.setMaxListeners(0);
 
 import path from "node:path";
+
 import { fileURLToPath } from "node:url";
 import { initialisereposcan, SyncChanges, Updatestatus } from "./git/git.js";
 import fs from "node:fs";
@@ -38,11 +40,6 @@ import { readFilejs } from "./readfile.js";
 import { initialiseterminalmain } from "./terminal/terminal.js";
 import { handleCommit, GetDifftextMain } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
-import {
-  initialisetds,
-  GetHover,
-} from "./ts-features/main.js";
-
 import { getTags } from "./tagger.js";
 import { getSearchResults, UpdateorCreatefilelist } from "./getAllFilenames.js";
 
@@ -366,11 +363,7 @@ async function handleappargs(args) {
   } else {
     if (fs.statSync(path.resolve(args)).isDirectory()) {
       notifyrendererabouttheworkspace(path.resolve(args))
-      try {
-        await initialisetds(toNormalisedWindowsId(path.resolve(args)));
-      } catch (e) {
-        console.error("Failed to initialize TypeScript language service:", e);
-      }
+     
 
       try {
         project = await createTsProject("./external_bin/package/lib/tsgo", path.resolve(args))
@@ -779,6 +772,10 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
   }
 });
 ipcMain.handle("hover", async (e, { filepath, Offset }) => {
+  /*if (openedfiles.includes(filepath) == false) {
+    await project.openfile(filepath, fs.readFileSync(filepath, "utf-8"))
+    openedfiles.push(filepath)
+  }*/
   await project.changefile(filepath, fs.readFileSync(filepath, "utf-8"));
   return await project.provideHover(filepath, Offset);
 });
@@ -808,7 +805,10 @@ ipcMain.handle("changesettings", async (e, property, value) => {
   );
 });
 ipcMain.handle("get-auto-complete", async (e, { filepath, offset }) => {
-  console.log("got req")
+  /*if (openedfiles.includes(filepath) == false) {
+    await project.openfile(filepath, fs.readFileSync(filepath, "utf-8"))
+    openedfiles.push(filepath)
+  }*/
   await project.changefile(filepath, fs.readFileSync(filepath, "utf-8"));
   return await project.provideautocomplete(filepath, offset)
 });
