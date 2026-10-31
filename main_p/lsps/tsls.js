@@ -39,6 +39,53 @@ function toMonacoCompletions(result, position) {
         })),
     };
 }
+function toMonacoHover(hover) {
+    if (!hover?.contents) {
+        return undefined;
+    }
+
+    const toMarkdown = (entry) => {
+        if (typeof entry === "string") {
+            return { value: entry };
+        }
+        if (!entry || typeof entry !== "object") {
+            return { value: String(entry ?? "") };
+        }
+        if (typeof entry.value !== "string") {
+            return { value: "" };
+        }
+        if (entry.kind === "plaintext") {
+            return {
+                value: entry.value.replace(/[\\`*_{}[\]()#+\-.!]/g, "\\$&"),
+            };
+        }
+        if (typeof entry.language === "string") {
+            return {
+                value: `\`\`\`${entry.language}\n${entry.value}\n\`\`\``,
+            };
+        }
+        return { value: entry.value };
+    };
+
+    const contents = (Array.isArray(hover.contents)
+        ? hover.contents
+        : [hover.contents]
+    ).map(toMarkdown);
+    if (contents.length === 0) {
+        return undefined;
+    }
+
+    const result = { contents };
+    if (hover.range?.start && hover.range?.end) {
+        result.range = {
+            startLineNumber: hover.range.start.line + 1,
+            startColumn: hover.range.start.character + 1,
+            endLineNumber: hover.range.end.line + 1,
+            endColumn: hover.range.end.character + 1,
+        };
+    }
+    return result;
+}
 const ll = {
     ".ts": "typescript",
     ".tsx": "typescriptreact",
@@ -161,11 +208,6 @@ export async function createTsProject(tslspath, projectpathraw) {
         },
         provideautocomplete: async (filepath, position) => {
             console.log(" i got req")
-            const symbols = await connection.sendRequest("workspace/symbol", {
-                query: ""
-            });
-
-            console.log(symbols);
             try {
                 const result = await connection.sendRequest(
                     "textDocument/completion",
@@ -189,6 +231,22 @@ export async function createTsProject(tslspath, projectpathraw) {
             catch (e) {
                 console.error(e)
             }
+        },
+        provideHover: async (filepath, position) => {
+            const hoverType = new rpc.RequestType('textDocument/hover');
+
+            const params = {
+                textDocument: {
+                    uri: URI.file(filepath).toString()
+                },
+                position: {
+                    line: position.lineNumber - 1,
+                    character: position.column - 1
+                }
+            };
+            const result = await connection.sendRequest(hoverType, params);
+            console.log(result)
+            return toMonacoHover(result);
         }
     }
     return tools;

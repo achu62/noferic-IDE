@@ -40,11 +40,7 @@ import { handleCommit, GetDifftextMain } from "./git/git.js";
 import { scanafolder } from "./scanafolder.js";
 import {
   initialisetds,
-  getSyntacticDiagnosticsfromts,
   GetHover,
-  GetAutoComplete,
-  updateList,
-  UpdateVersion,
 } from "./ts-features/main.js";
 
 import { getTags } from "./tagger.js";
@@ -249,7 +245,6 @@ async function track(pathreal) {
           }),
         );
       }
-      updateList(filePath);
       Updatestatus(win);
     });
 
@@ -273,7 +268,6 @@ async function track(pathreal) {
       changedpathsbyide = changedpathsbyide.filter(
         (item) => toPathKey(item) !== toPathKey(filePath),
       );
-      UpdateVersion(filePath);
       Updatestatus(win);
     });
 
@@ -380,6 +374,7 @@ async function handleappargs(args) {
 
       try {
         project = await createTsProject("./external_bin/package/lib/tsgo", path.resolve(args))
+        console.log()
 
       } catch (e) {
         console.error("Failed to initialize tsgo:", e);
@@ -753,9 +748,6 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
     // let nfd = await req_Diagnostic(filePath, code);
     let esd = await lint(code, filePath);
     esd = esd[0].messages;
-    let syd = await getSyntacticDiagnosticsfromts(
-      toNormalisedWindowsId(filePath),
-    );
     if (esd) {
       esd.forEach((ydx) => {
         diagnostics.push(ydx);
@@ -767,11 +759,7 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
       });
     }
 
-    if (syd) {
-      syd.forEach((ydx) => {
-        diagnostics.push(ydx);
-      });
-    }
+
 
     /*if (nfd) {
       nfd.forEach((o) => {
@@ -791,7 +779,8 @@ ipcMain.handle("lint", async (e, { code, filePath }) => {
   }
 });
 ipcMain.handle("hover", async (e, { filepath, Offset }) => {
-  return await GetHover(filepath, Offset);
+  await project.changefile(filepath, fs.readFileSync(filepath, "utf-8"));
+  return await project.provideHover(filepath, Offset);
 });
 
 ipcMain.handle("request-settings", async (e) => {
@@ -821,7 +810,6 @@ ipcMain.handle("changesettings", async (e, property, value) => {
 ipcMain.handle("get-auto-complete", async (e, { filepath, offset }) => {
   console.log("got req")
   await project.changefile(filepath, fs.readFileSync(filepath, "utf-8"));
-  console.log(await project.provideautocomplete(filepath, offset))
   return await project.provideautocomplete(filepath, offset)
 });
 ipcMain.handle("rename", async (e, t, n) => {

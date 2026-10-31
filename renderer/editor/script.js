@@ -339,7 +339,7 @@ window.onload = () => {
           navigator.platform === "Win32"
             ? decodeURIComponent(model.uri.toString().replace("id://", ""))
             : decodeURIComponent(model.uri.toString().replace("id:", ""));
-        const Offset = model.getOffsetAt(position);
+        const Offset = position
 
         const result = await window.renderer.SendRequesttomain({
           action: "hover",
