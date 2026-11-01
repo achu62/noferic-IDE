@@ -366,7 +366,7 @@ async function handleappargs(args) {
      
 
       try {
-        project = await createTsProject("./external_bin/package/lib/tsgo", path.resolve(args))
+        project = await createTsProject("./external_bin/package/lib/tsc", path.resolve(args))
         console.log()
 
       } catch (e) {
