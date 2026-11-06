@@ -1,7 +1,7 @@
+# this repo is currently archived for resuming with the noferic-IDE-re,rewrite
 # Noferic IDE
 
  Noferic IDE is a integrated development environment for the built with web technologies.
-
 ![NOFERIC_IDE](./screenshot-2026-10-15_17-24-13.png)
 ![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Electron](https://img.shields.io/badge/Electron-47848F?style=for-the-badge&logo=electron&logoColor=white)
